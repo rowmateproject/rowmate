@@ -26,7 +26,10 @@ export default {
   css: [],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: [],
+  plugins: [{
+    src: '@/plugins/vClickOutside',
+    ssr: false
+  }],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
@@ -42,7 +45,36 @@ export default {
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
     // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    '@nuxtjs/dotenv',
+    ['nuxt-i18n', {
+      locales: [{
+          name: 'Deutsch',
+          code: 'de',
+          iso: 'de-CH',
+          file: 'de-CH.js'
+        },
+        {
+          name: 'English',
+          code: 'en',
+          iso: 'en-GB',
+          file: 'en-GB.js'
+        },
+        {
+          name: 'Français',
+          code: 'fr',
+          iso: 'fr-CH',
+          file: 'fr-CH.js'
+        },
+      ],
+      langDir: 'lang/',
+      lazy: true,
+      defaultLocale: 'de',
+      detectBrowserLanguage: {
+        useCookie: true,
+        cookieKey: 'i18n_redirected'
+      }
+    }]
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
