@@ -1,6 +1,6 @@
 import motor.motor_asyncio
 
-from fastapi import FastAPI, Depends, Response
+from fastapi import FastAPI, Depends, Request, Response
 from fastapi_users import models, FastAPIUsers
 from fastapi_users.db import MongoDBUserDatabase
 from fastapi_users.authentication import JWTAuthentication
@@ -63,6 +63,11 @@ origins = [
     'http://localhost:3000',
 ]
 
+
+def on_after_forgot_password(user: UserDB, token: str, request: Request):
+    print(f'User {user.id} has forgot their password. Reset token: {token}')
+
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -84,11 +89,17 @@ app.include_router(
     tags=['auth'],
 )
 
+
 app.include_router(
-    fastapi_users.get_reset_password_router(config.Settings().reset_secret),
+    fastapi_users.get_reset_password_router(
+        config.Settings().reset_secret,
+        after_forgot_password=on_after_forgot_password,
+        reset_password_token_lifetime_seconds=3600
+    ),
     prefix='/auth',
     tags=['auth'],
 )
+
 
 app.include_router(
     fastapi_users.get_users_router(),

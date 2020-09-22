@@ -55,26 +55,40 @@ curl -H "Content-Type: application/json" -X POST -d "{'email': 'me@example.com',
 Login to a user account
 
 ```bash
-curl -H "Content-Type: multipart/form-data" -X POST http://localhost:8000/auth/jwt/login -F "username=me@example.com" -F "password=test123"
+curl -H "Content-Type: multipart/form-data" -F "username=me@example.com" -F "password=test123" -X POST http://localhost:8000/auth/jwt/login
+```
+
+
+Request password reset token
+
+```bash
+curl -H "Content-Type: application/json" -d '{"email": "me@example.com"}'  -X POST http://localhost:8000/auth/forgot-password
+```
+
+
+Reset password with token
+
+```bash
+curl -H "Content-Type: application/json" -d '{"token": "<reset_token>", "password": "demo123"}' -X POST http://localhost:8000/auth/reset-password
 ```
 
 
 Return users information
 
 ```bash
-curl -H "Content-Type: application/json" -H "Authorization: Bearer <token>" -X GET http://localhost:8000/users/me
+curl -H "Content-Type: application/json" -H "Authorization: Bearer <access_token>" -X GET http://localhost:8000/users/me
 ```
 
 
 Refresh users token
 
 ```bash
-curl -H "Content-Type: application/json" -H "Authorization: Bearer <token>" -X GET http://localhost:8000/auth/jwt/refresh
+curl -H "Content-Type: application/json" -H "Authorization: Bearer <access_token>" -X GET http://localhost:8000/auth/jwt/refresh
 ```
 
 
-Return content from a protected route
+Call a protected route
 
 ```bash
-curl -H "Content-Type: application/json" -H "Authorization: Bearer <token>" -X GET http://localhost:8000/protected
+curl -H "Content-Type: application/json" -H "Authorization: Bearer <access_token>" -X GET http://localhost:8000/protected
 ```
