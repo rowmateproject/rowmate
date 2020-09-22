@@ -104,9 +104,9 @@ export default {
             secure: true
           })
 
-          this.$router.push({
-            name: 'index___de'
-          })
+          this.$router.push(this.localePath({
+            name: 'dashboard'
+          }))
         }).catch(error => {
           this.showResponse = true
           if (error.hasOwnProperty('response')) {
