@@ -1,6 +1,7 @@
 import motor.motor_asyncio
-
-from fastapi import FastAPI, Depends, Request, Response
+import secrets
+from datetime import datetime, timezone
+from fastapi import FastAPI, Depends, Request, Response, HTTPException
 from fastapi_users import models, FastAPIUsers
 from fastapi_users.db import MongoDBUserDatabase
 from fastapi_users.authentication import JWTAuthentication
@@ -13,6 +14,9 @@ import config
 
 class User(models.BaseUser):
     name: Optional[str]
+    is_active: bool = False
+    is_accepted: bool = False
+    mail_validated: bool = False
 
 
 class UserCreate(models.BaseUserCreate):
@@ -64,8 +68,27 @@ origins = [
 ]
 
 
+async def activateuser(user: UserDB):
+    if user['is_accepted'] and user['mail_validated']:
+        if await collection.find_one_and_update({ 'id': user['id'] }, { '$set': { 'is_active': True }}) is not None:
+            return True
+
+    return False
+
+
 def on_after_forgot_password(user: UserDB, token: str, request: Request):
     print(f'User {user.id} has forgot their password. Reset token: {token}')
+
+
+async def on_after_register(user: UserDB, request: Request):
+    print(f"User {user.id} has registered.")
+    token = secrets.token_urlsafe(16)
+    result = db.confirmations.insert_one({ 'id': user.id, 'token': token })
+    print(f"Created Mail-Verification-Token: {token}")
+    if await db.invited.find_one({ 'email': user.email }) is not None:
+        print(await collection.find_one_and_update({ 'id': user.id }, { '$set': { 'is_accepted': True }}))
+    else:
+        print("User hasn't been invited over E-Mail")
 
 
 app.add_middleware(
@@ -84,7 +107,7 @@ app.include_router(
 
 
 app.include_router(
-    fastapi_users.get_register_router(),
+    fastapi_users.get_register_router(on_after_register),
     prefix='/auth',
     tags=['auth'],
 )
@@ -112,6 +135,23 @@ app.include_router(
 async def refresh_jwt(response: Response, user=fastapi_user):
     return await jwt_authentication.get_login_response(user, response)
 
+@app.get("/confirm/{token}")
+async def confirm_mail(token: str, request: Request):
+    user = await db.confirmations.find_one({ 'token': token })
+
+    if user is None:
+        raise HTTPException(status_code=400, detail="Token not valid")
+    elif (datetime.now(timezone.utc) - user['_id'].generation_time).total_seconds() > 3600*24:
+        db.confirmations.delete_one({ 'token': token })
+        raise HTTPException(status_code=400, detail="Token expired")
+
+    if await collection.find_one_and_update({ 'id': user['id'] },  { '$set': { 'mail_validated': True }}) is not None:
+        db.confirmations.delete_one({ 'token': token })
+        user = await collection.find_one({ 'id': user['id'] })
+
+        await activateuser(user)
+
+    return {}
 
 @app.get('/')
 def hello_world():
