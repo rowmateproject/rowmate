@@ -48,7 +48,7 @@ uvicorn main:app --reload
 Register a user account
 
 ```bash
-curl -H "Content-Type: application/json" -X POST -d "{'email': 'me@example.com', 'password': 'test123'}" http://localhost:8000/auth/register
+curl -H "Content-Type: application/json" -X POST -d '{"name": "John Doe", "email": "me@example.com", "password": "test123"}' http://localhost:8000/auth/register
 ```
 
 
