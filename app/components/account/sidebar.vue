@@ -3,7 +3,7 @@
   <div :class="isOpen ? 'block' : 'hidden'" @click="isOpen = false" class="fixed z-20 inset-0 bg-black opacity-50 transition-opacity lg:hidden"></div>
 
   <div :class="isOpen ? 'translate-x-0 ease-out' : '-translate-x-full ease-in'" class="fixed z-30 inset-y-0 left-0 w-64 transition duration-300 transform bg-gray-800 overflow-y-auto lg:translate-x-0 lg:static lg:inset-0">
-    <div class="flex items-center justify-center bg-gray-900 pt-6 pb-6">
+    <div :class="isSuperuser === true ? 'bg-red-900' : 'bg-gray-900'" class="flex items-center justify-center pt-6 pb-6">
       <div class="flex items-center">
         <fa :icon="['fas', 'id-card']" class="text-gray-250 text-2xl" />
         <span class="text-white text-2xl mx-2 font-semibold">rowmate.org</span>
@@ -11,37 +11,37 @@
     </div>
 
     <nav class="mt-2">
-      <nuxt-link class="flex items-center mt-2 py-3 px-6" :class="[$route.name === 'dashboard' ? activeClass : inactiveClass]" :to="localePath('/dashboard')">
+      <nuxt-link class="flex items-center mt-1 py-3 px-6" :class="[comparePageName('dashboard') ? activeClass : inactiveClass]" :to="localePath('/dashboard')">
         <fa :icon="['fas', 'chart-line']" class="text-gray-250" />
 
         <span class="mx-4">Dashboard</span>
       </nuxt-link>
 
-      <nuxt-link class="flex items-center mt-2 py-3 px-6" :class="[$route.name === 'UIElements' ? activeClass : inactiveClass]" :to="localePath('/settings')">
+      <nuxt-link class="flex items-center mt-1 py-3 px-6" :class="[comparePageName('settings') ? activeClass : inactiveClass]" :to="localePath('/settings')">
         <fa :icon="['fas', 'server']" class="text-gray-250" />
 
         <span class="mx-4">Einstellungen</span>
       </nuxt-link>
 
-      <nuxt-link class="flex items-center mt-2 py-3 px-6" :class="[$route.name === 'Tables' ? activeClass : inactiveClass]" :to="localePath('#')">
+      <nuxt-link class="flex items-center mt-1 py-3 px-6" :class="[comparePageName('xxx') ? activeClass : inactiveClass]" :to="localePath('/#')">
         <fa :icon="['fas', 'table']" class="text-gray-250" />
 
         <span class="mx-4">Informationen</span>
       </nuxt-link>
 
-      <nuxt-link class="flex items-center mt-2 py-3 px-6" :class="[$route.name === 'Forms' ? activeClass : inactiveClass]" :to="localePath('#')">
+      <nuxt-link class="flex items-center mt-1 py-3 px-6" :class="[comparePageName('xxx') ? activeClass : inactiveClass]" :to="localePath('/#')">
         <fa :icon="['fas', 'comment-alt']" class="text-gray-250" />
 
         <span class="mx-4">Kontakt</span>
       </nuxt-link>
 
-      <nuxt-link class="flex items-center mt-2 py-3 px-6" :class="[$route.name === 'Modal' ? activeClass : inactiveClass]" :to="localePath('#')">
+      <nuxt-link class="flex items-center mt-1 py-3 px-6" :class="[comparePageName('xxx') ? activeClass : inactiveClass]" :to="localePath('/#')">
         <fa :icon="['fas', 'calendar-week']" class="text-gray-250" />
 
         <span class="mx-4">Termine</span>
       </nuxt-link>
 
-      <nuxt-link class="flex items-center mt-2 py-3 px-6" :class="[$route.name === 'Blank' ? activeClass : inactiveClass]" :to="localePath('#')">
+      <nuxt-link class="flex items-center mt-1 py-3 px-6" :class="[comparePageName('xxx') ? activeClass : inactiveClass]" :to="localePath('/#')">
         <fa :icon="['fas', 'sticky-note']" class="text-gray-250" />
 
         <span class="mx-4">Verwaltung</span>
@@ -62,8 +62,15 @@ export default {
   },
   computed: {
     pageName() {
-      console.log(this.$route.name);
       return this.$route.name
+    },
+    isSuperuser() {
+      return this.$store.state.isSuperuser
+    }
+  },
+  methods: {
+    comparePageName(value) {
+      return this.pageName === `${value}___${this.$i18n.locale}`
     }
   }
 }

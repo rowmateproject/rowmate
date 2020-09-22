@@ -58,8 +58,35 @@ export default {
   },
   methods: {
     logout() {
-      Cookie.remove('accessToken')
+      Cookie.remove('accessToken', {
+        secure: true
+      })
+
+      Cookie.remove('isActive', {
+        secure: true
+      })
+
+      Cookie.remove('isConfirmed', {
+        secure: true
+      })
+
+      Cookie.remove('isSuperuser', {
+        secure: true
+      })
+
+      Cookie.remove('updateAccessToken', {
+        secure: true
+      })
+
+      Cookie.remove('name', {
+        secure: true
+      })
+
       this.$store.commit('updateAccessToken', null)
+      this.$store.commit('updateIsConfirmed', null)
+      this.$store.commit('updateIsSuperuser', null)
+      this.$store.commit('updateIsActive', null)
+      this.$store.commit('updateName', null)
 
       this.$router.push(this.localePath({
         name: 'index'

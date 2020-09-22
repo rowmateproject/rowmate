@@ -96,12 +96,40 @@ export default {
             'Content-Type': 'multipart/form-data'
           }
         }).then(res => {
+          this.$store.commit('updateIsActive', res.is_active)
+          this.$store.commit('updateIsConfirmed', res.is_confirmed)
+          this.$store.commit('updateIsSuperuser', res.is_superuser)
           this.$store.commit('updateAccessToken', res.access_token)
+          this.$store.commit('updateName', res.name)
 
           Cookie.set('accessToken', res.access_token, {
-            samesite: 'Strict',
-            secure: true,
-            expires: 3600
+            samesite: 'None',
+            expires: 3600,
+            secure: true
+          })
+
+          Cookie.set('isActive', res.is_active, {
+            samesite: 'None',
+            expires: 3600,
+            secure: true
+          })
+
+          Cookie.set('isConfirmed', res.is_confirmed, {
+            samesite: 'None',
+            expires: 3600,
+            secure: true
+          })
+
+          Cookie.set('isSuperuser', res.is_superuser, {
+            samesite: 'None',
+            expires: 3600,
+            secure: true
+          })
+
+          Cookie.set('name', res.name, {
+            samesite: 'None',
+            expires: 3600,
+            secure: true
           })
 
           this.$router.push(this.localePath({
@@ -109,8 +137,9 @@ export default {
           }))
         }).catch(error => {
           this.showResponse = true
+
           if (error.hasOwnProperty('response')) {
-            this.response = error.response.data.message
+            this.response = error.response.data.detail
           } else {
             this.response = error.message
           }

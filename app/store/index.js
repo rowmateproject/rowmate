@@ -2,41 +2,29 @@ const cookieparser = process.server ? require('cookieparser') : undefined
 
 export const state = () => {
   return {
-    auth: null,
-    userId: null,
-    loading: false,
-    userRoles: null,
+    isActive: null,
+    isConfirmed: null,
+    isSuperuser: null,
     accessToken: null,
-    userAvatarUrl: null,
-    userAvatar: null,
-    userName: null
+    name: null
   }
 }
 
 export const mutations = {
-  setAuth(state, auth) {
-    state.auth = auth
-  },
-  updateUserId(state, userId) {
-    state.userId = userId
-  },
-  updateUserRoles(state, userRoles) {
-    state.userRoles = userRoles
-  },
   updateAccessToken(state, accessToken) {
     state.accessToken = accessToken
   },
-  updateUserAvatarUrl(state, avatarUrl) {
-    state.userAvatarUrl = avatarUrl
+  updateIsConfirmed(state, isConfirmed) {
+    state.isConfirmed = isConfirmed
   },
-  updateUserAvatar(state, avatar) {
-    state.userAvatar = avatar
+  updateIsSuperuser(state, isSuperuser) {
+    state.isSuperuser = isSuperuser
   },
-  updateLoadingIndicator(state, loading) {
-    state.loading = loading
+  updateIsActive(state, isActive) {
+    state.isActive = isActive
   },
-  updateUserName(state, name) {
-    state.userName = name
+  updateName(state, name) {
+    state.name = name
   }
 }
 
@@ -46,6 +34,10 @@ export const actions = {
   }, {
     req
   }) {
+    let name = null
+    let isActive = null
+    let isConfirmed = null
+    let isSuperuser = null
     let accessToken = null
 
     if (req.headers.cookie) {
@@ -53,6 +45,10 @@ export const actions = {
 
       try {
         accessToken = parsed.accessToken
+        isConfirmed = parsed.isConfirmed
+        isSuperuser = parsed.isSuperuser
+        isActive = parsed.isActive
+        name = parsed.name
       } catch (err) {
         // eslint-disable-next-line
         console.log(err)
@@ -60,5 +56,9 @@ export const actions = {
     }
 
     commit('updateAccessToken', accessToken)
+    commit('updateIsConfirmed', isConfirmed)
+    commit('updateIsSuperuser', isSuperuser)
+    commit('updateIsActive', isActive)
+    commit('updateName', name)
   }
 }
