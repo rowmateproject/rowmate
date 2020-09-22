@@ -6,11 +6,17 @@ from fastapi_users import models, FastAPIUsers
 from fastapi_users.db import MongoDBUserDatabase
 from fastapi_users.authentication import JWTAuthentication
 from fastapi.middleware.cors import CORSMiddleware
-
-from typing import Optional
+from pydantic import BaseModel
+from typing import Optional, List
 
 import config
+import re
+mailregex = r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
 
+
+class UserList(BaseModel):
+    mails: List[str] = []
+    sendmail: bool = False
 
 class User(models.BaseUser):
     name: Optional[str]
@@ -152,6 +158,28 @@ async def confirm_mail(token: str, request: Request):
         await activateuser(user)
 
     return {}
+
+
+
+@app.post("/users/invite")
+async def invitemails(users: UserList, user=fastapi_user):
+    mails = []
+    if user.is_superuser is False:
+        for mail in users.mails:
+            if not re.search(mail,mailregex):
+                mails.append({ 'email': mail })
+
+        inserted = await db.invited.insert_many(mails)
+        if len(inserted.inserted_ids) == len(mails):
+            return { "status": "ok", "details": "Inserted all emails"}
+        else:
+            return { "details": "Not all emails have been inserted"}
+
+    else:
+        raise HTTPException(status_code=403, detail="Not Admin")
+
+
+
 
 @app.get('/')
 def hello_world():
