@@ -22,7 +22,7 @@ class User(models.BaseUser):
     name: Optional[str]
     is_active: bool = False
     is_accepted: bool = False
-    mail_validated: bool = False
+    mail_confirmed: bool = False
 
 
 class UserCreate(models.BaseUserCreate):
@@ -75,7 +75,7 @@ origins = [
 
 
 async def activateuser(user: UserDB):
-    if user['is_accepted'] and user['mail_validated']:
+    if user['is_accepted'] and user['mail_confirmed']:
         if await collection.find_one_and_update({ 'id': user['id'] }, { '$set': { 'is_active': True }}) is not None:
             return True
 
@@ -151,7 +151,7 @@ async def confirm_mail(token: str, request: Request):
         db.confirmations.delete_one({ 'token': token })
         raise HTTPException(status_code=400, detail="Token expired")
 
-    if await collection.find_one_and_update({ 'id': user['id'] },  { '$set': { 'mail_validated': True }}) is not None:
+    if await collection.find_one_and_update({ 'id': user['id'] },  { '$set': { 'mail_confirmed': True }}) is not None:
         db.confirmations.delete_one({ 'token': token })
         user = await collection.find_one({ 'id': user['id'] })
 

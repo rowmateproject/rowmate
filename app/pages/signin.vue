@@ -101,7 +101,8 @@ export default {
 
           Cookie.set('userAccessToken', res.access_token, {
             samesite: 'Strict',
-            secure: true
+            secure: true,
+            expires: 3600
           })
 
           this.$router.push(this.localePath({
