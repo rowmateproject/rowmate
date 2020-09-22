@@ -65,7 +65,7 @@ export default {
     },
     password: function() {
       if (this.password.trim() !== '') {
-        if (this.password.trim().length >= 8) {
+        if (this.password.trim().length >= 5) {
           this.errors.password = false
         } else {
           this.errors.password = true
@@ -96,10 +96,9 @@ export default {
             'Content-Type': 'multipart/form-data'
           }
         }).then(res => {
-          console.log(res)
           this.$store.commit('updateAccessToken', res.access_token)
 
-          Cookie.set('userAccessToken', res.access_token, {
+          Cookie.set('accessToken', res.access_token, {
             samesite: 'Strict',
             secure: true,
             expires: 3600

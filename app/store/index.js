@@ -46,33 +46,19 @@ export const actions = {
   }, {
     req
   }) {
-    let auth = null
-    let userId = null
-    let userName = null
-    let userAccessToken = null
-    let userAvatarUrl = null
-    let userRoles = null
+    let accessToken = null
 
     if (req.headers.cookie) {
       const parsed = cookieparser.parse(req.headers.cookie)
 
       try {
-        auth = JSON.parse(parsed.auth)
-        userId = parsed.userId
-        userName = parsed.userName
-        userAccessToken = parsed.userAccessToken
-        userRoles = JSON.parse(parsed.userRoles)
-        userAvatarUrl = parsed.userAvatarUrl
+        accessToken = parsed.accessToken
       } catch (err) {
-        // No valid cookie found
+        // eslint-disable-next-line
+        console.log(err)
       }
     }
 
-    commit('setAuth', auth)
-    commit('updateUserId', userId)
-    commit('updateUserName', userName)
-    commit('updateUserAvatarUrl', userAvatarUrl)
-    commit('updateUserRoles', JSON.parse(userRoles))
-    commit('updateAccessToken', userAccessToken)
+    commit('updateAccessToken', accessToken)
   }
 }

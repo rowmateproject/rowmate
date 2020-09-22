@@ -58,7 +58,7 @@ export default {
   },
   methods: {
     logout() {
-      Cookie.remove('userAccessToken')
+      Cookie.remove('accessToken')
       this.$store.commit('updateAccessToken', null)
 
       this.$router.push(this.localePath({
