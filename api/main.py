@@ -4,16 +4,19 @@ from fastapi import FastAPI, Depends, Response
 from fastapi_users import models, FastAPIUsers
 from fastapi_users.db import MongoDBUserDatabase
 from fastapi_users.authentication import JWTAuthentication
+from fastapi.middleware.cors import CORSMiddleware
+
+from typing import Optional
 
 import config
 
 
 class User(models.BaseUser):
-    pass
+    name: Optional[str]
 
 
 class UserCreate(models.BaseUserCreate):
-    pass
+    name: str
 
 
 class UserUpdate(User, models.BaseUserUpdate):
@@ -56,12 +59,24 @@ fastapi_user = Depends(fastapi_users.get_current_active_user)
 
 app = FastAPI()
 
+origins = [
+    'http://localhost:3000',
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=['*'],
+    allow_headers=['*'],
+)
 
 app.include_router(
     fastapi_users.get_auth_router(jwt_authentication),
     prefix='/auth/jwt',
     tags=['auth']
 )
+
 
 app.include_router(
     fastapi_users.get_register_router(),
