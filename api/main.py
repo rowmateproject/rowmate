@@ -12,8 +12,9 @@ from fastapi_users.authentication import JWTAuthentication
 from fastapi.middleware.cors import CORSMiddleware
 
 from pydantic import BaseModel, validator
-from typing import Optional, List, Any
+from typing import Optional, List, Any, Dict
 
+from uuid import UUID
 import config
 import re
 import pymongo
@@ -42,6 +43,22 @@ class User(BaseUser):
     is_active: bool = False
     is_accepted: bool = False
     is_confirmed: bool = False
+    avatar: Dict = {
+        'isCircle': True,
+        'circleColor': '#6fb8e0',
+        'accessoriesType': 'Blank',
+        'clotheType': 'Hoodie',
+        'clotheColor': 'PastelBlue',
+        'eyebrowType': 'Default',
+        'eyeType': 'Happy',
+        'facialHairColor': 'Brown',
+        'facialHairType': 'Blank',
+        'graphicType': 'Diamond',
+        'hairColor': 'Brown',
+        'mouthType': 'Default',
+        'skinColor': 'Tanned',
+        'topType': 'LongHairBob'
+    }
 
 
 class UserCreate(BaseUserCreate):
@@ -172,6 +189,33 @@ async def refresh_jwt(response: Response, user=fastapi_user):
     return await jwt_authentication.get_login_response(user, response)
 
 
+
+@app.get('/user/activate/{uuid}')
+async def activate_user(uuid: str, request: Request, requser=fastapi_user):
+    if requser.is_superuser:
+        user = await collection.find_one({'id': UUID(uuid)})
+        if await collection.update_one({'id': user['id']}, {'$set': { 'is_active': True, 'is_accepted': True }}) is not None: # accepting the user when user is activated
+            return { 'status': 'ok' }
+        else:
+            raise HTTPException(status_code=404, detail='Update failed')
+    else:
+        raise HTTPException(status_code=403, detail='You need to be superuser')
+
+@app.get('/user/deactivate/{uuid}')
+async def deactivate_user(uuid: str, request: Request, requser=fastapi_user):
+    if requser.is_superuser:
+        user = await collection.find_one({'id': UUID(uuid)})
+        if user is not None:
+            if await collection.update_one({ 'id': user['id'] }, { '$set': { 'is_active': False }}) is not None:
+                return { 'status': 'ok' }
+            else:
+                raise HTTPException(status_code=500, detail='Update failed')
+        else:
+            raise HTTPException(status_code=404, detail='User not found')
+    else:
+        raise HTTPException(status_code=403, detail='You need to be superuser')
+
+
 @app.get('/confirm/{token}')
 async def confirm_mail(token: str, request: Request):
     user = await db.confirmations.find_one({'token': token})
@@ -190,7 +234,6 @@ async def confirm_mail(token: str, request: Request):
 
     return {}
 
-
 @app.post('/users/invite')
 async def invite_user(users: UserList, user=fastapi_user):
     mails = []
@@ -203,9 +246,9 @@ async def invite_user(users: UserList, user=fastapi_user):
         inserted = await db.invited.insert_many(mails)
 
         if len(inserted.inserted_ids) == len(mails):
-            return {'detail': 'Successfully added all mail addreesses'}
+            return {'detail': 'Successfully added all email addreesses'}
         else:
-            return {'detail': 'Not all mail addreesses have been added'}
+            return {'detail': 'Not all email addreesses have been added'}
 
     else:
         raise HTTPException(status_code=403, detail='You need to be superuser')
@@ -220,10 +263,13 @@ async def invite_user(user=fastapi_user):
                 users.append({
                 'created': user['_id'].generation_time,
                 'id': str(user['id']),
+                'name': user['name'],
                 'email': user['email'],
                 'is_active': user['is_active'],
+                'is_accepted': user['is_accepted'],
                 'is_superuser': user['is_superuser'],
-                'is_confirmed': user['is_confirmed']
+                'is_confirmed': user['is_confirmed'],
+                'avatar': user['avatar']
                 })
             except:
                 print("Error")

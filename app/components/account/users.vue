@@ -26,13 +26,13 @@
               <th class="px-6 py-3 border-b border-gray-200 bg-gray-50"></th>
             </tr>
           </thead>
-
           <tbody class="bg-white">
             <tr v-for="(u, index) in users" :key="index" :class="{ 'shadow':u.is_active}">
               <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                 <div class="flex items-center">
                   <div class="flex-shrink-0 h-10 w-10">
-                    <img class="h-10 w-10 rounded-full" :src="avatar" alt="" />
+                    <userAvatar :avatar="u.avatar"></userAvatar>
+                    <!--- <img class="h-10 w-10 rounded-full" :src="avatar" alt="" /> -->
                   </div>
 
                   <div class="ml-4">
@@ -69,8 +69,8 @@
               </td>
 
               <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-200 text-sm leading-5 font-medium">
-                <button href="#" class="text-indigo-600 hover:text-indigo-900" v-if="u.is_active">Deaktivieren</button>
-                <button href="#" class="text-indigo-600 hover:text-indigo-900" v-else>Aktivieren</button>
+                <button v-on:click="deactivateUser(u.id, index)" class="text-indigo-600 hover:text-indigo-900" v-if="u.is_active">Deaktivieren</button>
+                <button v-on:click="activateUser(u.id, index)" class="text-indigo-600 hover:text-indigo-900" v-else>Aktivieren</button>
               </td>
             </tr>
           </tbody>
@@ -85,13 +85,27 @@
 import {
   AvatarGenerator
 } from 'random-avatar-generator'
-
+import Avataaars from 'vuejs-avataaars'
+import userAvatar from '../userAvatar'
 
 
 export default {
   data() {
     return {
       users: []
+    }
+  },
+  methods: {
+    activateUser: function (uuid, index) {
+      this.$axios.$get(`${process.env.API_URL}/user/activate/` + uuid).then(data => {
+        this.users[index].is_active = !this.users[index].is_active
+        this.users[index].is_accepted = true
+      })
+    },
+    deactivateUser: function (uuid, index) {
+      this.$axios.$get(`${process.env.API_URL}/user/deactivate/` + uuid).then(data => {
+        this.users[index].is_active = !this.users[index].is_active
+      })
     }
   },
   mounted: function () {
@@ -105,6 +119,10 @@ export default {
     avatar() {
       return new AvatarGenerator().generateRandomAvatar()
     }
+  },
+  components: {
+    Avataaars,
+    userAvatar
   }
 }
 </script>

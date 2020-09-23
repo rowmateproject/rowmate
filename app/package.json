@@ -22,7 +22,8 @@
     "nuxt": "^2.14.5",
     "nuxt-i18n": "^6.15.1",
     "random-avatar-generator": "^2.0.0",
-    "v-click-outside": "^3.1.2"
+    "v-click-outside": "^3.1.2",
+    "vuejs-avataaars": "^4.0.1"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^3.1.0",
