@@ -11,7 +11,7 @@
     </div>
 
     <nav class="mt-2">
-      <nuxt-link class="flex items-center mt-1 py-3 px-6" :class="[comparePageName('dashboard') ? activeClass : inactiveClass]" :to="localePath('/dashboard')">
+      <nuxt-link class="flex items-center mt-1 py-3 px-6" :class="[comparePageName('dashboard') ? activeClass : inactiveClass]" :to="localePath('/dashboard')" v-if="isSuperuser">
         <fa :icon="['fas', 'chart-line']" class="text-gray-250" />
 
         <span class="mx-4">Dashboard</span>
@@ -23,10 +23,10 @@
         <span class="mx-4">Einstellungen</span>
       </nuxt-link>
 
-      <nuxt-link class="flex items-center mt-1 py-3 px-6" :class="[comparePageName('xxx') ? activeClass : inactiveClass]" :to="localePath('/#')">
-        <fa :icon="['fas', 'table']" class="text-gray-250" />
+      <nuxt-link class="flex items-center mt-1 py-3 px-6" :class="[comparePageName('users') ? activeClass : inactiveClass]" :to="localePath('/users')">
+        <fa :icon="['fas', 'users']" class="text-gray-250" />
 
-        <span class="mx-4">Informationen</span>
+        <span class="mx-4">Nutzer</span>
       </nuxt-link>
 
       <nuxt-link class="flex items-center mt-1 py-3 px-6" :class="[comparePageName('xxx') ? activeClass : inactiveClass]" :to="localePath('/#')">

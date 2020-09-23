@@ -15,7 +15,7 @@ from typing import Optional, List, Any
 
 import config
 import re
-
+import pymongo
 
 mail_address_pattern = r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
 
@@ -185,7 +185,7 @@ async def confirm_mail(token: str, request: Request):
 async def invite_user(users: UserList, user=fastapi_user):
     mails = []
 
-    if user.is_superuser is False:
+    if user.is_superuser:
         for mail in users.mails:
             if not re.search(mail, mail_address_pattern):
                 mails.append({'email': mail})
@@ -200,6 +200,28 @@ async def invite_user(users: UserList, user=fastapi_user):
     else:
         raise HTTPException(status_code=403, detail='You need to be superuser')
 
+@app.get('/dashboard/users')
+async def invite_user(user=fastapi_user):
+
+    if user.is_superuser:
+        users = []
+        for user in await collection.find({}).sort([ ('_id', pymongo.DESCENDING) ]).to_list(length=10000):
+            try:
+                users.append({
+                'created': user['_id'].generation_time,
+                'id': str(user['id']),
+                'email': user['email'],
+                'is_active': user['is_active'],
+                'is_superuser': user['is_superuser'],
+                'is_confirmed': user['is_confirmed']
+                })
+            except:
+                print("Error")
+
+        return { 'users': users }
+
+    else:
+        raise HTTPException(status_code=403, detail='You need to be superuser')
 
 @app.get('/protected')
 def hello_world_protected(user=fastapi_user):
