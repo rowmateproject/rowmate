@@ -1,6 +1,7 @@
 import motor.motor_asyncio
 import secrets
 
+from backports.zoneinfo import ZoneInfo
 from datetime import datetime, timezone
 from fastapi import FastAPI, Depends, Request, Response, HTTPException
 from fastapi_users import FastAPIUsers
@@ -10,7 +11,7 @@ from fastapi_users.models import (
 from fastapi_users.authentication import JWTAuthentication
 from fastapi.middleware.cors import CORSMiddleware
 
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 from typing import Optional, List, Any
 
 import config
@@ -36,6 +37,8 @@ class Authentication(JWTAuthentication):
 
 class User(BaseUser):
     name: Optional[str]
+    phone: Optional[str]
+    birth: Optional[datetime]
     is_active: bool = False
     is_accepted: bool = False
     is_confirmed: bool = False
@@ -46,7 +49,14 @@ class UserCreate(BaseUserCreate):
 
 
 class UserUpdate(User, BaseUserUpdate):
-    pass
+    phone: str
+    birth: datetime
+
+    @validator('birth', pre=True, always=True)
+    def set_birth_date(cls, v):
+        dt = datetime.strptime(v, '%Y-%m-%dT%H:%M:%S.%f%z')
+        gmt = dt.replace(tzinfo=ZoneInfo('GMT'))
+        return gmt
 
 
 class UserDB(User, BaseUserDB):
