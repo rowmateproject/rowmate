@@ -13,7 +13,6 @@
 
         <div>
           <label class="text-gray-700" for="birthDate">{{ $t('birthDate') }}</label>
-          {{ user.birthDate.day }}  {{ user.birthDate.month }}  {{ user.birthDate.year }}
           <div class="grid grid-cols-6 gap-3 w-full mb-1">
             <select :class="[errors.birthDate.day ? 'border-red-500 focus:border-red-500' : 'focus:border-blue-550']" class="col-span-1 rounded border focus:outline-none p-2 mt-2" type="text" v-model="user.birthDate.day">
               <option v-for="value, index in days" :key="index" :value="value">{{ value }}</option>
@@ -83,11 +82,7 @@ export default {
         name: false,
         phone: false,
         email: false,
-        birthDate: {
-          day: false,
-          month: false,
-          year: false
-        },
+        birthDate: false,
         password: false,
         confirm: false
       },
@@ -98,13 +93,12 @@ export default {
     this.$axios.setHeader('Authorization', `Bearer ${this.accessToken}`)
 
     this.$axios.$get(`${process.env.API_URL}/users/me`).then(res => {
-      console.log(res)
       this.user.name = res['name'] || ''
       this.user.phone = res['phone'] || ''
       this.user.email = res['email'] || ''
-      this.user.birthDate.day = res['day'] || ''
-      this.user.birthDate.month = res['month'] || ''
-      this.user.birthDate.year = res['year'] || ''
+      this.user.birthDate.day = new Date(Date.parse(res['birth'])).getDate() || ''
+      this.user.birthDate.month = new Date(Date.parse(res['birth'])).getMonth() + 1 || ''
+      this.user.birthDate.year = new Date(Date.parse(res['birth'])).getFullYear() || ''
     }).catch((error) => {
       console.log(error)
     })
@@ -120,9 +114,7 @@ export default {
       return Array(Math.abs(1940 - 2020) + 1).fill(1940).map((v, i) => v + i * (1940 > 2020 ? -1 : 1)).reverse()
     },
     birthDate() {
-      const d = new Date(this.user.birthDate.year, this.user.birthDate.month - 1, this.user.birthDate.day)
-      console.log(d)
-      return d
+      return new Date(Date.UTC(this.user.birthDate.year, this.user.birthDate.month - 1, this.user.birthDate.day, 0, 0, 0))
     },
     accessToken() {
       return this.$store.state.accessToken
@@ -149,7 +141,7 @@ export default {
     },
     'user.confirm': function() {
       if (this.user.confirm.trim() !== '') {
-        if (this.user.confirm.trim().length >= 5) {
+        if (this.user.confirm.trim() === this.user.password.trim()) {
           this.errors.confirm = false
         } else {
           this.errors.confirm = true
@@ -171,6 +163,33 @@ export default {
           this.errors.name = false
         } else {
           this.errors.name = true
+        }
+      }
+    },
+    'user.birthDate.day': function() {
+      if (this.user.birthDate.day !== null) {
+        if (this.user.birthDate.day >= 0 && this.user.birthDate.day <= 31) {
+          this.errors.birthDate = false
+        } else {
+          this.errors.birthDate = true
+        }
+      }
+    },
+    'user.birthDate.month': function() {
+      if (this.user.birthDate.month !== null) {
+        if (this.user.birthDate.month >= 1 && this.user.birthDate.month <= 12) {
+          this.errors.birthDate = false
+        } else {
+          this.errors.birthDate = true
+        }
+      }
+    },
+    'user.birthDate.year': function() {
+      if (this.user.birthDate.year !== null) {
+        if (this.user.birthDate.year >= 1940 && this.user.birthDate.year <= 2020) {
+          this.errors.birthDate = false
+        } else {
+          this.errors.birthDate = true
         }
       }
     }
@@ -195,8 +214,20 @@ export default {
         this.errors.password = true
       }
 
-      if (!this.user.confirm) {
+      if (this.user.confirm !== this.user.password) {
         this.errors.confirm = true
+      }
+
+      if (this.user.birthDate.day <= 0 && this.user.birthDate.day >= 31) {
+        this.errors.birthDate = true
+      }
+
+      if (this.user.birthDate.month <= 1 && this.user.birthDate.month >= 12) {
+        this.errors.birthDate = true
+      }
+
+      if (this.user.birthDate.year <= 1940 && this.user.birthDate.year >= 2020) {
+        this.errors.birthDate = true
       }
 
       if (Object.values(this.errors).every(isValidForm) === true) {
@@ -218,15 +249,15 @@ export default {
           if (res.status === 200) {
             this.classResponse = 'text-green-500'
             this.showResponse = true
-            this.response = 'Nutzerkonto wurde erfolgreich angelegt'
+            this.response = 'Einstellungen wurden erfolgreich geändert'
           } else if (res.status === 400) {
             this.classResponse = 'text-red-500'
             this.showResponse = true
-            this.response = 'Konto mit dieser Email existiert bereits'
+            this.response = 'Fehler'
           } else if (res.status === 500) {
             this.classResponse = 'text-red-500'
             this.showResponse = true
-            this.response = 'Konto mit dieser Email existiert bereits'
+            this.response = 'Fehler'
           }
         })
       }
