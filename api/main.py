@@ -1,4 +1,5 @@
 import motor.motor_asyncio
+import datetime as dt
 import secrets
 
 from backports.zoneinfo import ZoneInfo
@@ -71,9 +72,10 @@ class UserUpdate(User, BaseUserUpdate):
 
     @validator('birth', pre=True, always=True)
     def set_birth_date(cls, v):
-        dt = datetime.strptime(v, '%Y-%m-%dT%H:%M:%S.%f%z')
-        gmt = dt.replace(tzinfo=ZoneInfo('GMT'))
-        return gmt
+        print(v)
+        # d = datetime.strptime(v, '%Y-%m-%dT%H:%M:%S.%f%z')
+
+        return v
 
 
 class UserDB(User, BaseUserDB):
