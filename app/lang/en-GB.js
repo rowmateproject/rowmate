@@ -14,6 +14,9 @@ export default {
   resetPassword: 'Passwort zurücksetzen',
   freeUserAccount: 'Kostenloser Account',
   errorInvalidMail: 'Ungültige Email Adresse',
+  errorInvalidPhone: 'Ungültige Telefonnummer',
+  errorInvalidBirthDate: 'Ungültiges Geburtsdatum',
+  errorInvalidConfirmPassword: 'Passwörter stimmen nicht überein',
   errorInvalidPassword: 'Ungültiges Passwort',
   errorInvalidName: 'Fehlerhafte Eingabe',
   forgotPassword: 'Passwort vergessen'
