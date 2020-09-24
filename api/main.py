@@ -92,9 +92,10 @@ class UserList(BaseModel):
     mails: List[str] = []
     sendmail: bool = False
 
+
 class FindUser(BaseModel):
-    name: str
     limit: int = 10
+    name: str
 
 
 class ThemeModel(BaseModel):
@@ -345,26 +346,25 @@ async def list_users(user=fastapi_user):
         raise HTTPException(status_code=403, detail='You need to be superuser')
 
 
-
-
 @app.post('/social/users/find')
-async def list_users(req: FindUser, user=fastapi_user):
+async def find_user_by_name_or_mail(req: FindUser, user=fastapi_user):
     sort = [('_id', pymongo.DESCENDING)]
-    query = await collection.find({
-    'name': { '$regex' : re.compile(req.name, re.IGNORECASE) },
-    'is_active': True
-    }).sort(sort).to_list(length=req.limit)
     users = []
 
-    for user in query:
+    query = await collection.find({
+        'name': {'$regex': re.compile(req.name, re.IGNORECASE)},
+        'is_active': True
+    }).sort(sort).to_list(length=req.limit)
+
+    for q in query:
         try:
             users.append({
-                'id': str(user['id']),
-                'name': user['name'],
-                'email': user['email'],
-                'is_active': user['is_active'],
-                'created': user['_id'].generation_time,
-                'avatar': user['avatar']
+                'id': str(q['id']),
+                'name': q['name'],
+                'email': q['email'],
+                'is_active': q['is_active'],
+                'created': q['_id'].generation_time,
+                'avatar': q['avatar']
             })
         except Exception as e:
             print(e)
