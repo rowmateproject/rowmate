@@ -20,6 +20,7 @@ export const state = () => {
     hairColor: null,
     mouthType: null,
     skinColor: null,
+    topColor: null,
     topType: null
   }
 }
@@ -79,6 +80,9 @@ export const mutations = {
   updateEyeType(state, eyeType) {
     state.eyeType = eyeType
   },
+  updateTopColor(state, topColor) {
+    state.topColor = topColor
+  },
   updateTopType(state, topType) {
     state.topType = topType
   }
@@ -108,6 +112,7 @@ export const actions = {
     let hairColor = null
     let mouthType = null
     let skinColor = null
+    let topColor = null
     let topType = null
 
     if (req.headers.cookie) {
@@ -131,6 +136,7 @@ export const actions = {
         mouthType = parsed.mouthType
         skinColor = parsed.skinColor
         isCircle = parsed.isCircle
+        topColor = parsed.topColor
         eyeType = parsed.eyeType
         topType = parsed.topType
       } catch (err) {
@@ -156,7 +162,8 @@ export const actions = {
     commit('updateMouthType', mouthType)
     commit('updateSkinColor', skinColor)
     commit('updateIsCircle', isCircle)
-    commit('updateEyeType', eyeType)
+    commit('updateTopColor', topColor)
     commit('updateTopType', topType)
+    commit('updateEyeType', eyeType)
   }
 }

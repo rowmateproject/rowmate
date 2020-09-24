@@ -390,6 +390,23 @@ export default {
         'Platinum',
         'SilverGray'
       ],
+      topColor: [
+        'Black',
+        'Blue01',
+        'Blue02',
+        'Blue03',
+        'Gray01',
+        'Gray02',
+        'Heather',
+        'PastelBlue',
+        'PastelGreen',
+        'PastelOrange',
+        'PastelRed',
+        'PastelYellow',
+        'Pink',
+        'Red',
+        'White'
+      ],
       topType: [
         'NoHair',
         'Eyepatch',
@@ -501,6 +518,9 @@ export default {
     },
     'user.avatar.topType': function() {
       this.$store.commit('updateTopType', this.user.avatar.topType)
+    },
+    'user.avatar.topColor': function() {
+      this.$store.commit('updateTopColor', this.user.avatar.topColor)
     },
     'user.email': function() {
       if (this.user.email.trim() !== '') {

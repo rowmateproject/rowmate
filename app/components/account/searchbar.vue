@@ -63,6 +63,7 @@ export default {
         hairColor: this.$store.state.hairColor,
         mouthType: this.$store.state.mouthType,
         skinColor: this.$store.state.skinColor,
+        topColor: this.$store.state.topColor,
         topType: this.$store.state.topType
       }
     },
@@ -148,15 +149,34 @@ export default {
         secure: true
       })
 
+      Cookie.remove('topColor', {
+        secure: true
+      })
+
       Cookie.remove('topType', {
         secure: true
       })
 
+      this.$store.commit('updateName', null)
+      this.$store.commit('updateIsActive', null)
       this.$store.commit('updateAccessToken', null)
       this.$store.commit('updateIsConfirmed', null)
       this.$store.commit('updateIsSuperuser', null)
-      this.$store.commit('updateIsActive', null)
-      this.$store.commit('updateName', null)
+      this.$store.commit('updateAccessoriesType', null)
+      this.$store.commit('updateFacialHairColor', null)
+      this.$store.commit('updateFacialHairType', null)
+      this.$store.commit('updateGraphicType', null)
+      this.$store.commit('updateClotheColor', null)
+      this.$store.commit('updateEyebrowType', null)
+      this.$store.commit('updateCircleColor', null)
+      this.$store.commit('updateClotheType', null)
+      this.$store.commit('updateHairColor', null)
+      this.$store.commit('updateMouthType', null)
+      this.$store.commit('updateSkinColor', null)
+      this.$store.commit('updateIsCircle', null)
+      this.$store.commit('updateTopColor', null)
+      this.$store.commit('updateEyeType', null)
+      this.$store.commit('updateTopType', null)
 
       this.$router.push(this.localePath({
         name: 'index'

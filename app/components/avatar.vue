@@ -4,6 +4,7 @@
     :clotheColor="avatar.clotheColor"
     :hairColor="avatar.hairColor"
     :skinColor="avatar.skinColor"
+    :topColor="avatar.topColor"
     :topType="avatar.topType"
     :isCircle="avatar.isCircle"
     :circleColor="avatar.circleColor"

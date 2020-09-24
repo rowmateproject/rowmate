@@ -59,16 +59,17 @@ class User(BaseUser):
         'isCircle': True,
         'eyeType': 'Happy',
         'clotheType': 'Hoodie',
-        'circleColor': '#90EE90',
         'accessoriesType': 'Blank',
-        'clotheColor': 'PastelBlue',
-        'eyebrowType': 'Default',
-        'facialHairColor': 'Brown',
+        'circleColor': 'LightGreen',
         'facialHairType': 'Blank',
+        'facialHairColor': 'Brown',
         'graphicType': 'Diamond',
-        'hairColor': 'Brown',
+        'eyebrowType': 'Default',
         'mouthType': 'Default',
+        'hairColor': 'Brown',
         'skinColor': 'Tanned',
+        'clotheColor': 'Black',
+        'topColor': 'PastelBlue',
         'topType': 'LongHairBob'
     }
 
