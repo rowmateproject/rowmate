@@ -57,20 +57,20 @@ class User(BaseUser):
     name: Optional[str]
     avatar: Dict = {
         'isCircle': True,
-        'eyeType': 'Happy',
-        'clotheType': 'Hoodie',
+        'mouthType': 'Smile',
         'accessoriesType': 'Blank',
-        'circleColor': 'LightGreen',
-        'facialHairType': 'Blank',
-        'facialHairColor': 'Brown',
-        'graphicType': 'Diamond',
-        'eyebrowType': 'Default',
-        'mouthType': 'Default',
-        'hairColor': 'Brown',
-        'skinColor': 'Tanned',
+        'graphicType': 'Bat',
+        'topType': 'Hat',
+        'topColor': 'Gray02',
+        'clotheType': 'CollarSweater',
         'clotheColor': 'Black',
-        'topColor': 'PastelBlue',
-        'topType': 'LongHairBob'
+        'eyeType': 'Wink',
+        'eyebrowType': 'Default',
+        'facialHairType': 'Blank',
+        'facialHairColor': 'Auburn',
+        'hairColor': 'Brown',
+        'skinColor': 'Yellow',
+        'circleColor': '#87CEEB'
     }
 
 
@@ -95,6 +95,27 @@ class UserList(BaseModel):
 class FindUser(BaseModel):
     name: str
     limit: int = 10
+
+
+class ThemeModel(BaseModel):
+    headerBackground: str
+    footerBackground: str
+    buttonBackground: str
+    imageBackground: str
+    pageBackground: str
+    formBackground: str
+    navBackground: str
+    footerText: str
+    formBorder: str
+    buttonText: str
+    titleText: str
+    linkText: str
+    bodyText: str
+    saleText: str
+    formText: str
+    imageText: str
+    pageText: str
+    navText: str
 
 
 client = motor.motor_asyncio.AsyncIOMotorClient(
