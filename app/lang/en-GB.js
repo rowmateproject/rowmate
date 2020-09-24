@@ -20,6 +20,7 @@ export default {
   errorInvalidPassword: 'Ungültiges Passwort',
   errorInvalidName: 'Fehlerhafte Eingabe',
   forgotPassword: 'Passwort vergessen',
+
   eyeType: 'Augen',
   eyebrowType: 'Augenbraun',
   accessoriesType: 'Brille',
@@ -34,6 +35,7 @@ export default {
   graphicType: 'Shirt Aufdruck',
   clotheColor: 'Kleidungsfarbe',
   circleColor: 'Hintergrundfarbe',
+
   category: 'Kategorie',
   status: 'Status',
   role: 'Rolle'
