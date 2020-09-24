@@ -88,16 +88,18 @@ export default {
       this.users = []
     },
     findUsers() {
-      this.$axios.$post(`${process.env.API_URL}/social/users/find`, { 'name': this.searchValue }).then(res => {
-        if (res.users.length === 0) {
-          this.users = false
-        } else {
-          this.users = res.users
-        }
-        console.log(res)
-      }).catch((error) => {
-        console.log(error)
-      })
+      if (this.searchValue.length > 1) {
+          this.$axios.$post(`${process.env.API_URL}/social/users/find`, { 'name': this.searchValue, 'limit': 5 }).then(res => {
+            if (res.users.length === 0) {
+              this.users = false
+            } else {
+              this.users = res.users
+            }
+            console.log(res)
+          }).catch((error) => {
+            console.log(error)
+          })
+      }
     },
     logout() {
       Cookie.remove('accessToken', {

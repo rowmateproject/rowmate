@@ -330,7 +330,7 @@ async def list_users(user=fastapi_user):
 async def list_users(req: FindUser, user=fastapi_user):
     sort = [('_id', pymongo.DESCENDING)]
     query = await collection.find({
-    'name': { '$regex' : '.*' + req.name + '.*' },
+    'name': { '$regex' : re.compile(req.name, re.IGNORECASE) },
     'is_active': True
     }).sort(sort).to_list(length=req.limit)
     users = []
