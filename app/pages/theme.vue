@@ -1,5 +1,5 @@
 <template>
-  <settings />
+  <theme />
 </template>
 
 <script>

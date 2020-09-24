@@ -13,7 +13,7 @@
 
       <nuxt-link class="grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('settings') ? activeClass : inactiveClass]" :to="localePath('/settings')">
         <fa :icon="['fas', 'user-cog']" class="col-span-1 text-gray-250" />
-        <span class="col-span-5">Einstellungen</span>
+        <span class="col-span-5">Profile</span>
       </nuxt-link>
 
       <nuxt-link class="grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('users') ? activeClass : inactiveClass]" :to="localePath('/users')">
@@ -21,9 +21,9 @@
         <span class="col-span-5">Nutzer</span>
       </nuxt-link>
 
-      <nuxt-link class="grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('xxx') ? activeClass : inactiveClass]" :to="localePath('/#')">
+      <nuxt-link class="grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('theme') ? activeClass : inactiveClass]" :to="localePath('/theme')">
         <fa :icon="['fas', 'comment-alt']" class="col-span-1 text-gray-250" />
-        <span class="col-span-5">Kontakt</span>
+        <span class="col-span-5">Theme</span>
       </nuxt-link>
 
       <nuxt-link class="grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('xxx') ? activeClass : inactiveClass]" :to="localePath('/#')">
