@@ -7,8 +7,18 @@
           <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
       </span>
-
-      <input class="w-full rounded pl-10 pr-4 py-3 border focus:outline-none focus:border-blue-550" type="text" placeholder="Search">
+      <div class="" v-click-outside="hideSearch" @keydown.esc="hideSearch">
+        <input class="w-full rounded pl-10 pr-4 py-3 border focus:outline-none focus:border-blue-550" type="text" @keyup="findUsers()" @focus="findUsers()" v-model="searchValue" :placeholder="$t('search')">
+        <div class="w-full absolute">
+          <div class="border p-3 my-1 shadow bg-white" v-if="users === false">
+            <span class="leading-5 font-medium text-gray-900">No users found</span>
+          </div>
+          <div class="border p-1 my-1 shadow bg-white" v-for="user in users" v-else>
+            <avatar class="inline mr-2 pr-2" width="75" :avatar="user.avatar" />
+            <span class="leading-5 font-medium text-gray-900">{{ user.name }}</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -44,7 +54,9 @@ const Cookie = process.client ? require('js-cookie') : undefined
 export default {
   data() {
     return {
-      dropdownOpen: false
+      dropdownOpen: false,
+      searchValue: "",
+      users: []
     }
   },
   computed: {
@@ -72,6 +84,21 @@ export default {
     }
   },
   methods: {
+    hideSearch() {
+      this.users = []
+    },
+    findUsers() {
+      this.$axios.$post(`${process.env.API_URL}/social/users/find`, { 'name': this.searchValue }).then(res => {
+        if (res.users.length === 0) {
+          this.users = false
+        } else {
+          this.users = res.users
+        }
+        console.log(res)
+      }).catch((error) => {
+        console.log(error)
+      })
+    },
     logout() {
       Cookie.remove('accessToken', {
         secure: true

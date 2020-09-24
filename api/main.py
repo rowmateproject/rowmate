@@ -92,6 +92,10 @@ class UserList(BaseModel):
     mails: List[str] = []
     sendmail: bool = False
 
+class FindUser(BaseModel):
+    name: str
+    limit: int = 10
+
 
 client = motor.motor_asyncio.AsyncIOMotorClient(
     config.Settings().database_url, uuidRepresentation='standard'
@@ -318,3 +322,30 @@ async def list_users(user=fastapi_user):
         return {'users': users}
     else:
         raise HTTPException(status_code=403, detail='You need to be superuser')
+
+
+
+
+@app.post('/social/users/find')
+async def list_users(req: FindUser, user=fastapi_user):
+    sort = [('_id', pymongo.DESCENDING)]
+    query = await collection.find({
+    'name': { '$regex' : '.*' + req.name + '.*' },
+    'is_active': True
+    }).sort(sort).to_list(length=req.limit)
+    users = []
+
+    for user in query:
+        try:
+            users.append({
+                'id': str(user['id']),
+                'name': user['name'],
+                'email': user['email'],
+                'is_active': user['is_active'],
+                'created': user['_id'].generation_time,
+                'avatar': user['avatar']
+            })
+        except Exception as e:
+            print(e)
+
+    return {'users': users}
