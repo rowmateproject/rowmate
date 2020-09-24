@@ -1,34 +1,35 @@
 import motor.motor_asyncio
-import datetime as dt
 import secrets
 
-from backports.zoneinfo import ZoneInfo
-from datetime import datetime, timezone
-from fastapi import FastAPI, Depends, Request, Response, HTTPException
+from fastapi import (FastAPI, Depends, Request, Response, HTTPException)
 from fastapi_users import FastAPIUsers
 from fastapi_users.db import MongoDBUserDatabase
 from fastapi_users.models import (
     BaseUser, BaseUserDB, BaseUserCreate, BaseUserUpdate)
 from fastapi_users.authentication import JWTAuthentication
+from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware
 
-from pydantic import BaseModel, validator
-from typing import Optional, List, Any, Dict
-
+from pydantic import BaseModel
+from datetime import datetime, timezone
+from typing import Optional, List, Dict
 from uuid import UUID
+
+import pymongo
 import config
 import re
-import pymongo
 
 mail_address_pattern = r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
 
 
 class Authentication(JWTAuthentication):
-    async def get_login_response(self, user: BaseUserDB, response: Response) -> Any:
+    async def get_login_response(self, user: BaseUserDB, response: Response):
         access_token = await self._generate_token(user)
 
         return {
             'name': user.name,
+            'phone': user.phone,
+            'birth': user.birth,
             'is_active': user.is_active,
             'is_superuser': user.is_superuser,
             'is_confirmed': user.is_confirmed,
@@ -36,14 +37,22 @@ class Authentication(JWTAuthentication):
             'token_type': 'bearer'
         }
 
+    async def get_refresh_response(self, user: BaseUserDB, response: Response):
+        access_token = await self._generate_token(user)
+
+        return {
+            'access_token': access_token,
+            'token_type': 'bearer'
+        }
+
 
 class User(BaseUser):
-    name: Optional[str]
-    phone: Optional[str]
-    birth: Optional[datetime]
     is_active: bool = False
     is_accepted: bool = False
     is_confirmed: bool = False
+    birth: Optional[datetime]
+    phone: Optional[str]
+    name: Optional[str]
     avatar: Dict = {
         'isCircle': True,
         'circleColor': '#6fb8e0',
@@ -67,15 +76,8 @@ class UserCreate(BaseUserCreate):
 
 
 class UserUpdate(User, BaseUserUpdate):
-    phone: str
     birth: datetime
-
-    @validator('birth', pre=True, always=True)
-    def set_birth_date(cls, v):
-        print(v)
-        # d = datetime.strptime(v, '%Y-%m-%dT%H:%M:%S.%f%z')
-
-        return v
+    phone: str
 
 
 class UserDB(User, BaseUserDB):
@@ -102,7 +104,6 @@ user_db = MongoDBUserDatabase(UserDB, collection)
 auth_backends = []
 jwt_authentication = Authentication(
     secret=config.Settings().jwt_secret,
-    tokenUrl='/auth/jwt/login',
     lifetime_seconds=3600
 )
 auth_backends.append(jwt_authentication)
@@ -130,20 +131,34 @@ app.add_middleware(
 )
 
 
+@app.post('/auth/jwt/login')
+async def login_jwt(response: Response,
+                    req_form: OAuth2PasswordRequestForm = Depends()):
+    user = await user_db.authenticate(req_form)
+
+    if user is None:
+        raise HTTPException(status_code=400, detail='Wrong credentials')
+    elif not user.is_active:
+        raise HTTPException(status_code=400, detail='Activate account')
+    elif not user.is_confirmed:
+        raise HTTPException(status_code=400, detail='Account not confirmed')
+    elif not user.is_accepted:
+        raise HTTPException(status_code=400, detail='Account not accepted')
+
+    return await jwt_authentication.get_login_response(user, response)
+
+
+@app.post('/auth/jwt/refresh')
+async def refresh_jwt(response: Response, user=fastapi_user):
+    return await jwt_authentication.get_refresh_response(user, response)
+
+
 def on_after_forgot_password(user: UserDB, token: str, request: Request):
     print(f'User {user.id} has forgot their password. Reset token: {token}')
 
 
-async def activate_user(user: UserDB):
-    if user['is_accepted'] and user['is_confirmed']:
-        if await collection.update_one({'id': user['id']}, {'$set': {'is_active': True}}) is not None:
-            return True
-
-    return False
-
-
 async def on_after_register(user: UserDB, request: Request):
-    print(f'User {user.id} has registered.')
+    print(f'User {user.id} has registered')
     token = secrets.token_urlsafe(32)
     db.confirmations.insert_one({'id': user.id, 'token': token})
     print(f'Created mail verification token {token}')
@@ -152,13 +167,6 @@ async def on_after_register(user: UserDB, request: Request):
         print(await collection.update_one({'id': user.id}, {'$set': {'is_accepted': True}}))
     else:
         print('User hasn\'t been invited via Mail')
-
-
-app.include_router(
-    fastapi_users.get_auth_router(jwt_authentication),
-    prefix='/auth/jwt',
-    tags=['auth']
-)
 
 
 app.include_router(
@@ -186,30 +194,36 @@ app.include_router(
 )
 
 
-@app.post('/auth/jwt/refresh')
-async def refresh_jwt(response: Response, user=fastapi_user):
-    return await jwt_authentication.get_login_response(user, response)
+async def activate_user(user: UserDB):
+    if user['is_accepted'] and user['is_confirmed']:
+        if await collection.update_one({'id': user['id']}, {'$set': {'is_active': True}}) is not None:
+            return True
+
+    return False
 
 
-
-@app.get('/user/activate/{uuid}')
-async def activate_user(uuid: str, request: Request, requser=fastapi_user):
+@app.get('/manage/users/activate/{uuid}')
+async def activate_user_by_uuid(uuid: str, request: Request, requser=fastapi_user):
     if requser.is_superuser:
         user = await collection.find_one({'id': UUID(uuid)})
-        if await collection.update_one({'id': user['id']}, {'$set': { 'is_active': True, 'is_accepted': True }}) is not None: # accepting the user when user is activated
-            return { 'status': 'ok' }
+
+        # accepting the user when user is activated
+        if await collection.update_one({'id': user['id']}, {'$set': {'is_active': True, 'is_accepted': True}}) is not None:
+            return {'status': 'ok'}
         else:
             raise HTTPException(status_code=404, detail='Update failed')
     else:
         raise HTTPException(status_code=403, detail='You need to be superuser')
 
-@app.get('/user/deactivate/{uuid}')
+
+@app.get('/manage/users/deactivate/{uuid}')
 async def deactivate_user(uuid: str, request: Request, requser=fastapi_user):
     if requser.is_superuser:
         user = await collection.find_one({'id': UUID(uuid)})
+
         if user is not None:
-            if await collection.update_one({ 'id': user['id'] }, { '$set': { 'is_active': False }}) is not None:
-                return { 'status': 'ok' }
+            if await collection.update_one({'id': user['id']}, {'$set': {'is_active': False}}) is not None:
+                return {'status': 'ok'}
             else:
                 raise HTTPException(status_code=500, detail='Update failed')
         else:
@@ -236,7 +250,8 @@ async def confirm_mail(token: str, request: Request):
 
     return {}
 
-@app.post('/users/invite')
+
+@app.post('/manage/users/invite')
 async def invite_user(users: UserList, user=fastapi_user):
     mails = []
 
@@ -255,32 +270,30 @@ async def invite_user(users: UserList, user=fastapi_user):
     else:
         raise HTTPException(status_code=403, detail='You need to be superuser')
 
-@app.get('/dashboard/users')
-async def invite_user(user=fastapi_user):
 
+@app.get('/manage/users/list')
+async def list_users(user=fastapi_user):
     if user.is_superuser:
+        sort = [('_id', pymongo.DESCENDING)]
+        query = await collection.find({}).sort(sort).to_list(length=10000)
         users = []
-        for user in await collection.find({}).sort([ ('_id', pymongo.DESCENDING) ]).to_list(length=10000):
+
+        for user in query:
             try:
                 users.append({
-                'created': user['_id'].generation_time,
-                'id': str(user['id']),
-                'name': user['name'],
-                'email': user['email'],
-                'is_active': user['is_active'],
-                'is_accepted': user['is_accepted'],
-                'is_superuser': user['is_superuser'],
-                'is_confirmed': user['is_confirmed'],
-                'avatar': user['avatar']
+                    'id': str(user['id']),
+                    'name': user['name'],
+                    'email': user['email'],
+                    'is_active': user['is_active'],
+                    'is_accepted': user['is_accepted'],
+                    'is_superuser': user['is_superuser'],
+                    'is_confirmed': user['is_confirmed'],
+                    'created': user['_id'].generation_time,
+                    'avatar': user['avatar']
                 })
-            except:
-                print("Error")
+            except Exception as e:
+                print(e)
 
-        return { 'users': users }
-
+        return {'users': users}
     else:
         raise HTTPException(status_code=403, detail='You need to be superuser')
-
-@app.get('/protected')
-def hello_world_protected(user=fastapi_user):
-    return {'key': 'protected'}
