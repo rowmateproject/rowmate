@@ -54,7 +54,10 @@ export default {
   computed: {
     avatar() {
       return new AvatarGenerator().generateRandomAvatar()
-    }
+    },
+    vailableLocales () {
+    return this.$i18n.locales.filter(i => i.code !== this.$i18n.locale)
+  }
   },
   methods: {
     logout() {

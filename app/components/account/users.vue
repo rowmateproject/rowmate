@@ -9,16 +9,16 @@
           <thead>
             <tr>
               <th class="w-3/12 px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                Name
+                {{ $t('name') }}
               </th>
               <th class="w-2/12 px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                Title
+                {{ $t('membercategory') }}
               </th>
               <th class="w-3/12 px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                Status
+                {{ $t('status') }}
               </th>
               <th class="w-2/12 px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                Role
+                {{ $t('role') }}
               </th>
               <th class="w-2/12 px-6 py-3 border-b border-gray-200 bg-gray-50"></th>
             </tr>

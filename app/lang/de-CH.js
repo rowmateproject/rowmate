@@ -19,5 +19,8 @@ export default {
   errorInvalidConfirmPassword: 'Passwörter stimmen nicht überein',
   errorInvalidPassword: 'Ungültiges Passwort',
   errorInvalidName: 'Fehlerhafte Eingabe',
-  forgotPassword: 'Passwort vergessen'
+  forgotPassword: 'Passwort vergessen',
+  role: 'Rolle',
+  status: 'Status',
+  membercategory: 'Kategorie'
 }
