@@ -98,6 +98,11 @@ export default {
       }
     }
   },
+  computed: {
+    accessToken() {
+      return this.$store.state.accessToken
+    }
+  },
   methods: {
     paintColor(value) {
       this.theme[value.objectName].color = value.color

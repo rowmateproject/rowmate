@@ -18,14 +18,20 @@
         </div>
 
         <ul class="col-span-6 sm:col-span-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          <li v-if="!['isCircle'].includes(param)" class="flex flex-col" v-for="value, param in user.avatar">
-            <label class="text-gray-700" :for="param">{{ $t(param) }}</label>
-
-            <select v-model="user.avatar[param]" class="rounded border focus:outline-none p-2 mt-2">
-              <option v-if="!['circleColor'].includes(param)" v-for="v, index in getItems(param)" :key="index" :value="v">{{ $t(v) }}</option>
-              <option v-if="['circleColor'].includes(param)" v-for="v, index in getItems(param)" :key="index" :value="v[0]">{{ v[1] }}</option>
-            </select>
-          </li>
+          <feature @data="updateEyeType" :value="user.avatar.eyeType" param="eyeType" />
+          <feature @data="updateEyebrowType" :value="user.avatar.eyebrowType" param="eyebrowType" />
+          <feature @data="updateAccessoriesType" :value="user.avatar.accessoriesType" param="accessoriesType" />
+          <feature @data="updateMouthType" :value="user.avatar.mouthType" param="mouthType" />
+          <feature @data="updateFacialHairType" :value="user.avatar.facialHairType" param="facialHairType" />
+          <feature @data="updateFacialHairColor" :value="user.avatar.facialHairColor" param="facialHairColor" />
+          <feature @data="updateSkinColor" :value="user.avatar.skinColor" param="skinColor" />
+          <feature @data="updateFopType" :value="user.avatar.topType" param="topType" />
+          <feature @data="updateHairColor" :value="user.avatar.hairColor" param="hairColor" />
+          <feature @data="updateTopColor" :value="user.avatar.topColor" param="topColor" />
+          <feature @data="updateClotheType" :value="user.avatar.clotheType" param="clotheType" />
+          <feature @data="updateGraphicType" :value="user.avatar.graphicType" param="graphicType" />
+          <feature @data="updateClotheColor" :value="user.avatar.clotheColor" param="clotheColor" />
+          <feature @data="updateCircleColor" :value="user.avatar.circleColor" param="circleColor" />
         </ul>
       </div>
     </div>
@@ -41,15 +47,36 @@
         <div>
           <label class="text-gray-700" for="birthDate">{{ $t('birthDate') }}</label>
           <div class="grid grid-cols-6 gap-3 w-full mb-1">
-            <select :class="[errors.birthDate.day ? 'border-red-500 focus:border-red-500' : 'focus:border-blue-550']" class="col-span-1 rounded border focus:outline-none p-2 mt-2" v-model="user.birthDate.day">
-              <option v-for="value, index in days" :key="index" :value="value">{{ value }}</option>
-            </select>
-            <select :class="[errors.birthDate.month ? 'border-red-500 focus:border-red-500' : 'focus:border-blue-550']" class="col-span-3 rounded border focus:outline-none p-2 mt-2" v-model="user.birthDate.month">
-              <option v-for="value, index in months" :key="index" :value="index + 1">{{ value }}</option>
-            </select>
-            <select :class="[errors.birthDate.year ? 'border-red-500 focus:border-red-500' : 'focus:border-blue-550']" class="col-span-2 rounded border focus:outline-none p-2 mt-2" v-model="user.birthDate.year">
-              <option v-for="value, index in years" :key="index" :value="value">{{ value }}</option>
-            </select>
+            <div class="col-span-1 relative z-0">
+              <select :class="[errors.birthDate.day ? 'border-red-500 focus:border-red-500' : 'focus:border-blue-550']" class="appearance-none block w-full rounded border focus:outline-none p-2 mt-2" v-model="user.birthDate.day">
+                <option v-for="value, index in days" :key="index" :value="value">{{ value }}</option>
+              </select>
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 mt-2 text-gray-700">
+                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                </svg>
+              </div>
+            </div>
+            <div class="col-span-3 relative z-0">
+              <select :class="[errors.birthDate.month ? 'border-red-500 focus:border-red-500' : 'focus:border-blue-550']" class="appearance-none block w-full rounded border focus:outline-none p-2 mt-2" v-model="user.birthDate.month">
+                <option v-for="value, index in months" :key="index" :value="index + 1">{{ value }}</option>
+              </select>
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 mt-2 text-gray-700">
+                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                </svg>
+              </div>
+            </div>
+            <div class="col-span-2 relative z-0">
+              <select :class="[errors.birthDate.year ? 'border-red-500 focus:border-red-500' : 'focus:border-blue-550']" class="appearance-none block w-full rounded border focus:outline-none p-2 mt-2" v-model="user.birthDate.year">
+                <option v-for="value, index in years" :key="index" :value="value">{{ value }}</option>
+              </select>
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 mt-2 text-gray-700">
+                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                </svg>
+              </div>
+            </div>
           </div>
           <p v-if="errors.birthDate" class="text-red-500 text-xs italic">{{ $t('errorInvalidBirthDate') }}</p>
         </div>
@@ -104,8 +131,7 @@ export default {
           year: null
         },
         password: '',
-        confirm: '',
-
+        confirm: ''
       },
       errors: {
         name: false,
@@ -115,6 +141,7 @@ export default {
         password: false,
         confirm: false
       },
+<<<<<<< HEAD
       circleColor: [
         ['#CD5C5C', 'IndianRed'],
         ['#F08080', 'LightCoral'],
@@ -445,6 +472,8 @@ export default {
         'ShortHairTheCaesar',
         'ShortHairTheCaesarSidePart'
       ],
+=======
+>>>>>>> refactored code to use components for avatar settings and emit settings
       emailRegex: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     }
   },
@@ -481,48 +510,6 @@ export default {
     }
   },
   watch: {
-    'user.avatar.accessoriesType': function() {
-      this.$store.commit('updateAccessoriesType', this.user.avatar.accessoriesType)
-    },
-    'user.avatar.facialHairColor': function() {
-      this.$store.commit('updateFacialHairColor', this.user.avatar.facialHairColor)
-    },
-    'user.avatar.facialHairType': function() {
-      this.$store.commit('updateFacialHairType', this.user.avatar.facialHairType)
-    },
-    'user.avatar.graphicType': function() {
-      this.$store.commit('updateGraphicType', this.user.avatar.graphicType)
-    },
-    'user.avatar.clotheColor': function() {
-      this.$store.commit('updateClotheColor', this.user.avatar.clotheColor)
-    },
-    'user.avatar.eyebrowType': function() {
-      this.$store.commit('updateEyebrowType', this.user.avatar.eyebrowType)
-    },
-    'user.avatar.circleColor': function() {
-      this.$store.commit('updateCircleColor', this.user.avatar.circleColor)
-    },
-    'user.avatar.clotheType': function() {
-      this.$store.commit('updateClotheType', this.user.avatar.clotheType)
-    },
-    'user.avatar.hairColor': function() {
-      this.$store.commit('updateHairColor', this.user.avatar.hairColor)
-    },
-    'user.avatar.mouthType': function() {
-      this.$store.commit('updateMouthType', this.user.avatar.mouthType)
-    },
-    'user.avatar.skinColor': function() {
-      this.$store.commit('updateSkinColor', this.user.avatar.skinColor)
-    },
-    'user.avatar.eyeType': function() {
-      this.$store.commit('updateEyeType', this.user.avatar.eyeType)
-    },
-    'user.avatar.topType': function() {
-      this.$store.commit('updateTopType', this.user.avatar.topType)
-    },
-    'user.avatar.topColor': function() {
-      this.$store.commit('updateTopColor', this.user.avatar.topColor)
-    },
     'user.email': function() {
       if (this.user.email.trim() !== '') {
         if (this.emailRegex.test(this.user.email.trim())) {
@@ -597,8 +584,47 @@ export default {
     }
   },
   methods: {
-    getItems(item) {
-      return this[item]
+    updateEyeType(value) {
+      this.user.avatar.eyeType = value
+    },
+    updateEyebrowType(value) {
+      this.user.avatar.eyebrowType = value
+    },
+    updateAccessoriesType(value) {
+      this.user.avatar.accessoriesType = value
+    },
+    updateMouthType(value) {
+      this.user.avatar.mouthType = value
+    },
+    updateSkinColor(value) {
+      this.user.avatar.skinColor = value
+    },
+    updateFacialHairType(value) {
+      this.user.avatar.facialHairType = value
+    },
+    updateFacialHairColor(value) {
+      this.user.avatar.facialHairColor = value
+    },
+    updateFopType(value) {
+      this.user.avatar.topType = value
+    },
+    updateHairColor(value) {
+      this.user.avatar.hairColor = value
+    },
+    updateTopColor(value) {
+      this.user.avatar.topColor = value
+    },
+    updateClotheType(value) {
+      this.user.avatar.clotheType = value
+    },
+    updateGraphicType(value) {
+      this.user.avatar.graphicType = value
+    },
+    updateClotheColor(value) {
+      this.user.avatar.clotheColor = value
+    },
+    updateCircleColor(value) {
+      this.user.avatar.circleColor = value
     },
     saveExtendedUser() {
       const isValidForm = (currentValue) => currentValue !== true
