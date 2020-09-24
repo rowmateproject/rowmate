@@ -19,10 +19,10 @@
 
         <ul class="col-span-6 sm:col-span-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           <li v-if="!['isCircle'].includes(param)" class="flex flex-col" v-for="value, param in user.avatar">
-            <label class="text-gray-700" :for="param">{{ param }}</label>
+            <label class="text-gray-700" :for="param">{{ $t(param) }}</label>
 
             <select v-model="user.avatar[param]" class="rounded border focus:outline-none p-2 mt-2">
-              <option v-if="!['circleColor'].includes(param)" v-for="v, index in getItems(param)" :key="index" :value="v">{{ v }}</option>
+              <option v-if="!['circleColor'].includes(param)" v-for="v, index in getItems(param)" :key="index" :value="v">{{ $t(v) }}</option>
               <option v-if="['circleColor'].includes(param)" v-for="v, index in getItems(param)" :key="index" :value="v[0]">{{ v[1] }}</option>
             </select>
           </li>
@@ -258,6 +258,7 @@ export default {
         ['#708090', 'SlateGray'],
         ['#2F4F4F', 'DarkSlateGray'],
         ['#000000', 'Black'],
+        ['#FFFFFF', 'White'],
       ],
       clotheColor: [
         'Black',

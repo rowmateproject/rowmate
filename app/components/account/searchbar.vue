@@ -4,7 +4,7 @@
     <div class="w-full relative">
       <span class="absolute inset-y-0 left-0 pl-3 flex items-center">
         <svg class="h-5 w-5 text-gray-500" viewBox="0 0 24 24" fill="none">
-          <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <fa :icon="['fas', 'search']" />
         </svg>
       </span>
       <div class="" v-click-outside="hideSearch" @keydown.esc="hideSearch">
@@ -16,6 +16,7 @@
           <div class="border p-1 my-1 shadow bg-white" v-for="user in users" v-else>
             <avatar class="inline mr-2 pr-2" width="75" :avatar="user.avatar" />
             <span class="leading-5 font-medium text-gray-900">{{ user.name }}</span>
+            <span class="ml-auto"<fa :icon="['fas', 'comments']" /></span>
           </div>
         </div>
       </div>
