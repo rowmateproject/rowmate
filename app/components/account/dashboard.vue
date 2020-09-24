@@ -50,28 +50,22 @@
 </template>
 
 <script>
-import {
-  AvatarGenerator
-} from 'random-avatar-generator'
-
-
-
 export default {
   data() {
     return {
       users: []
     }
   },
-  mounted: function () {
-    this.$axios.setHeader('Authorization', 'Bearer ' + this.$store.state.accessToken)
+  mounted() {
+    this.$axios.setHeader('Authorization', `Bearer ${this.accessToken}`)
 
-    this.$axios.$get(`${process.env.API_URL}/dashboard/users`).then(data => {
-      this.users = data.users
+    this.$axios.$get(`${process.env.API_URL}/manage/users/list`).then(res => {
+      this.users = res.users
     })
   },
   computed: {
-    avatar() {
-      return new AvatarGenerator().generateRandomAvatar()
+    accessToken() {
+      return this.$store.state.accessToken
     }
   }
 }

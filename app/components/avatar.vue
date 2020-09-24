@@ -20,7 +20,6 @@
 <script>
 import Avataaars from 'vuejs-avataaars'
 
-
 export default {
   components: {
     Avataaars
