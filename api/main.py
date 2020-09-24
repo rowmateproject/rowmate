@@ -56,12 +56,12 @@ class User(BaseUser):
     name: Optional[str]
     avatar: Dict = {
         'isCircle': True,
-        'circleColor': '#6fb8e0',
-        'accessoriesType': 'Blank',
+        'eyeType': 'Happy',
         'clotheType': 'Hoodie',
+        'circleColor': '#90EE90',
+        'accessoriesType': 'Blank',
         'clotheColor': 'PastelBlue',
         'eyebrowType': 'Default',
-        'eyeType': 'Happy',
         'facialHairColor': 'Brown',
         'facialHairType': 'Blank',
         'graphicType': 'Diamond',
@@ -78,6 +78,7 @@ class UserCreate(BaseUserCreate):
 
 class UserUpdate(User, BaseUserUpdate):
     birth: datetime
+    avatar: dict
     phone: str
 
 

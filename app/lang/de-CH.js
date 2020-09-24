@@ -20,7 +20,7 @@ export default {
   errorInvalidPassword: 'Ungültiges Passwort',
   errorInvalidName: 'Fehlerhafte Eingabe',
   forgotPassword: 'Passwort vergessen',
-  role: 'Rolle',
+  category: 'Kategorie',
   status: 'Status',
-  membercategory: 'Kategorie'
+  role: 'Rolle'
 }
