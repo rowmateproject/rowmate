@@ -1,7 +1,8 @@
 import motor.motor_asyncio
 import secrets
 
-from fastapi import (FastAPI, Depends, Request, Response, HTTPException)
+from fastapi import (FastAPI, HTTPException, Depends, Request, Response)
+from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
 from fastapi_users import FastAPIUsers
 from fastapi_users.db import MongoDBUserDatabase
 from fastapi_users.models import (
@@ -118,9 +119,19 @@ fastapi_users = FastAPIUsers(
 )
 
 fastapi_user = Depends(fastapi_users.get_current_active_user)
+smtp_config = ConnectionConfig(
+    MAIL_USERNAME=config.Settings().smtp_username,
+    MAIL_PASSWORD=config.Settings().smtp_password,
+    MAIL_SERVER=config.Settings().smtp_server,
+    MAIL_PORT=config.Settings().smtp_port,
+    MAIL_TLS=config.Settings().smtp_tls,
+    MAIL_SSL=config.Settings().smtp_ssl
+)
 
 
 app = FastAPI()
+fm = FastMail(smtp_config)
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -158,15 +169,22 @@ def on_after_forgot_password(user: UserDB, token: str, request: Request):
 
 
 async def on_after_register(user: UserDB, request: Request):
-    print(f'User {user.id} has registered')
     token = secrets.token_urlsafe(32)
-    db.confirmations.insert_one({'id': user.id, 'token': token})
-    print(f'Created mail verification token {token}')
+
+    await db.confirmations.insert_one({'id': user.id, 'token': token})
 
     if await db.invited.find_one({'email': user.email}) is not None:
         print(await collection.update_one({'id': user.id}, {'$set': {'is_accepted': True}}))
-    else:
-        print('User hasn\'t been invited via Mail')
+
+    message = MessageSchema(
+        subject='Welcome to rowmate.org',
+        receipients=[user.email],
+        body=f'Hi {user.name},\n\nthis is your registration mail with your verification token\n\n{token}\n\nBest regards,\nrowmate.org'
+    )
+
+    await fm.send_message(message)
+
+    return {'detail': 'Verification mai has been sent'}
 
 
 app.include_router(

@@ -7,11 +7,17 @@
 Create a dotenv file in to root foler
 
 ```env
+APP_NAME="<default_app_name>"
 DATABASE_URL="mongodb://localhost:27017"
 JWT_SECRET="<your_json_webtoken_secret_here>"
 RESET_SECRET="<your_password_reset_secret_here>"
 ADMIN_EMAIL="<your_admin_mail_address>"
-APP_NAME="<APP_NAME>"
+SMTP_USERNAME="<your_smtp_mail_address>"
+SMTP_PASSWORD="<your_smtp_password_address>"
+SMTP_SERVER="<your_smtp_server"
+SMTP_PORT=<your_smtp_port>
+SMTP_TLS="false"
+SMTP_SSL="true"
 ```
 
 
