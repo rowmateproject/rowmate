@@ -96,11 +96,25 @@ export default {
             'Content-Type': 'multipart/form-data'
           }
         }).then(res => {
+          this.$store.commit('updateName', res.name)
           this.$store.commit('updateIsActive', res.is_active)
           this.$store.commit('updateIsConfirmed', res.is_confirmed)
           this.$store.commit('updateIsSuperuser', res.is_superuser)
           this.$store.commit('updateAccessToken', res.access_token)
-          this.$store.commit('updateName', res.name)
+          this.$store.commit('updateAccessoriesType', res.avatar.accessoriesType)
+          this.$store.commit('updateFacialHairColor', res.avatar.facialHairColor)
+          this.$store.commit('updateFacialHairType', res.avatar.facialHairType)
+          this.$store.commit('updateGraphicType', res.avatar.graphicType)
+          this.$store.commit('updateClotheColor', res.avatar.clotheColor)
+          this.$store.commit('updateEyebrowType', res.avatar.eyebrowType)
+          this.$store.commit('updateCircleColor', res.avatar.circleColor)
+          this.$store.commit('updateClotheType', res.avatar.clotheType)
+          this.$store.commit('updateHairColor', res.avatar.hairColor)
+          this.$store.commit('updateMouthType', res.avatar.mouthType)
+          this.$store.commit('updateSkinColor', res.avatar.skinColor)
+          this.$store.commit('updateIsCircle', Boolean(res.avatar.isCircle))
+          this.$store.commit('updateEyeType', res.avatar.eyeType)
+          this.$store.commit('updateTopType', res.avatar.topType)
 
           Cookie.set('accessToken', res.access_token, {
             samesite: 'None',
@@ -127,6 +141,90 @@ export default {
           })
 
           Cookie.set('name', res.name, {
+            samesite: 'None',
+            expires: 3600,
+            secure: true
+          })
+
+          Cookie.set('accessoriesType', res.avatar.accessoriesType, {
+            samesite: 'None',
+            expires: 3600,
+            secure: true
+          })
+
+          Cookie.set('facialHairColor', res.avatar.facialHairColor, {
+            samesite: 'None',
+            expires: 3600,
+            secure: true
+          })
+
+          Cookie.set('facialHairType', res.avatar.facialHairType, {
+            samesite: 'None',
+            expires: 3600,
+            secure: true
+          })
+
+          Cookie.set('graphicType', res.avatar.graphicType, {
+            samesite: 'None',
+            expires: 3600,
+            secure: true
+          })
+
+          Cookie.set('clotheColor', res.avatar.clotheColor, {
+            samesite: 'None',
+            expires: 3600,
+            secure: true
+          })
+
+          Cookie.set('eyebrowType', res.avatar.eyebrowType, {
+            samesite: 'None',
+            expires: 3600,
+            secure: true
+          })
+
+          Cookie.set('circleColor', res.avatar.circleColor, {
+            samesite: 'None',
+            expires: 3600,
+            secure: true
+          })
+
+          Cookie.set('clotheType', res.avatar.clotheType, {
+            samesite: 'None',
+            expires: 3600,
+            secure: true
+          })
+
+          Cookie.set('hairColor', res.avatar.hairColor, {
+            samesite: 'None',
+            expires: 3600,
+            secure: true
+          })
+
+          Cookie.set('mouthType', res.avatar.mouthType, {
+            samesite: 'None',
+            expires: 3600,
+            secure: true
+          })
+
+          Cookie.set('skinColor', res.avatar.skinColor, {
+            samesite: 'None',
+            expires: 3600,
+            secure: true
+          })
+
+          Cookie.set('isCircle', Boolean(res.isCircle), {
+            samesite: 'None',
+            expires: 3600,
+            secure: true
+          })
+
+          Cookie.set('eyeType', res.avatar.eyeType, {
+            samesite: 'None',
+            expires: 3600,
+            secure: true
+          })
+
+          Cookie.set('topType', res.avatar.topType, {
             samesite: 'None',
             expires: 3600,
             secure: true

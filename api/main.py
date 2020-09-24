@@ -31,6 +31,7 @@ class Authentication(JWTAuthentication):
             'name': user.name,
             'phone': user.phone,
             'birth': user.birth,
+            'avatar': user.avatar,
             'is_active': user.is_active,
             'is_superuser': user.is_superuser,
             'is_confirmed': user.is_confirmed,

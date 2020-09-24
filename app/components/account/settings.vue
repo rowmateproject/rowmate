@@ -463,6 +463,45 @@ export default {
     }
   },
   watch: {
+    'user.avatar.accessoriesType': function() {
+      this.$store.commit('updateAccessoriesType', this.user.avatar.accessoriesType)
+    },
+    'user.avatar.facialHairColor': function() {
+      this.$store.commit('updateFacialHairColor', this.user.avatar.facialHairColor)
+    },
+    'user.avatar.facialHairType': function() {
+      this.$store.commit('updateFacialHairType', this.user.avatar.facialHairType)
+    },
+    'user.avatar.graphicType': function() {
+      this.$store.commit('updateGraphicType', this.user.avatar.graphicType)
+    },
+    'user.avatar.clotheColor': function() {
+      this.$store.commit('updateClotheColor', this.user.avatar.clotheColor)
+    },
+    'user.avatar.eyebrowType': function() {
+      this.$store.commit('updateEyebrowType', this.user.avatar.eyebrowType)
+    },
+    'user.avatar.circleColor': function() {
+      this.$store.commit('updateCircleColor', this.user.avatar.circleColor)
+    },
+    'user.avatar.clotheType': function() {
+      this.$store.commit('updateClotheType', this.user.avatar.clotheType)
+    },
+    'user.avatar.hairColor': function() {
+      this.$store.commit('updateHairColor', this.user.avatar.hairColor)
+    },
+    'user.avatar.mouthType': function() {
+      this.$store.commit('updateMouthType', this.user.avatar.mouthType)
+    },
+    'user.avatar.skinColor': function() {
+      this.$store.commit('updateSkinColor', this.user.avatar.skinColor)
+    },
+    'user.avatar.eyeType': function() {
+      this.$store.commit('updateEyeType', this.user.avatar.eyeType)
+    },
+    'user.avatar.topType': function() {
+      this.$store.commit('updateTopType', this.user.avatar.topType)
+    },
     'user.email': function() {
       if (this.user.email.trim() !== '') {
         if (this.emailRegex.test(this.user.email.trim())) {

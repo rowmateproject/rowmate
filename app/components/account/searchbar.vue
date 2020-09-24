@@ -22,8 +22,8 @@
     </button>
 
     <div class="relative">
-      <button @click="dropdownOpen = !dropdownOpen" class="relative z-10 block h-8 w-8 rounded-full overflow-hidden shadow focus:outline-none">
-        <img class="h-full w-full object-cover" :src="avatar" alt="Your avatar">
+      <button @click="dropdownOpen = !dropdownOpen" class="relative z-10 block h-10 w-10 overflow-hidden focus:outline-none">
+        <avatar :avatar="avatar" class="h-full w-full object-cover" />
       </button>
 
       <div v-show="dropdownOpen" @click="dropdownOpen = false" class="fixed inset-0 h-full w-full z-10"></div>
@@ -41,10 +41,6 @@
 <script>
 const Cookie = process.client ? require('js-cookie') : undefined
 
-import {
-  AvatarGenerator
-} from 'random-avatar-generator'
-
 export default {
   data() {
     return {
@@ -53,11 +49,26 @@ export default {
   },
   computed: {
     avatar() {
-      return new AvatarGenerator().generateRandomAvatar()
+      return {
+        eyeType: this.$store.state.eyeType,
+        isCircle: Boolean(this.$store.state.isCircle),
+        clotheType: this.$store.state.clotheType,
+        circleColor: this.$store.state.circleColor,
+        accessoriesType: this.$store.state.accessoriesType,
+        facialHairColor: this.$store.state.facialHairColor,
+        facialHairType: this.$store.state.facialHairType,
+        clotheColor: this.$store.state.clotheColor,
+        eyebrowType: this.$store.state.eyebrowType,
+        graphicType: this.$store.state.graphicType,
+        hairColor: this.$store.state.hairColor,
+        mouthType: this.$store.state.mouthType,
+        skinColor: this.$store.state.skinColor,
+        topType: this.$store.state.topType
+      }
     },
-    vailableLocales () {
-    return this.$i18n.locales.filter(i => i.code !== this.$i18n.locale)
-  }
+    availableLocales() {
+      return this.$i18n.locales.filter(i => i.code !== this.$i18n.locale)
+    }
   },
   methods: {
     logout() {
@@ -82,6 +93,62 @@ export default {
       })
 
       Cookie.remove('name', {
+        secure: true
+      })
+
+      Cookie.remove('accessoriesType', {
+        secure: true
+      })
+
+      Cookie.remove('facialHairColor', {
+        secure: true
+      })
+
+      Cookie.remove('facialHairType', {
+        secure: true
+      })
+
+      Cookie.remove('graphicType', {
+        secure: true
+      })
+
+      Cookie.remove('clotheColor', {
+        secure: true
+      })
+
+      Cookie.remove('eyebrowType', {
+        secure: true
+      })
+
+      Cookie.remove('circleColor', {
+        secure: true
+      })
+
+      Cookie.remove('clotheType', {
+        secure: true
+      })
+
+      Cookie.remove('hairColor', {
+        secure: true
+      })
+
+      Cookie.remove('mouthType', {
+        secure: true
+      })
+
+      Cookie.remove('skinColor', {
+        secure: true
+      })
+
+      Cookie.remove('isCircle', {
+        secure: true
+      })
+
+      Cookie.remove('eyeType', {
+        secure: true
+      })
+
+      Cookie.remove('topType', {
         secure: true
       })
 
