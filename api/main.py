@@ -8,24 +8,58 @@ from fastapi_users.db import MongoDBUserDatabase
 from fastapi_users.models import (
     BaseUser, BaseUserDB, BaseUserCreate, BaseUserUpdate)
 from fastapi_users.authentication import JWTAuthentication
+from fastapi_users.authentication.base import BaseAuthentication
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware
 
 from pydantic import BaseModel
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from typing import Optional, List, Dict
 from uuid import UUID
 
 import pymongo
 import config
+import jwt
 import re
 
 mail_address_pattern = r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
 
 
-class Authentication(JWTAuthentication):
+def generate_jwt(data: dict, secret: str, lifetime_seconds: int) -> str:
+    expire = datetime.utcnow() + timedelta(seconds=lifetime_seconds)
+    data['exp'] = expire
+
+    return jwt.encode(data, secret, algorithm='HS256').decode('utf-8')
+
+
+class AuthModel(BaseAuthentication):
+    lifetime_seconds_refresh: int
+
+
+class Authentication(AuthModel, JWTAuthentication):
+    def __init__(self,
+                 secret: str,
+                 lifetime_seconds: int,
+                 lifetime_seconds_refresh: int,
+                 name: str = 'jwt'):
+        super().__init__(name, lifetime_seconds)
+        self.lifetime_seconds_refresh = lifetime_seconds_refresh
+
+    async def generate_access_token(self, user: BaseUserDB) -> str:
+        data = {'user_id': str(user.id)}
+        token = generate_jwt(data, self.secret, self.lifetime_seconds)
+
+        return token
+
+    async def generate_refresh_token(self, user: BaseUserDB) -> str:
+        data = {'user_id': str(user.id)}
+        token = generate_jwt(data, self.secret, self.lifetime_seconds_refresh)
+
+        return token
+
     async def get_login_response(self, user: BaseUserDB, response: Response):
-        access_token = await self._generate_token(user)
+        access_token = await self.generate_access_token(user)
+        refresh_token = await self.generate_refresh_token(user)
 
         return {
             'name': user.name,
@@ -35,12 +69,13 @@ class Authentication(JWTAuthentication):
             'is_active': user.is_active,
             'is_superuser': user.is_superuser,
             'is_confirmed': user.is_confirmed,
+            'refresh_token': refresh_token,
             'access_token': access_token,
             'token_type': 'bearer'
         }
 
     async def get_refresh_response(self, user: BaseUserDB, response: Response):
-        access_token = await self._generate_token(user)
+        access_token = await self.generate_access_token(user)
 
         return {
             'access_token': access_token,
@@ -132,11 +167,12 @@ origins = ['http://localhost:3000']
 user_db = MongoDBUserDatabase(UserDB, collection)
 
 auth_backends = []
-jwt_authentication = Authentication(
+jwt_auth = Authentication(
     secret=config.Settings().jwt_secret,
+    lifetime_seconds_refresh=50000,
     lifetime_seconds=3600
 )
-auth_backends.append(jwt_authentication)
+auth_backends.append(jwt_auth)
 
 fastapi_users = FastAPIUsers(
     user_db,
@@ -171,7 +207,7 @@ app.add_middleware(
 )
 
 
-@ app.post('/auth/jwt/login')
+@app.post('/auth/jwt/login')
 async def login_jwt(response: Response,
                     req_form: OAuth2PasswordRequestForm = Depends()):
     user = await user_db.authenticate(req_form)
@@ -185,12 +221,12 @@ async def login_jwt(response: Response,
     elif not user.is_accepted:
         raise HTTPException(status_code=400, detail='Account not accepted')
 
-    return await jwt_authentication.get_login_response(user, response)
+    return await jwt_auth.get_login_response(user, response)
 
 
-@ app.post('/auth/jwt/refresh')
+@app.post('/auth/jwt/refresh')
 async def refresh_jwt(response: Response, user=fastapi_user):
-    return await jwt_authentication.get_refresh_response(user, response)
+    return await jwt_auth.get_refresh_response(user, response)
 
 
 def on_after_forgot_password(user: UserDB, token: str, request: Request):
