@@ -20,6 +20,7 @@ export default {
   errorInvalidPassword: 'Ungültiges Passwort',
   errorInvalidName: 'Fehlerhafte Eingabe',
   forgotPassword: 'Passwort vergessen',
+  createEvent: 'Event anlegen',
 
   eyeType: 'Augen',
   eyebrowType: 'Augenbraun',

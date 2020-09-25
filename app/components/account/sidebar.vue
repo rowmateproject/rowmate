@@ -31,9 +31,9 @@
         <span class="col-span-5">Termine</span>
       </nuxt-link>
 
-      <nuxt-link class="text-color-nav grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('xxx') ? activeClass : inactiveClass]" :to="localePath('/#')">
+      <nuxt-link class="text-color-nav grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('event') ? activeClass : inactiveClass]" :to="localePath('/event')">
         <fa :icon="['fas', 'sticky-note']" class="col-span-1" />
-        <span class="col-span-5">Verwaltung</span>
+        <span class="col-span-5">Event</span>
       </nuxt-link>
     </nav>
   </div>
