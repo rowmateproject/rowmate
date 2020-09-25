@@ -99,24 +99,24 @@ class FindUser(BaseModel):
 
 
 class ThemeModel(BaseModel):
-    bodyText: str = '#ff0000'
-    buttonBackground: str = '#4299e1'
-    buttonText: str = '#3dab5f'
-    footerBackground: str = '#150f55'
-    footerText: str = '#74ab43'
-    formBackground: str = '#2529da'
-    formBorder: str = '#2e595f'
-    formText: str = '#000f57'
-    headerBackground: str = '#cc8075'
-    imageBackground: str = '#8468a7'
-    imageText: str = '#161a1a'
-    linkText: str = '#2f755f'
-    navBackground: str = '#150f55'
-    navText: str = '#ba96ff'
-    pageBackground: str = '#6d6f71'
-    pageText: str = '#161a1a'
-    saleText: str = '#be2222'
-    titleText: str = '#79d02f'
+    bodyText: str = '#8f9498'
+    buttonBackground: str = '#192733'
+    buttonText: str = '#ffffff'
+    footerBackground: str = '#22619c'
+    footerText: str = '#323a5d'
+    formBackground: str = '#ffffff'
+    formBorder: str = '#a7b0b3'
+    formText: str = '#32385d'
+    headerBackground: str = '#2852a2'
+    imageBackground: str = '#324d5d'
+    imageText: str = '#32445d'
+    linkText: str = '#3a60d0'
+    navBackground: str = '#212225'
+    navText: str = '#ffffff'
+    pageBackground: str = '#e8e8e8'
+    pageText: str = '#26292b'
+    saleText: str = '#32465d'
+    titleText: str = '#25524f'
 
 
 client = motor.motor_asyncio.AsyncIOMotorClient(
@@ -171,7 +171,7 @@ app.add_middleware(
 )
 
 
-@app.post('/auth/jwt/login')
+@ app.post('/auth/jwt/login')
 async def login_jwt(response: Response,
                     req_form: OAuth2PasswordRequestForm = Depends()):
     user = await user_db.authenticate(req_form)
@@ -188,7 +188,7 @@ async def login_jwt(response: Response,
     return await jwt_authentication.get_login_response(user, response)
 
 
-@app.post('/auth/jwt/refresh')
+@ app.post('/auth/jwt/refresh')
 async def refresh_jwt(response: Response, user=fastapi_user):
     return await jwt_authentication.get_refresh_response(user, response)
 
