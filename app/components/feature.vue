@@ -1,13 +1,13 @@
 <template>
 <li class="flex flex-col">
-  <label class="text-gray-700" :for="param">{{ $t(param) }}</label>
+  <label class="text-color-nav" :for="param">{{ $t(param) }}</label>
 
   <div class="col-span-3 relative z-0">
-    <select v-model="model" class="appearance-none block w-full rounded border focus:outline-none p-2 mt-2">
+    <select v-model="model" class="appearance-none block w-full rounded border form-border-color focus:outline-none p-2 mt-2">
       <option v-if="!['circleColor'].includes(param)" v-for="v, index in getItems(param)" :key="index" :value="v">{{ v }}</option>
       <option v-if="['circleColor'].includes(param)" v-for="v, index in getItems(param)" :key="index" :value="v[0]">{{ v[1] }}</option>
     </select>
-    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 mt-2 text-gray-700">
+    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 mt-2 text-color-nav">
       <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
         <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
       </svg>

@@ -4,7 +4,7 @@
 
   <form @submit.prevent="patchTheme">
     <ul class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-3 mt-8">
-      <li v-for="color, key, index in theme" :key="index" class="bg-white px-2 pt-1 pb-2">
+      <li v-for="color, key, index in theme" :key="index" class="bg-color-form rounded px-2 pt-1 pb-2">
         <color @data="updateStyles" :id="index" :name="key" :hex="color" />
       </li>
     </ul>
@@ -105,49 +105,45 @@ export default {
 
       const element = document.querySelector('head').appendChild(styleElement)
 
-      element.sheet.insertRule(`.border-color-form-hover:hover {border-color: ${this.handleColor(this.theme.formBorder, -50)}}`, 0)
-      element.sheet.insertRule(`.border-color-form-focus:focus {border-color: ${this.handleColor(this.theme.formBorder, -50)}}`, 0)
-      element.sheet.insertRule(`.text-color-button {color: ${this.theme.buttonText}}`, 0)
-      element.sheet.insertRule(`.text-color-button:hover {color: ${this.handleColor(this.theme.buttonBackground, +150)}}`, 0)
-      element.sheet.insertRule(`.text-color-button:focus {color: ${this.handleColor(this.theme.buttonBackground, +150)}}`, 0)
       element.sheet.insertRule(`.text-color-nav {color: ${this.theme.navText}}`, 0)
-      element.sheet.insertRule(`.text-color-page {color: ${this.theme.pageText}}`, 0)
       element.sheet.insertRule(`.text-color-link {color: ${this.theme.linkText}}`, 0)
+      element.sheet.insertRule(`.text-color-body {color: ${this.theme.bodyText}}`, 0)
+      element.sheet.insertRule(`.text-color-sale {color: ${this.theme.saleText}}`, 0)
+      element.sheet.insertRule(`.text-color-form {color: ${this.theme.formText}}`, 0)
+      element.sheet.insertRule(`.text-color-page {color: ${this.theme.pageText}}`, 0)
+      element.sheet.insertRule(`.text-color-image {color: ${this.theme.imageText}}`, 0)
       element.sheet.insertRule(`.text-color-title {color: ${this.theme.titleText}}`, 0)
+      element.sheet.insertRule(`.text-color-footer {color: ${this.theme.footerText}}`, 0)
+      element.sheet.insertRule(`.text-color-button {color: ${this.theme.buttonText}}`, 0)
       element.sheet.insertRule(`.bg-color-nav {background-color: ${this.theme.navBackground}}`, 0)
       element.sheet.insertRule(`.bg-color-form {background-color: ${this.theme.formBackground}}`, 0)
       element.sheet.insertRule(`.bg-color-page {background-color: ${this.theme.pageBackground}}`, 0)
+      element.sheet.insertRule(`.bg-color-image {background-color: ${this.theme.imageBackground}}`, 0)
       element.sheet.insertRule(`.bg-color-header {background-color: ${this.theme.headerBackground}}`, 0)
       element.sheet.insertRule(`.bg-color-footer {background-color: ${this.theme.footerBackground}}`, 0)
       element.sheet.insertRule(`.bg-color-button {background-color: ${this.theme.buttonBackground}}`, 0)
-      element.sheet.insertRule(`.bg-color-button:focus {background-color: ${this.handleColor(this.theme.buttonBackground, -50)}}`, 0)
-      element.sheet.insertRule(`.bg-color-button:hover {background-color: ${this.handleColor(this.theme.buttonBackground, -50)}}`, 0)
+      element.sheet.insertRule(`.bg-color-button:focus {background-color: ${this.handleColor(this.theme.buttonBackground, -40)}}`, 0)
+      element.sheet.insertRule(`.bg-color-button:hover {background-color: ${this.handleColor(this.theme.buttonBackground, -40)}}`, 0)
+      element.sheet.insertRule(`.border-color-form {border-color: ${this.theme.formBorder}}`, 0)
+      element.sheet.insertRule(`.border-color-form:hover {border-color: ${this.handleColor(this.theme.formBorder, -40)}}`, 0)
+      element.sheet.insertRule(`.border-color-form:focus {border-color: ${this.handleColor(this.theme.formBorder, -40)}}`, 0)
     },
     handleColor(col, amt) {
-      let usePound = false
+      col = col.replace(/^#/, '')
+      if (col.length === 3) col = col[0] + col[0] + col[1] + col[1] + col[2] + col[2]
 
-      if (col[0] == '#') {
-        col = col.slice(1)
-        usePound = true
-      }
+      let [r, g, b] = col.match(/.{2}/g);
+      ([r, g, b] = [parseInt(r, 16) + amt, parseInt(g, 16) + amt, parseInt(b, 16) + amt])
 
-      let num = parseInt(col, 16)
-      let r = (num >> 16) + amt
+      r = Math.max(Math.min(255, r), 0).toString(16)
+      g = Math.max(Math.min(255, g), 0).toString(16)
+      b = Math.max(Math.min(255, b), 0).toString(16)
 
-      if (r > 255) r = 255
-      else if (r < 0) r = 0
+      const rr = (r.length < 2 ? '0' : '') + r
+      const gg = (g.length < 2 ? '0' : '') + g
+      const bb = (b.length < 2 ? '0' : '') + b
 
-      let b = ((num >> 8) & 0x00FF) + amt
-
-      if (b > 255) b = 255
-      else if (b < 0) b = 0
-
-      let g = (num & 0x0000FF) + amt
-
-      if (g > 255) g = 255
-      else if (g < 0) g = 0
-
-      return (usePound ? '#' : '') + (g | (b << 8) | (r << 16)).toString(16)
+      return `#${rr}${gg}${bb}`
     },
     patchTheme() {
       this.$axios.setHeader('Authorization', `Bearer ${this.accessToken}`)

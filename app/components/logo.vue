@@ -10,8 +10,8 @@
     </path>
     <path fill="#f7f3e8" d="M68.068,30.445c2.545-1.637,3.279-5.024,1.643-7.567c-1.635-2.543-5.024-3.28-7.566-1.644  c-2.543,1.636-3.279,5.024-1.643,7.568C62.142,31.348,65.523,32.082,68.068,30.445z"></path>
   </svg>
-  <div class="bg-blue-550 absolute bottom-0 w-full">
-    <p class="text-center text-gray-250 text-6xl mb-16">rowmate.org</p>
+  <div class="bg-color-footer absolute bottom-0 w-full">
+    <p class="text-center text-color-nav text-6xl mb-16">rowmate.org</p>
   </div>
 </div>
 </template>

@@ -1,6 +1,6 @@
 
 <template>
-<div class="bg-white rounded shadow-md absolute mt-10 top-0 right-0 overflow-auto z-30">
+<div class="bg-color-form rounded shadow-md absolute mt-10 top-0 right-0 overflow-auto z-30">
   <chrome-picker v-model="colors" @input="handleInput" />
 </div>
 </template>

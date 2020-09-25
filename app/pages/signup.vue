@@ -1,35 +1,35 @@
 <template>
 <div class="flex items-center justify-center mt-3 mx-3 lg:mx-0 lg:mt-32">
-  <form @submit.prevent="signupSubmit" class="bg-white rounded-lg w-full max-w-md p-3">
+  <form @submit.prevent="signupSubmit" class="bg-color-form rounded-lg w-full max-w-md p-3">
     <h1 class="text-2xl lg:text-4xl font-medium mb-1">{{ $t('signup') }}</h1>
     <p class="text-gray-800 mb-3">{{ $t('rowingTeaser') }}</p>
     <p v-if="showResponse" v-bind:class="classResponse" class="lg:text-lg mb-3">{{ response }}</p>
     <div class="w-full mb-6">
-      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="name">
+      <label class="block uppercase tracking-wide text-color-title text-xs font-bold mb-2" for="name">
         {{ $t('name') }}
       </label>
       <input name="name" v-model="name" v-bind:class="{'border-red-500': errors.name}"
-        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="name" type="text" placeholder="Jane Doe">
+        class="appearance-none block w-full text-color-body border border-color-form rounded p-3 mb-1 leading-tight focus:outline-none" id="name" type="text" placeholder="Jane Doe">
       <p v-if="errors.name" class="text-red-500 text-xs italic">{{ $t('errorInvalidName') }}</p>
     </div>
     <div class="w-full mb-6">
-      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="email">
+      <label class="block uppercase tracking-wide text-color-title text-xs font-bold mb-2" for="email">
         {{ $t('email') }}
       </label>
       <input name="email" v-model="email" v-bind:class="{'border-red-500': errors.email}"
-        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="email" type="text" placeholder="me@example.com">
+        class="appearance-none block w-full text-color-body border border-color-form rounded p-3 mb-1 leading-tight focus:outline-none" id="email" type="text" placeholder="me@example.com">
       <p v-if="errors.email" class="text-red-500 text-xs italic">{{ $t('errorInvalidMail') }}</p>
     </div>
     <div class="w-full mb-6">
-      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="password">
+      <label class="block uppercase tracking-wide text-color-title text-xs font-bold mb-2" for="password">
         {{ $t('password') }}
       </label>
-      <input name="password" v-model="password" v-bind:class="{'border-red-500': errors.password}" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white" id="password"
+      <input name="password" v-model="password" v-bind:class="{'border-red-500': errors.password}" class="appearance-none block w-full text-color-body border border-color-form rounded p-3 mb-1 leading-tight focus:outline-none" id="password"
         type="password" placeholder="••••••••">
       <p v-if="errors.password" class="text-red-500 text-xs italic">{{ $t('errorInvalidPassword') }}</p>
     </div>
     <p class="text-right">
-      <button class="cursor-pointer bg-blue-500 hover:bg-blue-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide p-2" type="submit">{{ $t('signup') }}</button>
+      <button class="cursor-pointer bg-color-button focus:outline-none rounded text-color-nav text-sm font-medium tracking-wide p-2" type="submit">{{ $t('signup') }}</button>
     </p>
   </form>
 </div>

@@ -1,20 +1,20 @@
 <template>
-<header class="flex justify-between items-center py-4 px-6 bg-white border-b-4 border-indigo-500">
+<header class="flex justify-between items-center py-4 px-6 bg-color-form border-b-4 border-indigo-500">
   <div class="flex w-full md:w-4/12 lg:w-3/12 items-center">
     <div class="w-full relative">
       <span class="absolute inset-y-0 left-0 pl-3 flex items-center">
-        <svg class="h-5 w-5 text-gray-500" viewBox="0 0 24 24" fill="none">
-          <fa :icon="['fas', 'search']" />
+        <svg class="h-5 w-5 text-color-nav" viewBox="0 0 24 24" fill="none">
+          <fa :icon="['fas', 'search']" class="text-color-body" />
         </svg>
       </span>
       <div v-click-outside="hideSearch" @keydown.esc="hideSearch">
         <input class="w-full rounded pl-10 pr-4 py-3 border focus:outline-none border-color-form-focus" type="text" @keyup="findUsers()" @focus="findUsers()" v-model="searchValue" :placeholder="$t('search')">
 
         <div class="w-full absolute">
-          <div class="border p-3 my-1 shadow bg-white" v-if="users === false">
+          <div class="border p-3 my-1 shadow bg-color-form" v-if="users === false">
             <span class="leading-5 font-medium text-gray-900">No users found</span>
           </div>
-          <div class="border p-1 my-1 shadow bg-white" v-for="user in users" v-else>
+          <div class="border p-1 my-1 shadow bg-color-form" v-for="user in users" v-else>
             <avatar class="inline mr-2 pr-2" width="75" :avatar="user.avatar" />
             <span class="leading-5 font-medium text-gray-900">{{ user.name }}</span>
             <span class="ml-auto" <fa :icon="['fas', 'comments']" /></span>
@@ -40,10 +40,10 @@
 
       <div v-show="dropdownOpen" @click="dropdownOpen = false" class="fixed inset-0 h-full w-full z-10"></div>
 
-      <div v-show="dropdownOpen" class="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-20">
-        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-550 hover:text-white">Profile</a>
-        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-550 hover:text-white">Verein</a>
-        <a @click="logout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-550 hover:text-white">Logout</a>
+      <div v-show="dropdownOpen" class="absolute right-0 mt-2 py-2 w-48 bg-color-form rounded-md shadow-xl z-20">
+        <a href="#" class="block px-4 py-2 text-sm text-color-link border-b border-color-form">Profile</a>
+        <a href="#" class="block px-4 py-2 text-sm text-color-link border-b border-color-form">Verein</a>
+        <a @click="logout" class="block px-4 py-2 text-sm text-color-link">Logout</a>
       </div>
     </div>
   </div>

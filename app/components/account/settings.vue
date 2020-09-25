@@ -3,17 +3,17 @@
   <h3 class="text-3xl font-medium text-color-title">{{ $t('settings') }}</h3>
 
   <form @submit.prevent="saveExtendedUser">
-    <div class="mt-8 p-6 bg-white rounded-md shadow-md">
+    <div class="mt-8 p-6 bg-color-form rounded-md shadow-md">
       <div class="grid grid-cols-6 gap-6">
         <div class="col-span-6 sm:col-span-2 sm:pr-6 sm:border-r-2">
           <avatar :avatar="user.avatar" />
 
           <div class="text-center mt-8">
             <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
-              <input type="checkbox" name="toggle" id="toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer" />
+              <input type="checkbox" name="toggle" id="toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-color-form border-4 appearance-none cursor-pointer" />
               <label for="toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
             </div>
-            <label for="toggle" class="text-xs text-gray-700">Use avatar</label>
+            <label for="toggle" class="text-xs text-color-nav">Use avatar</label>
           </div>
         </div>
 
@@ -36,42 +36,42 @@
       </div>
     </div>
 
-    <div class="mt-8 p-6 bg-white rounded-md shadow-md">
+    <div class="mt-8 p-6 bg-color-form rounded-md shadow-md">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-4">
         <div>
-          <label class="text-gray-700" for="username">{{ $t('name') }}</label>
-          <input :class="[errors.name ? 'border-red-500 focus:border-red-500' : 'border-color-form-focus']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1" type="text" v-model="user.name">
+          <label class="text-color-nav" for="username">{{ $t('name') }}</label>
+          <input :class="[errors.name ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1" type="text" v-model="user.name">
           <p v-if="errors.name" class="text-red-500 text-xs italic">{{ $t('errorInvalidName') }}</p>
         </div>
 
         <div>
-          <label class="text-gray-700" for="birthDate">{{ $t('birthDate') }}</label>
+          <label class="text-color-nav" for="birthDate">{{ $t('birthDate') }}</label>
           <div class="grid grid-cols-6 gap-3 w-full mb-1">
             <div class="col-span-1 relative z-0">
-              <select :class="[errors.birthDate.day ? 'border-red-500 focus:border-red-500' : 'border-color-form-focus']" class="appearance-none block w-full rounded border focus:outline-none p-2 mt-2" v-model="user.birthDate.day">
+              <select :class="[errors.birthDate.day ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="appearance-none block w-full rounded border form-border-color focus:outline-none p-2 mt-2" v-model="user.birthDate.day">
                 <option v-for="value, index in days" :key="index" :value="value">{{ value }}</option>
               </select>
-              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 mt-2 text-gray-700">
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 mt-2 text-color-nav">
                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                   <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                 </svg>
               </div>
             </div>
             <div class="col-span-3 relative z-0">
-              <select :class="[errors.birthDate.month ? 'border-red-500 focus:border-red-500' : 'border-color-form-focus']" class="appearance-none block w-full rounded border focus:outline-none p-2 mt-2" v-model="user.birthDate.month">
+              <select :class="[errors.birthDate.month ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="appearance-none block w-full rounded border form-border-color focus:outline-none p-2 mt-2" v-model="user.birthDate.month">
                 <option v-for="value, index in months" :key="index" :value="index + 1">{{ value }}</option>
               </select>
-              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 mt-2 text-gray-700">
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 mt-2 text-color-nav">
                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                   <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                 </svg>
               </div>
             </div>
             <div class="col-span-2 relative z-0">
-              <select :class="[errors.birthDate.year ? 'border-red-500 focus:border-red-500' : 'border-color-form-focus']" class="appearance-none block w-full rounded border focus:outline-none p-2 mt-2" v-model="user.birthDate.year">
+              <select :class="[errors.birthDate.year ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="appearance-none block w-full rounded border form-border-color focus:outline-none p-2 mt-2" v-model="user.birthDate.year">
                 <option v-for="value, index in years" :key="index" :value="value">{{ value }}</option>
               </select>
-              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 mt-2 text-gray-700">
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 mt-2 text-color-nav">
                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                   <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                 </svg>
@@ -82,26 +82,26 @@
         </div>
 
         <div>
-          <label class="text-gray-700" for="phoneNumber">{{ $t('phoneNumber') }}</label>
-          <input :class="[errors.phone ? 'border-red-500 focus:border-red-500' : 'border-color-form-focus']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1" type="tel" v-model="user.phone">
+          <label class="text-color-nav" for="phoneNumber">{{ $t('phoneNumber') }}</label>
+          <input :class="[errors.phone ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1" type="tel" v-model="user.phone">
           <p v-if="errors.phone" class="text-red-500 text-xs italic">{{ $t('errorInvalidPhone') }}</p>
         </div>
 
         <div>
-          <label class="text-gray-700" for="mailAddress">{{ $t('mailAddress') }}</label>
-          <input :class="[errors.email ? 'border-red-500 focus:border-red-500' : 'border-color-form-focus']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1" type="email" v-model="user.email">
+          <label class="text-color-nav" for="mailAddress">{{ $t('mailAddress') }}</label>
+          <input :class="[errors.email ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1" type="email" v-model="user.email">
           <p v-if="errors.email" class="text-red-500 text-xs italic">{{ $t('errorInvalidMail') }}</p>
         </div>
 
         <div>
-          <label class="text-gray-700" for="password">{{ $t('password') }}</label>
-          <input :class="[errors.password ? 'border-red-500 focus:border-red-500' : 'border-color-form-focus']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1" type="password" v-model="user.password">
+          <label class="text-color-nav" for="password">{{ $t('password') }}</label>
+          <input :class="[errors.password ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1" type="password" v-model="user.password">
           <p v-if="errors.password" class="text-red-500 text-xs italic">{{ $t('errorInvalidPassword') }}</p>
         </div>
 
         <div>
-          <label class="text-gray-700" for="confirmPassword">{{ $t('confirmPassword') }}</label>
-          <input :class="[errors.confirm ? 'border-red-500 focus:border-red-500' : 'border-color-form-focus']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1" type="password" v-model="user.confirm">
+          <label class="text-color-nav" for="confirmPassword">{{ $t('confirmPassword') }}</label>
+          <input :class="[errors.confirm ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1" type="password" v-model="user.confirm">
           <p v-if="errors.confirm" class="text-red-500 text-xs italic">{{ $t('errorInvalidConfirmPassword') }}</p>
         </div>
       </div>

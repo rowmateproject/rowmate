@@ -1,6 +1,7 @@
 <template>
 <div>
-  <p class="text-gray-800 mb-2">{{ this.$props.name }}</p>
+  <p class="text-color-body mb-2">{{ $t($props.name) }}</p>
+
   <div class="relative grid grid-cols-6">
     <input type="text" v-model="hex" class="col-span-5 font-sans bg-gray-300 focus:outline-none px-2 py-1">
     <button :style="{ backgroundColor: hex }" @click.stop="toggleColorpicker" type="button" class="col-span-1 focus:outline-none curor-pointer"></button>

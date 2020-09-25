@@ -2,7 +2,7 @@
 <div class="flex min-h-screen">
   <div class="bg-color-nav fixed z-30 inset-y-0 left-0 w-64 transition duration-300 transform -translate-x-full ease-in overflow-y-auto lg:translate-x-0 lg:static lg:inset-0">
     <div :class="isSuperuser ? 'bg-color-header' : 'bg-color-footer'" class="text-center py-5">
-        <span class="text-white text-3xl mx-2 font-semibold">rowmate.org</span>
+        <span class="text-color-nav text-3xl mx-2 font-semibold">rowmate.org</span>
     </div>
 
     <nav class="mt-8">
@@ -45,7 +45,7 @@ export default {
   data() {
     return {
       activeClass: 'bg-gray-600 bg-opacity-25 text-gray-100 border-gray-100',
-      inactiveClass: 'border-gray-900 text-gray-500 hover:bg-gray-600 hover:bg-opacity-25 hover:text-gray-100'
+      inactiveClass: 'border-gray-900 text-color-nav hover:bg-gray-600 hover:bg-opacity-25 hover:text-gray-100'
     }
   },
   computed: {

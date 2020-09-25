@@ -1,18 +1,18 @@
 <template>
 <div class="flex items-center justify-center mt-3 mx-3 lg:mx-0 lg:mt-32">
-  <form @submit.prevent="resetPasswordSubmit" class="bg-white rounded-lg w-full max-w-md p-3">
+  <form @submit.prevent="resetPasswordSubmit" class="bg-color-form rounded-lg w-full max-w-md p-3">
     <h1 class="text-2xl lg:text-4xl font-medium mb-3">{{ $t('resetPassword' )}}</h1>
     <p v-if="showResponse" v-bind:class="classResponse" class="lg:text-lg mb-3">{{ response }}</p>
     <div class="w-full mb-6">
-      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="email">
+      <label class="block uppercase tracking-wide text-color-nav text-xs font-bold mb-2" for="email">
         {{ $t('email') }}
       </label>
-      <input name="email" v-model="email" v-bind:class="{'border-red-500': errors.email}" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded p-3 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+      <input name="email" v-model="email" v-bind:class="{'border-red-500': errors.email}" class="appearance-none block w-full text-color-body border border-gray-200 rounded p-3 mb-1 leading-tight focus:outline-none"
         id="email" type="text" placeholder="me@example.com">
       <p v-if="errors.email" class="text-red-500 text-xs italic">{{ $t('errorInvalidMail') }}</p>
     </div>
     <p class="text-right">
-      <button class="cursor-pointer bg-blue-500 hover:bg-blue-600 focus:outline-none rounded text-white text-sm font-medium tracking-wide p-2" type="submit">{{ $t('resetPassword') }}</button>
+      <button class="cursor-pointer bg-color-button focus:outline-none rounded text-color-nav text-sm font-medium tracking-wide p-2" type="submit">{{ $t('resetPassword') }}</button>
     </p>
   </form>
 </div>
