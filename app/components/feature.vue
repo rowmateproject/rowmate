@@ -1,6 +1,6 @@
 <template>
 <li class="flex flex-col">
-  <label class="text-color-nav" :for="param">{{ $t(param) }}</label>
+  <label class="text-color-form" :for="param">{{ $t(param) }}</label>
 
   <div class="col-span-3 relative z-0">
     <select v-model="model" class="appearance-none block w-full rounded border form-border-color focus:outline-none p-2 mt-2">

@@ -39,13 +39,13 @@
     <div class="mt-8 p-6 bg-color-form rounded-md shadow-md">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-4">
         <div>
-          <label class="text-color-nav" for="username">{{ $t('name') }}</label>
+          <label class="text-color-form" for="username">{{ $t('name') }}</label>
           <input :class="[errors.name ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1" type="text" v-model="user.name">
           <p v-if="errors.name" class="text-red-500 text-xs italic">{{ $t('errorInvalidName') }}</p>
         </div>
 
         <div>
-          <label class="text-color-nav" for="birthDate">{{ $t('birthDate') }}</label>
+          <label class="text-color-form" for="birthDate">{{ $t('birthDate') }}</label>
           <div class="grid grid-cols-6 gap-3 w-full mb-1">
             <div class="col-span-1 relative z-0">
               <select :class="[errors.birthDate.day ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="appearance-none block w-full rounded border form-border-color focus:outline-none p-2 mt-2" v-model="user.birthDate.day">
@@ -82,25 +82,25 @@
         </div>
 
         <div>
-          <label class="text-color-nav" for="phoneNumber">{{ $t('phoneNumber') }}</label>
+          <label class="text-color-form" for="phoneNumber">{{ $t('phoneNumber') }}</label>
           <input :class="[errors.phone ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1" type="tel" v-model="user.phone">
           <p v-if="errors.phone" class="text-red-500 text-xs italic">{{ $t('errorInvalidPhone') }}</p>
         </div>
 
         <div>
-          <label class="text-color-nav" for="mailAddress">{{ $t('mailAddress') }}</label>
+          <label class="text-color-form" for="mailAddress">{{ $t('mailAddress') }}</label>
           <input :class="[errors.email ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1" type="email" v-model="user.email">
           <p v-if="errors.email" class="text-red-500 text-xs italic">{{ $t('errorInvalidMail') }}</p>
         </div>
 
         <div>
-          <label class="text-color-nav" for="password">{{ $t('password') }}</label>
+          <label class="text-color-form" for="password">{{ $t('password') }}</label>
           <input :class="[errors.password ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1" type="password" v-model="user.password">
           <p v-if="errors.password" class="text-red-500 text-xs italic">{{ $t('errorInvalidPassword') }}</p>
         </div>
 
         <div>
-          <label class="text-color-nav" for="confirmPassword">{{ $t('confirmPassword') }}</label>
+          <label class="text-color-form" for="confirmPassword">{{ $t('confirmPassword') }}</label>
           <input :class="[errors.confirm ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1" type="password" v-model="user.confirm">
           <p v-if="errors.confirm" class="text-red-500 text-xs italic">{{ $t('errorInvalidConfirmPassword') }}</p>
         </div>
