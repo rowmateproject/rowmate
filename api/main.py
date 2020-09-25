@@ -99,24 +99,24 @@ class FindUser(BaseModel):
 
 
 class ThemeModel(BaseModel):
-    headerBackground: str
-    footerBackground: str
-    buttonBackground: str
-    imageBackground: str
-    pageBackground: str
-    formBackground: str
-    navBackground: str
-    footerText: str
-    formBorder: str
-    buttonText: str
-    titleText: str
-    linkText: str
-    bodyText: str
-    saleText: str
-    formText: str
-    imageText: str
-    pageText: str
-    navText: str
+    bodyText: str = '#ff0000'
+    buttonBackground: str = '#4299e1'
+    buttonText: str = '#3dab5f'
+    footerBackground: str = '#150f55'
+    footerText: str = '#74ab43'
+    formBackground: str = '#2529da'
+    formBorder: str = '#2e595f'
+    formText: str = '#000f57'
+    headerBackground: str = '#cc8075'
+    imageBackground: str = '#8468a7'
+    imageText: str = '#161a1a'
+    linkText: str = '#2f755f'
+    navBackground: str = '#150f55'
+    navText: str = '#ba96ff'
+    pageBackground: str = '#6d6f71'
+    pageText: str = '#161a1a'
+    saleText: str = '#be2222'
+    titleText: str = '#79d02f'
 
 
 client = motor.motor_asyncio.AsyncIOMotorClient(
@@ -370,3 +370,23 @@ async def find_user_by_name_or_mail(req: FindUser, user=fastapi_user):
             print(e)
 
     return {'users': users}
+
+
+@app.get('/theme/default')
+async def get_default_theme(theme: ThemeModel = Depends()):
+    query = await db['themes'].find_one({}, {'_id': 0})
+
+    if query is not None:
+        return query
+    else:
+        return theme
+
+
+@app.patch('/theme/default')
+async def patch_default_theme(theme: ThemeModel, user=fastapi_user):
+    res = await db['themes'].update_one({}, {'$set': dict(theme)}, upsert=True)
+
+    if res.modified_count > 0:
+        return {'detail': 'Theme was Successfully updated'}
+    else:
+        return {'detail': 'Did not update theme propably no changes'}
