@@ -21,7 +21,26 @@ export const state = () => {
     mouthType: null,
     skinColor: null,
     topColor: null,
-    topType: null
+    topType: null,
+
+    headerBackground: null,
+    footerBackground: null,
+    buttonBackground: null,
+    imageBackground: null,
+    pageBackground: null,
+    formBackground: null,
+    navBackground: null,
+    formBorder: null,
+    footerText: null,
+    buttonText: null,
+    imageText: null,
+    titleText: null,
+    linkText: null,
+    bodyText: null,
+    saleText: null,
+    formText: null,
+    pageText: null,
+    navText: null
   }
 }
 
@@ -85,6 +104,60 @@ export const mutations = {
   },
   updateTopType(state, topType) {
     state.topType = topType
+  },
+  updateHeaderBackground(state, headerBackground) {
+    state.headerBackground = headerBackground
+  },
+  updateFooterBackground(state, footerBackground) {
+    state.footerBackground = footerBackground
+  },
+  updateButtonBackground(state, buttonBackground) {
+    state.buttonBackground = buttonBackground
+  },
+  updateImageBackground(state, imageBackground) {
+    state.imageBackground = imageBackground
+  },
+  updatePageBackground(state, pageBackground) {
+    state.pageBackground = pageBackground
+  },
+  updateFormBackground(state, formBackground) {
+    state.formBackground = formBackground
+  },
+  updateNavBackground(state, navBackground) {
+    state.navBackground = navBackground
+  },
+  updateFormBorder(state, formBorder) {
+    state.formBorder = formBorder
+  },
+  updateFooterText(state, footerText) {
+    state.footerText = footerText
+  },
+  updateButtonText(state, buttonText) {
+    state.buttonText = buttonText
+  },
+  updateImageText(state, imageText) {
+    state.imageText = imageText
+  },
+  updateTitleText(state, titleText) {
+    state.titleText = titleText
+  },
+  updateLinkText(state, linkText) {
+    state.linkText = linkText
+  },
+  updateBodyText(state, bodyText) {
+    state.bodyText = bodyText
+  },
+  updateSaleText(state, saleText) {
+    state.saleText = saleText
+  },
+  updateFormText(state, formText) {
+    state.formText = formText
+  },
+  updatePageText(state, pageText) {
+    state.pageText = pageText
+  },
+  updateNavText(state, navText) {
+    state.navText = navText
   }
 }
 
@@ -115,6 +188,25 @@ export const actions = {
     let topColor = null
     let topType = null
 
+    let headerBackground = null
+    let footerBackground = null
+    let buttonBackground = null
+    let imageBackground = null
+    let pageBackground = null
+    let formBackground = null
+    let navBackground = null
+    let formBorder = null
+    let footerText = null
+    let buttonText = null
+    let imageText = null
+    let titleText = null
+    let linkText = null
+    let bodyText = null
+    let saleText = null
+    let formText = null
+    let pageText = null
+    let navText = null
+
     if (req.headers.cookie) {
       const parsed = cookieparser.parse(req.headers.cookie)
 
@@ -139,6 +231,25 @@ export const actions = {
         topColor = parsed.topColor
         eyeType = parsed.eyeType
         topType = parsed.topType
+
+        headerBackground = parsed.headerBackground
+        footerBackground = parsed.footerBackground
+        buttonBackground = parsed.buttonBackground
+        imageBackground = parsed.imageBackground
+        pageBackground = parsed.pageBackground
+        formBackground = parsed.formBackground
+        navBackground = parsed.navBackground
+        formBorder = parsed.formBorder
+        footerText = parsed.footerText
+        buttonText = parsed.buttonText
+        imageText = parsed.imageText
+        titleText = parsed.titleText
+        linkText = parsed.linkText
+        bodyText = parsed.bodyText
+        saleText = parsed.saleText
+        formText = parsed.formText
+        pageText = parsed.pageText
+        navText = parsed.navText
       } catch (err) {
         // eslint-disable-next-line
         console.log(err)
@@ -165,5 +276,24 @@ export const actions = {
     commit('updateTopColor', topColor)
     commit('updateTopType', topType)
     commit('updateEyeType', eyeType)
+
+    commit('updateHeaderBackground', headerBackground)
+    commit('updateFooterBackground', footerBackground)
+    commit('updateButtonBackground', buttonBackground)
+    commit('updateImageBackground', imageBackground)
+    commit('updatePageBackground', pageBackground)
+    commit('updateFormBackground', formBackground)
+    commit('updateNavBackground', navBackground)
+    commit('updateFormBorder', formBorder)
+    commit('updateFooterText', footerText)
+    commit('updateButtonText', buttonText)
+    commit('updateImageText', imageText)
+    commit('updateTitleText', titleText)
+    commit('updateLinkText', linkText)
+    commit('updateBodyText', bodyText)
+    commit('updateSaleText', saleText)
+    commit('updateFormText', formText)
+    commit('updatePageText', pageText)
+    commit('updateNavText', navText)
   }
 }

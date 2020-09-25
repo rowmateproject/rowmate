@@ -1,6 +1,6 @@
 <template>
 <div>
-  <h3 class="text-gray-700 text-3xl font-semibold">{{ $t('settings') }}</h3>
+  <h3 class="text-3xl font-medium text-color-title">{{ $t('settings') }}</h3>
 
   <form @submit.prevent="saveExtendedUser">
     <div class="mt-8 p-6 bg-white rounded-md shadow-md">
@@ -40,7 +40,7 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-4">
         <div>
           <label class="text-gray-700" for="username">{{ $t('name') }}</label>
-          <input :class="[errors.name ? 'border-red-500 focus:border-red-500' : 'focus:border-blue-550']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1" type="text" v-model="user.name">
+          <input :class="[errors.name ? 'border-red-500 focus:border-red-500' : 'border-color-form-focus']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1" type="text" v-model="user.name">
           <p v-if="errors.name" class="text-red-500 text-xs italic">{{ $t('errorInvalidName') }}</p>
         </div>
 
@@ -48,7 +48,7 @@
           <label class="text-gray-700" for="birthDate">{{ $t('birthDate') }}</label>
           <div class="grid grid-cols-6 gap-3 w-full mb-1">
             <div class="col-span-1 relative z-0">
-              <select :class="[errors.birthDate.day ? 'border-red-500 focus:border-red-500' : 'focus:border-blue-550']" class="appearance-none block w-full rounded border focus:outline-none p-2 mt-2" v-model="user.birthDate.day">
+              <select :class="[errors.birthDate.day ? 'border-red-500 focus:border-red-500' : 'border-color-form-focus']" class="appearance-none block w-full rounded border focus:outline-none p-2 mt-2" v-model="user.birthDate.day">
                 <option v-for="value, index in days" :key="index" :value="value">{{ value }}</option>
               </select>
               <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 mt-2 text-gray-700">
@@ -58,7 +58,7 @@
               </div>
             </div>
             <div class="col-span-3 relative z-0">
-              <select :class="[errors.birthDate.month ? 'border-red-500 focus:border-red-500' : 'focus:border-blue-550']" class="appearance-none block w-full rounded border focus:outline-none p-2 mt-2" v-model="user.birthDate.month">
+              <select :class="[errors.birthDate.month ? 'border-red-500 focus:border-red-500' : 'border-color-form-focus']" class="appearance-none block w-full rounded border focus:outline-none p-2 mt-2" v-model="user.birthDate.month">
                 <option v-for="value, index in months" :key="index" :value="index + 1">{{ value }}</option>
               </select>
               <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 mt-2 text-gray-700">
@@ -68,7 +68,7 @@
               </div>
             </div>
             <div class="col-span-2 relative z-0">
-              <select :class="[errors.birthDate.year ? 'border-red-500 focus:border-red-500' : 'focus:border-blue-550']" class="appearance-none block w-full rounded border focus:outline-none p-2 mt-2" v-model="user.birthDate.year">
+              <select :class="[errors.birthDate.year ? 'border-red-500 focus:border-red-500' : 'border-color-form-focus']" class="appearance-none block w-full rounded border focus:outline-none p-2 mt-2" v-model="user.birthDate.year">
                 <option v-for="value, index in years" :key="index" :value="value">{{ value }}</option>
               </select>
               <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 mt-2 text-gray-700">
@@ -83,31 +83,31 @@
 
         <div>
           <label class="text-gray-700" for="phoneNumber">{{ $t('phoneNumber') }}</label>
-          <input :class="[errors.phone ? 'border-red-500 focus:border-red-500' : 'focus:border-blue-550']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1" type="tel" v-model="user.phone">
+          <input :class="[errors.phone ? 'border-red-500 focus:border-red-500' : 'border-color-form-focus']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1" type="tel" v-model="user.phone">
           <p v-if="errors.phone" class="text-red-500 text-xs italic">{{ $t('errorInvalidPhone') }}</p>
         </div>
 
         <div>
           <label class="text-gray-700" for="mailAddress">{{ $t('mailAddress') }}</label>
-          <input :class="[errors.email ? 'border-red-500 focus:border-red-500' : 'focus:border-blue-550']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1" type="email" v-model="user.email">
+          <input :class="[errors.email ? 'border-red-500 focus:border-red-500' : 'border-color-form-focus']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1" type="email" v-model="user.email">
           <p v-if="errors.email" class="text-red-500 text-xs italic">{{ $t('errorInvalidMail') }}</p>
         </div>
 
         <div>
           <label class="text-gray-700" for="password">{{ $t('password') }}</label>
-          <input :class="[errors.password ? 'border-red-500 focus:border-red-500' : 'focus:border-blue-550']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1" type="password" v-model="user.password">
+          <input :class="[errors.password ? 'border-red-500 focus:border-red-500' : 'border-color-form-focus']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1" type="password" v-model="user.password">
           <p v-if="errors.password" class="text-red-500 text-xs italic">{{ $t('errorInvalidPassword') }}</p>
         </div>
 
         <div>
           <label class="text-gray-700" for="confirmPassword">{{ $t('confirmPassword') }}</label>
-          <input :class="[errors.confirm ? 'border-red-500 focus:border-red-500' : 'focus:border-blue-550']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1" type="password" v-model="user.confirm">
+          <input :class="[errors.confirm ? 'border-red-500 focus:border-red-500' : 'border-color-form-focus']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1" type="password" v-model="user.confirm">
           <p v-if="errors.confirm" class="text-red-500 text-xs italic">{{ $t('errorInvalidConfirmPassword') }}</p>
         </div>
       </div>
 
       <div class="flex justify-end mt-4">
-        <button class="px-4 py-2 bg-gray-800 text-gray-200 rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700">
+        <button class="px-4 py-2 bg-gray-800 text-color-button rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700">
           {{ $t('save') }}
         </button>
       </div>

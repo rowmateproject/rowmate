@@ -34,10 +34,10 @@ export default {
 
       const childObject = {
         color: value,
-        objectName: this.$props.id
+        name: this.$props.name
       }
 
-      this.$emit('affe', childObject)
+      this.$emit('data', childObject)
     },
     toggleColorpicker() {
       this.showColorpicker = !this.showColorpicker

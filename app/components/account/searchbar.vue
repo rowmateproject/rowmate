@@ -7,8 +7,9 @@
           <fa :icon="['fas', 'search']" />
         </svg>
       </span>
-      <div class="" v-click-outside="hideSearch" @keydown.esc="hideSearch">
-        <input class="w-full rounded pl-10 pr-4 py-3 border focus:outline-none focus:border-blue-550" type="text" @keyup="findUsers()" @focus="findUsers()" v-model="searchValue" :placeholder="$t('search')">
+      <div v-click-outside="hideSearch" @keydown.esc="hideSearch">
+        <input class="w-full rounded pl-10 pr-4 py-3 border focus:outline-none border-color-form-focus" type="text" @keyup="findUsers()" @focus="findUsers()" v-model="searchValue" :placeholder="$t('search')">
+
         <div class="w-full absolute">
           <div class="border p-3 my-1 shadow bg-white" v-if="users === false">
             <span class="leading-5 font-medium text-gray-900">No users found</span>
@@ -16,7 +17,7 @@
           <div class="border p-1 my-1 shadow bg-white" v-for="user in users" v-else>
             <avatar class="inline mr-2 pr-2" width="75" :avatar="user.avatar" />
             <span class="leading-5 font-medium text-gray-900">{{ user.name }}</span>
-            <span class="ml-auto"<fa :icon="['fas', 'comments']" /></span>
+            <span class="ml-auto" <fa :icon="['fas', 'comments']" /></span>
           </div>
         </div>
       </div>
@@ -90,16 +91,18 @@ export default {
     },
     findUsers() {
       if (this.searchValue.length > 1) {
-          this.$axios.$post(`${process.env.API_URL}/social/users/find`, { 'name': this.searchValue, 'limit': 5 }).then(res => {
-            if (res.users.length === 0) {
-              this.users = false
-            } else {
-              this.users = res.users
-            }
-            console.log(res)
-          }).catch((error) => {
-            console.log(error)
-          })
+        this.$axios.$post(`${process.env.API_URL}/social/users/find`, {
+          'name': this.searchValue,
+          'limit': 5
+        }).then(res => {
+          if (res.users.length === 0) {
+            this.users = false
+          } else {
+            this.users = res.users
+          }
+        }).catch((error) => {
+          console.log(error)
+        })
       }
     },
     logout() {

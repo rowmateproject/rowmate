@@ -1,6 +1,6 @@
 <template>
 <div>
-  <h3 class="text-gray-700 text-3xl font-medium">Nutzer</h3>
+  <h3 class="text-3xl font-medium text-color-title">Nutzer</h3>
 
   <div class="flex flex-col mt-8">
     <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
@@ -95,17 +95,17 @@ export default {
       users: []
     }
   },
-  computed: {
-    accessToken() {
-      return this.$store.state.accessToken
-    }
-  },
   mounted() {
     this.$axios.setHeader('Authorization', `Bearer ${this.accessToken}`)
 
     this.$axios.$get(`${process.env.API_URL}/manage/users/list`).then(res => {
       this.users = res.users
     })
+  },
+  computed: {
+    accessToken() {
+      return this.$store.state.accessToken
+    }
   },
   methods: {
     activateUser(uuid, index) {

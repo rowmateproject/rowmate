@@ -1,8 +1,8 @@
 <template>
 <div>
-  <h3 class="text-gray-700 text-3xl font-medium">Dashboard</h3>
+  <h3 class="text-3xl font-medium text-color-title">Dashboard</h3>
 
-  <div class="mt-4">
+  <div class="mt-8">
     <div class="flex flex-wrap -mx-6">
       <div class="w-full px-6 sm:w-1/2 xl:w-1/3">
         <div class="flex items-center px-5 py-6 shadow-sm rounded-md bg-white">
