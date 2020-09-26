@@ -145,8 +145,6 @@ export default {
     }
   },
   mounted() {
-    this.$axios.setHeader('Authorization', `Bearer ${this.accessToken}`)
-
     this.$axios.$get(`${process.env.API_URL}/users/me`).then(res => {
       this.user.name = res['name'] || ''
       this.user.email = res['email'] || ''
@@ -192,6 +190,13 @@ export default {
           this.errors.password = false
         } else {
           this.errors.password = true
+        }
+      }
+      if (this.user.confirm.trim() !== '') {
+        if (this.user.confirm.trim() === this.user.password.trim()) {
+          this.errors.confirm = false
+        } else {
+          this.errors.confirm = true
         }
       }
     },

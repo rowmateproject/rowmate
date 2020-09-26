@@ -29,6 +29,9 @@ export default {
   plugins: [{
     src: '@/plugins/vClickOutside',
     ssr: false
+  }, {
+    src: "@/plugins/interceptor",
+    ssr: true
   }],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

@@ -110,6 +110,10 @@ export default {
         secure: true
       })
 
+      Cookie.remove('refreshToken', {
+        secure: true
+      })
+
       Cookie.remove('isActive', {
         secure: true
       })
@@ -193,8 +197,10 @@ export default {
       this.$store.commit('updateName', null)
       this.$store.commit('updateIsActive', null)
       this.$store.commit('updateAccessToken', null)
+      this.$store.commit('updateRefreshToken', null)
       this.$store.commit('updateIsConfirmed', null)
       this.$store.commit('updateIsSuperuser', null)
+
       this.$store.commit('updateAccessoriesType', null)
       this.$store.commit('updateFacialHairColor', null)
       this.$store.commit('updateFacialHairType', null)

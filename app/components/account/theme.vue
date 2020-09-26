@@ -115,6 +115,7 @@ export default {
       element.sheet.insertRule(`.text-color-title {color: ${this.theme.titleText}}`, 0)
       element.sheet.insertRule(`.text-color-footer {color: ${this.theme.footerText}}`, 0)
       element.sheet.insertRule(`.text-color-button {color: ${this.theme.buttonText}}`, 0)
+      element.sheet.insertRule(`.border-color-form {border-color: ${this.theme.formBorder}}`, 0)
       element.sheet.insertRule(`.bg-color-nav {background-color: ${this.theme.navBackground}}`, 0)
       element.sheet.insertRule(`.bg-color-form {background-color: ${this.theme.formBackground}}`, 0)
       element.sheet.insertRule(`.bg-color-page {background-color: ${this.theme.pageBackground}}`, 0)
@@ -124,7 +125,6 @@ export default {
       element.sheet.insertRule(`.bg-color-button {background-color: ${this.theme.buttonBackground}}`, 0)
       element.sheet.insertRule(`.bg-color-button:focus {background-color: ${this.handleColor(this.theme.buttonBackground, -40)}}`, 0)
       element.sheet.insertRule(`.bg-color-button:hover {background-color: ${this.handleColor(this.theme.buttonBackground, -40)}}`, 0)
-      element.sheet.insertRule(`.border-color-form {border-color: ${this.theme.formBorder}}`, 0)
       element.sheet.insertRule(`.border-color-form:hover {border-color: ${this.handleColor(this.theme.formBorder, -40)}}`, 0)
       element.sheet.insertRule(`.border-color-form:focus {border-color: ${this.handleColor(this.theme.formBorder, -40)}}`, 0)
     },
@@ -146,8 +146,6 @@ export default {
       return `#${rr}${gg}${bb}`
     },
     patchTheme() {
-      this.$axios.setHeader('Authorization', `Bearer ${this.accessToken}`)
-
       this.$axios({
         method: 'PATCH',
         url: `${process.env.API_URL}/theme/default`,
@@ -173,7 +171,7 @@ export default {
         },
         validateStatus: () => true
       }).then(res => {
-        console.log(res.data)
+        console.log(res)
       })
     }
   }

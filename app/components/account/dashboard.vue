@@ -57,8 +57,6 @@ export default {
     }
   },
   mounted() {
-    this.$axios.setHeader('Authorization', `Bearer ${this.accessToken}`)
-
     this.$axios.$get(`${process.env.API_URL}/manage/users/list`).then(res => {
       this.users = res.users
     })

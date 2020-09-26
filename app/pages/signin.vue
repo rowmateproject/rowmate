@@ -100,7 +100,9 @@ export default {
           this.$store.commit('updateIsActive', res.is_active)
           this.$store.commit('updateIsConfirmed', res.is_confirmed)
           this.$store.commit('updateIsSuperuser', res.is_superuser)
+          this.$store.commit('updateRefreshToken', res.refresh_token)
           this.$store.commit('updateAccessToken', res.access_token)
+
           this.$store.commit('updateAccessoriesType', res.avatar.accessoriesType)
           this.$store.commit('updateFacialHairColor', res.avatar.facialHairColor)
           this.$store.commit('updateFacialHairType', res.avatar.facialHairType)
@@ -117,122 +119,128 @@ export default {
           this.$store.commit('updateEyeType', res.avatar.eyeType)
           this.$store.commit('updateTopType', res.avatar.topType)
 
+          Cookie.set('refreshToken', res.refresh_token, {
+            samesite: 'Lax',
+            expires: 50000,
+            secure: true
+          })
+
           Cookie.set('accessToken', res.access_token, {
-            samesite: 'None',
+            samesite: 'Lax',
             expires: 3600,
             secure: true
           })
 
           Cookie.set('isActive', res.is_active, {
-            samesite: 'None',
+            samesite: 'Lax',
             expires: 3600,
             secure: true
           })
 
           Cookie.set('isConfirmed', res.is_confirmed, {
-            samesite: 'None',
+            samesite: 'Lax',
             expires: 3600,
             secure: true
           })
 
           Cookie.set('isSuperuser', res.is_superuser, {
-            samesite: 'None',
+            samesite: 'Lax',
             expires: 3600,
             secure: true
           })
 
           Cookie.set('name', res.name, {
-            samesite: 'None',
+            samesite: 'Lax',
             expires: 3600,
             secure: true
           })
 
           Cookie.set('accessoriesType', res.avatar.accessoriesType, {
-            samesite: 'None',
+            samesite: 'Lax',
             expires: 3600,
             secure: true
           })
 
           Cookie.set('facialHairColor', res.avatar.facialHairColor, {
-            samesite: 'None',
+            samesite: 'Lax',
             expires: 3600,
             secure: true
           })
 
           Cookie.set('facialHairType', res.avatar.facialHairType, {
-            samesite: 'None',
+            samesite: 'Lax',
             expires: 3600,
             secure: true
           })
 
           Cookie.set('graphicType', res.avatar.graphicType, {
-            samesite: 'None',
+            samesite: 'Lax',
             expires: 3600,
             secure: true
           })
 
           Cookie.set('clotheColor', res.avatar.clotheColor, {
-            samesite: 'None',
+            samesite: 'Lax',
             expires: 3600,
             secure: true
           })
 
           Cookie.set('eyebrowType', res.avatar.eyebrowType, {
-            samesite: 'None',
+            samesite: 'Lax',
             expires: 3600,
             secure: true
           })
 
           Cookie.set('circleColor', res.avatar.circleColor, {
-            samesite: 'None',
+            samesite: 'Lax',
             expires: 3600,
             secure: true
           })
 
           Cookie.set('clotheType', res.avatar.clotheType, {
-            samesite: 'None',
+            samesite: 'Lax',
             expires: 3600,
             secure: true
           })
 
           Cookie.set('hairColor', res.avatar.hairColor, {
-            samesite: 'None',
+            samesite: 'Lax',
             expires: 3600,
             secure: true
           })
 
           Cookie.set('mouthType', res.avatar.mouthType, {
-            samesite: 'None',
+            samesite: 'Lax',
             expires: 3600,
             secure: true
           })
 
           Cookie.set('skinColor', res.avatar.skinColor, {
-            samesite: 'None',
+            samesite: 'Lax',
             expires: 3600,
             secure: true
           })
 
           Cookie.set('isCircle', Boolean(res.isCircle), {
-            samesite: 'None',
+            samesite: 'Lax',
             expires: 3600,
             secure: true
           })
 
           Cookie.set('eyeType', res.avatar.eyeType, {
-            samesite: 'None',
+            samesite: 'Lax',
             expires: 3600,
             secure: true
           })
 
           Cookie.set('topType', res.avatar.topType, {
-            samesite: 'None',
+            samesite: 'Lax',
             expires: 3600,
             secure: true
           })
 
           Cookie.set('topColor', res.avatar.topColor, {
-            samesite: 'None',
+            samesite: 'Lax',
             expires: 3600,
             secure: true
           })

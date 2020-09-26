@@ -2,10 +2,12 @@ const cookieparser = process.server ? require('cookieparser') : undefined
 
 export const state = () => {
   return {
-    isActive: null,
     isConfirmed: null,
     isSuperuser: null,
+    refreshToken: null,
     accessToken: null,
+    isActive: null,
+
     name: null,
     eyeType: null,
     isCircle: null,
@@ -53,6 +55,9 @@ export const mutations = {
   },
   updateAccessToken(state, accessToken) {
     state.accessToken = accessToken
+  },
+  updateRefreshToken(state, refreshToken) {
+    state.refreshToken = refreshToken
   },
   updateIsConfirmed(state, isConfirmed) {
     state.isConfirmed = isConfirmed
@@ -170,8 +175,10 @@ export const actions = {
     let name = null
     let isActive = null
     let isConfirmed = null
-    let isSuperuser = null
+    let refreshToken = null
     let accessToken = null
+    let isSuperuser = null
+
     let eyeType = null
     let isCircle = null
     let clotheType = null
@@ -214,6 +221,7 @@ export const actions = {
         name = parsed.name
         isActive = parsed.isActive
         accessToken = parsed.accessToken
+        refreshToken = parsed.refreshToken
         isConfirmed = parsed.isConfirmed
         isSuperuser = parsed.isSuperuser
         accessoriesType = parsed.accessoriesType
@@ -259,8 +267,10 @@ export const actions = {
     commit('updateName', name)
     commit('updateIsActive', isActive)
     commit('updateAccessToken', accessToken)
+    commit('updateRefreshToken', refreshToken)
     commit('updateIsConfirmed', isConfirmed)
     commit('updateIsSuperuser', isSuperuser)
+
     commit('updateAccessoriesType', accessoriesType)
     commit('updateFacialHairColor', facialHairColor)
     commit('updateFacialHairType', facialHairType)
