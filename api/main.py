@@ -37,6 +37,8 @@ class AuthModel(BaseAuthentication):
 
 
 class Authentication(AuthModel, JWTAuthentication):
+    token_audience: str = 'jwt:auth'
+
     def __init__(self,
                  secret: str,
                  lifetime_seconds: int,
@@ -46,13 +48,13 @@ class Authentication(AuthModel, JWTAuthentication):
         self.lifetime_seconds_refresh = lifetime_seconds_refresh
 
     async def generate_access_token(self, user: BaseUserDB) -> str:
-        data = {'user_id': str(user.id)}
+        data = {'user_id': str(user.id), 'aud': self.token_audience}
         token = generate_jwt(data, self.secret, self.lifetime_seconds)
 
         return token
 
     async def generate_refresh_token(self, user: BaseUserDB) -> str:
-        data = {'user_id': str(user.id)}
+        data = {'user_id': str(user.id), 'aud': self.token_audience}
         token = generate_jwt(data, self.secret, self.lifetime_seconds_refresh)
 
         return token
@@ -170,7 +172,7 @@ auth_backends = []
 jwt_auth = Authentication(
     secret=config.Settings().jwt_secret,
     lifetime_seconds_refresh=50000,
-    lifetime_seconds=3600
+    lifetime_seconds=200
 )
 auth_backends.append(jwt_auth)
 
@@ -183,7 +185,6 @@ fastapi_users = FastAPIUsers(
     UserDB,
 )
 
-fastapi_user = Depends(fastapi_users.get_current_active_user)
 smtp_config = ConnectionConfig(
     MAIL_USERNAME=config.Settings().smtp_username,
     MAIL_PASSWORD=config.Settings().smtp_password,
@@ -225,7 +226,7 @@ async def login_jwt(response: Response,
 
 
 @app.post('/auth/jwt/refresh')
-async def refresh_jwt(response: Response, user=fastapi_user):
+async def refresh_jwt(response: Response, user=Depends(fastapi_users.get_current_active_user)):
     return await jwt_auth.get_refresh_response(user, response)
 
 
@@ -286,7 +287,7 @@ async def activate_user(user: UserDB):
 
 
 @app.get('/manage/users/activate/{uuid}')
-async def activate_user_by_uuid(uuid: str, request: Request, requser=fastapi_user):
+async def activate_user_by_uuid(uuid: str, request: Request, requser=Depends(fastapi_users.get_current_active_user)):
     if requser.is_superuser:
         user = await collection.find_one({'id': UUID(uuid)})
 
@@ -300,7 +301,7 @@ async def activate_user_by_uuid(uuid: str, request: Request, requser=fastapi_use
 
 
 @app.get('/manage/users/deactivate/{uuid}')
-async def deactivate_user(uuid: str, request: Request, requser=fastapi_user):
+async def deactivate_user(uuid: str, request: Request, requser=Depends(fastapi_users.get_current_active_user)):
     if requser.is_superuser:
         user = await collection.find_one({'id': UUID(uuid)})
 
@@ -335,7 +336,7 @@ async def confirm_mail(token: str, request: Request):
 
 
 @app.post('/manage/users/invite')
-async def invite_user(users: UserList, user=fastapi_user):
+async def invite_user(users: UserList, user=Depends(fastapi_users.get_current_active_user)):
     mails = []
 
     if user.is_superuser:
@@ -355,7 +356,7 @@ async def invite_user(users: UserList, user=fastapi_user):
 
 
 @app.get('/manage/users/list')
-async def list_users(user=fastapi_user):
+async def list_users(user=Depends(fastapi_users.get_current_active_user)):
     if user.is_superuser:
         sort = [('_id', pymongo.DESCENDING)]
         query = await collection.find({}).sort(sort).to_list(length=10000)
@@ -383,7 +384,7 @@ async def list_users(user=fastapi_user):
 
 
 @app.post('/social/users/find')
-async def find_user_by_name_or_mail(req: FindUser, user=fastapi_user):
+async def find_user_by_name_or_mail(req: FindUser, user=Depends(fastapi_users.get_current_active_user)):
     sort = [('_id', pymongo.DESCENDING)]
     users = []
 
@@ -419,7 +420,7 @@ async def get_default_theme(theme: ThemeModel = Depends()):
 
 
 @app.patch('/theme/default')
-async def patch_default_theme(theme: ThemeModel, user=fastapi_user):
+async def patch_default_theme(theme: ThemeModel, user=Depends(fastapi_users.get_current_active_user)):
     res = await db['themes'].update_one({}, {'$set': dict(theme)}, upsert=True)
 
     if res.modified_count > 0:
