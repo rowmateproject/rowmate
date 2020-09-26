@@ -1,11 +1,14 @@
 import {
   TokenStorage
-} from '@/plugins/tokenStorage.js'
+} from '@/plugins/tokenStorage'
 
 export default ({
   app,
   store
 }) => {
+  const accessToken = `Bearer ${TokenStorage.getAccessToken()}`
+  app.$axios.defaults.headers.common.Authorization = accessToken
+
   app.$axios.interceptors.request.use((request) => {
     if (request.config) {
       Promise.reject(request)
@@ -35,6 +38,7 @@ export default ({
       })
     }
 
+    config.headers.Authorization = accessToken
     return config
   }, (error) => {
     // Return any error which is not due to authentication back to the calling service

@@ -51,7 +51,7 @@
 </template>
 
 <script>
-const Cookie = process.client ? require('js-cookie') : undefined
+import Cookies from 'js-cookie'
 
 export default {
   data() {
@@ -106,91 +106,91 @@ export default {
       }
     },
     logout() {
-      Cookie.remove('accessToken', {
+      Cookies.remove('accessToken', {
         secure: true
       })
 
-      Cookie.remove('refreshToken', {
+      Cookies.remove('refreshToken', {
         secure: true
       })
 
-      Cookie.remove('isActive', {
+      Cookies.remove('isActive', {
         secure: true
       })
 
-      Cookie.remove('isConfirmed', {
+      Cookies.remove('isConfirmed', {
         secure: true
       })
 
-      Cookie.remove('isSuperuser', {
+      Cookies.remove('isSuperuser', {
         secure: true
       })
 
-      Cookie.remove('updateAccessToken', {
+      Cookies.remove('updateAccessToken', {
         secure: true
       })
 
-      Cookie.remove('name', {
+      Cookies.remove('name', {
         secure: true
       })
 
-      Cookie.remove('accessoriesType', {
+      Cookies.remove('accessoriesType', {
         secure: true
       })
 
-      Cookie.remove('facialHairColor', {
+      Cookies.remove('facialHairColor', {
         secure: true
       })
 
-      Cookie.remove('facialHairType', {
+      Cookies.remove('facialHairType', {
         secure: true
       })
 
-      Cookie.remove('graphicType', {
+      Cookies.remove('graphicType', {
         secure: true
       })
 
-      Cookie.remove('clotheColor', {
+      Cookies.remove('clotheColor', {
         secure: true
       })
 
-      Cookie.remove('eyebrowType', {
+      Cookies.remove('eyebrowType', {
         secure: true
       })
 
-      Cookie.remove('circleColor', {
+      Cookies.remove('circleColor', {
         secure: true
       })
 
-      Cookie.remove('clotheType', {
+      Cookies.remove('clotheType', {
         secure: true
       })
 
-      Cookie.remove('hairColor', {
+      Cookies.remove('hairColor', {
         secure: true
       })
 
-      Cookie.remove('mouthType', {
+      Cookies.remove('mouthType', {
         secure: true
       })
 
-      Cookie.remove('skinColor', {
+      Cookies.remove('skinColor', {
         secure: true
       })
 
-      Cookie.remove('isCircle', {
+      Cookies.remove('isCircle', {
         secure: true
       })
 
-      Cookie.remove('eyeType', {
+      Cookies.remove('eyeType', {
         secure: true
       })
 
-      Cookie.remove('topColor', {
+      Cookies.remove('topColor', {
         secure: true
       })
 
-      Cookie.remove('topType', {
+      Cookies.remove('topType', {
         secure: true
       })
 

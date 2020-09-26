@@ -169,9 +169,6 @@ export default {
     },
     birthDate() {
       return new Date(Date.UTC(this.user.birthDate.year, this.user.birthDate.month - 1, this.user.birthDate.day, 0, 0, 0))
-    },
-    accessToken() {
-      return this.$store.state.accessToken
     }
   },
   watch: {
@@ -334,8 +331,6 @@ export default {
       }
 
       if (Object.values(this.errors).every(isValidForm) === true) {
-        this.$axios.setHeader('Authorization', `Bearer ${this.accessToken}`)
-
         this.$axios({
           method: 'PATCH',
           url: `${process.env.API_URL}/users/me`,

@@ -86,11 +86,6 @@ export default {
       this.$store.commit('updateNavText', this.theme.navText)
     },
   },
-  computed: {
-    accessToken() {
-      return this.$store.state.accessToken
-    }
-  },
   methods: {
     updateStyles(object) {
       this.theme[object.name] = object.color

@@ -100,11 +100,6 @@ export default {
       this.users = res.users
     })
   },
-  computed: {
-    accessToken() {
-      return this.$store.state.accessToken
-    }
-  },
   methods: {
     activateUser(uuid, index) {
       this.$axios.$get(`${process.env.API_URL}/manage/users/activate/${uuid}`).then(res => {
