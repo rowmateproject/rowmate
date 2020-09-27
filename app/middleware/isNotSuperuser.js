@@ -3,7 +3,7 @@ export default function({
   redirect
 }) {
   // If the user is not authenticated
-  if (store.state.isSuperuser !== 'true') {
+  if (store.state.isSuperuser !== 'true' && store.state.isSuperuser !== true) {
     return redirect('/settings')
   }
 }

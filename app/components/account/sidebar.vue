@@ -6,7 +6,7 @@
     </div>
 
     <nav class="mt-8">
-      <nuxt-link v-if="isSuperuser === 'true'" class="text-color-nav focus:outline-none grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('dashboard') ? activeClass : inactiveClass]" :to="localePath('/dashboard')">
+      <nuxt-link v-if="isSuperuser === 'true' || isSuperuser === true" class="text-color-nav focus:outline-none grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('dashboard') ? activeClass : inactiveClass]" :to="localePath('/dashboard')">
         <fa :icon="['fas', 'chart-line']" class="col-span-1" />
         <span class="col-span-5">Dashboard</span>
       </nuxt-link>
@@ -16,12 +16,12 @@
         <span class="col-span-5">Profile</span>
       </nuxt-link>
 
-      <nuxt-link v-if="isSuperuser === 'true'" class="text-color-nav focus:outline-none grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('users') ? activeClass : inactiveClass]" :to="localePath('/users')">
+      <nuxt-link v-if="isSuperuser === 'true' || isSuperuser === true" class="text-color-nav focus:outline-none grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('users') ? activeClass : inactiveClass]" :to="localePath('/users')">
         <fa :icon="['fas', 'users']" class="col-span-1" />
         <span class="col-span-5">Nutzer</span>
       </nuxt-link>
 
-      <nuxt-link v-if="isSuperuser === 'true'" class="text-color-nav focus:outline-none grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('theme') ? activeClass : inactiveClass]" :to="localePath('/theme')">
+      <nuxt-link v-if="isSuperuser === 'true' || isSuperuser === true" class="text-color-nav focus:outline-none grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('theme') ? activeClass : inactiveClass]" :to="localePath('/theme')">
         <fa :icon="['fas', 'comment-alt']" class="col-span-1" />
         <span class="col-span-5">Theme</span>
       </nuxt-link>
@@ -31,7 +31,7 @@
         <span class="col-span-5">Termine</span>
       </nuxt-link>
 
-      <nuxt-link v-if="isSuperuser === 'true'" class="text-color-nav focus:outline-none grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('event') ? activeClass : inactiveClass]" :to="localePath('/event')">
+      <nuxt-link v-if="isSuperuser === 'true' || isSuperuser === true" class="text-color-nav focus:outline-none grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('event') ? activeClass : inactiveClass]" :to="localePath('/event')">
         <fa :icon="['fas', 'sticky-note']" class="col-span-1" />
         <span class="col-span-5">Event</span>
       </nuxt-link>
