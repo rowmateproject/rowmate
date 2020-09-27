@@ -1,7 +1,10 @@
 import motor.motor_asyncio
 import secrets
+import shutil
+import os
 
-from fastapi import (FastAPI, HTTPException, Depends, Request, Response)
+from fastapi import (FastAPI, HTTPException, Depends,
+                     Request, Response, File, UploadFile)
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
 from fastapi_users import FastAPIUsers
 from fastapi_users.db import MongoDBUserDatabase, BaseUserDatabase
@@ -10,14 +13,16 @@ from fastapi_users.authentication import (
 from fastapi_users.authentication.base import BaseAuthentication
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi_users.models import BaseUser, BaseUserDB, BaseUserCreate, BaseUserUpdate
+from fastapi_users.models import (
+    BaseUser, BaseUserDB, BaseUserCreate, BaseUserUpdate)
+from fastapi.responses import FileResponse
 
-from pydantic import BaseModel
 from makefun import with_signature
 from inspect import Signature, Parameter
 from datetime import datetime, timezone, timedelta
-from typing import Optional, List, Dict, Sequence, Type
-from uuid import UUID
+from typing import Optional, Sequence, Type
+from uuid import UUID, uuid4
+from pathlib import Path
 
 import pymongo
 import config
@@ -25,16 +30,17 @@ import jwt
 import re
 
 
-#models
-from models.User import User, UserCreate, UserUpdate, UserDB, UserList, FindUser
+# models
+from models.User import (User, UserCreate, UserUpdate,
+                         UserDB, UserList, FindUser)
 from models.Theme import ThemeModel
-from models.Boat import Boat
-from models.Event import Event
+# from models.Event import Event
+# from models.Boat import Boat
 
-#enums
-from enums.BoatCategory import BoatCategoryEnum
-from enums.Coxswain import CoxswainEnum
-from enums.Discipline import DisciplineEnum
+# enums
+# from enums.BoatCategory import BoatCategoryEnum
+# from enums.Discipline import DisciplineEnum
+# from enums.Coxswain import CoxswainEnum
 
 mail_address_pattern = r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
 
@@ -234,10 +240,6 @@ class APIUsers(FastAPIUsers):
         self.get_optional_current_superuser = (
             self.authenticator.get_optional_current_superuser
         )
-
-
-
-
 
 
 client = motor.motor_asyncio.AsyncIOMotorClient(
@@ -488,20 +490,53 @@ async def find_user_by_name_or_mail(req: FindUser,
 
 
 @app.get('/theme/default')
-async def get_default_theme(theme: ThemeModel = Depends()):
+async def get_default_theme(model: ThemeModel = Depends()):
     query = await db['themes'].find_one({}, {'_id': 0})
 
     if query is not None:
         return query
     else:
-        return theme
+        return model
 
 
 @app.patch('/theme/default')
-async def patch_default_theme(theme: ThemeModel, user=Depends(api_user.get_current_superuser)):
-    res = await db['themes'].update_one({}, {'$set': dict(theme)}, upsert=True)
+async def patch_default_theme(model: ThemeModel,
+                              user=Depends(api_user.get_current_superuser)):
+    res = await db['themes'].update_one({}, {'$set': dict(model)}, upsert=True)
 
     if res.modified_count > 0:
-        return {'detail': 'Theme was Successfully updated'}
+        return {'detail': 'Theme was successfully updated'}
     else:
         return {'detail': 'Did not update theme propably no changes'}
+
+
+@app.get('/theme/default/image')
+async def get_theme_image():
+    sort = [('_id', pymongo.DESCENDING)]
+    query = await db['images'].find({}).sort(sort).to_list(length=1)
+    filename = query[0]['image']
+
+    if os.path.isfile(f'./static/{filename}'):
+        return FileResponse(f'./static/{filename}', media_type='image/png')
+
+    raise HTTPException(status_code=404, detail='Image was not found')
+
+
+@app.post('/theme/default/image')
+async def post_theme_image(image: UploadFile = File(...),
+                           user=Depends(api_user.get_current_superuser)):
+    filename = f'{uuid4()}.png'
+
+    try:
+        with Path(f'./static/{filename}').open('wb') as buffer:
+            shutil.copyfileobj(image.file, buffer)
+    finally:
+        image.file.close()
+
+        query = {'user_id': user.id, 'image': filename}
+        res = await db['images'].insert_one(query)
+
+        if res.acknowledged:
+            return {'detail': 'Uploaded logo', 'image': filename}
+        else:
+            return {'detail': 'Upload error occured'}

@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+
 class ThemeModel(BaseModel):
     bodyText: str = '#8f9498'
     buttonBackground: str = '#192733'
