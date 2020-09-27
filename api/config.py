@@ -5,6 +5,7 @@ class Settings(BaseSettings):
     app_name: str
     jwt_secret: str
     admin_email: str
+    frontend_url: str
     reset_secret: str
     database_url: str
     smtp_username: str
