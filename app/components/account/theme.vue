@@ -15,6 +15,8 @@
       </button>
     </div>
   </form>
+
+  <upload />
 </div>
 </template>
 
