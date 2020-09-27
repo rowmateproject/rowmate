@@ -4,7 +4,7 @@ import Cookies from 'js-cookie'
 class TokenStorage {
   static getNewToken() {
     return new Promise((resolve, reject) => {
-      axios.config.headers.Authorization = `Bearer ${this.getRefreshToken()}`
+      axios.defaults.headers.common.Authorization = `Bearer ${this.getRefreshToken()}`
 
       axios.post(`${process.env.API_URL}/auth/jwt/refresh`).then((response) => {
         const accessToken = response.data.access_token
