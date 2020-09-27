@@ -1,5 +1,5 @@
 <template>
-<div class="flex items-center justify-center mt-3 mx-3 lg:mx-0 lg:mt-32">
+<div class="flex items-center justify-center mt-3 mx-3 sm:mt-24 lg:mx-0 lg:mt-48">
   <form @submit.prevent="loginSubmit" class="bg-color-form rounded-lg w-full max-w-md p-3">
     <h1 class="text-2xl lg:text-4xl font-medium mb-3">{{ $t('signin') }}</h1>
     <p v-if="showResponse" class="text-red-500 lg:text-lg mb-3">{{ response }}</p>
@@ -7,16 +7,16 @@
       <label class="block uppercase tracking-wide text-color-form text-xs font-bold mb-2" for="email">
         {{ $t('email') }}
       </label>
-      <input name="email" v-model="email" v-bind:class="{'border-red-500': errors.email}"
-        class="appearance-none block w-full text-color-body border border-color-form rounded p-3 mb-1 leading-tight focus:outline-none" id="email" type="text" placeholder="me@example.com">
+      <input name="email" v-model="email" v-bind:class="{'border-red-500': errors.email}" class="appearance-none block w-full text-color-body border rounded p-3 mb-1 leading-tight focus:outline-none" id="email" type="text"
+        placeholder="me@example.com">
       <p v-if="errors.email" class="text-red-500 text-xs italic">{{ $t('errorInvalidMail') }}</p>
     </div>
     <div class="w-full mb-6">
       <label class="block uppercase tracking-wide text-color-form text-xs font-bold mb-2" for="password">
         {{ $t('password') }}
       </label>
-      <input name="password" v-model="password" v-bind:class="{'border-red-500': errors.password}" class="appearance-none block w-full text-color-body border border-color-form rounded p-3 mb-1 leading-tight focus:outline-none" id="password"
-        type="password" placeholder="••••••••">
+      <input name="password" v-model="password" v-bind:class="{'border-red-500': errors.password}" class="appearance-none block w-full text-color-body border rounded p-3 mb-1 leading-tight focus:outline-none" id="password" type="password"
+        placeholder="••••••••">
       <p v-if="errors.password" class="text-red-500 text-xs italic">{{ $t('errorInvalidPassword') }}</p>
     </div>
     <p class="text-right">
@@ -91,170 +91,172 @@ export default {
         formData.set('username', this.email.trim())
         formData.set('password', this.password.trim())
 
-        this.$axios.$post(`${process.env.API_URL}/auth/jwt/login`, formData, {
+        this.$axios({
+          method: 'POST',
+          url: `${process.env.API_URL}/auth/jwt/login`,
+          data: formData,
           headers: {
             'Content-Type': 'multipart/form-data'
-          }
-        }).then(res => {
-          this.$store.commit('updateName', res.name)
-          this.$store.commit('updateIsActive', res.is_active)
-          this.$store.commit('updateIsConfirmed', res.is_confirmed)
-          this.$store.commit('updateIsSuperuser', res.is_superuser)
-          this.$store.commit('updateRefreshToken', res.refresh_token)
-          this.$store.commit('updateAccessToken', res.access_token)
+          },
+          validateStatus: () => true
+        }).then((res) => {
+          console.log(res.status, res)
+          if (res.status === 200) {
+            this.$store.commit('updateName', res.data.name)
+            this.$store.commit('updateIsActive', res.data.is_active)
+            this.$store.commit('updateIsConfirmed', res.data.is_confirmed)
+            this.$store.commit('updateIsSuperuser', res.data.is_superuser)
+            this.$store.commit('updateRefreshToken', res.data.refresh_token)
+            this.$store.commit('updateAccessToken', res.data.access_token)
 
-          this.$store.commit('updateAccessoriesType', res.avatar.accessoriesType)
-          this.$store.commit('updateFacialHairColor', res.avatar.facialHairColor)
-          this.$store.commit('updateFacialHairType', res.avatar.facialHairType)
-          this.$store.commit('updateGraphicType', res.avatar.graphicType)
-          this.$store.commit('updateClotheColor', res.avatar.clotheColor)
-          this.$store.commit('updateEyebrowType', res.avatar.eyebrowType)
-          this.$store.commit('updateCircleColor', res.avatar.circleColor)
-          this.$store.commit('updateClotheType', res.avatar.clotheType)
-          this.$store.commit('updateHairColor', res.avatar.hairColor)
-          this.$store.commit('updateMouthType', res.avatar.mouthType)
-          this.$store.commit('updateSkinColor', res.avatar.skinColor)
-          this.$store.commit('updateIsCircle', Boolean(res.avatar.isCircle))
-          this.$store.commit('updateTopColor', res.avatar.topColor)
-          this.$store.commit('updateEyeType', res.avatar.eyeType)
-          this.$store.commit('updateTopType', res.avatar.topType)
+            this.$store.commit('updateAccessoriesType', res.data.avatar.accessoriesType)
+            this.$store.commit('updateFacialHairColor', res.data.avatar.facialHairColor)
+            this.$store.commit('updateFacialHairType', res.data.avatar.facialHairType)
+            this.$store.commit('updateGraphicType', res.data.avatar.graphicType)
+            this.$store.commit('updateClotheColor', res.data.avatar.clotheColor)
+            this.$store.commit('updateEyebrowType', res.data.avatar.eyebrowType)
+            this.$store.commit('updateCircleColor', res.data.avatar.circleColor)
+            this.$store.commit('updateClotheType', res.data.avatar.clotheType)
+            this.$store.commit('updateHairColor', res.data.avatar.hairColor)
+            this.$store.commit('updateMouthType', res.data.avatar.mouthType)
+            this.$store.commit('updateSkinColor', res.data.avatar.skinColor)
+            this.$store.commit('updateIsCircle', Boolean(res.data.avatar.isCircle))
+            this.$store.commit('updateTopColor', res.data.avatar.topColor)
+            this.$store.commit('updateEyeType', res.data.avatar.eyeType)
+            this.$store.commit('updateTopType', res.data.avatar.topType)
 
-          Cookies.set('refreshToken', res.refresh_token, {
-            samesite: 'Lax',
-            expires: 50000,
-            secure: true
-          })
+            Cookies.set('refreshToken', res.data.refresh_token, {
+              samesite: 'Lax',
+              expires: 50000,
+              secure: true
+            })
 
-          Cookies.set('accessToken', res.access_token, {
-            samesite: 'Lax',
-            expires: 3600,
-            secure: true
-          })
+            Cookies.set('accessToken', res.data.access_token, {
+              samesite: 'Lax',
+              expires: 3600,
+              secure: true
+            })
 
-          Cookies.set('isActive', res.is_active, {
-            samesite: 'Lax',
-            expires: 3600,
-            secure: true
-          })
+            Cookies.set('isActive', res.data.is_active, {
+              samesite: 'Lax',
+              expires: 3600,
+              secure: true
+            })
 
-          Cookies.set('isConfirmed', res.is_confirmed, {
-            samesite: 'Lax',
-            expires: 3600,
-            secure: true
-          })
+            Cookies.set('isConfirmed', res.data.is_confirmed, {
+              samesite: 'Lax',
+              expires: 3600,
+              secure: true
+            })
 
-          Cookies.set('isSuperuser', res.is_superuser, {
-            samesite: 'Lax',
-            expires: 3600,
-            secure: true
-          })
+            Cookies.set('isSuperuser', res.data.is_superuser, {
+              samesite: 'Lax',
+              expires: 3600,
+              secure: true
+            })
 
-          Cookies.set('name', res.name, {
-            samesite: 'Lax',
-            expires: 3600,
-            secure: true
-          })
+            Cookies.set('name', res.data.name, {
+              samesite: 'Lax',
+              expires: 3600,
+              secure: true
+            })
 
-          Cookies.set('accessoriesType', res.avatar.accessoriesType, {
-            samesite: 'Lax',
-            expires: 3600,
-            secure: true
-          })
+            Cookies.set('accessoriesType', res.data.avatar.accessoriesType, {
+              samesite: 'Lax',
+              expires: 3600,
+              secure: true
+            })
 
-          Cookies.set('facialHairColor', res.avatar.facialHairColor, {
-            samesite: 'Lax',
-            expires: 3600,
-            secure: true
-          })
+            Cookies.set('facialHairColor', res.data.avatar.facialHairColor, {
+              samesite: 'Lax',
+              expires: 3600,
+              secure: true
+            })
 
-          Cookies.set('facialHairType', res.avatar.facialHairType, {
-            samesite: 'Lax',
-            expires: 3600,
-            secure: true
-          })
+            Cookies.set('facialHairType', res.data.avatar.facialHairType, {
+              samesite: 'Lax',
+              expires: 3600,
+              secure: true
+            })
 
-          Cookies.set('graphicType', res.avatar.graphicType, {
-            samesite: 'Lax',
-            expires: 3600,
-            secure: true
-          })
+            Cookies.set('graphicType', res.data.avatar.graphicType, {
+              samesite: 'Lax',
+              expires: 3600,
+              secure: true
+            })
 
-          Cookies.set('clotheColor', res.avatar.clotheColor, {
-            samesite: 'Lax',
-            expires: 3600,
-            secure: true
-          })
+            Cookies.set('clotheColor', res.data.avatar.clotheColor, {
+              samesite: 'Lax',
+              expires: 3600,
+              secure: true
+            })
 
-          Cookies.set('eyebrowType', res.avatar.eyebrowType, {
-            samesite: 'Lax',
-            expires: 3600,
-            secure: true
-          })
+            Cookies.set('eyebrowType', res.data.avatar.eyebrowType, {
+              samesite: 'Lax',
+              expires: 3600,
+              secure: true
+            })
 
-          Cookies.set('circleColor', res.avatar.circleColor, {
-            samesite: 'Lax',
-            expires: 3600,
-            secure: true
-          })
+            Cookies.set('circleColor', res.data.avatar.circleColor, {
+              samesite: 'Lax',
+              expires: 3600,
+              secure: true
+            })
 
-          Cookies.set('clotheType', res.avatar.clotheType, {
-            samesite: 'Lax',
-            expires: 3600,
-            secure: true
-          })
+            Cookies.set('clotheType', res.data.avatar.clotheType, {
+              samesite: 'Lax',
+              expires: 3600,
+              secure: true
+            })
 
-          Cookies.set('hairColor', res.avatar.hairColor, {
-            samesite: 'Lax',
-            expires: 3600,
-            secure: true
-          })
+            Cookies.set('hairColor', res.data.avatar.hairColor, {
+              samesite: 'Lax',
+              expires: 3600,
+              secure: true
+            })
 
-          Cookies.set('mouthType', res.avatar.mouthType, {
-            samesite: 'Lax',
-            expires: 3600,
-            secure: true
-          })
+            Cookies.set('mouthType', res.data.avatar.mouthType, {
+              samesite: 'Lax',
+              expires: 3600,
+              secure: true
+            })
 
-          Cookies.set('skinColor', res.avatar.skinColor, {
-            samesite: 'Lax',
-            expires: 3600,
-            secure: true
-          })
+            Cookies.set('skinColor', res.data.avatar.skinColor, {
+              samesite: 'Lax',
+              expires: 3600,
+              secure: true
+            })
 
-          Cookies.set('isCircle', Boolean(res.isCircle), {
-            samesite: 'Lax',
-            expires: 3600,
-            secure: true
-          })
+            Cookies.set('isCircle', Boolean(res.data.isCircle), {
+              samesite: 'Lax',
+              expires: 3600,
+              secure: true
+            })
 
-          Cookies.set('eyeType', res.avatar.eyeType, {
-            samesite: 'Lax',
-            expires: 3600,
-            secure: true
-          })
+            Cookies.set('eyeType', res.data.avatar.eyeType, {
+              samesite: 'Lax',
+              expires: 3600,
+              secure: true
+            })
 
-          Cookies.set('topType', res.avatar.topType, {
-            samesite: 'Lax',
-            expires: 3600,
-            secure: true
-          })
+            Cookies.set('topType', res.data.avatar.topType, {
+              samesite: 'Lax',
+              expires: 3600,
+              secure: true
+            })
 
-          Cookies.set('topColor', res.avatar.topColor, {
-            samesite: 'Lax',
-            expires: 3600,
-            secure: true
-          })
+            Cookies.set('topColor', res.data.avatar.topColor, {
+              samesite: 'Lax',
+              expires: 3600,
+              secure: true
+            })
 
-          this.$router.push(this.localePath({
-            name: 'dashboard'
-          }))
-        }).catch(error => {
-          this.showResponse = true
-
-          if (error.hasOwnProperty('response')) {
-            this.response = error.response.data.detail
-          } else {
-            this.response = error.message
+            this.$router.push(this.localePath({
+              name: 'dashboard'
+            }))
+          } else if (res.status === 400) {
+            this.showResponse = true
+            this.response = res.data.detail
           }
         })
       }

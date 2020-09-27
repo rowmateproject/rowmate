@@ -1,5 +1,5 @@
 <template>
-<div class="flex items-center justify-center mt-3 mx-3 lg:mx-0 lg:mt-32">
+<div class="flex items-center justify-center mt-3 mx-3 sm:mt-24 lg:mx-0 lg:mt-48">
   <form @submit.prevent="resetPasswordSubmit" class="bg-color-form rounded-lg w-full max-w-md p-3">
     <h1 class="text-2xl lg:text-4xl font-medium mb-3">{{ $t('resetPassword' )}}</h1>
     <p v-if="showResponse" v-bind:class="classResponse" class="lg:text-lg mb-3">{{ response }}</p>

@@ -1,5 +1,5 @@
 <template>
-<div class="flex items-center justify-center mt-3 mx-3 lg:mx-0 lg:mt-32">
+<div class="flex items-center justify-center mt-3 mx-3 sm:mt-24 lg:mx-0 lg:mt-48">
   <form @submit.prevent="signupSubmit" class="bg-color-form rounded-lg w-full max-w-md p-3">
     <h1 class="text-2xl lg:text-4xl font-medium mb-1">{{ $t('signup') }}</h1>
     <p class="text-gray-800 mb-3">{{ $t('rowingTeaser') }}</p>
@@ -9,7 +9,7 @@
         {{ $t('name') }}
       </label>
       <input name="name" v-model="name" v-bind:class="{'border-red-500': errors.name}"
-        class="appearance-none block w-full text-color-body border border-color-form rounded p-3 mb-1 leading-tight focus:outline-none" id="name" type="text" placeholder="Jane Doe">
+        class="appearance-none block w-full text-color-body border rounded p-3 mb-1 leading-tight focus:outline-none" id="name" type="text" placeholder="Jane Doe">
       <p v-if="errors.name" class="text-red-500 text-xs italic">{{ $t('errorInvalidName') }}</p>
     </div>
     <div class="w-full mb-6">
@@ -17,14 +17,14 @@
         {{ $t('email') }}
       </label>
       <input name="email" v-model="email" v-bind:class="{'border-red-500': errors.email}"
-        class="appearance-none block w-full text-color-body border border-color-form rounded p-3 mb-1 leading-tight focus:outline-none" id="email" type="text" placeholder="me@example.com">
+        class="appearance-none block w-full text-color-body border rounded p-3 mb-1 leading-tight focus:outline-none" id="email" type="text" placeholder="me@example.com">
       <p v-if="errors.email" class="text-red-500 text-xs italic">{{ $t('errorInvalidMail') }}</p>
     </div>
     <div class="w-full mb-6">
       <label class="block uppercase tracking-wide text-color-form text-xs font-bold mb-2" for="password">
         {{ $t('password') }}
       </label>
-      <input name="password" v-model="password" v-bind:class="{'border-red-500': errors.password}" class="appearance-none block w-full text-color-body border border-color-form rounded p-3 mb-1 leading-tight focus:outline-none" id="password"
+      <input name="password" v-model="password" v-bind:class="{'border-red-500': errors.password}" class="appearance-none block w-full text-color-body border rounded p-3 mb-1 leading-tight focus:outline-none" id="password"
         type="password" placeholder="••••••••">
       <p v-if="errors.password" class="text-red-500 text-xs italic">{{ $t('errorInvalidPassword') }}</p>
     </div>
