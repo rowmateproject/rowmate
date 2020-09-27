@@ -114,6 +114,8 @@ export default {
             this.classResponse = 'text-red-500'
             this.showResponse = true
             this.response = 'Konto mit dieser Email existiert bereits'
+          } else {
+            console.log(res.data.detail)
           }
         })
       }

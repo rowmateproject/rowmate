@@ -57,14 +57,17 @@ export default {
     }
   },
   mounted() {
-    this.$axios.$get(`${process.env.API_URL}/manage/users/list`).then(res => {
-      this.users = res.users
+    this.$axios({
+      method: 'GET',
+      url: `${process.env.API_URL}/manage/users/list`,
+      validateStatus: () => true
+    }).then((res) => {
+      if (res.status === 200) {
+        this.users = res.data.users
+      } else {
+        console.log(res.data)
+      }
     })
-  },
-  computed: {
-    accessToken() {
-      return this.$store.state.accessToken
-    }
   }
 }
 </script>

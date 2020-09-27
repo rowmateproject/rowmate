@@ -100,7 +100,6 @@ export default {
           },
           validateStatus: () => true
         }).then((res) => {
-          console.log(res.status, res)
           if (res.status === 200) {
             this.$store.commit('updateName', res.data.name)
             this.$store.commit('updateIsActive', res.data.is_active)
@@ -254,7 +253,7 @@ export default {
             this.$router.push(this.localePath({
               name: 'dashboard'
             }))
-          } else if (res.status === 400) {
+          } else {
             this.showResponse = true
             this.response = res.data.detail
           }

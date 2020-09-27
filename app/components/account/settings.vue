@@ -145,16 +145,22 @@ export default {
     }
   },
   mounted() {
-    this.$axios.$get(`${process.env.API_URL}/users/me`).then(res => {
-      this.user.name = res['name'] || ''
-      this.user.email = res['email'] || ''
-      this.user.phone = res['phone'] || ''
-      this.user.avatar = res['avatar'] || {}
-      this.user.birthDate.day = new Date(Date.parse(res['birth'])).getDate() || ''
-      this.user.birthDate.month = new Date(Date.parse(res['birth'])).getMonth() + 1 || ''
-      this.user.birthDate.year = new Date(Date.parse(res['birth'])).getFullYear() || ''
-    }).catch((error) => {
-      console.log(error)
+    this.$axios({
+      method: 'GET',
+      url: `${process.env.API_URL}/users/me`,
+      validateStatus: () => true
+    }).then((res) => {
+      if (res.status === 200) {
+        this.user.name = res.data.name || ''
+        this.user.email = res.data.email || ''
+        this.user.phone = res.data.phone || ''
+        this.user.avatar = res.data.avatar || {}
+        this.user.birthDate.day = new Date(Date.parse(res.data.birth)).getDate() || ''
+        this.user.birthDate.month = new Date(Date.parse(res.data.birth)).getMonth() + 1 || ''
+        this.user.birthDate.year = new Date(Date.parse(res.data.birth)).getFullYear() || ''
+      } else {
+        console.log(res.data)
+      }
     })
   },
   computed: {
@@ -349,14 +355,8 @@ export default {
             this.classResponse = 'text-green-500'
             this.showResponse = true
             this.response = 'Einstellungen wurden erfolgreich geändert'
-          } else if (res.status === 400) {
-            this.classResponse = 'text-red-500'
-            this.showResponse = true
-            this.response = 'Fehler'
-          } else if (res.status === 500) {
-            this.classResponse = 'text-red-500'
-            this.showResponse = true
-            this.response = 'Fehler'
+          } else {
+            console.log(res.data)
           }
         })
       }

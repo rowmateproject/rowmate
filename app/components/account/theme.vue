@@ -26,8 +26,16 @@ export default {
     }
   },
   mounted() {
-    this.$axios.$get(`${process.env.API_URL}/theme/default`).then(res => {
-      this.theme = res
+    this.$axios({
+      method: 'GET',
+      url: `${process.env.API_URL}/theme/default`,
+      validateStatus: () => true
+    }).then((res) => {
+      if (res.status === 200) {
+        this.theme = res.data
+      } else {
+        console.log(res.data)
+      }
     })
   },
   watch: {
@@ -166,7 +174,11 @@ export default {
         },
         validateStatus: () => true
       }).then(res => {
-        console.log(res)
+        if (res.status === 200) {
+          console.log(res.data)
+        } else {
+          console.log(res.data)
+        }
       })
     }
   }

@@ -44,7 +44,7 @@ export default ({
     // Return any error which is not due to authentication
     if (error.response.status !== 401) {
       // eslint-disable-next-line
-      console.log(error)
+      console.debug(error.response)
 
       return new Promise((resolve, reject) => {
         reject(error)
@@ -73,13 +73,13 @@ export default ({
             resolve(res)
           }).catch((err) => {
             // eslint-disable-next-line
-            console.log(err)
+            console.debug(err.config)
             reject(err)
           })
         })
       }).catch((error) => {
         // eslint-disable-next-line
-        console.log(error)
+        console.debug(error.config)
         Promise.reject(error)
       })
     }

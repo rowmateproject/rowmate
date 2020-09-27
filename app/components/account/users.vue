@@ -2,7 +2,7 @@
 <div>
   <h3 class="text-3xl font-medium text-color-title">Nutzer</h3>
 
-  <div class="flex flex-col mt-8">
+  <div v-if="users.length > 0" class="flex flex-col mt-8">
     <div class="overflow-x-auto">
       <div class="min-w-full align-middle inline-block shadow overflow-hidden rounded">
         <table class="min-w-full">
@@ -85,20 +85,44 @@ export default {
     }
   },
   mounted() {
-    this.$axios.$get(`${process.env.API_URL}/manage/users/list`).then(res => {
-      this.users = res.users
+    this.$axios({
+      method: 'GET',
+      url: `${process.env.API_URL}/manage/users/list`,
+      validateStatus: () => true
+    }).then((res) => {
+      if (res.status === 200) {
+        this.users = res.users
+      } else {
+        console.log(res.data)
+      }
     })
   },
   methods: {
     activateUser(uuid, index) {
-      this.$axios.$post(`${process.env.API_URL}/manage/users/activate/${uuid}`, {}).then(res => {
-        this.users[index].is_active = !this.users[index].is_active
-        this.users[index].is_accepted = true
+      this.$axios({
+        method: 'POST',
+        url: `${process.env.API_URL}/manage/users/activate/${uuid}`,
+        validateStatus: () => true
+      }).then((res) => {
+        if (res.status === 200) {
+          this.users[index].is_active = !this.users[index].is_active
+          this.users[index].is_accepted = true
+        } else {
+          console.log(res.data)
+        }
       })
     },
     deactivateUser(uuid, index) {
-      this.$axios.$post(`${process.env.API_URL}/manage/users/deactivate/${uuid}`, {}).then(res => {
-        this.users[index].is_active = !this.users[index].is_active
+      this.$axios({
+        method: 'POST',
+        url: `${process.env.API_URL}/manage/users/deactivate/${uuid}`,
+        validateStatus: () => true
+      }).then((res) => {
+        if (res.status === 200) {
+          this.users[index].is_active = !this.users[index].is_active
+        } else {
+          console.log(res.data)
+        }
       })
     }
   }
