@@ -174,14 +174,18 @@ class CustomAuthenticator(Authenticator):
 
         for backend in self.backends:
             token: str = kwargs[name_to_variable_name(backend.name)]
-            decode_token = jwt.decode(token, verify=False)
-            token_lifetime = datetime.fromtimestamp(decode_token['exp'])
-            current_datetime = datetime.utcnow().replace(microsecond=0)
-            token_debug = f'\n\ntoken exires in utc {token_lifetime}\n'
-            date_debug = f'datetime now in utc {current_datetime}\n\n'
-            print(f'{token_debug}{date_debug}')
 
-            if token:
+            try:
+                decode_token = jwt.decode(token, verify=False)
+                token_lifetime = datetime.fromtimestamp(decode_token['exp'])
+                current_datetime = datetime.utcnow().replace(microsecond=0)
+                token_debug = f'\n\ntoken exires in utc {token_lifetime}\n'
+                date_debug = f'datetime now in utc {current_datetime}\n\n'
+                print(f'{token_debug}{date_debug}')
+            except Exception as e:
+                print(f'\n\ntoken is "{token}" with error {e}\n\n')
+
+            if token and token != 'undefined':
                 user = await backend(token, self.user_db)
 
                 if user is not None:

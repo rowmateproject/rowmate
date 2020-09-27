@@ -1,3 +1,5 @@
+// eslint-disable-next-line
+import jwt_decode from 'jwt-decode'
 import {
   TokenStorage
 } from '@/plugins/tokenStorage'
@@ -65,6 +67,9 @@ export default ({
 
       // Try request again with new token
       return TokenStorage.getNewToken().then((token) => {
+        // eslint-disable-next-line
+        console.debug(jwt_decode(token))
+
         // New request with new token
         error.config.headers.Authorization = `Bearer ${token}`
 
