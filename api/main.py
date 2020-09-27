@@ -286,7 +286,7 @@ async def activate_user(user: UserDB):
     return False
 
 
-@app.get('/manage/users/activate/{uuid}')
+@app.post('/manage/users/activate/{uuid}')
 async def activate_user_by_uuid(uuid: str, request: Request, requser=Depends(fastapi_users.get_current_active_user)):
     if requser.is_superuser:
         user = await collection.find_one({'id': UUID(uuid)})
@@ -300,7 +300,7 @@ async def activate_user_by_uuid(uuid: str, request: Request, requser=Depends(fas
         raise HTTPException(status_code=403, detail='You need to be superuser')
 
 
-@app.get('/manage/users/deactivate/{uuid}')
+@app.post('/manage/users/deactivate/{uuid}')
 async def deactivate_user(uuid: str, request: Request, requser=Depends(fastapi_users.get_current_active_user)):
     if requser.is_superuser:
         user = await collection.find_one({'id': UUID(uuid)})
