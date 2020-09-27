@@ -1,5 +1,4 @@
-// eslint-disable-next-line
-import jwt_decode from 'jwt-decode'
+import jwtDecode from 'jwt-decode'
 import {
   TokenStorage
 } from '@/plugins/tokenStorage'
@@ -8,15 +7,39 @@ export default ({
   app,
   store
 }) => {
-  app.$axios.defaults.headers.common.Authorization = `Bearer ${TokenStorage.getAccessToken()}`
+  let accessToken = TokenStorage.getAccessToken()
+
+  if (accessToken !== undefined) {
+    const tokenExpires = new Date(jwtDecode(accessToken).exp * 1000)
+    // eslint-disable-next-line
+    console.debug({expires: tokenExpires.toUTCString()})
+    app.$axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`
+  }
 
   app.$axios.interceptors.request.use((request) => {
     if (request.config) {
-      request.config.config.headers.Authorization = `Bearer ${TokenStorage.getAccessToken()}`
-      Promise.reject(request)
-    }
+      accessToken = TokenStorage.getAccessToken()
 
-    return request
+      if (accessToken !== undefined) {
+        const tokenExpires = new Date(jwtDecode(accessToken).exp * 1000)
+        // eslint-disable-next-line
+        console.debug({expires: tokenExpires.toUTCString()})
+        request.config.config.headers.Authorization = `Bearer ${accessToken}`
+      }
+
+      Promise.reject(request)
+    } else {
+      accessToken = TokenStorage.getAccessToken()
+
+      if (accessToken !== undefined) {
+        const tokenExpires = new Date(jwtDecode(accessToken).exp * 1000)
+        // eslint-disable-next-line
+        console.debug({expires: tokenExpires.toUTCString()})
+        request.headers.Authorization = `Bearer ${accessToken}`
+      }
+
+      return request
+    }
   }, (error) => {
     Promise.reject(error)
   })
@@ -25,6 +48,9 @@ export default ({
     if (config.status === 401) {
       // Try request again with new token
       return TokenStorage.getNewToken().then((token) => {
+        // eslint-disable-next-line
+        console.debug(token)
+
         // New request with new token
         config.config.headers.Authorization = `Bearer ${token}`
 
@@ -40,7 +66,15 @@ export default ({
       })
     }
 
-    config.headers.Authorization = `Bearer ${TokenStorage.getAccessToken()}`
+    accessToken = TokenStorage.getAccessToken()
+
+    if (accessToken !== undefined) {
+      const tokenExpires = new Date(jwtDecode(accessToken).exp * 1000)
+      // eslint-disable-next-line
+      console.debug({expires: tokenExpires.toUTCString()})
+      config.headers.Authorization = `Bearer ${accessToken}`
+    }
+
     return config
   }, (error) => {
     // Return any error which is not due to authentication
@@ -68,7 +102,7 @@ export default ({
       // Try request again with new token
       return TokenStorage.getNewToken().then((token) => {
         // eslint-disable-next-line
-        console.debug(jwt_decode(token))
+        console.debug(token)
 
         // New request with new token
         error.config.headers.Authorization = `Bearer ${token}`
