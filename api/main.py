@@ -29,8 +29,8 @@ mail_address_pattern = r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
 
 
 def generate_jwt(data: dict, secret: str, lifetime_seconds: int) -> str:
-    expire = datetime.utcnow() + timedelta(seconds=lifetime_seconds)
-    data['exp'] = expire
+    expires = datetime.utcnow() + timedelta(seconds=lifetime_seconds)
+    data['exp'] = expires
 
     return jwt.encode(data, secret, algorithm='HS256').decode('utf-8')
 
@@ -174,6 +174,12 @@ class CustomAuthenticator(Authenticator):
 
         for backend in self.backends:
             token: str = kwargs[name_to_variable_name(backend.name)]
+            decode_token = jwt.decode(token, verify=False)
+            token_lifetime = datetime.fromtimestamp(decode_token['exp'])
+            current_datetime = datetime.utcnow().replace(microsecond=0)
+            token_debug = f'\n\ntoken exires in utc {token_lifetime}\n'
+            date_debug = f'datetime now in utc {current_datetime}\n\n'
+            print(f'{token_debug}{date_debug}')
 
             if token:
                 user = await backend(token, self.user_db)
@@ -302,7 +308,7 @@ auth_backends = []
 jwt_auth = Authentication(
     secret=config.Settings().jwt_secret,
     lifetime_seconds_refresh=50000,
-    lifetime_seconds=200
+    lifetime_seconds=3600
 )
 auth_backends.append(jwt_auth)
 
