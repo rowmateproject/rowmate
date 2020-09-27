@@ -5,13 +5,12 @@ from fastapi import (FastAPI, HTTPException, Depends, Request, Response)
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
 from fastapi_users import FastAPIUsers
 from fastapi_users.db import MongoDBUserDatabase, BaseUserDatabase
-from fastapi_users.models import (
-    BaseUser, BaseUserDB, BaseUserCreate, BaseUserUpdate)
 from fastapi_users.authentication import (
     JWTAuthentication, Authenticator, name_to_variable_name)
 from fastapi_users.authentication.base import BaseAuthentication
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi_users.models import BaseUser, BaseUserDB, BaseUserCreate, BaseUserUpdate
 
 from pydantic import BaseModel
 from makefun import with_signature
@@ -24,6 +23,18 @@ import pymongo
 import config
 import jwt
 import re
+
+
+#models
+from models.User import User, UserCreate, UserUpdate, UserDB, UserList, FindUser
+from models.Theme import ThemeModel
+from models.Boat import Boat
+from models.Event import Event
+
+#enums
+from enums.BoatCategory import BoatCategoryEnum
+from enums.Coxswain import CoxswainEnum
+from enums.Discipline import DisciplineEnum
 
 mail_address_pattern = r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
 
@@ -225,75 +236,8 @@ class APIUsers(FastAPIUsers):
         )
 
 
-class User(BaseUser):
-    is_active: bool = False
-    is_accepted: bool = False
-    is_confirmed: bool = False
-    birth: Optional[datetime]
-    phone: Optional[str]
-    name: Optional[str]
-    avatar: Dict = {
-        'isCircle': True,
-        'mouthType': 'Smile',
-        'accessoriesType': 'Blank',
-        'graphicType': 'Bat',
-        'topType': 'Hat',
-        'topColor': 'Gray02',
-        'clotheType': 'CollarSweater',
-        'clotheColor': 'Black',
-        'eyeType': 'Wink',
-        'eyebrowType': 'Default',
-        'facialHairType': 'Blank',
-        'facialHairColor': 'Auburn',
-        'hairColor': 'Brown',
-        'skinColor': 'Yellow',
-        'circleColor': '#87CEEB'
-    }
 
 
-class UserCreate(BaseUserCreate):
-    name: str
-
-
-class UserUpdate(User, BaseUserUpdate):
-    birth: datetime
-    avatar: dict
-    phone: str
-
-
-class UserDB(User, BaseUserDB):
-    pass
-
-
-class UserList(BaseModel):
-    mails: List[str] = []
-    sendmail: bool = False
-
-
-class FindUser(BaseModel):
-    limit: int = 10
-    name: str
-
-
-class ThemeModel(BaseModel):
-    bodyText: str = '#8f9498'
-    buttonBackground: str = '#192733'
-    buttonText: str = '#ffffff'
-    footerBackground: str = '#22619c'
-    footerText: str = '#323a5d'
-    formBackground: str = '#ffffff'
-    formBorder: str = '#a7b0b3'
-    formText: str = '#32385d'
-    headerBackground: str = '#2852a2'
-    imageBackground: str = '#324d5d'
-    imageText: str = '#32445d'
-    linkText: str = '#3a60d0'
-    navBackground: str = '#212225'
-    navText: str = '#ffffff'
-    pageBackground: str = '#e8e8e8'
-    pageText: str = '#26292b'
-    saleText: str = '#32465d'
-    titleText: str = '#25524f'
 
 
 client = motor.motor_asyncio.AsyncIOMotorClient(
