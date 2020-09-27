@@ -8,7 +8,6 @@ export default ({
 }) => {
   const accessToken = `Bearer ${TokenStorage.getAccessToken()}`
   app.$axios.defaults.headers.common.Authorization = accessToken
-  app.$axios.defaults.headers.common.Test = 'accessToken'
 
   app.$axios.interceptors.request.use((request) => {
     if (request.config) {

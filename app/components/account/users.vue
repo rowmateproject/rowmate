@@ -91,13 +91,13 @@ export default {
   },
   methods: {
     activateUser(uuid, index) {
-      this.$axios.$get(`${process.env.API_URL}/manage/users/activate/${uuid}`).then(res => {
+      this.$axios.$post(`${process.env.API_URL}/manage/users/activate/${uuid}`, {}).then(res => {
         this.users[index].is_active = !this.users[index].is_active
         this.users[index].is_accepted = true
       })
     },
     deactivateUser(uuid, index) {
-      this.$axios.$get(`${process.env.API_URL}/manage/users/deactivate/${uuid}`).then(res => {
+      this.$axios.$post(`${process.env.API_URL}/manage/users/deactivate/${uuid}`, {}).then(res => {
         this.users[index].is_active = !this.users[index].is_active
       })
     }
