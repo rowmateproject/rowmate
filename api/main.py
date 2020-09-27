@@ -4,17 +4,20 @@ import secrets
 from fastapi import (FastAPI, HTTPException, Depends, Request, Response)
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
 from fastapi_users import FastAPIUsers
-from fastapi_users.db import MongoDBUserDatabase
+from fastapi_users.db import MongoDBUserDatabase, BaseUserDatabase
 from fastapi_users.models import (
     BaseUser, BaseUserDB, BaseUserCreate, BaseUserUpdate)
-from fastapi_users.authentication import JWTAuthentication
+from fastapi_users.authentication import (
+    JWTAuthentication, Authenticator, name_to_variable_name)
 from fastapi_users.authentication.base import BaseAuthentication
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware
 
 from pydantic import BaseModel
+from makefun import with_signature
+from inspect import Signature, Parameter
 from datetime import datetime, timezone, timedelta
-from typing import Optional, List, Dict
+from typing import Optional, List, Dict, Sequence, Type
 from uuid import UUID
 
 import pymongo
@@ -83,6 +86,133 @@ class Authentication(AuthModel, JWTAuthentication):
             'access_token': access_token,
             'token_type': 'bearer'
         }
+
+
+class CustomAuthenticator(Authenticator):
+    backends: Sequence[BaseAuthentication]
+    user_db: BaseUserDatabase
+
+    def __init__(self,
+                 backends: Sequence[BaseAuthentication],
+                 user_db: BaseUserDatabase):
+        self.backends = backends
+        self.user_db = user_db
+
+        parameters = [Parameter(
+            name=name_to_variable_name(backend.name),
+            kind=Parameter.POSITIONAL_OR_KEYWORD,
+            default=Depends(backend.scheme)
+        ) for backend in self.backends]
+
+        signature = Signature(parameters)
+
+        @with_signature(signature, func_name='get_optional_current_user')
+        async def get_optional_current_user(*args, **kwargs):
+            return await self.authenticate(*args, **kwargs)
+
+        @with_signature(signature, func_name='get_optional_current_active_user')
+        async def get_optional_current_active_user(*args, **kwargs):
+            user = await get_optional_current_user(*args, **kwargs)
+
+            if not user or not user.is_active:
+                return None
+
+            return user
+
+        @with_signature(signature, func_name='get_optional_current_superuser')
+        async def get_optional_current_superuser(*args, **kwargs):
+            user = await get_optional_current_active_user(*args, **kwargs)
+
+            if not user or not user.is_superuser:
+                return None
+
+            return user
+
+        @with_signature(signature, func_name='get_current_user')
+        async def get_current_user(*args, **kwargs):
+            user = await get_optional_current_user(*args, **kwargs)
+
+            if user is None:
+                raise HTTPException(status_code=403,
+                                    detail='You do not have the permission')
+
+            return user
+
+        @with_signature(signature, func_name='get_current_active_user')
+        async def get_current_active_user(*args, **kwargs):
+            user = await get_optional_current_active_user(*args, **kwargs)
+
+            if user is None:
+                raise HTTPException(status_code=403,
+                                    detail='You do not have the permission')
+
+            return user
+
+        @with_signature(signature, func_name='get_current_superuser')
+        async def get_current_superuser(*args, **kwargs):
+            user = await get_optional_current_active_user(*args, **kwargs)
+
+            if user is None:
+                raise HTTPException(status_code=403,
+                                    detail='You do not have the permission')
+
+            if not user.is_superuser:
+                raise HTTPException(status_code=403,
+                                    detail='You need to be superuser')
+
+            return user
+
+        self.get_current_user = get_current_user
+        self.get_current_active_user = get_current_active_user
+        self.get_optional_current_active_user = get_optional_current_active_user
+        self.get_optional_current_superuser = get_optional_current_superuser
+        self.get_optional_current_user = get_optional_current_user
+        self.get_current_superuser = get_current_superuser
+
+    async def authenticate(self, *args, **kwargs) -> Optional[BaseUserDB]:
+        # print(dir(self), args, kwargs)
+
+        for backend in self.backends:
+            token: str = kwargs[name_to_variable_name(backend.name)]
+
+            if token:
+                user = await backend(token, self.user_db)
+
+                if user is not None:
+                    return user
+
+        return None
+
+
+class APIUsers(FastAPIUsers):
+    authenticator: CustomAuthenticator
+
+    def __init__(
+            self, db: BaseUserDatabase,
+            auth_backends: Sequence[BaseAuthentication],
+            user_model: Type[BaseUser],
+            user_create_model: Type[BaseUserCreate],
+            user_update_model: Type[BaseUserUpdate],
+            user_db_model: Type[BaseUserDB]):
+        self.db = db
+        self.authenticator = CustomAuthenticator(auth_backends, db)
+
+        self._user_model = user_model
+        self._user_db_model = user_db_model
+        self._user_create_model = user_create_model
+        self._user_update_model = user_update_model
+        self._user_db_model = user_db_model
+
+        self.get_current_user = self.authenticator.get_current_user
+        self.get_current_active_user = self.authenticator.get_current_active_user
+        self.get_current_superuser = self.authenticator.get_current_superuser
+        self.get_optional_current_user = self.authenticator.get_optional_current_user
+        self.get_optional_current_active_user = (
+            self.authenticator.get_optional_current_active_user
+        )
+        self.get_optional_current_superuser = (
+            self.authenticator.get_optional_current_superuser
+        )
 
 
 class User(BaseUser):
@@ -176,7 +306,7 @@ jwt_auth = Authentication(
 )
 auth_backends.append(jwt_auth)
 
-fastapi_users = FastAPIUsers(
+api_user = APIUsers(
     user_db,
     auth_backends,
     User,
@@ -226,7 +356,8 @@ async def login_jwt(response: Response,
 
 
 @app.post('/auth/jwt/refresh')
-async def refresh_jwt(response: Response, user=Depends(fastapi_users.get_current_active_user)):
+async def refresh_jwt(response: Response,
+                      user=Depends(api_user.get_current_active_user)):
     return await jwt_auth.get_refresh_response(user, response)
 
 
@@ -250,18 +381,18 @@ async def on_after_register(user: UserDB, request: Request):
 
     await fm.send_message(message)
 
-    return {'detail': 'Verification mai has been sent'}
+    return {'detail': 'Verification mail has been sent'}
 
 
 app.include_router(
-    fastapi_users.get_register_router(on_after_register),
+    api_user.get_register_router(on_after_register),
     prefix='/auth',
     tags=['auth'],
 )
 
 
 app.include_router(
-    fastapi_users.get_reset_password_router(
+    api_user.get_reset_password_router(
         config.Settings().reset_secret,
         after_forgot_password=on_after_forgot_password,
         reset_password_token_lifetime_seconds=3600
@@ -272,7 +403,7 @@ app.include_router(
 
 
 app.include_router(
-    fastapi_users.get_users_router(),
+    api_user.get_users_router(),
     prefix='/users',
     tags=['users'],
 )
@@ -287,33 +418,31 @@ async def activate_user(user: UserDB):
 
 
 @app.post('/manage/users/activate/{uuid}')
-async def activate_user_by_uuid(uuid: str, request: Request, requser=Depends(fastapi_users.get_current_active_user)):
-    if requser.is_superuser:
-        user = await collection.find_one({'id': UUID(uuid)})
+async def activate_user_by_uuid(uuid: str,
+                                request: Request,
+                                requser=Depends(api_user.get_current_superuser)):
+    user = await collection.find_one({'id': UUID(uuid)})
 
-        # accepting the user when user is activated
-        if await collection.update_one({'id': user['id']}, {'$set': {'is_active': True, 'is_accepted': True}}) is not None:
-            return {'status': 'ok'}
-        else:
-            raise HTTPException(status_code=404, detail='Update failed')
+    # accepting the user when user is activated
+    if await collection.update_one({'id': user['id']}, {'$set': {'is_active': True, 'is_accepted': True}}) is not None:
+        return {'status': 'ok'}
     else:
-        raise HTTPException(status_code=403, detail='You need to be superuser')
+        raise HTTPException(status_code=404, detail='Update failed')
 
 
 @app.post('/manage/users/deactivate/{uuid}')
-async def deactivate_user(uuid: str, request: Request, requser=Depends(fastapi_users.get_current_active_user)):
-    if requser.is_superuser:
-        user = await collection.find_one({'id': UUID(uuid)})
+async def deactivate_user_by_uuid(uuid: str,
+                                  request: Request,
+                                  requser=Depends(api_user.get_current_superuser)):
+    user = await collection.find_one({'id': UUID(uuid)})
 
-        if user is not None:
-            if await collection.update_one({'id': user['id']}, {'$set': {'is_active': False}}) is not None:
-                return {'status': 'ok'}
-            else:
-                raise HTTPException(status_code=500, detail='Update failed')
+    if user is not None:
+        if await collection.update_one({'id': user['id']}, {'$set': {'is_active': False}}) is not None:
+            return {'status': 'ok'}
         else:
-            raise HTTPException(status_code=404, detail='User not found')
+            raise HTTPException(status_code=400, detail='Update failed')
     else:
-        raise HTTPException(status_code=403, detail='You need to be superuser')
+        raise HTTPException(status_code=404, detail='User not found')
 
 
 @app.get('/confirm/{token}')
@@ -336,27 +465,24 @@ async def confirm_mail(token: str, request: Request):
 
 
 @app.post('/manage/users/invite')
-async def invite_user(users: UserList, user=Depends(fastapi_users.get_current_active_user)):
+async def invite_user(users: UserList,
+                      user=Depends(api_user.get_current_superuser)):
     mails = []
 
-    if user.is_superuser:
-        for mail in users.mails:
-            if not re.search(mail, mail_address_pattern):
-                mails.append({'email': mail})
+    for mail in users.mails:
+        if not re.search(mail, mail_address_pattern):
+            mails.append({'email': mail})
 
-        inserted = await db.invited.insert_many(mails)
+    inserted = await db.invited.insert_many(mails)
 
-        if len(inserted.inserted_ids) == len(mails):
-            return {'detail': 'Successfully added all email addreesses'}
-        else:
-            return {'detail': 'Not all email addreesses have been added'}
-
+    if len(inserted.inserted_ids) == len(mails):
+        return {'detail': 'Successfully added all email addreesses'}
     else:
-        raise HTTPException(status_code=403, detail='You need to be superuser')
+        return {'detail': 'Not all email addreesses have been added'}
 
 
 @app.get('/manage/users/list')
-async def list_users(user=Depends(fastapi_users.get_current_superuser)):
+async def list_users(user=Depends(api_user.get_current_superuser)):
     sort = [('_id', pymongo.DESCENDING)]
     query = await collection.find({}).sort(sort).to_list(length=10000)
     users = []
@@ -381,7 +507,8 @@ async def list_users(user=Depends(fastapi_users.get_current_superuser)):
 
 
 @app.post('/social/users/find')
-async def find_user_by_name_or_mail(req: FindUser, user=Depends(fastapi_users.get_current_active_user)):
+async def find_user_by_name_or_mail(req: FindUser,
+                                    user=Depends(api_user.get_current_active_user)):
     sort = [('_id', pymongo.DESCENDING)]
     users = []
 
@@ -417,7 +544,7 @@ async def get_default_theme(theme: ThemeModel = Depends()):
 
 
 @app.patch('/theme/default')
-async def patch_default_theme(theme: ThemeModel, user=Depends(fastapi_users.get_current_superuser)):
+async def patch_default_theme(theme: ThemeModel, user=Depends(api_user.get_current_superuser)):
     res = await db['themes'].update_one({}, {'$set': dict(theme)}, upsert=True)
 
     if res.modified_count > 0:
