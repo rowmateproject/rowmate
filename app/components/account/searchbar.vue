@@ -1,5 +1,5 @@
 <template>
-<header class="flex justify-between items-center py-3 px-3 lg:px-6 bg-color-form border-b-4 border-indigo-500">
+<header class="flex justify-between items-center py-3 md:py-4 px-3 md:px-6 bg-color-form border-b-4 border-indigo-500">
   <div class="flex items-center w-full md:w-6/12 lg:w-5/12 xl:w-3/12">
     <div class="w-full relative">
       <span class="absolute inset-y-0 left-0 pl-3 flex items-center">
