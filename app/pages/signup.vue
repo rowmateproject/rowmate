@@ -115,7 +115,7 @@ export default {
             this.showResponse = true
             this.response = 'Konto mit dieser Email existiert bereits'
           } else {
-            console.log(res.data.detail)
+            console.debug(res.data)
           }
         })
       }

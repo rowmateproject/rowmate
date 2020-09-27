@@ -260,7 +260,7 @@ export const actions = {
         navText = parsed.navText
       } catch (err) {
         // eslint-disable-next-line
-        console.log(err)
+        console.debug(err)
       }
     }
 

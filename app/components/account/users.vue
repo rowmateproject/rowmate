@@ -93,7 +93,7 @@ export default {
       if (res.status === 200) {
         this.users = res.data.users
       } else {
-        console.log(res.data)
+        console.debug(res.data)
       }
     })
   },
@@ -108,7 +108,7 @@ export default {
           this.users[index].is_active = !this.users[index].is_active
           this.users[index].is_accepted = true
         } else {
-          console.log(res.data)
+          console.debug(res.data)
         }
       })
     },
@@ -121,7 +121,7 @@ export default {
         if (res.status === 200) {
           this.users[index].is_active = !this.users[index].is_active
         } else {
-          console.log(res.data)
+          console.debug(res.data)
         }
       })
     }

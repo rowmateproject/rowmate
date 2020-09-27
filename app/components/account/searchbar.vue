@@ -101,7 +101,7 @@ export default {
             this.users = res.users
           }
         }).catch((error) => {
-          console.log(error)
+          console.debug(error)
         })
       }
     },

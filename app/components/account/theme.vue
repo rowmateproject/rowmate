@@ -34,7 +34,7 @@ export default {
       if (res.status === 200) {
         this.theme = res.data
       } else {
-        console.log(res.data)
+        console.debug(res.data)
       }
     })
   },
@@ -175,9 +175,9 @@ export default {
         validateStatus: () => true
       }).then(res => {
         if (res.status === 200) {
-          console.log(res.data)
+          console.debug(res.data)
         } else {
-          console.log(res.data)
+          console.debug(res.data)
         }
       })
     }

@@ -159,7 +159,7 @@ export default {
         this.user.birthDate.month = new Date(Date.parse(res.data.birth)).getMonth() + 1 || ''
         this.user.birthDate.year = new Date(Date.parse(res.data.birth)).getFullYear() || ''
       } else {
-        console.log(res.data)
+        console.debug(res.data)
       }
     })
   },
@@ -356,7 +356,7 @@ export default {
             this.showResponse = true
             this.response = 'Einstellungen wurden erfolgreich geändert'
           } else {
-            console.log(res.data)
+            console.debug(res.data)
           }
         })
       }

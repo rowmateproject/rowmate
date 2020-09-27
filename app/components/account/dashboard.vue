@@ -65,7 +65,7 @@ export default {
       if (res.status === 200) {
         this.users = res.data.users
       } else {
-        console.log(res.data)
+        console.debug(res.data)
       }
     })
   }
