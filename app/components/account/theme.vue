@@ -2,6 +2,8 @@
 <div>
   <h3 class="text-3xl font-medium text-color-title">Theme</h3>
 
+  <upload />
+
   <form @submit.prevent="patchTheme">
     <ul class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-3 mt-8">
       <li v-for="color, key, index in theme" :key="index" class="bg-color-form rounded px-2 pt-1 pb-2">
@@ -15,8 +17,6 @@
       </button>
     </div>
   </form>
-
-  <upload />
 </div>
 </template>
 
