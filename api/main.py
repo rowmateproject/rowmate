@@ -356,31 +356,28 @@ async def invite_user(users: UserList, user=Depends(fastapi_users.get_current_ac
 
 
 @app.get('/manage/users/list')
-async def list_users(user=Depends(fastapi_users.get_current_active_user)):
-    if user.is_superuser:
-        sort = [('_id', pymongo.DESCENDING)]
-        query = await collection.find({}).sort(sort).to_list(length=10000)
-        users = []
+async def list_users(user=Depends(fastapi_users.get_current_superuser)):
+    sort = [('_id', pymongo.DESCENDING)]
+    query = await collection.find({}).sort(sort).to_list(length=10000)
+    users = []
 
-        for user in query:
-            try:
-                users.append({
-                    'id': str(user['id']),
-                    'name': user['name'],
-                    'email': user['email'],
-                    'is_active': user['is_active'],
-                    'is_accepted': user['is_accepted'],
-                    'is_superuser': user['is_superuser'],
-                    'is_confirmed': user['is_confirmed'],
-                    'created': user['_id'].generation_time,
-                    'avatar': user['avatar']
-                })
-            except Exception as e:
-                print(e)
+    for user in query:
+        try:
+            users.append({
+                'id': str(user['id']),
+                'name': user['name'],
+                'email': user['email'],
+                'is_active': user['is_active'],
+                'is_accepted': user['is_accepted'],
+                'is_superuser': user['is_superuser'],
+                'is_confirmed': user['is_confirmed'],
+                'created': user['_id'].generation_time,
+                'avatar': user['avatar']
+            })
+        except Exception as e:
+            print(e)
 
-        return {'users': users}
-    else:
-        raise HTTPException(status_code=403, detail='You need to be superuser')
+    return {'users': users}
 
 
 @app.post('/social/users/find')
@@ -420,7 +417,7 @@ async def get_default_theme(theme: ThemeModel = Depends()):
 
 
 @app.patch('/theme/default')
-async def patch_default_theme(theme: ThemeModel, user=Depends(fastapi_users.get_current_active_user)):
+async def patch_default_theme(theme: ThemeModel, user=Depends(fastapi_users.get_current_superuser)):
     res = await db['themes'].update_one({}, {'$set': dict(theme)}, upsert=True)
 
     if res.modified_count > 0:
