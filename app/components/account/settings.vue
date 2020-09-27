@@ -3,7 +3,7 @@
   <h3 class="text-3xl font-medium text-color-title">{{ $t('settings') }}</h3>
 
   <form @submit.prevent="saveExtendedUser">
-    <div class="mt-8 p-6 bg-color-form rounded-md shadow-md">
+    <div class="mt-3 lg:mt-8 p-6 bg-color-form rounded-md shadow-md">
       <div class="grid grid-cols-6 gap-6">
         <div class="col-span-6 sm:col-span-2 sm:pr-6 sm:border-r-2">
           <avatar :avatar="user.avatar" />
@@ -36,7 +36,7 @@
       </div>
     </div>
 
-    <div class="mt-8 p-6 bg-color-form rounded-md shadow-md">
+    <div class="mt-3 lg:mt-8 p-6 bg-color-form rounded-md shadow-md">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-4">
         <div>
           <label class="text-color-form" for="username">{{ $t('name') }}</label>

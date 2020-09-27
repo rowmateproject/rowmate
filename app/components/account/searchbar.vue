@@ -1,6 +1,6 @@
 <template>
-<header class="flex justify-between items-center py-4 px-6 bg-color-form border-b-4 border-indigo-500">
-  <div class="flex w-full md:w-4/12 lg:w-3/12 items-center">
+<header class="flex justify-between items-center py-3 px-3 lg:px-6 bg-color-form border-b-4 border-indigo-500">
+  <div class="flex items-center w-full md:w-6/12 lg:w-5/12 xl:w-3/12">
     <div class="w-full relative">
       <span class="absolute inset-y-0 left-0 pl-3 flex items-center">
         <svg class="h-5 w-5 text-color-nav" viewBox="0 0 24 24" fill="none">
@@ -34,17 +34,21 @@
     </button>
 
     <div class="relative">
-      <button @click="dropdownOpen = !dropdownOpen" class="relative z-10 block h-10 w-10 overflow-hidden focus:outline-none">
+      <button @click="toggleDropdown" @keydown.esc="toggleDropdown" class="relative z-10 block h-10 w-10 overflow-hidden focus:outline-none">
         <avatar :avatar="avatar" class="h-full w-full object-cover" />
       </button>
 
-      <div v-show="dropdownOpen" @click="dropdownOpen = false" class="fixed inset-0 h-full w-full z-10"></div>
-
-      <div v-show="dropdownOpen" class="absolute right-0 mt-2 py-2 w-48 bg-color-form rounded-md shadow-xl z-20">
-        <a href="#" class="block px-4 py-2 text-sm text-color-link border-b border-color-form">Profile</a>
-        <a href="#" class="block px-4 py-2 text-sm text-color-link border-b border-color-form">Verein</a>
-        <a @click="logout" class="block px-4 py-2 text-sm text-color-link">Logout</a>
-      </div>
+      <ul v-click-outside="toggleDropdown" v-if="showDropdown" class="absolute right-0 mt-2 w-48 bg-color-header overflow-hidden rounded shadow z-20">
+        <li @click="toggleDropdown">
+          <nuxt-link :to="localePath('/settings')" class="block px-4 py-2 text-sm text-color-nav hover:bg-gray-800 border-b border-color-form">Profile</nuxt-link>
+        </li>
+        <li @click="toggleDropdown">
+          <nuxt-link :to="localePath('/#')" class="block px-4 py-2 text-sm text-color-nav hover:bg-gray-800 border-b border-color-form">Verein</nuxt-link>
+        </li>
+        <li @click="toggleDropdown">
+          <a @click="logoutUser" class="cursor-pointer block px-4 py-2 text-sm text-color-nav hover:bg-gray-800">Logout</a>
+        </li>
+      </ul>
     </div>
   </div>
 </header>
@@ -56,8 +60,8 @@ import Cookies from 'js-cookie'
 export default {
   data() {
     return {
-      dropdownOpen: false,
-      searchValue: "",
+      showDropdown: false,
+      searchValue: '',
       users: []
     }
   },
@@ -89,11 +93,14 @@ export default {
     hideSearch() {
       this.users = []
     },
+    toggleDropdown() {
+      return this.showDropdown = !this.showDropdown
+    },
     findUsers() {
       if (this.searchValue.length > 1) {
         this.$axios.$post(`${process.env.API_URL}/social/users/find`, {
-          'name': this.searchValue,
-          'limit': 5
+          name: this.searchValue,
+          limit: 5
         }).then(res => {
           if (res.users.length === 0) {
             this.users = false
@@ -105,7 +112,7 @@ export default {
         })
       }
     },
-    logout() {
+    logoutUser() {
       Cookies.remove('accessToken', {
         secure: true
       })

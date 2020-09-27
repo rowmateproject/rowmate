@@ -2,8 +2,8 @@ export default function({
   store,
   redirect
 }) {
-  // If the user is authenticated redirect to dashboard
-  if (store.state.accessToken) {
+  // If the user is not authenticated
+  if (store.state.isSuperuser !== 'true') {
     return redirect('/settings')
   }
 }

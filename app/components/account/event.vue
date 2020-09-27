@@ -2,7 +2,7 @@
 <div>
   <h3 class="text-3xl font-medium text-color-title">{{ $t('createEvent') }}</h3>
 
-  <form @submit.prevent="xxx" class="mt-8 p-6 bg-color-form rounded-md shadow-md">
+  <form @submit.prevent="xxx" class="mt-3 lg:mt-8 p-3 lg:p-6 bg-color-form rounded-md shadow-md">
     <div class="flex mb-8">
       <div class="w-1/4 text-center text-color-form bg-color-page rounded flex items-center justify-center h-20">
         <div class="w-1/4 flex items-center justify-start px-4">

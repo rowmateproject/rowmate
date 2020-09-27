@@ -6,7 +6,7 @@
     <searchbar />
 
     <main class="flex-1 overflow-x-hidden overflow-y-auto">
-      <div class="container mx-auto px-6 py-8">
+      <div class="lg:container mx-auto px-3 md:px-6 py-3 md:py-8">
         <nuxt />
       </div>
     </main>

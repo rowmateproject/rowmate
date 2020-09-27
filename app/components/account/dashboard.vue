@@ -2,9 +2,9 @@
 <div>
   <h3 class="text-3xl font-medium text-color-title">Dashboard</h3>
 
-  <div class="mt-8">
-    <div class="flex flex-wrap -mx-6">
-      <div class="w-full px-6 sm:w-1/2 xl:w-1/3">
+  <div class="mt-3 lg:mt-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
+      <div>
         <div class="flex items-center px-5 py-6 shadow-sm rounded-md bg-color-form">
           <div class="flex items-center justify-center rounded-full bg-red-600 bg-opacity-75 w-16 h-16">
             <fa :icon="['fas', 'users']" class="text-color-nav text-3xl" />
@@ -17,7 +17,7 @@
         </div>
       </div>
 
-      <div class="w-full mt-6 px-6 sm:w-1/2 xl:w-1/3 sm:mt-0">
+      <div>
         <div class="flex items-center px-5 py-6 shadow-sm rounded-md bg-color-form">
           <div class="flex items-center justify-center rounded-full bg-orange-600 bg-opacity-75 w-16 h-16">
             <fa :icon="['fas', 'network-wired']" class="text-color-nav text-3xl" />
@@ -30,7 +30,7 @@
         </div>
       </div>
 
-      <div class="w-full mt-6 px-6 sm:w-1/2 xl:w-1/3 xl:mt-0">
+      <div>
         <div class="flex items-center px-5 py-6 shadow-sm rounded-md bg-color-form">
           <div class="flex items-center justify-center rounded-full bg-green-600 bg-opacity-75 w-16 h-16">
             <fa :icon="['fas', 'calendar-alt']" class="text-color-nav text-3xl" />
@@ -45,7 +45,6 @@
     </div>
   </div>
 
-  <div class="mt-8"></div>
 </div>
 </template>
 
