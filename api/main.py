@@ -386,7 +386,7 @@ async def on_after_register(user: UserDB, request: Request):
     message = MessageSchema(
         subject='Welcome to rowmate.org',
         receipients=[user.email],
-        body=f'Hi {user.name},\n\nthis is your registration mail with your verification token\n\n{token}\n\nBest regards,\nrowmate.org'
+        body=f'Hi {user.name},\n\nthis is your registration mail with your verification link:\n\n{config.Settings().frontend_url}/confirm/{token}\n\nBest regards,\nrowmate.org'
     )
 
     await fm.send_message(message)
