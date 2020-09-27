@@ -6,12 +6,11 @@ export default ({
   app,
   store
 }) => {
-  const accessToken = `Bearer ${TokenStorage.getAccessToken()}`
-  app.$axios.defaults.headers.common.Authorization = accessToken
+  app.$axios.defaults.headers.common.Authorization = `Bearer ${TokenStorage.getAccessToken()}`
 
   app.$axios.interceptors.request.use((request) => {
     if (request.config) {
-      request.config.config.headers.Authorization = accessToken
+      request.config.config.headers.Authorization = `Bearer ${TokenStorage.getAccessToken()}`
       Promise.reject(request)
     }
 
@@ -39,7 +38,7 @@ export default ({
       })
     }
 
-    config.headers.Authorization = accessToken
+    config.headers.Authorization = `Bearer ${TokenStorage.getAccessToken()}`
     return config
   }, (error) => {
     // Return any error which is not due to authentication back to the calling service
