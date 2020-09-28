@@ -1,6 +1,7 @@
 export default {
   name: 'Name',
   email: 'Email',
+  search: 'Suche',
   signin: 'Anmelden',
   signup: 'Registrieren',
   password: 'Passwort',

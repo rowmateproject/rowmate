@@ -1,6 +1,7 @@
 export default {
   name: 'Name',
   email: 'Email',
+  search: 'Suche',
   signin: 'Anmelden',
   signup: 'Registrieren',
   password: 'Passwort',
@@ -39,7 +40,7 @@ export default {
 
   category: 'Kategorie',
   status: 'Status',
-  search: 'Suchen',
+
   role: 'Rolle',
 
   pageBackground: 'Allgemeiner Hintergrund',

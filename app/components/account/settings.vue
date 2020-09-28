@@ -139,7 +139,7 @@ export default {
         name: '',
         phone: '',
         email: '',
-        locale: this.currentLocale,
+        locale: '',
         birthDate: {
           day: null,
           month: null,
@@ -170,7 +170,7 @@ export default {
         this.user.email = res.data.email || ''
         this.user.phone = res.data.phone || ''
         this.user.avatar = res.data.avatar || {}
-        this.user.locale = res.data.locale || this.currentLocale
+        this.user.locale = this.currentLocale || res.data.locale
         this.user.birthDate.day = new Date(Date.parse(res.data.birth)).getDate() || ''
         this.user.birthDate.month = new Date(Date.parse(res.data.birth)).getMonth() + 1 || ''
         this.user.birthDate.year = new Date(Date.parse(res.data.birth)).getFullYear() || ''
@@ -200,9 +200,6 @@ export default {
     }
   },
   watch: {
-    'user.locale': function() {
-      this.$i18n.setLocale(this.user.locale)
-    },
     'user.email': function() {
       if (this.user.email.trim() !== '') {
         if (this.emailRegex.test(this.user.email.trim())) {
@@ -371,12 +368,17 @@ export default {
             password: this.user.password.trim(),
             confirm: this.user.confirm.trim(),
             phone: this.user.phone.trim(),
+            locale: this.user.locale,
             avatar: this.user.avatar,
             birth: this.birthDate
           },
           validateStatus: () => true
         }).then(res => {
           if (res.status === 200) {
+            if (this.currentLocale !== this.user.locale) {
+              this.$i18n.setLocale(this.user.locale)
+            }
+
             this.classResponse = 'text-green-500'
             this.showResponse = true
             this.response = 'Einstellungen wurden erfolgreich geändert'
