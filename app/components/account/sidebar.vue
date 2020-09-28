@@ -62,7 +62,7 @@ export default {
         let reader = new window.FileReader()
         reader.readAsDataURL(res.data)
         reader.onload = function() {
-          // vm.image = reader.result
+          vm.image = reader.result
         }
       } else {
         console.debug(res.data)
