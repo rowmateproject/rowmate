@@ -1,6 +1,9 @@
 const {
   colors
 } = require('tailwindcss/defaultTheme')
+const {
+  fontsize
+} = require('tailwindcss/defaultTheme')
 
 module.exports = {
   future: {
@@ -10,6 +13,10 @@ module.exports = {
   purge: [],
   theme: {
     extend: {
+      fontSize: {
+        ...fontsize,
+        '10xl': ['8rem', '2rem']
+      },
       colors: {
         gray: {
           ...colors.gray,
