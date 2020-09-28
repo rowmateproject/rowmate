@@ -6,9 +6,10 @@ export const state = () => {
     isSuperuser: null,
     refreshToken: null,
     accessToken: null,
+    imageBlob: null,
     isActive: null,
-
     name: null,
+
     eyeType: null,
     isCircle: null,
     clotheType: null,
@@ -49,6 +50,9 @@ export const state = () => {
 export const mutations = {
   updateName(state, name) {
     state.name = name
+  },
+  updateImageBlob(state, imageBlob) {
+    state.imageBlob = imageBlob
   },
   updateIsActive(state, isActive) {
     state.isActive = isActive

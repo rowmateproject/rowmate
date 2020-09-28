@@ -38,7 +38,7 @@
 
           <div class="mx-5">
             <h4 class="text-2xl font-semibold text-color-page">542</h4>
-            <div class="text-color-title">Veranstaltungen</div>
+            <div class="text-color-title">Erstellte Veranstaltungen</div>
           </div>
         </div>
       </div>

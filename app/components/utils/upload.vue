@@ -120,6 +120,7 @@ export default {
         }).then(res => {
           if (res.status === 200) {
             vm.image = vm.createObjectURL(blobData)
+            vm.$store.commit('updateImageBlob', vm.image)
           } else {
             console.debug(res.data)
           }

@@ -2,7 +2,7 @@
 <div class="flex min-h-screen">
   <div class="bg-color-nav fixed z-30 inset-y-0 left-0 w-64 transition duration-300 transform -translate-x-full ease-in overflow-y-auto lg:translate-x-0 lg:static lg:inset-0">
     <div class="bg-color-footer text-center py-1">
-      <img v-if="image" :src="image" class="w-full object-cover px-4 py-1">
+      <img v-if="imgageBlob" :src="imgageBlob" class="w-full object-cover px-4 py-1">
       <logo v-else class="px-4 py-1" />
     </div>
 
@@ -45,7 +45,6 @@
 export default {
   data() {
     return {
-      image: null,
       activeClass: 'bg-gray-600 bg-opacity-25 text-gray-100 border-gray-100',
       inactiveClass: 'border-gray-900 text-color-nav hover:bg-gray-600 hover:bg-opacity-25 hover:text-gray-100'
     }
@@ -58,12 +57,7 @@ export default {
       validateStatus: () => true
     }).then(res => {
       if (res.status === 200) {
-        const vm = this
-        let reader = new window.FileReader()
-        reader.readAsDataURL(res.data)
-        reader.onload = function() {
-          vm.image = reader.result
-        }
+        this.$store.commit('updateImageBlob', this.createObjectURL(res.data))
       } else {
         console.debug(res.data)
       }
@@ -73,11 +67,17 @@ export default {
     pageName() {
       return this.$route.name
     },
+    imgageBlob() {
+      return this.$store.state.imageBlob
+    },
     isSuperuser() {
       return this.$store.state.isSuperuser
     }
   },
   methods: {
+    createObjectURL(blob) {
+      return URL.createObjectURL(blob)
+    },
     comparePageName(value) {
       return this.pageName === `${value}___${this.$i18n.locale}`
     }
