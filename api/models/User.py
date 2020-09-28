@@ -1,14 +1,16 @@
-from fastapi_users.models import BaseUser, BaseUserDB, BaseUserCreate, BaseUserUpdate
-from typing import Optional, List, Dict, Sequence, Type
+from fastapi_users.models import (
+    BaseUser, BaseUserDB, BaseUserCreate, BaseUserUpdate)
+from typing import Optional, List, Dict
 from datetime import datetime
 from pydantic import BaseModel
-from fastapi_users.db import MongoDBUserDatabase, BaseUserDatabase
+
 
 class User(BaseUser):
     is_active: bool = False
     is_accepted: bool = False
     is_confirmed: bool = False
     birth: Optional[datetime]
+    locale: Optional[str]
     phone: Optional[str]
     name: Optional[str]
     avatar: Dict = {
@@ -37,6 +39,7 @@ class UserCreate(BaseUserCreate):
 class UserUpdate(User, BaseUserUpdate):
     birth: datetime
     avatar: dict
+    locale: str
     phone: str
 
 
