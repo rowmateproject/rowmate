@@ -31,16 +31,16 @@ import re
 
 
 # models
-from models.User import (User, UserCreate, UserUpdate,
+from models.user import (User, UserCreate, UserUpdate,
                          UserDB, UserList, FindUser)
-from models.Theme import ThemeModel
-# from models.Event import Event
-# from models.Boat import Boat
+from models.theme import ThemeModel
+# from models.event import Event
+# from models.boat import Boat
 
 # enums
-# from enums.BoatCategory import BoatCategoryEnum
-# from enums.Discipline import DisciplineEnum
-# from enums.Coxswain import CoxswainEnum
+# from enums.boatcategory import BoatCategoryEnum
+# from enums.discipline import DisciplineEnum
+# from enums.coxswain import CoxswainEnum
 
 mail_address_pattern = r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
 
