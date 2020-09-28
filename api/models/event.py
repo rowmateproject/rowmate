@@ -3,8 +3,11 @@ from typing import Dict, Optional, List
 from datetime import date, datetime, time, timedelta
 from .pydanticclasses.pydanticobjectid import PydanticObjectId
 from .memberclass import MemberClass
+from bson.binary import Binary, UUID_SUBTYPE
+from uuid import uuid4
 
 class Event(BaseModel):
+    id: Binary = Binary(bytes(bytearray(uuid4().bytes)), UUID_SUBTYPE)
     title: Dict[str, str] # store translations
     description: Dict[str, str]
     created: datetime = datetime.now()

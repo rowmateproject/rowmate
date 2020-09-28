@@ -28,14 +28,14 @@ import pymongo
 import config
 import jwt
 import re
-
+from bson.binary import Binary, UUID_SUBTYPE
 
 # models
 from models.user import (User, UserCreate, UserUpdate,
                          UserDB, UserList, FindUser)
 from models.theme import ThemeModel
 # from models.event import Event
-# from models.boat import Boat
+from models.boat import Boat
 
 # enums
 # from enums.boatcategory import BoatCategoryEnum
@@ -540,3 +540,21 @@ async def post_theme_image(image: UploadFile = File(...),
             return {'detail': 'Uploaded logo', 'image': filename}
         else:
             return {'detail': 'Upload error occured'}
+
+
+
+@app.get('/boats/all')
+async def get_all_boats(user=Depends(api_user.get_current_active_user)):
+    sort = [('_id', pymongo.DESCENDING)]
+    boats = await db['boats'].find({}, {'_id': False}).sort(sort).to_list(length=10000)
+
+    return boats
+
+
+@app.post('/boats/add')
+async def add_boat(boat: Boat, user=Depends(api_user.get_current_active_user)):
+    result = await db['boats'].insert_one(dict(boat))
+    if result.acknowledged:
+        return { 'status': 'ok' }
+    else:
+        raise HTTPException(status_code=500, detail='Error')
