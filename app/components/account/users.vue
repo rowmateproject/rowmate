@@ -6,18 +6,18 @@
     <div class="overflow-x-auto">
       <div class="min-w-full align-middle inline-block shadow overflow-hidden rounded">
         <table class="min-w-full">
-          <thead class="bg-color-image text-color-button">
+          <thead class="bg-color-header text-color-button">
             <tr>
-              <th class="px-6 py-3 border-b border-color-form text-left text-xs leading-4 font-medium uppercase tracking-wider">
+              <th class="px-6 py-6 border-b border-color-form text-left text-xs leading-4 font-medium uppercase tracking-wider">
                 {{ $t('name') }}
               </th>
-              <th class="py-3 border-b border-color-form text-left text-xs leading-4 font-medium uppercase tracking-wider">
+              <th class="py-6 border-b border-color-form text-left text-xs leading-4 font-medium uppercase tracking-wider">
                 {{ $t('status') }}
               </th>
-              <th class="px-6 py-3 border-b border-color-form text-left text-xs leading-4 font-medium uppercase tracking-wider">
+              <th class="px-6 py-6 border-b border-color-form text-left text-xs leading-4 font-medium uppercase tracking-wider">
                 {{ $t('role') }}
               </th>
-              <th class="px-6 py-3 border-b border-color-form"></th>
+              <th class="px-6 py-6 border-b border-color-form"></th>
             </tr>
           </thead>
           <tbody class="bg-color-form">

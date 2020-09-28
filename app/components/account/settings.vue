@@ -1,6 +1,6 @@
 <template>
 <div>
-  <h3 class="text-3xl font-medium text-color-title">{{ $t('settings') }}</h3>
+  <h3 class="text-3xl font-medium text-color-title">Profile</h3>
 
   <form @submit.prevent="saveExtendedUser">
     <div class="mt-3 lg:mt-8 p-6 bg-color-form rounded-md shadow-md">
@@ -104,6 +104,20 @@
           <input :class="[errors.confirm ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="w-full rounded border border-color-form focus:outline-none p-2 mt-2 mb-1" type="password" v-model="user.confirm">
           <p v-if="errors.confirm" class="text-red-500 text-xs italic">{{ $t('errorInvalidConfirmPassword') }}</p>
         </div>
+
+        <div>
+          <label class="text-color-form" for="confirmPassword">Sprachauswahl</label>
+          <div class="col-span-3 relative z-0">
+            <select v-model="user.locale" class="appearance-none block w-full rounded border form-border-color focus:outline-none p-2 mt-2">
+              <option v-for="value, index in availableLocales" :key="index" :value="value.code">{{ value.name }}</option>
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 mt-2 text-color-nav">
+              <svg class="text-color-form fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+              </svg>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="flex justify-end mt-4">
@@ -125,6 +139,7 @@ export default {
         name: '',
         phone: '',
         email: '',
+        locale: this.currentLocale,
         birthDate: {
           day: null,
           month: null,
@@ -155,6 +170,7 @@ export default {
         this.user.email = res.data.email || ''
         this.user.phone = res.data.phone || ''
         this.user.avatar = res.data.avatar || {}
+        this.user.locale = res.data.locale || this.currentLocale
         this.user.birthDate.day = new Date(Date.parse(res.data.birth)).getDate() || ''
         this.user.birthDate.month = new Date(Date.parse(res.data.birth)).getMonth() + 1 || ''
         this.user.birthDate.year = new Date(Date.parse(res.data.birth)).getFullYear() || ''
@@ -175,9 +191,18 @@ export default {
     },
     birthDate() {
       return new Date(Date.UTC(this.user.birthDate.year, this.user.birthDate.month - 1, this.user.birthDate.day, 0, 0, 0))
+    },
+    currentLocale() {
+      return this.$i18n.locale
+    },
+    availableLocales() {
+      return this.$i18n.locales
     }
   },
   watch: {
+    'user.locale': function() {
+      this.$i18n.setLocale(this.user.locale)
+    },
     'user.email': function() {
       if (this.user.email.trim() !== '') {
         if (this.emailRegex.test(this.user.email.trim())) {

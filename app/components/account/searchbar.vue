@@ -38,12 +38,12 @@
         <avatar :avatar="avatar" class="h-full w-full object-cover" />
       </button>
 
-      <ul v-click-outside="toggleDropdown" v-if="showDropdown" class="absolute right-0 mt-2 w-48 bg-color-header overflow-hidden rounded shadow z-20">
+      <ul v-click-outside="toggleDropdown" v-if="showDropdown" class="absolute right-0 mt-2 w-48 bg-color-nav overflow-hidden rounded shadow z-20">
         <li @click="toggleDropdown">
           <nuxt-link :to="localePath('/settings')" class="block px-4 py-2 text-sm text-color-nav hover:bg-gray-800 border-b border-color-form">Profile</nuxt-link>
         </li>
-        <li @click="toggleDropdown">
-          <nuxt-link :to="localePath('/#')" class="block px-4 py-2 text-sm text-color-nav hover:bg-gray-800 border-b border-color-form">Verein</nuxt-link>
+        <li @click="toggleDropdown" v-for="locale in availableLocales">
+          <a @click="$i18n.setLocale(locale.code)" class="cursor-pointer block px-4 py-2 text-sm text-color-nav hover:bg-gray-800 border-b border-color-form">{{ locale.name }}</a>
         </li>
         <li @click="toggleDropdown">
           <a @click="logoutUser" class="cursor-pointer block px-4 py-2 text-sm text-color-nav hover:bg-gray-800">Logout</a>
@@ -203,6 +203,7 @@ export default {
 
       this.$store.commit('updateName', null)
       this.$store.commit('updateIsActive', null)
+      this.$store.commit('updateImageBlob', null)
       this.$store.commit('updateAccessToken', null)
       this.$store.commit('updateRefreshToken', null)
       this.$store.commit('updateIsConfirmed', null)
