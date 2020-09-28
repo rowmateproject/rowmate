@@ -5,17 +5,17 @@
   <form @submit.prevent="submitForm">
     <div v-for="value, index in availableLocales" :key="index" class="mt-3 lg:mt-8 p-6 bg-color-form rounded-md shadow-md">
       <div class="mb-6">
-        <label class="flex justify-start items-center text-color-form" for="subject">
+        <label class="flex justify-start items-center text-color-form" :for="makeId('subject', value.code)">
           <img :src="makePath(value.code)" :alt="value.name" class="h-4 mr-1">
           <span>{{ $t('subject') }}</span>
         </label>
-        <input id="subject" type="text" v-model="mail.subject" :class="[errors.subject ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1">
+        <input :id="makeId('subject', value.code)" type="text" v-model="mail.subject" :class="[errors.subject ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1">
         <p v-if="errors.subject" class="text-red-500 text-xs italic">{{ $t('errorInvalidSubject') }}</p>
       </div>
 
       <div>
-        <label class="flex text-color-form" for="message">{{ $t('message') }}</label>
-        <textarea id="message" type="text" v-model="mail.message" :class="[errors.message ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="h-64 w-full rounded border focus:outline-none p-2 mt-2 mb-1"></textarea>
+        <label class="flex text-color-form" :for="makeId('message', value.code)">{{ $t('message') }}</label>
+        <textarea :id="makeId('message', value.code)" type="text" v-model="mail.message" :class="[errors.message ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="h-64 w-full rounded border focus:outline-none p-2 mt-2 mb-1"></textarea>
         <p v-if="errors.message" class="text-red-500 text-xs italic">{{ $t('errorInvalidMessage') }}</p>
       </div>
 
@@ -85,8 +85,11 @@ export default {
     }
   },
   methods: {
-    makePath(value) {
-      return `/flags/${value}.svg`
+    makePath(locale) {
+      return `/flags/${locale}.svg`
+    },
+    makeId(value, locale) {
+      return `${value}-${locale}`
     },
     submitForm() {
       const isValidForm = (currentValue) => currentValue !== true
