@@ -36,6 +36,11 @@
         <fa :icon="['fas', 'sticky-note']" class="col-span-1" />
         <span class="col-span-5">Event</span>
       </nuxt-link>
+
+      <nuxt-link v-if="isSuperuser === 'true' || isSuperuser === true" class="text-color-nav focus:outline-none grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('mail') ? activeClass : inactiveClass]" :to="localePath('/mail')">
+        <fa :icon="['fas', 'mail-bulk']" class="col-span-1" />
+        <span class="col-span-5">Mail</span>
+      </nuxt-link>
     </nav>
   </div>
 </div>
