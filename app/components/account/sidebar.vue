@@ -1,8 +1,9 @@
 <template>
 <div class="flex min-h-screen">
   <div class="bg-color-nav fixed z-30 inset-y-0 left-0 w-64 transition duration-300 transform -translate-x-full ease-in overflow-y-auto lg:translate-x-0 lg:static lg:inset-0">
-    <div class="bg-color-header text-center py-5">
-      <span class="text-color-nav text-3xl mx-2 font-semibold">rowmate.org</span>
+    <div class="bg-color-footer text-center py-1">
+      <img v-if="image" :src="image" class="w-full object-cover px-4 py-1">
+      <img v-else src="@/assets/rowmate.svg" class="w-full object-cover px-4 py-1">
     </div>
 
     <nav class="mt-8">
@@ -44,9 +45,29 @@
 export default {
   data() {
     return {
+      image: null,
       activeClass: 'bg-gray-600 bg-opacity-25 text-gray-100 border-gray-100',
       inactiveClass: 'border-gray-900 text-color-nav hover:bg-gray-600 hover:bg-opacity-25 hover:text-gray-100'
     }
+  },
+  mounted() {
+    this.$axios({
+      method: 'GET',
+      url: `${process.env.API_URL}/theme/default/image`,
+      responseType: 'blob',
+      validateStatus: () => true
+    }).then(res => {
+      if (res.status === 200) {
+        const vm = this
+        let reader = new window.FileReader()
+        reader.readAsDataURL(res.data)
+        reader.onload = function() {
+          vm.image = reader.result
+        }
+      } else {
+        console.debug(res.data)
+      }
+    })
   },
   computed: {
     pageName() {

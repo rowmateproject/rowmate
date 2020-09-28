@@ -1,8 +1,8 @@
 <template>
 <div class="bg-color-form mt-3 lg:mt-8 p-2 rounded shadow">
   <div class="grid grid-cols-12 gap-2">
-    <div class="col-span-12 sm:col-span-8 md:col-span-9 bg-color-body">
-      <img v-if="image" :src="image" class="w-full object-cover rounded">
+    <div class="col-span-12 sm:col-span-8 md:col-span-9">
+      <img v-if="image" :src="image" class="w-full object-cover bg-color-image rounded">
     </div>
 
     <div class="col-span-12 sm:col-span-4 md:col-span-3 sm:flex justify-end items-end">
@@ -50,7 +50,7 @@ export default {
     createObjectURL(blob) {
       return URL.createObjectURL(blob)
     },
-    resizeImageAndCrop(src, width, height) {
+    createCanvas(src, width, height) {
       const crop = width === 0 || height === 0
 
       if (src.width <= width && height === 0) {
@@ -103,7 +103,7 @@ export default {
 
       imageData.src = this.createObjectURL(file[0])
       imageData.onload = function(e) {
-        const canvas = vm.resizeImageAndCrop(e.target, 800, 200)
+        const canvas = vm.createCanvas(e.target, 1080, 330)
         const dataImage = canvas.toDataURL('image/png')
         const dataString = dataImage.replace('data:image/png;base64,', '')
         const blobData = vm.b64toBlob(dataString, 'image/png')
