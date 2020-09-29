@@ -4,7 +4,7 @@ import shutil
 import os
 
 from fastapi import (FastAPI, HTTPException, Depends,
-                     Request, Response, File, UploadFile)
+                     Request, Response, Form, File, UploadFile)
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
 from fastapi_users import FastAPIUsers
 from fastapi_users.db import MongoDBUserDatabase, BaseUserDatabase
@@ -33,6 +33,7 @@ import re
 from models.user import (User, UserCreate, UserUpdate,
                          UserDB, UserList, FindUser)
 from models.theme import ThemeModel
+from models.template import TemplateModel, UpdateTemplateModel
 # from models.event import Event
 from models.boat import Boat
 
@@ -560,8 +561,9 @@ async def add_boat(boat: Boat, user=Depends(api_user.get_current_active_user)):
 
 
 @app.get('/mail/{locale}/{topic}')
-async def get_mail_by_local_and_topic(locale, topic):
-    query = await db['mails'].find_one({'locale': locale, 'topic': topic})
+async def get_mail_template(locale, topic):
+    filter = {'locale': locale, 'topic': topic}
+    query = await db['mails'].find_one(filter, {'_id': False})
 
     if query is not None:
         return query
@@ -570,11 +572,39 @@ async def get_mail_by_local_and_topic(locale, topic):
 
 
 @app.post('/mail/{locale}/{topic}')
-async def post_mail_by_local_and_topic(model: ThemeModel,
-                                       user=Depends(api_user.get_current_superuser)):
-    res = await db['mails'].insert_one(dict(model))
+async def post_mail_template(topic: str,
+                             locale: str,
+                             model: TemplateModel,
+                             user=Depends(api_user.get_current_superuser)):
+    object = dict(model)
+    object['locale'] = locale
+    object['topic'] = topic
+
+    res = await db['mails'].insert_one(object)
 
     if res.acknowledged:
-        return {'detail': 'Mail template was successfully added'}
+        return {'detail': 'Mail template was saved',
+                'id': UUID(bytes=object['id'])}
     else:
         raise HTTPException(status_code=400, detail='Mail template not saved')
+
+
+@app.patch('/mail/{hex}')
+async def patch_mail_template(hex: str,
+                              model: UpdateTemplateModel,
+                              user=Depends(api_user.get_current_superuser)):
+    try:
+        uuid = UUID(hex=hex, version=4)
+    except TypeError:
+        raise HTTPException(status_code=404, detail='Mail template not found')
+
+    res = await db['mails'].update_one({'id': uuid}, {'$set': {
+        'subject': dict(model)['subject'],
+        'message': dict(model)['message']
+    }}, upsert=False)
+
+    if res.modified_count > 0:
+        return {'detail': 'Mail template was updated'}
+    else:
+        raise HTTPException(
+            status_code=400, detail='Mail template not updated')
