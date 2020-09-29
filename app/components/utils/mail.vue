@@ -120,8 +120,8 @@ export default {
 
         try {
           uuid = this.buf2hex(uuidParse(this.mail.uuid))
-        } catch {
-          console.log(this.mail.uuid)
+        } catch (e) {
+          console.debug(e.message)
         }
 
         if (!uuid) {
@@ -135,6 +135,7 @@ export default {
             validateStatus: () => true
           }).then(res => {
             if (res.status === 200) {
+              this.mail.uuid = res.data.id || ''
               console.debug(res.data)
             } else {
               console.debug(res.data)
