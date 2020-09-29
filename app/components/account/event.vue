@@ -285,8 +285,8 @@ export default {
           method: 'POST',
           url: `${process.env.API_URL}/event`,
           data: {
-            title: this.titles,
-            description: this.descriptions,
+            titles: this.titles,
+            descriptions: this.descriptions,
             start_time: this.startDateFull,
             end_time: this.endDateFull
           },

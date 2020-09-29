@@ -47,7 +47,6 @@ export default {
 
   category: 'Kategorie',
   status: 'Status',
-
   role: 'Rolle',
 
   pageBackground: 'Allgemeiner Hintergrund',
@@ -110,7 +109,6 @@ export default {
   LongHairCurvy: 'Lange Haare gewellt',
   LongHairDreads: 'Lange Dreadlocks',
 
-
   Concerned: 'Besorgt',
   Disbelief: 'Unglaube',
   Eating: 'Essend',
@@ -121,5 +119,5 @@ export default {
   Smile: 'Lachen',
   Tongue: 'Zunge',
   Twinkle: 'Lächeln',
-  Vomit: 'Erbrechen',
+  Vomit: 'Erbrechen'
 }
