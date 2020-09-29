@@ -1,5 +1,6 @@
 from bson.objectid import ObjectId as BsonObjectId
 
+
 class PydanticObjectId(BsonObjectId):
     @classmethod
     def __get_validators__(cls):

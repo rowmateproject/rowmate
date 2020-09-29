@@ -1,6 +1,7 @@
 from enum import IntEnum
 
+
 class CoxswainEnum(IntEnum):
-    withcox = 0
-    withoutcox = 1
     changeablecox = 2
+    withoutcox = 1
+    withcox = 0

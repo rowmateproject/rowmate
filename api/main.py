@@ -206,10 +206,12 @@ class CustomAuthenticator(Authenticator):
 
             if token and token != 'undefined':
                 user = await backend(token, self.user_db)
+                print(f'return user from jwt => {user}\n\n')
 
                 if user is not None:
                     return user
 
+        # TODO: this needs to be refactored due refresh token response
         return None
 
 
@@ -550,16 +552,19 @@ async def post_theme_image(image: UploadFile = File(...),
             return {'detail': 'Upload error occured'}
 
 
-@app.get('/boats/all')
+@app.get('/boats')
 async def get_all_boats(user=Depends(api_user.get_current_active_user)):
     sort = [('_id', pymongo.DESCENDING)]
-    boats = await db['boats'].find({}, {'_id': False}).sort(sort).to_list(length=10000)
+    query = await db['boats'].find({}, {'_id': False}).sort(sort).to_list(length=10000)
 
-    return boats
+    if query is not None:
+        return query
+    else:
+        raise HTTPException(status_code=404, detail='No boats were found')
 
 
-@app.post('/boats/add')
-async def add_boat(boat: Boat, user=Depends(api_user.get_current_active_user)):
+@app.post('/boats')
+async def post_boat(boat: Boat, user=Depends(api_user.get_current_superuser)):
     res = await db['boats'].insert_one(dict(boat))
 
     if res.acknowledged:
