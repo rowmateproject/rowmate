@@ -5,13 +5,12 @@
       <img :src="makePath(locale)" :alt="locale" class="h-4 mr-1">
       <span>Titel</span>
     </label>
-    <input v-model="titleString" type="text" placeholder="Titel eingeben" maxlength="64" autocomplete="off" class="w-full rounded border border-color-form focus:outline-none p-2 mt-2 mb-1">
+    <input v-model="titleString" type="text" placeholder="Titel eingeben" :class="[titleErrorString ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1">
     <p v-if="titleErrorString" class="text-red-500 text-xs italic">{{ $t('errorInvalidName') }}</p>
   </div>
   <div>
     <label class="text-color-form" :for="makeId('description', locale)">Notiz</label>
-    {{ descriptionErrorString }}
-    <textarea v-model="descriptionString" rows="1" placeholder="Notiz hinzufügen" maxlength="3000" class="h-32 w-full rounded border border-color-form focus:outline-none p-2 mt-2 mb-1"></textarea>
+    <textarea v-model="descriptionString" placeholder="Notiz hinzufügen" :class="[descriptionErrorString ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="h-32 w-full rounded border focus:outline-none p-2 mt-2 mb-1"></textarea>
     <p v-if="descriptionErrorString" class="text-red-500 text-xs italic">{{ $t('errorInvalidName') }}</p>
   </div>
 </div>
@@ -24,9 +23,11 @@ export default {
       return this.$props.code
     },
     titleErrorString() {
+      // console.log(typeof this.$props.titleError)
       return this.$props.titleError
     },
     descriptionErrorString() {
+      // console.log(typeof this.$props.descriptionError)
       return this.$props.descriptionError
     },
     titleString: {
@@ -47,7 +48,7 @@ export default {
       set(value) {
         this.$emit('descriptionString', {
           locale: this.locale,
-          title: value
+          description: value
         })
       }
     }

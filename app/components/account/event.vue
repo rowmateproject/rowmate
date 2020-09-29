@@ -61,12 +61,12 @@
 
       <div>
         <label class="text-color-form" for="location">Ort</label>
-        <input v-model="location" type="text" placeholder="Ort hinzufügen" maxlength="256" autocomplete="off" class="w-full rounded border border-color-form focus:outline-none p-2 mt-2 mb-1">
+        <input v-model="location" type="text" placeholder="Ort hinzufügen" :class="[errors.location ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1">
         <p v-if="errors.location" class="text-red-500 text-xs italic">{{ $t('errorInvalidName') }}</p>
       </div>
 
       <div v-for="value, index in availableLocales" :key="index" class="mt-8">
-        <!-- {{ titles[value.code].title }} =>> {{ descriptions[value.code].description }} -->
+        <!-- {{ titles[value.code].title }} && {{ descriptions[value.code].description }} -->
         <event-form :code="value.code" :title="titles[value.code].title" :description="descriptions[value.code].description" :titleError="errors.titles[value.code].title" :descriptionError="errors.descriptions[value.code].description"
           @titleString="handleTitleString" @descriptionString="handleDescriptionString" />
       </div>
@@ -87,7 +87,7 @@ export default {
     return {
       titles: {},
       descriptions: {},
-      location: null,
+      location: '',
       endDate: {
         day: null,
         month: null,
@@ -111,15 +111,15 @@ export default {
   created() {
     this.availableLocales.forEach((locale) => {
       this.$set(this.titles, locale.code, {
-        title: null
+        title: ''
       })
 
       this.$set(this.descriptions, locale.code, {
-        description: null
+        description: ''
       })
 
       this.$set(this.errors.titles, locale.code, {
-        description: false
+        title: false
       })
 
       this.$set(this.errors.descriptions, locale.code, {
@@ -127,24 +127,28 @@ export default {
       })
 
       this.$watch(`titles.${locale.code}.title`, function() {
-        if (this.titles[locale.code].title !== null) {
+        if (this.titles[locale.code].title !== '') {
           if (this.titles[locale.code].title.trim().length >= 7) {
             this.errors.titles[locale.code].title = false
           } else {
             this.errors.titles[locale.code].title = true
           }
+        } else {
+          this.errors.titles[locale.code].title = false
         }
       }, {
         deep: true
       })
 
       this.$watch(`descriptions.${locale.code}.description`, function() {
-        if (this.descriptions[locale.code].description !== null) {
+        if (this.descriptions[locale.code].description.trim() !== '') {
           if (this.descriptions[locale.code].description.trim().length >= 7) {
             this.errors.descriptions[locale.code].description = false
           } else {
             this.errors.descriptions[locale.code].description = true
           }
+        } else {
+          this.errors.descriptions[locale.code].description = false
         }
       }, {
         deep: true
@@ -183,12 +187,14 @@ export default {
   },
   watch: {
     location: function() {
-      if (this.location !== null) {
+      if (this.location !== '') {
         if (this.location.trim().length >= 7) {
           this.errors.location = false
         } else {
           this.errors.location = true
         }
+      } else {
+        this.errors.location = false
       }
     },
     startDateFull: function() {
@@ -213,6 +219,18 @@ export default {
     makeId(value, locale) {
       return `${value}-${locale}`
     },
+    buf2hex(buffer) {
+      const byteArray = new Uint8Array(buffer)
+      const hexParts = []
+
+      for (let i = 0; i < byteArray.length; i++) {
+        const hex = byteArray[i].toString(16)
+        const paddedHex = ('00' + hex).slice(-2)
+        hexParts.push(paddedHex)
+      }
+
+      return hexParts.join('');
+    },
     handleStartDate(value) {
       if (value) {
         this.startDateFull = value
@@ -231,23 +249,11 @@ export default {
     },
     handleTitleString(value) {
       this.titles[value.locale].title = value.title
-      console.log(value)
+      // console.log(value)
     },
     handleDescriptionString(value) {
       this.descriptions[value.locale].description = value.description
-      console.log(value)
-    },
-    buf2hex(buffer) {
-      const byteArray = new Uint8Array(buffer)
-      const hexParts = []
-
-      for (let i = 0; i < byteArray.length; i++) {
-        const hex = byteArray[i].toString(16)
-        const paddedHex = ('00' + hex).slice(-2)
-        hexParts.push(paddedHex)
-      }
-
-      return hexParts.join('');
+      // console.log(value)
     },
     submitForm() {
       const isValidForm = (currentValue) => currentValue !== true
