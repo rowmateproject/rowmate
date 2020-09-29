@@ -4,8 +4,8 @@
 
   <div class="grid grid-cols-6 gap-3 w-full mb-1">
     <div class="col-span-1 relative z-0">
-      <select v-model="date.dayValue" @change="updateSelected('daySelected', $event.target.value)" :class="[errors.day ? 'border-red-500 focus:border-red-500' : 'border-color-form']"
-        class="appearance-none block w-full rounded border form-border-color focus:outline-none p-2 mt-2">
+      <select v-model="daySelected" :class="[errors.day ? 'border-red-500 focus:border-red-500' : 'border-color-form']"
+        class="appearance-none block w-full rounded border focus:outline-none p-2 mt-2">
         <option v-for="value, index in days" :key="index" :value="value">{{ value }}</option>
       </select>
       <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 mt-2 text-color-nav">
@@ -15,8 +15,8 @@
       </div>
     </div>
     <div class="col-span-3 relative z-0">
-      <select v-model="date.monthValue" @change="updateSelected('monthSelected', $event.target.value)" :class="[errors.month ? 'border-red-500 focus:border-red-500' : 'border-color-form']"
-        class="appearance-none block w-full rounded border form-border-color focus:outline-none p-2 mt-2">
+      <select v-model="monthSelected" :class="[errors.month ? 'border-red-500 focus:border-red-500' : 'border-color-form']"
+        class="appearance-none block w-full rounded border focus:outline-none p-2 mt-2">
         <option v-for="value, index in months" :key="index" :value="index + 1">{{ value }}</option>
       </select>
       <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 mt-2 text-color-nav">
@@ -26,8 +26,8 @@
       </div>
     </div>
     <div class="col-span-2 relative z-0">
-      <select v-model="date.yearValue" @change="updateSelected('yearSelected', $event.target.value)" :class="[errors.year ? 'border-red-500 focus:border-red-500' : 'border-color-form']"
-        class="appearance-none block w-full rounded border form-border-color focus:outline-none p-2 mt-2">
+      <select v-model="yearSelected" :class="[errors.year ? 'border-red-500 focus:border-red-500' : 'border-color-form']"
+        class="appearance-none block w-full rounded border focus:outline-none p-2 mt-2">
         <option v-for="value, index in years" :key="index" :value="value">{{ value }}</option>
       </select>
       <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 mt-2 text-color-nav">
@@ -44,11 +44,6 @@
 export default {
   data() {
     return {
-      date: {
-        dayValue: null,
-        monthValue: null,
-        yearValue: null
-      },
       errors: {
         day: false,
         month: false,
@@ -70,38 +65,31 @@ export default {
         return Array(Math.abs(parseInt(this.$props.minYear) - parseInt(this.$props.maxYear)) + 1).fill(parseInt(this.$props.minYear)).map((v, i) => v + i * (parseInt(this.$props.minYear) > parseInt(this.$props.maxYear) ? -1 : 1))
       }
     },
-    dateObject() {
-      if (this.date.yearValue !== null && this.date.monthValue !== null && this.date.dayValue !== null) {
-        return new Date(Date.UTC(this.date.yearValue, this.date.monthValue - 1, this.date.dayValue, 0, 0, 0))
-      } else {
-        return null
-      }
-    },
     titleString() {
       return this.$props.title
     },
     daySelected: {
       get() {
-        this.date.dayValue = this.$props.day
+        return this.$props.day
       },
       set(value) {
-        this.date.dayValue = value
+        this.$emit('day', value)
       }
     },
     monthSelected: {
       get() {
-        this.date.monthValue = this.$props.month
+        return this.$props.month
       },
       set(value) {
-        this.date.monthValue = value
+        this.$emit('month', value)
       }
     },
     yearSelected: {
       get() {
-        this.date.yearValue = this.$props.year
+        return this.$props.year
       },
       set(value) {
-        this.date.yearValue = value
+        this.$emit('year', value)
       }
     }
   },

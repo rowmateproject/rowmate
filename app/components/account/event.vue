@@ -50,11 +50,11 @@
     <div>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-4">
         <div>
-          <date @dateObject="handleStartDate" :day="startDate.day" :month="startDate.month" :year="startDate.year" direction="forward" minYear="2020" maxYear="2025" title="Beginn" />
+          <date-form @day="handleStartDay" @month="handleStartMonth" @year="handleStartYear" :day="startDate.day" :month="startDate.month" :year="startDate.year" direction="forward" minYear="2020" maxYear="2025" title="Beginn" />
           <p v-if="errors.startDateFull" class="text-red-500 text-xs italic">{{ $t('errorInvalidStartDate') }}</p>
         </div>
         <div>
-          <date @dateObject="handleEndDate" :day="endDate.day" :month="endDate.month" :year="endDate.year" direction="forward" minYear="2020" maxYear="2025" title="Ende" />
+          <date-form @day="handleEndDay" @month="handleEndMonth" @year="handleEndYear" :day="endDate.day" :month="endDate.month" :year="endDate.year" direction="forward" minYear="2020" maxYear="2025" title="Ende" />
           <p v-if="errors.endDateFull" class="text-red-500 text-xs italic">{{ $t('errorInvalidEndDate') }}</p>
         </div>
       </div>
@@ -98,8 +98,6 @@ export default {
         month: null,
         year: null
       },
-      startDateFull: null,
-      endDateFull: null,
       errors: {
         titles: {},
         descriptions: {},
@@ -155,34 +153,47 @@ export default {
       })
     })
   },
-  // mounted() {
-  //   this.$axios({
-  //     method: 'GET',
-  //     url: `${process.env.API_URL}/events/uuid`,
-  //     validateStatus: () => true
-  //   }).then((res) => {
-  //     if (res.status === 200) {
-  //       this.title = res.data.title || ''
-  //       this.description = res.data.description || ''
-  //       this.location = res.data.location || ''
-  //       this.locale = this.currentLocale || res.data.locale
-  //       this.startDate.day = new Date(Date.parse(res.data.start_time)).getDate() || null
-  //       this.startDate.month = new Date(Date.parse(res.data.start_time)).getMonth() + 1 || null
-  //       this.startDate.year = new Date(Date.parse(res.data.start_time)).getFullYear() || null
-  //       this.endDate.day = new Date(Date.parse(res.data.end_time)).getDate() || null
-  //       this.endDate.month = new Date(Date.parse(res.data.end_time)).getMonth() + 1 || null
-  //       this.endDate.year = new Date(Date.parse(res.data.end_time)).getFullYear() || null
-  //     } else {
-  //       console.debug(res.data)
-  //     }
-  //   })
-  // },
+  mounted() {
+    this.$axios({
+      method: 'GET',
+      url: `${process.env.API_URL}/event/latest`,
+      validateStatus: () => true
+    }).then((res) => {
+      if (res.status === 200) {
+        this.titles = res.data.titles || {}
+        this.descriptions = res.data.descriptions || {}
+        this.startDate.day = new Date(Date.parse(res.data.start_time)).getDate() || null
+        this.startDate.month = new Date(Date.parse(res.data.start_time)).getMonth() + 1 || null
+        this.startDate.year = new Date(Date.parse(res.data.start_time)).getFullYear() || null
+        this.endDate.day = new Date(Date.parse(res.data.end_time)).getDate() || null
+        this.endDate.month = new Date(Date.parse(res.data.end_time)).getMonth() + 1 || null
+        this.endDate.year = new Date(Date.parse(res.data.end_time)).getFullYear() || null
+        this.location = res.data.location || ''
+      } else {
+        console.debug(res.data)
+      }
+    })
+  },
   computed: {
     currentLocale() {
       return this.$i18n.locale
     },
     availableLocales() {
       return this.$i18n.locales
+    },
+    startDateFull() {
+      if (this.startDate.year !== null && this.startDate.month !== null && this.startDate.day !== null) {
+        return new Date(Date.UTC(this.startDate.year, this.startDate.month - 1, this.startDate.day, 0, 0, 0))
+      } else {
+        return null
+      }
+    },
+    endDateFull() {
+      if (this.endDate.year !== null && this.endDate.month !== null && this.endDate.day !== null) {
+        return new Date(Date.UTC(this.endDate.year, this.endDate.month - 1, this.endDate.day, 0, 0, 0))
+      } else {
+        return null
+      }
     }
   },
   watch: {
@@ -231,21 +242,23 @@ export default {
 
       return hexParts.join('');
     },
-    handleStartDate(value) {
-      if (value) {
-        this.startDateFull = value
-        this.startDate.day = new Date(Date.parse(value)).getDate() || null
-        this.startDate.month = new Date(Date.parse(value)).getMonth() + 1 || null
-        this.startDate.year = new Date(Date.parse(value)).getFullYear() || null
-      }
+    handleStartDay(value) {
+      this.startDate.day = value
     },
-    handleEndDate(value) {
-      if (value) {
-        this.endDateFull = value
-        this.endDate.day = new Date(Date.parse(value)).getDate() || null
-        this.endDate.month = new Date(Date.parse(value)).getMonth() + 1 || null
-        this.endDate.year = new Date(Date.parse(value)).getFullYear() || null
-      }
+    handleStartMonth(value) {
+      this.startDate.month = value
+    },
+    handleStartYear(value) {
+      this.startDate.year = value
+    },
+    handleEndDay(value) {
+      this.endDate.day = value
+    },
+    handleEndMonth(value) {
+      this.endDate.month = value
+    },
+    handleEndYear(value) {
+      this.endDate.year = value
     },
     handleTitleString(value) {
       this.titles[value.locale].title = value.title
@@ -286,6 +299,7 @@ export default {
           url: `${process.env.API_URL}/event`,
           data: {
             titles: this.titles,
+            location: this.location,
             descriptions: this.descriptions,
             start_time: this.startDateFull,
             end_time: this.endDateFull
