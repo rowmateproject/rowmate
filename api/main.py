@@ -212,7 +212,7 @@ class CustomAuthenticator(Authenticator):
                     return user
 
         # TODO: this needs to be refactored due refresh token response
-        return None
+        raise HTTPException(status_code=401, detail='Token has expired')
 
 
 class APIUsers(FastAPIUsers):
