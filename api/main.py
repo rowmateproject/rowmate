@@ -36,7 +36,7 @@ from models.user import (User, UserCreate, UserUpdate,
                          UserDB, UserList, FindUser)
 from models.theme import ThemeModel
 from models.template import TemplateModel, UpdateTemplateModel
-# from models.event import Event
+from models.event import Event, UpdateEvent
 from models.boat import Boat
 
 # enums
@@ -563,7 +563,7 @@ async def get_all_boats(user=Depends(api_user.get_current_active_user)):
         raise HTTPException(status_code=404, detail='No boats were found')
 
 
-@app.post('/boats')
+@app.post('/boat')
 async def post_boat(boat: Boat, user=Depends(api_user.get_current_superuser)):
     res = await db['boats'].insert_one(dict(boat))
 
@@ -596,10 +596,11 @@ async def post_mail_template(topic: str,
     res = await db['mails'].insert_one(object)
 
     if res.acknowledged:
-        return {'detail': 'Mail template was saved',
+        return {'detail': 'Mail template was created',
                 'id': UUID(bytes=object['id'])}
     else:
-        raise HTTPException(status_code=400, detail='Mail template not saved')
+        raise HTTPException(
+            status_code=400, detail='Mail template not created')
 
 
 @app.patch('/mail/{hex}')
@@ -611,13 +612,60 @@ async def patch_mail_template(hex: str,
     except TypeError:
         raise HTTPException(status_code=404, detail='Mail template not found')
 
-    res = await db['mails'].update_one({'id': uuid}, {'$set': {
-        'subject': dict(model)['subject'],
-        'message': dict(model)['message']
-    }}, upsert=False)
+    condition = {'id': uuid}
+    filter = {'$set': dict(model)}
+
+    res = await db['mails'].update_one(condition, filter, upsert=False)
 
     if res.modified_count > 0:
         return {'detail': 'Mail template was updated'}
     else:
         raise HTTPException(
             status_code=400, detail='Mail template not updated')
+
+
+@app.get('/events')
+async def get_all_events(user=Depends(api_user.get_current_active_user)):
+    sort = [('_id', pymongo.DESCENDING)]
+    filter = {'_id': False}
+    query = await db['events'].find({}, filter).sort(sort).to_list(length=30)
+
+    if query is not None:
+        return query
+    else:
+        raise HTTPException(status_code=404, detail='No events were found')
+
+
+@app.post('/event')
+async def post_event(model: Event,
+                     user=Depends(api_user.get_current_superuser)):
+    object = dict(model)
+
+    res = await db['events'].insert_one(object)
+
+    if res.acknowledged:
+        return {'detail': 'Event successfully created',
+                'id': UUID(bytes=object['id'])}
+    else:
+        raise HTTPException(status_code=400, detail='Event not created')
+
+
+@app.patch('/event/{hex}')
+async def patch_event(hex: str,
+                      model: UpdateEvent,
+                      user=Depends(api_user.get_current_superuser)):
+    try:
+        uuid = UUID(hex=hex, version=4)
+    except TypeError:
+        raise HTTPException(status_code=404, detail='Event was not found')
+
+    condition = {'id': uuid}
+    filter = {'$set': dict(model)}
+
+    res = await db['events'].update_one(condition, filter, upsert=False)
+
+    if res.modified_count > 0:
+        return {'detail': 'Event successfully updated'}
+    else:
+        raise HTTPException(
+            status_code=400, detail='Event not updated')
