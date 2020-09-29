@@ -4,7 +4,7 @@ import shutil
 import os
 
 from fastapi import (FastAPI, HTTPException, Depends,
-                     Request, Response, Form, File, UploadFile)
+                     Request, Response, File, UploadFile)
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
 from fastapi_users import FastAPIUsers
 from fastapi_users.db import MongoDBUserDatabase, BaseUserDatabase
@@ -25,9 +25,11 @@ from uuid import UUID, uuid4
 from pathlib import Path
 
 import pymongo
-import config
 import jwt
 import re
+
+# settings
+from config import Settings
 
 # models
 from models.user import (User, UserCreate, UserUpdate,
@@ -231,9 +233,13 @@ class APIUsers(FastAPIUsers):
         self._user_db_model = user_db_model
 
         self.get_current_user = self.authenticator.get_current_user
-        self.get_current_active_user = self.authenticator.get_current_active_user
+        self.get_current_active_user = (
+            self.authenticator.get_current_active_user
+        )
         self.get_current_superuser = self.authenticator.get_current_superuser
-        self.get_optional_current_user = self.authenticator.get_optional_current_user
+        self.get_optional_current_user = (
+            self.authenticator.get_optional_current_user
+        )
         self.get_optional_current_active_user = (
             self.authenticator.get_optional_current_active_user
         )
@@ -242,8 +248,10 @@ class APIUsers(FastAPIUsers):
         )
 
 
+settings = Settings()
+
 client = motor.motor_asyncio.AsyncIOMotorClient(
-    config.Settings().database_url, uuidRepresentation='standard'
+    settings.database_url, uuidRepresentation='standard'
 )
 
 
@@ -256,7 +264,7 @@ user_db = MongoDBUserDatabase(UserDB, collection)
 
 auth_backends = []
 jwt_auth = Authentication(
-    secret=config.Settings().jwt_secret,
+    secret=settings.jwt_secret,
     lifetime_seconds_refresh=50000,
     lifetime_seconds=3600
 )
@@ -272,12 +280,12 @@ api_user = APIUsers(
 )
 
 smtp_config = ConnectionConfig(
-    MAIL_USERNAME=config.Settings().smtp_username,
-    MAIL_PASSWORD=config.Settings().smtp_password,
-    MAIL_SERVER=config.Settings().smtp_server,
-    MAIL_PORT=config.Settings().smtp_port,
-    MAIL_TLS=config.Settings().smtp_tls,
-    MAIL_SSL=config.Settings().smtp_ssl
+    MAIL_USERNAME=settings.smtp_username,
+    MAIL_PASSWORD=settings.smtp_password,
+    MAIL_SERVER=settings.smtp_server,
+    MAIL_PORT=settings.smtp_port,
+    MAIL_TLS=settings.smtp_tls,
+    MAIL_SSL=settings.smtp_ssl
 )
 
 
@@ -332,7 +340,7 @@ async def on_after_register(user: UserDB, request: Request):
     message = MessageSchema(
         subject='Welcome to rowmate.org',
         receipients=[user.email],
-        body=f'Hi {user.name},\n\nthis is your registration mail with your verification link:\n\n{config.Settings().frontend_url}/confirm/{token}\n\nBest regards,\nrowmate.org'
+        body=f'Hi {user.name},\n\nthis is your registration mail with your verification link:\n\n{settings.frontend_url}/confirm/{token}\n\nBest regards,\nrowmate.org'
     )
 
     await fm.send_message(message)
@@ -349,7 +357,7 @@ app.include_router(
 
 app.include_router(
     api_user.get_reset_password_router(
-        config.Settings().reset_secret,
+        settings.reset_secret,
         after_forgot_password=on_after_forgot_password,
         reset_password_token_lifetime_seconds=3600
     ),
