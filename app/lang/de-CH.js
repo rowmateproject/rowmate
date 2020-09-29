@@ -31,7 +31,7 @@ export default {
   createEvent: 'Event anlegen',
 
   eyeType: 'Augen',
-  eyebrowType: 'Augenbraun',
+  eyebrowType: 'Augenbrauen',
   accessoriesType: 'Brille',
   mouthType: 'Mund',
   facialHairType: 'Bart',
@@ -81,7 +81,8 @@ export default {
   PastelRed: 'Pastellrot',
   PastelGreen: 'Pastellgrün',
   PastelPink: 'Pastellpink',
-  SilverGray: 'SIlbergrau',
+  PastelYellow: 'Pastellgelb',
+  SilverGray: 'Silbergrau',
 
   Default: 'Standard',
   Auburn: 'Rotbraun',
@@ -91,6 +92,7 @@ export default {
   BrownDark: 'Dunkelbraun',
   Platinum: 'Grau',
   Red: 'Rot',
+  White: 'Weiss',
 
   NoHair: 'Glatze',
   Eyepatch: 'Augenklappe',
@@ -105,5 +107,19 @@ export default {
   LongHairBob: 'Lange Haare Bob',
   LongHairBun: 'Lange Haare gebunden',
   LongHairCurly: 'Lange Haare gelockt',
-  LongHairCurvy: 'Lange Haare gewellt'
+  LongHairCurvy: 'Lange Haare gewellt',
+  LongHairDreads: 'Lange Dreadlocks',
+
+
+  Concerned: 'Besorgt',
+  Disbelief: 'Unglaube',
+  Eating: 'Essend',
+  Grimace: 'Grimasse',
+  Sad: 'Traurig',
+  ScreamOpen: 'Schreiend',
+  Serious: 'Ernsthaft',
+  Smile: 'Lachen',
+  Tongue: 'Zunge',
+  Twinkle: 'Lächeln',
+  Vomit: 'Erbrechen',
 }

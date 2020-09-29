@@ -4,8 +4,8 @@
 
   <div class="col-span-3 relative z-0">
     <select v-model="model" class="appearance-none block w-full rounded border form-border-color focus:outline-none p-2 mt-2">
-      <option v-if="!['circleColor'].includes(param)" v-for="v, index in getItems(param)" :key="index" :value="v">{{ v }}</option>
-      <option v-if="['circleColor'].includes(param)" v-for="v, index in getItems(param)" :key="index" :value="v[0]">{{ v[1] }}</option>
+      <option v-if="!['circleColor'].includes(param)" v-for="v, index in getItems(param)" :key="index" :value="v">{{ $t(v) }}</option>
+      <option v-if="['circleColor'].includes(param)" v-for="v, index in getItems(param)" :key="index" :value="v[0]">{{ $t(v[1]) }}</option>
     </select>
     <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 mt-2 text-color-nav">
       <svg class="text-color-form fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
