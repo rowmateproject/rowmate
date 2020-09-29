@@ -1,5 +1,5 @@
 <template>
-  <mail />
+  <templates />
 </template>
 
 <script>
