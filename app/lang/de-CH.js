@@ -21,6 +21,8 @@ export default {
   errorInvalidPhone: 'Ungültige Telefonnummer',
   errorInvalidBirthDate: 'Ungültiges Geburtsdatum',
   errorInvalidConfirmPassword: 'Passwörter stimmen nicht überein',
+  errorInvalidEndDate: 'Datum muss größer als Beginn sein',
+  errorInvalidStartDate: 'Fehlerhaftes Datum',
   errorInvalidPassword: 'Ungültiges Passwort',
   errorInvalidSubject: 'Fehlerhafte Eingabe',
   errorInvalidMessage: 'Fehlerhafte Eingabe',

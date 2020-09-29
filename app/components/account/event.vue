@@ -49,25 +49,28 @@
 
     <div>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-4">
-        <date @dateObject="handleStartDate" :day="startDate.day" :month="startDate.month" :year="startDate.year" direction="forward" minYear="2020" maxYear="2025" title="Startzeit" />
-        <date @dateObject="handleEndDate" :day="endDate.day" :month="endDate.month" :year="endDate.year" direction="forward" minYear="2020" maxYear="2025" title="Endzeit" />
+        <div>
+          <date @dateObject="handleStartDate" :day="startDate.day" :month="startDate.month" :year="startDate.year" direction="forward" minYear="2020" maxYear="2025" title="Beginn" />
+          <p v-if="errors.startDateFull" class="text-red-500 text-xs italic">{{ $t('errorInvalidStartDate') }}</p>
+        </div>
+        <div>
+          <date @dateObject="handleEndDate" :day="endDate.day" :month="endDate.month" :year="endDate.year" direction="forward" minYear="2020" maxYear="2025" title="Ende" />
+          <p v-if="errors.endDateFull" class="text-red-500 text-xs italic">{{ $t('errorInvalidEndDate') }}</p>
+        </div>
       </div>
 
-      <div class="mb-4">
-        <label class="text-color-form" for="title">Titel</label>
-        <input type="text" placeholder="Titel eingeben" maxlength="64" autocomplete="off" class="w-full rounded border border-color-form focus:outline-none p-2 mt-2 mb-1">
-        <p v-if="errors.title" class="text-red-500 text-xs italic">{{ $t('errorInvalidName') }}</p>
-      </div>
-      <div class="mb-4">
+      <div>
         <label class="text-color-form" for="location">Ort</label>
-        <input type="text" placeholder="Ort hinzufügen" maxlength="256" autocomplete="off" class="w-full rounded border border-color-form focus:outline-none p-2 mt-2 mb-1">
+        <input v-model="location" type="text" placeholder="Ort hinzufügen" maxlength="256" autocomplete="off" class="w-full rounded border border-color-form focus:outline-none p-2 mt-2 mb-1">
         <p v-if="errors.location" class="text-red-500 text-xs italic">{{ $t('errorInvalidName') }}</p>
       </div>
-      <div>
-        <label class="text-color-form" for="hint">Notiz</label>
-        <textarea rows="1" placeholder="Notiz hinzufügen" maxlength="3000" class="h-32 w-full rounded border border-color-form focus:outline-none p-2 mt-2 mb-1"></textarea>
-        <p v-if="errors.description" class="text-red-500 text-xs italic">{{ $t('errorInvalidName') }}</p>
+
+      <div v-for="value, index in availableLocales" :key="index" class="mt-8">
+        <!-- {{ titles[value.code].title }} =>> {{ descriptions[value.code].description }} -->
+        <event-form :code="value.code" :title="titles[value.code].title" :description="descriptions[value.code].description" :titleError="errors.titles[value.code].title" :descriptionError="errors.descriptions[value.code].description"
+          @titleString="handleTitleString" @descriptionString="handleDescriptionString" />
       </div>
+
       <div class="flex justify-end mt-4">
         <button class="px-4 py-2 bg-gray-800 text-color-button rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700">
           {{ $t('save') }}
@@ -82,10 +85,9 @@
 export default {
   data() {
     return {
-      title: '',
-      description: '',
-      location: '',
-      locale: '',
+      titles: {},
+      descriptions: {},
+      location: null,
       endDate: {
         day: null,
         month: null,
@@ -96,32 +98,81 @@ export default {
         month: null,
         year: null
       },
+      startDateFull: null,
+      endDateFull: null,
       errors: {
-        title: false,
-        description: false,
-        location: false
+        titles: {},
+        descriptions: {},
+        startDateFull: false,
+        endDateFull: false
       }
     }
   },
-  mounted() {
-    this.$axios({
-      method: 'GET',
-      url: `${process.env.API_URL}/events/uuid`,
-      validateStatus: () => true
-    }).then((res) => {
-      if (res.status === 200) {
-        this.title = res.data.title || ''
-        this.description = res.data.description || ''
-        this.location = res.data.location || ''
-        this.locale = this.currentLocale || res.data.locale
-        this.startDate.day = new Date(Date.parse(res.data.start_date)).getDate() || null
-        this.startDate.month = new Date(Date.parse(res.data.start_date)).getMonth() + 1 || null
-        this.startDate.year = new Date(Date.parse(res.data.start_date)).getFullYear() || null
-      } else {
-        console.debug(res.data)
-      }
+  created() {
+    this.availableLocales.forEach((locale) => {
+      this.$set(this.titles, locale.code, {
+        title: null
+      })
+
+      this.$set(this.descriptions, locale.code, {
+        description: null
+      })
+
+      this.$set(this.errors.titles, locale.code, {
+        description: false
+      })
+
+      this.$set(this.errors.descriptions, locale.code, {
+        description: false
+      })
+
+      this.$watch(`titles.${locale.code}.title`, function() {
+        if (this.titles[locale.code].title !== null) {
+          if (this.titles[locale.code].title.trim().length >= 7) {
+            this.errors.titles[locale.code].title = false
+          } else {
+            this.errors.titles[locale.code].title = true
+          }
+        }
+      }, {
+        deep: true
+      })
+
+      this.$watch(`descriptions.${locale.code}.description`, function() {
+        if (this.descriptions[locale.code].description !== null) {
+          if (this.descriptions[locale.code].description.trim().length >= 7) {
+            this.errors.descriptions[locale.code].description = false
+          } else {
+            this.errors.descriptions[locale.code].description = true
+          }
+        }
+      }, {
+        deep: true
+      })
     })
   },
+  // mounted() {
+  //   this.$axios({
+  //     method: 'GET',
+  //     url: `${process.env.API_URL}/events/uuid`,
+  //     validateStatus: () => true
+  //   }).then((res) => {
+  //     if (res.status === 200) {
+  //       this.title = res.data.title || ''
+  //       this.description = res.data.description || ''
+  //       this.location = res.data.location || ''
+  //       this.locale = this.currentLocale || res.data.locale
+  //       this.startDate.day = new Date(Date.parse(res.data.start_time)).getDate() || null
+  //       this.startDate.month = new Date(Date.parse(res.data.start_time)).getMonth() + 1 || null
+  //       this.startDate.year = new Date(Date.parse(res.data.start_time)).getFullYear() || null
+  //       this.endDate.day = new Date(Date.parse(res.data.end_time)).getDate() || null
+  //       this.endDate.month = new Date(Date.parse(res.data.end_time)).getMonth() + 1 || null
+  //       this.endDate.year = new Date(Date.parse(res.data.end_time)).getFullYear() || null
+  //     } else {
+  //       console.debug(res.data)
+  //     }
+  //   })
+  // },
   computed: {
     currentLocale() {
       return this.$i18n.locale
@@ -131,54 +182,96 @@ export default {
     }
   },
   watch: {
-    title: function() {
-      if (this.title.trim() !== '') {
-        if (this.title.trim().length >= 7) {
-          this.errors.title = false
-        } else {
-          this.errors.title = true
-        }
-      }
-    },
-    description: function() {
-      if (this.description.trim() !== '') {
-        if (this.description.trim().length >= 7) {
-          this.errors.description = false
-        } else {
-          this.errors.description = true
-        }
-      }
-    },
     location: function() {
-      if (this.location.trim() !== '') {
+      if (this.location !== null) {
         if (this.location.trim().length >= 7) {
           this.errors.location = false
         } else {
           this.errors.location = true
         }
       }
+    },
+    startDateFull: function() {
+      if (this.startDateFull !== null) {
+        this.errors.startDateFull = false
+      } else {
+        this.errors.startDateFull = true
+      }
+    },
+    endDateFull: function() {
+      if (this.endDateFull !== null && this.startDateFull <= this.endDateFull) {
+        this.errors.endDateFull = false
+      } else {
+        this.errors.endDateFull = true
+      }
     }
   },
   methods: {
+    makePath(locale) {
+      return `/flags/${locale}.svg`
+    },
+    makeId(value, locale) {
+      return `${value}-${locale}`
+    },
     handleStartDate(value) {
-      console.log(value)
+      if (value) {
+        this.startDateFull = value
+        this.startDate.day = new Date(Date.parse(value)).getDate() || null
+        this.startDate.month = new Date(Date.parse(value)).getMonth() + 1 || null
+        this.startDate.year = new Date(Date.parse(value)).getFullYear() || null
+      }
     },
     handleEndDate(value) {
+      if (value) {
+        this.endDateFull = value
+        this.endDate.day = new Date(Date.parse(value)).getDate() || null
+        this.endDate.month = new Date(Date.parse(value)).getMonth() + 1 || null
+        this.endDate.year = new Date(Date.parse(value)).getFullYear() || null
+      }
+    },
+    handleTitleString(value) {
+      this.titles[value.locale].title = value.title
       console.log(value)
+    },
+    handleDescriptionString(value) {
+      this.descriptions[value.locale].description = value.description
+      console.log(value)
+    },
+    buf2hex(buffer) {
+      const byteArray = new Uint8Array(buffer)
+      const hexParts = []
+
+      for (let i = 0; i < byteArray.length; i++) {
+        const hex = byteArray[i].toString(16)
+        const paddedHex = ('00' + hex).slice(-2)
+        hexParts.push(paddedHex)
+      }
+
+      return hexParts.join('');
     },
     submitForm() {
       const isValidForm = (currentValue) => currentValue !== true
 
-      if (!this.title) {
-        this.errors.title = true
-      }
+      this.availableLocales.forEach((locale) => {
+        if (!this.titles[locale.code].title) {
+          this.errors.titles[locale.code].title = true
+        }
 
-      if (!this.description) {
-        this.errors.description = true
-      }
+        if (!this.descriptions[locale.code].description) {
+          this.errors.descriptions[locale.code].description = true
+        }
+      })
 
       if (!this.location) {
         this.errors.location = true
+      }
+
+      if (!this.startDateFull) {
+        this.errors.startDateFull = true
+      }
+
+      if (!this.endDateFull) {
+        this.errors.endDateFull = true
       }
 
       if (Object.values(this.errors).every(isValidForm) === true) {
@@ -186,11 +279,10 @@ export default {
           method: 'POST',
           url: `${process.env.API_URL}/event`,
           data: {
-            title: this.title.trim(),
-            description: this.description.trim(),
-            start_date: this.startDate,
-            end_date: this.endDate,
-            locale: this.locale
+            title: this.titles,
+            description: this.descriptions,
+            start_time: this.startDateFull,
+            end_time: this.endDateFull
           },
           validateStatus: () => true
         }).then(res => {
