@@ -1,11 +1,10 @@
 <template>
-<div>
-  <label class="text-color-form" for="date">{{ titleString }}</label>
+<div class="grid grid-cols-12 gap-x-4 w-full mb-1">
+  <div class="col-span-7 grid grid-cols-5 gap-x-2">
+    <label class="col-span-5 text-color-form" for="date">{{ titleString }}</label>
 
-  <div class="grid grid-cols-6 gap-3 w-full mb-1">
     <div class="col-span-1 relative z-0">
-      <select v-model="daySelected" :class="[errors.day ? 'border-red-500 focus:border-red-500' : 'border-color-form']"
-        class="appearance-none block w-full rounded border focus:outline-none p-2 mt-2">
+      <select v-model="daySelected" :class="[errors.day ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="appearance-none block w-full rounded border focus:outline-none p-2 mt-2">
         <option v-for="value, index in days" :key="index" :value="value">{{ value }}</option>
       </select>
       <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 mt-2 text-color-nav">
@@ -14,9 +13,8 @@
         </svg>
       </div>
     </div>
-    <div class="col-span-3 relative z-0">
-      <select v-model="monthSelected" :class="[errors.month ? 'border-red-500 focus:border-red-500' : 'border-color-form']"
-        class="appearance-none block w-full rounded border focus:outline-none p-2 mt-2">
+    <div class="col-span-2 relative z-0">
+      <select v-model="monthSelected" :class="[errors.month ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="appearance-none block w-full rounded border focus:outline-none p-2 mt-2">
         <option v-for="value, index in months" :key="index" :value="index + 1">{{ value }}</option>
       </select>
       <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 mt-2 text-color-nav">
@@ -26,9 +24,32 @@
       </div>
     </div>
     <div class="col-span-2 relative z-0">
-      <select v-model="yearSelected" :class="[errors.year ? 'border-red-500 focus:border-red-500' : 'border-color-form']"
-        class="appearance-none block w-full rounded border focus:outline-none p-2 mt-2">
+      <select v-model="yearSelected" :class="[errors.year ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="appearance-none block w-full rounded border focus:outline-none p-2 mt-2">
         <option v-for="value, index in years" :key="index" :value="value">{{ value }}</option>
+      </select>
+      <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 mt-2 text-color-nav">
+        <svg class="text-color-form fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+          <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+        </svg>
+      </div>
+    </div>
+  </div>
+  <div class="col-span-4 grid grid-cols-2 gap-x-2">
+    <label class="col-span-2 text-color-form" for="date">Uhrzeit</label>
+
+    <div class="col-span-1 relative z-0">
+      <select v-model="hourSelected" :class="[errors.year ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="appearance-none block w-full rounded border focus:outline-none p-2 mt-2">
+        <option v-for="value, index in hours" :key="index" :value="value">{{ value }}</option>
+      </select>
+      <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 mt-2 text-color-nav">
+        <svg class="text-color-form fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+          <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+        </svg>
+      </div>
+    </div>
+    <div class="col-span-1 relative z-0">
+      <select v-model="minuteSelected" :class="[errors.year ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="appearance-none block w-full rounded border focus:outline-none p-2 mt-2">
+        <option v-for="value, index in minutes" :key="index" :value="value">{{ value }}</option>
       </select>
       <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 mt-2 text-color-nav">
         <svg class="text-color-form fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -46,12 +67,20 @@ export default {
     return {
       errors: {
         day: false,
+        year: false,
+        minute: false,
         month: false,
-        year: false
+        hour: false
       }
     }
   },
   computed: {
+    hours() {
+      return Array(Math.abs(0 - 23) + 1).fill(0).map((v, i) => this.zeroPad((v + i * (0 > 23 ? -1 : 1)), 2))
+    },
+    minutes() {
+      return Array(Math.abs(0 - 12) + 1).fill(0).map((v, i) => this.zeroPad((v + i * (0 > 12 ? -5 : 5)), 2))
+    },
     days() {
       return Array(Math.abs(1 - 31) + 1).fill(1).map((v, i) => v + i * (1 > 31 ? -1 : 1))
     },
@@ -91,13 +120,28 @@ export default {
       set(value) {
         this.$emit('year', value)
       }
+    },
+    hourSelected: {
+      get() {
+        return this.$props.hour
+      },
+      set(value) {
+        this.$emit('hour', value)
+      }
+    },
+    minuteSelected: {
+      get() {
+        return this.$props.minute
+      },
+      set(value) {
+        this.$emit('minute', value)
+      }
     }
   },
-  props: ['title', 'day', 'month', 'year', 'direction', 'minYear', 'maxYear'],
+  props: ['title', 'minute', 'hour', 'day', 'month', 'year', 'direction', 'minYear', 'maxYear'],
   methods: {
-    updateSelected(key, value) {
-      this[key] = value
-      this.$emit('dateObject', this.dateObject)
+    zeroPad(num, places) {
+      return String(num).padStart(places, '0')
     }
   }
 }

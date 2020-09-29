@@ -48,13 +48,15 @@
     </div>
 
     <div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-4">
-        <div>
-          <date-form @day="handleStartDay" @month="handleStartMonth" @year="handleStartYear" :day="startDate.day" :month="startDate.month" :year="startDate.year" direction="forward" minYear="2020" maxYear="2025" title="Beginn" />
+      <div class="grid grid-cols-6 gap-4 mb-8">
+        <div class="col-span-4">
+          <date-form @minute="handleStartMinute" @hour="handleStartHour" @day="handleStartDay" @month="handleStartMonth" @year="handleStartYear" :minute="startDate.minute" :hour="startDate.hour" :day="startDate.day" :month="startDate.month"
+            :year="startDate.year" direction="forward" minYear="2020" maxYear="2025" title="Beginn" />
           <p v-if="errors.startDateFull" class="text-red-500 text-xs italic">{{ $t('errorInvalidStartDate') }}</p>
         </div>
-        <div>
-          <date-form @day="handleEndDay" @month="handleEndMonth" @year="handleEndYear" :day="endDate.day" :month="endDate.month" :year="endDate.year" direction="forward" minYear="2020" maxYear="2025" title="Ende" />
+        <div class="col-span-4">
+          <date-form @minute="handleEndMinute" @hour="handleEndHour" @day="handleEndDay" @month="handleEndMonth" @year="handleEndYear" :minute="endDate.minute" :hour="endDate.hour" :day="endDate.day" :month="endDate.month" :year="endDate.year"
+            direction="forward" minYear="2020" maxYear="2025" title="Ende" />
           <p v-if="errors.endDateFull" class="text-red-500 text-xs italic">{{ $t('errorInvalidEndDate') }}</p>
         </div>
       </div>
@@ -90,11 +92,15 @@ export default {
       location: '',
       endDate: {
         day: null,
+        hour: null,
+        minute: null,
         month: null,
         year: null
       },
       startDate: {
         day: null,
+        hour: null,
+        minute: null,
         month: null,
         year: null
       },
@@ -162,12 +168,16 @@ export default {
       if (res.status === 200) {
         this.titles = res.data.titles || {}
         this.descriptions = res.data.descriptions || {}
-        this.startDate.day = new Date(Date.parse(res.data.start_time)).getDate() || null
-        this.startDate.month = new Date(Date.parse(res.data.start_time)).getMonth() + 1 || null
-        this.startDate.year = new Date(Date.parse(res.data.start_time)).getFullYear() || null
-        this.endDate.day = new Date(Date.parse(res.data.end_time)).getDate() || null
-        this.endDate.month = new Date(Date.parse(res.data.end_time)).getMonth() + 1 || null
-        this.endDate.year = new Date(Date.parse(res.data.end_time)).getFullYear() || null
+        this.startDate.day = new Date(Date.parse(res.data.start_time)).getDate()
+        this.startDate.hour = this.zeroPad(new Date(Date.parse(res.data.start_time)).getHours(), 2)
+        this.startDate.minute = this.zeroPad(new Date(Date.parse(res.data.start_time)).getMinutes(), 2)
+        this.startDate.month = new Date(Date.parse(res.data.start_time)).getMonth() + 1
+        this.startDate.year = new Date(Date.parse(res.data.start_time)).getFullYear()
+        this.endDate.day = new Date(Date.parse(res.data.end_time)).getDate()
+        this.endDate.hour = this.zeroPad(new Date(Date.parse(res.data.end_time)).getHours(), 2)
+        this.endDate.minute = this.zeroPad(new Date(Date.parse(res.data.end_time)).getMinutes(), 2)
+        this.endDate.month = new Date(Date.parse(res.data.end_time)).getMonth() + 1
+        this.endDate.year = new Date(Date.parse(res.data.end_time)).getFullYear()
         this.location = res.data.location || ''
       } else {
         console.debug(res.data)
@@ -183,14 +193,14 @@ export default {
     },
     startDateFull() {
       if (this.startDate.year !== null && this.startDate.month !== null && this.startDate.day !== null) {
-        return new Date(Date.UTC(this.startDate.year, this.startDate.month - 1, this.startDate.day, 0, 0, 0))
+        return new Date(Date.UTC(this.startDate.year, this.startDate.month - 1, this.startDate.day, this.startDate.hour, this.startDate.minute, 0))
       } else {
         return null
       }
     },
     endDateFull() {
       if (this.endDate.year !== null && this.endDate.month !== null && this.endDate.day !== null) {
-        return new Date(Date.UTC(this.endDate.year, this.endDate.month - 1, this.endDate.day, 0, 0, 0))
+        return new Date(Date.UTC(this.endDate.year, this.endDate.month - 1, this.endDate.day, this.endDate.hour, this.endDate.minute, 0))
       } else {
         return null
       }
@@ -214,9 +224,15 @@ export default {
       } else {
         this.errors.startDateFull = true
       }
+
+      if (this.endDateFull !== null && this.startDateFull > this.endDateFull) {
+        this.errors.endDateFull = false
+      } else {
+        this.errors.endDateFull = true
+      }
     },
     endDateFull: function() {
-      if (this.endDateFull !== null && this.startDateFull <= this.endDateFull) {
+      if (this.endDateFull !== null && this.startDateFull < this.endDateFull) {
         this.errors.endDateFull = false
       } else {
         this.errors.endDateFull = true
@@ -242,6 +258,15 @@ export default {
 
       return hexParts.join('');
     },
+    zeroPad(num, places) {
+      return String(num).padStart(places, '0')
+    },
+    handleStartMinute(value) {
+      this.startDate.minute = value
+    },
+    handleStartHour(value) {
+      this.startDate.hour = value
+    },
     handleStartDay(value) {
       this.startDate.day = value
     },
@@ -250,6 +275,12 @@ export default {
     },
     handleStartYear(value) {
       this.startDate.year = value
+    },
+    handleEndMinute(value) {
+      this.endDate.minute = value
+    },
+    handleEndHour(value) {
+      this.endDate.hour = value
     },
     handleEndDay(value) {
       this.endDate.day = value
