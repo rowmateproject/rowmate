@@ -11,6 +11,7 @@ class Event(BaseModel):
     end_time: Optional[datetime]
     created_at: datetime = datetime.utcnow()
     max_participants: int = 0
+    location: str
 
     # store translations
     titles: Dict[str, Dict[str, str]]
@@ -30,6 +31,7 @@ class UpdateEvent(BaseModel):
     start_time: datetime
     end_time: Optional[datetime]
     max_participants: int = 0
+    location: str
 
     # store translations
     titles: Dict[str, Dict[str, str]]

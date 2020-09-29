@@ -628,12 +628,24 @@ async def patch_mail_template(hex: str,
 async def get_all_events(user=Depends(api_user.get_current_active_user)):
     sort = [('_id', pymongo.DESCENDING)]
     filter = {'_id': False}
-    query = await db['events'].find({}, filter).sort(sort).to_list(length=30)
+    res = await db['events'].find({}, filter).sort(sort).to_list(length=30)
 
-    if query is not None:
-        return query
+    if len(res) > 0:
+        return res
     else:
         raise HTTPException(status_code=404, detail='No events were found')
+
+
+@app.get('/event/latest')
+async def get_latest_event(user=Depends(api_user.get_current_active_user)):
+    sort = [('_id', pymongo.DESCENDING)]
+    filter = {'_id': False}
+    res = await db['events'].find({}, filter).sort(sort).to_list(length=1)
+
+    if len(res) > 0:
+        return res[0]
+    else:
+        raise HTTPException(status_code=404, detail='Event was not found')
 
 
 @app.post('/event')
