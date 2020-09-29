@@ -1,7 +1,7 @@
 from bson.binary import Binary, UUID_SUBTYPE
 from typing import Dict, Optional, List
-from datetime import datetime, timedelta
 from pydantic import BaseModel
+from datetime import datetime
 from uuid import uuid4, UUID
 
 
@@ -13,8 +13,8 @@ class Event(BaseModel):
     max_participants: int = 0
 
     # store translations
-    title: Dict[str, str]
-    description: Dict[str, str]
+    titles: Dict[str, Dict[str, str]]
+    descriptions: Dict[str, Dict[str, str]]
 
     # if boats is empty, max_participants has to be used
     boats: List[UUID] = []
@@ -23,7 +23,7 @@ class Event(BaseModel):
     allowed_memberclasses: List[UUID] = []
 
     # if equals 0, signup is not restricted
-    signup_from: timedelta = timedelta(seconds=0)
+    # signup_from: timedelta = timedelta(seconds=0)
 
 
 class UpdateEvent(BaseModel):
@@ -32,8 +32,8 @@ class UpdateEvent(BaseModel):
     max_participants: int = 0
 
     # store translations
-    title: Dict[str, str]
-    description: Dict[str, str]
+    titles: Dict[str, Dict[str, str]]
+    descriptions: Dict[str, Dict[str, str]]
 
     # if boats is empty, max_participants has to be used
     boats: List[UUID] = []
@@ -42,4 +42,4 @@ class UpdateEvent(BaseModel):
     allowed_memberclasses: List[UUID] = []
 
     # if equals 0, signup is not restricted
-    signup_from: timedelta = timedelta(seconds=0)
+    # signup_from: timedelta = timedelta(seconds=0)
