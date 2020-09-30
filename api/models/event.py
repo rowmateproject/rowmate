@@ -7,11 +7,13 @@ from uuid import uuid4, UUID
 
 class Event(BaseModel):
     id: Binary = Binary(bytes(bytearray(uuid4().bytes)), UUID_SUBTYPE)
+    location: str
     start_time: datetime
     end_time: Optional[datetime]
     created_at: datetime = datetime.utcnow()
-    max_participants: int = 0
-    location: str
+    min_participants: str
+    max_participants: str
+    contact_person: str
 
     # store translations
     titles: Dict[str, Dict[str, str]]
@@ -28,10 +30,13 @@ class Event(BaseModel):
 
 
 class UpdateEvent(BaseModel):
-    start_time: datetime
-    end_time: Optional[datetime]
-    max_participants: int = 0
     location: str
+    start_time: datetime
+    modified_at: datetime = datetime.utcnow()
+    end_time: Optional[datetime]
+    min_participants: str
+    max_participants: str
+    contact_person: str
 
     # store translations
     titles: Dict[str, Dict[str, str]]

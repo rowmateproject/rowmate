@@ -472,26 +472,22 @@ async def list_users(user=Depends(api_user.get_current_superuser)):
     return {'users': users}
 
 
-@app.post('/social/users/find')
-async def find_user_by_name_or_mail(req: FindUser,
-                                    user=Depends(api_user.get_current_active_user)):
+@app.post('/lookup/users')
+async def lookup_user_by_name(req: FindUser,
+                              user=Depends(api_user.get_current_active_user)):
     sort = [('_id', pymongo.DESCENDING)]
     users = []
 
-    query = await collection.find({
+    res = await collection.find({
         'name': {'$regex': re.compile(req.name, re.IGNORECASE)},
         'is_active': True
     }).sort(sort).to_list(length=req.limit)
 
-    for q in query:
+    for r in res:
         try:
             users.append({
-                'id': str(q['id']),
-                'name': q['name'],
-                'email': q['email'],
-                'is_active': q['is_active'],
-                'created': q['_id'].generation_time,
-                'avatar': q['avatar']
+                'name': r['name'],
+                'avatar': r['avatar']
             })
         except Exception as e:
             print(e)
