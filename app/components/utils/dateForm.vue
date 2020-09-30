@@ -1,5 +1,5 @@
 <template>
-<div class="grid grid-cols-12 gap-x-4 w-full mb-1">
+<div class="grid grid-cols-11 gap-x-4 w-full mb-1">
   <div class="col-span-7 grid grid-cols-5 gap-x-2">
     <label class="col-span-5 text-color-form" for="date">{{ titleString }}</label>
 

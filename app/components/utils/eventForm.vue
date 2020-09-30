@@ -10,7 +10,7 @@
   </div>
   <div>
     <label class="text-color-form" :for="makeId('description', locale)">Notiz</label>
-    <textarea v-model="descriptionString" placeholder="Notiz hinzufügen" :class="[descriptionErrorString ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="h-32 w-full rounded border focus:outline-none p-2 mt-2 mb-1"></textarea>
+    <textarea v-model="descriptionString" placeholder="Notiz hinzufügen" :class="[descriptionErrorString ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="h-48 w-full rounded border focus:outline-none p-2 mt-2 mb-1"></textarea>
     <p v-if="descriptionErrorString" class="text-red-500 text-xs italic">{{ $t('errorInvalidName') }}</p>
   </div>
 </div>

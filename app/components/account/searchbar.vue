@@ -97,8 +97,8 @@ export default {
       return this.showDropdown = !this.showDropdown
     },
     findUsers() {
-      if (this.searchValue.length > 1) {
-        this.$axios.$post(`${process.env.API_URL}/social/users/find`, {
+      if (this.searchValue.length >= 1) {
+        this.$axios.$post(`${process.env.API_URL}/lookup/users`, {
           name: this.searchValue,
           limit: 5
         }).then(res => {

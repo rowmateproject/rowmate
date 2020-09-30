@@ -48,16 +48,39 @@
     </div>
 
     <div>
-      <div class="grid grid-cols-6 gap-4 mb-8">
-        <div class="col-span-4">
+      <div class="grid grid-cols-12 gap-4 mb-8">
+        <div class="col-span-8">
           <date-form @minute="handleStartMinute" @hour="handleStartHour" @day="handleStartDay" @month="handleStartMonth" @year="handleStartYear" :minute="startDate.minute" :hour="startDate.hour" :day="startDate.day" :month="startDate.month"
             :year="startDate.year" direction="forward" minYear="2020" maxYear="2025" title="Beginn" />
           <p v-if="errors.startDateFull" class="text-red-500 text-xs italic">{{ $t('errorInvalidStartDate') }}</p>
         </div>
-        <div class="col-span-4">
+        <div class="col-span-4 grid grid-cols-4 gap-x-2">
+          <div class="col-span-2">
+            <label class="text-color-form" for="date">Min. Teilnehmer</label>
+            <input v-model="minParticipants" type="text" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1">
+          </div>
+          <div class="col-span-2">
+            <label class="text-color-form" for="date">Max. Teilnehmer</label>
+            <input v-model="maxParticipants" type="text" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1">
+          </div>
+        </div>
+        <div class="col-span-8">
           <date-form @minute="handleEndMinute" @hour="handleEndHour" @day="handleEndDay" @month="handleEndMonth" @year="handleEndYear" :minute="endDate.minute" :hour="endDate.hour" :day="endDate.day" :month="endDate.month" :year="endDate.year"
             direction="forward" minYear="2020" maxYear="2025" title="Ende" />
           <p v-if="errors.endDateFull" class="text-red-500 text-xs italic">{{ $t('errorInvalidEndDate') }}</p>
+        </div>
+        <div class="col-span-4 relative">
+          <div v-click-outside="toggleSearch" @keydown.esc="toggleSearch">
+            <label class="text-color-form" for="contactPerson">Ansprechpartner</label>
+            <input v-model="contactPerson" @input="lookupContactPerson" type="text" class="w-full rounded border focus:outline-none p-2 mt-2">
+
+            <div v-if="users.length > 0" class="w-full absolute">
+              <div @click="setSerchTerm(user)" class="hover:bg-gray-300 bg-color-form border shadow p-1" v-for="user in users">
+                <avatar class="inline mr-2 pr-2" width="75" :avatar="user.avatar" />
+                <span class="leading-5 font-medium text-gray-900">{{ user.name }}</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -92,8 +115,12 @@ export default {
   data() {
     return {
       uuid: '',
+      users: [],
       titles: {},
       descriptions: {},
+      minParticipants: '',
+      maxParticipants: '',
+      contactPerson: '',
       location: '',
       endDate: {
         day: null,
@@ -174,6 +201,8 @@ export default {
         this.uuid = res.data.id || ''
         this.titles = res.data.titles || {}
         this.descriptions = res.data.descriptions || {}
+        this.minParticipants = res.data.min_participants || ''
+        this.maxParticipants = res.data.max_participants || ''
         this.startDate.day = new Date(Date.parse(res.data.start_time)).getDate()
         this.startDate.hour = this.zeroPad(new Date(Date.parse(res.data.start_time)).getHours(), 2)
         this.startDate.minute = this.zeroPad(new Date(Date.parse(res.data.start_time)).getMinutes(), 2)
@@ -252,6 +281,13 @@ export default {
     makeId(value, locale) {
       return `${value}-${locale}`
     },
+    toggleSearch() {
+      this.users = []
+    },
+    setSerchTerm(user) {
+      this.contactPerson = user.name
+      this.toggleSearch()
+    },
     buf2hex(buffer) {
       const byteArray = new Uint8Array(buffer)
       const hexParts = []
@@ -303,6 +339,26 @@ export default {
     handleDescriptionString(value) {
       this.descriptions[value.locale].description = value.description
     },
+    lookupContactPerson() {
+      if (this.contactPerson.length >= 1) {
+        this.$axios({
+          method: 'POST',
+          url: `${process.env.API_URL}/lookup/users`,
+          data: {
+            name: this.contactPerson
+          },
+          validateStatus: () => true
+        }).then(res => {
+          if (res.status === 200) {
+            this.users = res.data.users || []
+          } else {
+            console.debug(res.data)
+          }
+        })
+      } else {
+        this.users = []
+      }
+    },
     submitForm() {
       const isValidForm = (currentValue) => currentValue !== true
 
@@ -345,6 +401,9 @@ export default {
               titles: this.titles,
               location: this.location,
               descriptions: this.descriptions,
+              min_participants: this.minParticipants,
+              max_participants: this.maxParticipants,
+              contact_person: this.contactPerson,
               start_time: this.startDateFull,
               end_time: this.endDateFull
             },
@@ -365,6 +424,9 @@ export default {
               titles: this.titles,
               location: this.location,
               descriptions: this.descriptions,
+              min_participants: this.minParticipants,
+              max_participants: this.maxParticipants,
+              contact_person: this.contactPerson,
               start_time: this.startDateFull,
               end_time: this.endDateFull
             },
