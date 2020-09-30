@@ -48,7 +48,7 @@
     </div>
 
     <div>
-      <div class="grid grid-cols-12 gap-4 mb-8">
+      <div class="grid grid-cols-12 gap-4">
         <div class="col-span-8">
           <date-form @minute="handleStartMinute" @hour="handleStartHour" @day="handleStartDay" @month="handleStartMonth" @year="handleStartYear" :minute="startDate.minute" :hour="startDate.hour" :day="startDate.day" :month="startDate.month"
             :year="startDate.year" direction="forward" minYear="2020" maxYear="2025" title="Beginn" />
@@ -84,7 +84,9 @@
         </div>
       </div>
 
-      <div>
+      <event-repeat-form @repeatUnitNumber="handleRepeatUnit" @repeatIntervalNumber="handleRepeatInterval" :repeatUnit="repeatUnit" :repeatInterval="14" />
+
+      <div class="mt-8">
         <label class="text-color-form" for="location">Ort</label>
         <input v-model="location" type="text" placeholder="Ort hinzufügen" :class="[errors.location ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1">
         <p v-if="errors.location" class="text-red-500 text-xs italic">{{ $t('errorInvalidName') }}</p>
@@ -118,9 +120,11 @@ export default {
       users: [],
       titles: {},
       descriptions: {},
+      contactPerson: '',
       minParticipants: '',
       maxParticipants: '',
-      contactPerson: '',
+      repeatInterval: '',
+      repeatUnit: '',
       location: '',
       endDate: {
         day: null,
@@ -201,9 +205,11 @@ export default {
         this.uuid = res.data.id || ''
         this.titles = res.data.titles || {}
         this.descriptions = res.data.descriptions || {}
-        this.contactPerson = res.data.contact_person || ''
         this.minParticipants = res.data.min_participants || ''
         this.maxParticipants = res.data.max_participants || ''
+        this.repeatInterval = res.data.repeat_interval || ''
+        this.contactPerson = res.data.contact_person || ''
+        this.repeatUnit = res.data.repeat_unit || ''
         this.startDate.day = new Date(Date.parse(res.data.start_time)).getDate()
         this.startDate.hour = this.zeroPad(new Date(Date.parse(res.data.start_time)).getHours(), 2)
         this.startDate.minute = this.zeroPad(new Date(Date.parse(res.data.start_time)).getMinutes(), 2)
@@ -334,6 +340,12 @@ export default {
     handleEndYear(value) {
       this.endDate.year = value
     },
+    handleRepeatUnit(value) {
+      this.repeatUnit = value
+    },
+    handleRepeatInterval(value) {
+      this.repeatInterval = value
+    },
     handleTitleString(value) {
       this.titles[value.locale].title = value.title
     },
@@ -401,7 +413,9 @@ export default {
             data: {
               titles: this.titles,
               location: this.location,
+              repeat_unit: this.repeatUnit,
               descriptions: this.descriptions,
+              repeat_interval: this.repeatInterval,
               min_participants: this.minParticipants,
               max_participants: this.maxParticipants,
               contact_person: this.contactPerson,
@@ -424,7 +438,9 @@ export default {
             data: {
               titles: this.titles,
               location: this.location,
+              repeat_unit: this.repeatUnit,
               descriptions: this.descriptions,
+              repeat_interval: this.repeatInterval,
               min_participants: this.minParticipants,
               max_participants: this.maxParticipants,
               contact_person: this.contactPerson,
@@ -435,8 +451,8 @@ export default {
           }).then(res => {
             if (res.status === 200) {
               console.debug(res.data)
-            } else {
-              console.debug(res.data)
+            } else if (res.status === 204) {
+              console.debug('Nothing to update already uptodate')
             }
           })
         }
