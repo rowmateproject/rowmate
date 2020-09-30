@@ -201,6 +201,7 @@ export default {
         this.uuid = res.data.id || ''
         this.titles = res.data.titles || {}
         this.descriptions = res.data.descriptions || {}
+        this.contactPerson = res.data.contact_person || ''
         this.minParticipants = res.data.min_participants || ''
         this.maxParticipants = res.data.max_participants || ''
         this.startDate.day = new Date(Date.parse(res.data.start_time)).getDate()
