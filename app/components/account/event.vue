@@ -84,9 +84,14 @@
 </template>
 
 <script>
+import {
+  parse as uuidParse
+} from 'uuid'
+
 export default {
   data() {
     return {
+      uuid: '',
       titles: {},
       descriptions: {},
       location: '',
@@ -132,7 +137,7 @@ export default {
 
       this.$watch(`titles.${locale.code}.title`, function() {
         if (this.titles[locale.code].title !== '') {
-          if (this.titles[locale.code].title.trim().length >= 7) {
+          if (this.titles[locale.code].title.trim().length >= 3) {
             this.errors.titles[locale.code].title = false
           } else {
             this.errors.titles[locale.code].title = true
@@ -146,7 +151,7 @@ export default {
 
       this.$watch(`descriptions.${locale.code}.description`, function() {
         if (this.descriptions[locale.code].description.trim() !== '') {
-          if (this.descriptions[locale.code].description.trim().length >= 7) {
+          if (this.descriptions[locale.code].description.trim().length >= 3) {
             this.errors.descriptions[locale.code].description = false
           } else {
             this.errors.descriptions[locale.code].description = true
@@ -166,6 +171,7 @@ export default {
       validateStatus: () => true
     }).then((res) => {
       if (res.status === 200) {
+        this.uuid = res.data.id || ''
         this.titles = res.data.titles || {}
         this.descriptions = res.data.descriptions || {}
         this.startDate.day = new Date(Date.parse(res.data.start_time)).getDate()
@@ -209,7 +215,7 @@ export default {
   watch: {
     location: function() {
       if (this.location !== '') {
-        if (this.location.trim().length >= 7) {
+        if (this.location.trim().length >= 3) {
           this.errors.location = false
         } else {
           this.errors.location = true
@@ -293,11 +299,9 @@ export default {
     },
     handleTitleString(value) {
       this.titles[value.locale].title = value.title
-      // console.log(value)
     },
     handleDescriptionString(value) {
       this.descriptions[value.locale].description = value.description
-      // console.log(value)
     },
     submitForm() {
       const isValidForm = (currentValue) => currentValue !== true
@@ -325,24 +329,54 @@ export default {
       }
 
       if (Object.values(this.errors).every(isValidForm) === true) {
-        this.$axios({
-          method: 'POST',
-          url: `${process.env.API_URL}/event`,
-          data: {
-            titles: this.titles,
-            location: this.location,
-            descriptions: this.descriptions,
-            start_time: this.startDateFull,
-            end_time: this.endDateFull
-          },
-          validateStatus: () => true
-        }).then(res => {
-          if (res.status === 200) {
-            console.debug(res.data)
-          } else {
-            console.debug(res.data)
-          }
-        })
+        let uuid = null
+
+        try {
+          uuid = this.buf2hex(uuidParse(this.uuid))
+        } catch (e) {
+          console.debug(e.message)
+        }
+
+        if (!uuid) {
+          this.$axios({
+            method: 'POST',
+            url: `${process.env.API_URL}/event`,
+            data: {
+              titles: this.titles,
+              location: this.location,
+              descriptions: this.descriptions,
+              start_time: this.startDateFull,
+              end_time: this.endDateFull
+            },
+            validateStatus: () => true
+          }).then(res => {
+            if (res.status === 200) {
+              console.debug(res.data)
+              this.uuid = res.data.id || ''
+            } else {
+              console.debug(res.data)
+            }
+          })
+        } else {
+          this.$axios({
+            method: 'PATCH',
+            url: `${process.env.API_URL}/event/${uuid}`,
+            data: {
+              titles: this.titles,
+              location: this.location,
+              descriptions: this.descriptions,
+              start_time: this.startDateFull,
+              end_time: this.endDateFull
+            },
+            validateStatus: () => true
+          }).then(res => {
+            if (res.status === 200) {
+              console.debug(res.data)
+            } else {
+              console.debug(res.data)
+            }
+          })
+        }
       }
     }
   }
