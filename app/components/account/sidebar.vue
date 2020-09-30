@@ -12,6 +12,11 @@
         <span class="col-span-5">Dashboard</span>
       </nuxt-link>
 
+      <nuxt-link class="text-color-nav focus:outline-none grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('calendar') ? activeClass : inactiveClass]" :to="localePath('/calendar')">
+        <fa :icon="['fas', 'calendar-week']" class="col-span-1" />
+        <span class="col-span-5">Kalender</span>
+      </nuxt-link>
+
       <nuxt-link class="text-color-nav focus:outline-none grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('settings') ? activeClass : inactiveClass]" :to="localePath('/settings')">
         <fa :icon="['fas', 'user-cog']" class="col-span-1" />
         <span class="col-span-5">Profile</span>
@@ -25,11 +30,6 @@
       <nuxt-link v-if="isSuperuser === 'true' || isSuperuser === true" class="text-color-nav focus:outline-none grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('theme') ? activeClass : inactiveClass]" :to="localePath('/theme')">
         <fa :icon="['fas', 'comment-alt']" class="col-span-1" />
         <span class="col-span-5">Theme</span>
-      </nuxt-link>
-
-      <nuxt-link class="text-color-nav focus:outline-none grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('xxx') ? activeClass : inactiveClass]" :to="localePath('/#')">
-        <fa :icon="['fas', 'calendar-week']" class="col-span-1" />
-        <span class="col-span-5">Termine</span>
       </nuxt-link>
 
       <nuxt-link v-if="isSuperuser === 'true' || isSuperuser === true" class="text-color-nav focus:outline-none grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('event') ? activeClass : inactiveClass]" :to="localePath('/event')">
