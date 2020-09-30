@@ -619,10 +619,23 @@ async def patch_mail_template(hex: str,
         raise HTTPException(status_code=204)
 
 
-@app.get('/events')
-async def get_all_events(user=Depends(api_user.get_current_active_user)):
+@app.get('/events/{lang}')
+async def get_all_events(lang, user=Depends(api_user.get_current_active_user)):
     sort = [('_id', pymongo.DESCENDING)]
-    filter = {'_id': False}
+    filter = {'_id': False,
+              f'titles.{lang}.title': True,
+              f'descriptions.{lang}.description': True,
+              'max_participants': True,
+              'min_participants': True,
+              'repeat_interval': True,
+              'contact_person': True,
+              'repeat_unit': True,
+              'modified_at': True,
+              'created_at': True,
+              'start_time': True,
+              'end_time': True,
+              'location': True}
+
     res = await db['events'].find({}, filter).sort(sort).to_list(length=30)
 
     if len(res) > 0:
