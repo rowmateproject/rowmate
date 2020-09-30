@@ -616,8 +616,7 @@ async def patch_mail_template(hex: str,
     if res.modified_count > 0:
         return {'detail': 'Mail template was updated'}
     else:
-        raise HTTPException(
-            status_code=400, detail='Mail template not updated')
+        raise HTTPException(status_code=204)
 
 
 @app.get('/events')
@@ -675,5 +674,4 @@ async def patch_event(hex: str,
     if res.modified_count > 0:
         return {'detail': 'Event successfully updated'}
     else:
-        raise HTTPException(
-            status_code=400, detail='Event not updated')
+        raise HTTPException(status_code=204)

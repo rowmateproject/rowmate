@@ -11,9 +11,11 @@ class Event(BaseModel):
     start_time: datetime
     end_time: Optional[datetime]
     created_at: datetime = datetime.utcnow()
-    min_participants: str
-    max_participants: str
+    min_participants: int
+    max_participants: int
+    repeat_interval: int
     contact_person: str
+    repeat_unit: str
 
     # store translations
     titles: Dict[str, Dict[str, str]]
@@ -34,9 +36,11 @@ class UpdateEvent(BaseModel):
     start_time: datetime
     modified_at: datetime = datetime.utcnow()
     end_time: Optional[datetime]
-    min_participants: str
-    max_participants: str
+    min_participants: int
+    max_participants: int
+    repeat_interval: int
     contact_person: str
+    repeat_unit: str
 
     # store translations
     titles: Dict[str, Dict[str, str]]
