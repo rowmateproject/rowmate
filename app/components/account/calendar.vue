@@ -5,16 +5,17 @@
   <ul>
     <li v-for="value, index in events" :key="index" class="mt-3 lg:mt-8 p-3 lg:p-6 bg-color-form rounded-md shadow-md">
       <div class="grid grid-cols-12 gap-x-6">
-        <h1 class="col-span-10 text-color-sale font-bold text-4xl mb-8">
-          {{ makeStartEndDate(value.start_time, value.end_time)[0] }}
-          {{ makeStartEndDate(value.start_time, value.end_time)[1] }}
-          {{ makeStartEndDate(value.start_time, value.end_time)[2] }}
-          <span class="ml-2">- {{ value.titles[currentLocale].title }}</span>
+        <h1 class="col-span-10 text-color-sale font-bold text-4xl mb-4">
+          {{ value.titles[currentLocale].title }}
         </h1>
         <div class="col-span-2 text-right">
           <button class="bg-color-button text-color-button rounded-md focus:outline-none px-4 py-2">Jetzt Anmelden</button>
         </div>
-        <ul class="col-span-8 grid grid-cols-10 gap-6 mb-6">
+        <ul class="col-span-8 grid grid-cols-10 gap-6 mb-4">
+          <li class="col-span-10">
+            <p class="text-color-header font-medium">Zeitpunkt</p>
+            <span class="text-color-title text-xl font-bold">{{ makeStartEndDate(value.start_time, value.end_time) }}</span>
+          </li>
           <li v-if="value.contact_person" class="col-span-4">
             <p class="text-color-header font-medium">Ansprechpartner</p>
             <span class="text-color-title text-xl font-bold">{{ value.contact_person }}</span>
@@ -99,7 +100,7 @@ export default {
       }).format(d)
 
       const time = new Intl.DateTimeFormat(this.currentLocale, {
-        minute: '2-digit',
+        minute: 'numeric',
         hour: 'numeric'
       }).format(d)
 
@@ -109,17 +110,26 @@ export default {
       const [dayStart, monthStart, yearStart, timeStart] = this.makeDateTime(startDate)
       const [dayEnd, monthEnd, yearEnd, timeEnd] = this.makeDateTime(endDate)
 
-      let daysString = null
-      let monthsString = null
-      let yearString = null
+      let timeString = null
+      let dateString = null
 
-      if (yearStart === yearEnd && monthStart === monthEnd) {
-        daysString = `${dayStart}. bis ${dayEnd}.`
-        monthsString = `${monthStart}`
-        yearString = `${yearStart}`
+      if (timeStart === timeEnd) {
+        timeString = `${timeStart} Uhr`
+      } else {
+        timeString = `${timeStart} bis ${timeEnd} Uhr`
       }
 
-      return [daysString, monthsString, yearStart]
+      if (dayStart === dayEnd && monthStart === monthEnd && yearStart === yearEnd) {
+        dateString = `${dayStart}. ${monthStart} ${yearStart}, ${timeString}`
+      } else if (dayStart === dayEnd && monthStart !== monthEnd && yearStart === yearEnd) {
+        dateString = `${dayStart}. ${monthStart} - ${dayEnd}. ${monthEnd} ${yearStart}, ${timeString}`
+      } else if ((dayStart === dayEnd || dayStart !== dayEnd) && monthStart !== monthEnd && yearStart !== yearEnd) {
+        dateString = `${dayStart}. ${monthStart} ${yearStart} - ${dayEnd}. ${monthEnd} ${yearEnd}, ${timeString}`
+      } else {
+        dateString = `${dayStart}. ${monthStart} ${yearStart}, ${timeString}`
+      }
+
+      return dateString
     }
   }
 }
