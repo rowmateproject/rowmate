@@ -41,3 +41,7 @@ class UpdateEvent(Event):
 
     # TODO: should be type of uuid later on
     modified_by: Optional[str]
+
+
+class LookupEvent(BaseModel):
+    query: str

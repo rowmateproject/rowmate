@@ -41,7 +41,7 @@ from models.user import (User, UserCreate, UserUpdate,
                          UserDB, UserList, FindUser)
 from models.theme import ThemeModel
 from models.template import TemplateModel, UpdateTemplateModel
-from models.event import Event, UpdateEvent
+from models.event import Event, UpdateEvent, LookupEvent
 from models.calendar import Calendar
 from models.boat import Boat
 
@@ -645,7 +645,7 @@ async def get_all_events(lang, user=Depends(api_user.get_current_active_user)):
               'end_time': True,
               'location': True}
 
-    res = await db['events'].find(query, filter).sort(sort).to_list(length=600)
+    res = await db['events'].find(query, filter).sort(sort).to_list(length=150)
 
     if len(res) > 0:
         return res
@@ -833,3 +833,22 @@ async def patch_event(hex: str,
                 'deleted': len(deleted)}
     else:
         raise HTTPException(status_code=400, detail='Error updating calendar')
+
+
+@app.post('/lookup/events/{lang}')
+async def lookup_event_title(lang,
+                             event: LookupEvent,
+                             user=Depends(api_user.get_current_active_user)):
+    sort = [('created_at', pymongo.ASCENDING)]
+    query = {
+        f'titles.{lang}.title': {
+            '$regex': re.compile(event.query, re.IGNORECASE)
+        }
+    }
+
+    res = await db['events'].find(query).sort(sort).to_list(length=150)
+
+    if len(res) > 0:
+        return res
+    else:
+        raise HTTPException(status_code=404, detail='No events were not found')
