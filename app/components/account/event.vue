@@ -202,7 +202,7 @@ export default {
       validateStatus: () => true
     }).then((res) => {
       if (res.status === 200) {
-        this.uuid = res.data.id || ''
+        this.uuid = res.data._id || ''
         this.titles = res.data.titles || {}
         this.descriptions = res.data.descriptions || {}
         this.minParticipants = res.data.min_participants || ''
