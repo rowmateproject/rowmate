@@ -2,6 +2,8 @@
 <div>
   <h3 class="text-3xl font-medium text-color-title">Kalender</h3>
 
+  <event-filter @resultObject="handleResultObject" />
+
   <ul>
     <li v-for="value, index in events" :key="index" class="mt-3 lg:mt-8 p-3 lg:p-6 bg-color-form rounded-md shadow-md">
       <div class="grid grid-cols-12 gap-x-6">
@@ -82,6 +84,9 @@ export default {
     },
     makeId(value, locale) {
       return `${value}-${locale}`
+    },
+    handleResultObject(value) {
+      this.events = [value]
     },
     makeDateTime(value) {
       const d = new Date(Date.parse(value))

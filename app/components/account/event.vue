@@ -1,8 +1,10 @@
 <template>
 <div>
-  <h3 class="text-3xl font-medium text-color-title">{{ $t('createEvent') }}</h3>
+  <h3 class="text-3xl font-medium text-color-title">Event</h3>
 
-  <form @submit.prevent="submitForm" class="mt-3 lg:mt-8 p-3 lg:p-6 bg-color-form rounded-md shadow-md">
+  <event-filter @resultObject="handleResultObject" />
+
+  <form @submit.prevent="submitForm" class="mt-3 lg:mt-8 p-3 lg:p-6 bg-color-form rounded-md shadow">
     <div class="flex mb-8">
       <div class="w-1/4 text-center text-color-form bg-color-page rounded flex items-center justify-center h-20">
         <div class="w-1/4 flex items-center justify-start px-4">
@@ -69,8 +71,8 @@
             direction="forward" minYear="2020" maxYear="2025" title="Ende" />
           <p v-if="errors.endDateFull" class="text-red-500 text-xs italic">{{ $t('errorInvalidEndDate') }}</p>
         </div>
-        <div class="col-span-4 relative">
-          <div v-click-outside="toggleSearch" @keydown.esc="toggleSearch">
+        <div class="col-span-4">
+          <div v-click-outside="toggleSearch" @keydown.esc="toggleSearch" class="relative">
             <label class="text-color-form" for="contactPerson">Ansprechpartner</label>
             <input v-model="contactPerson" @input="lookupContactPerson" type="text" class="w-full rounded border focus:outline-none p-2 mt-2">
 
@@ -193,37 +195,6 @@ export default {
       }, {
         deep: true
       })
-    })
-  },
-  mounted() {
-    this.$axios({
-      method: 'GET',
-      url: `${process.env.API_URL}/event/latest`,
-      validateStatus: () => true
-    }).then((res) => {
-      if (res.status === 200) {
-        this.uuid = res.data._id || ''
-        this.titles = res.data.titles || {}
-        this.descriptions = res.data.descriptions || {}
-        this.minParticipants = res.data.min_participants || ''
-        this.maxParticipants = res.data.max_participants || ''
-        this.repeatInterval = res.data.repeat_interval || ''
-        this.contactPerson = res.data.contact_person || ''
-        this.repeatUnit = res.data.repeat_unit || ''
-        this.startDate.day = new Date(Date.parse(res.data.start_time)).getDate()
-        this.startDate.hour = this.zeroPad(new Date(Date.parse(res.data.start_time)).getHours(), 2)
-        this.startDate.minute = this.zeroPad(new Date(Date.parse(res.data.start_time)).getMinutes(), 2)
-        this.startDate.month = new Date(Date.parse(res.data.start_time)).getMonth() + 1
-        this.startDate.year = new Date(Date.parse(res.data.start_time)).getFullYear()
-        this.endDate.day = new Date(Date.parse(res.data.end_time)).getDate()
-        this.endDate.hour = this.zeroPad(new Date(Date.parse(res.data.end_time)).getHours(), 2)
-        this.endDate.minute = this.zeroPad(new Date(Date.parse(res.data.end_time)).getMinutes(), 2)
-        this.endDate.month = new Date(Date.parse(res.data.end_time)).getMonth() + 1
-        this.endDate.year = new Date(Date.parse(res.data.end_time)).getFullYear()
-        this.location = res.data.location || ''
-      } else {
-        console.debug(res.data)
-      }
     })
   },
   computed: {
@@ -352,6 +323,27 @@ export default {
     handleDescriptionString(value) {
       this.descriptions[value.locale].description = value.description
     },
+    handleResultObject(value) {
+      this.uuid = value._id || ''
+      this.titles = value.titles || {}
+      this.descriptions = value.descriptions || {}
+      this.minParticipants = value.min_participants || ''
+      this.maxParticipants = value.max_participants || ''
+      this.repeatInterval = value.repeat_interval || ''
+      this.contactPerson = value.contact_person || ''
+      this.repeatUnit = value.repeat_unit || ''
+      this.startDate.day = new Date(Date.parse(value.start_time)).getDate()
+      this.startDate.hour = this.zeroPad(new Date(Date.parse(value.start_time)).getHours(), 2)
+      this.startDate.minute = this.zeroPad(new Date(Date.parse(value.start_time)).getMinutes(), 2)
+      this.startDate.month = new Date(Date.parse(value.start_time)).getMonth() + 1
+      this.startDate.year = new Date(Date.parse(value.start_time)).getFullYear()
+      this.endDate.day = new Date(Date.parse(value.end_time)).getDate()
+      this.endDate.hour = this.zeroPad(new Date(Date.parse(value.end_time)).getHours(), 2)
+      this.endDate.minute = this.zeroPad(new Date(Date.parse(value.end_time)).getMinutes(), 2)
+      this.endDate.month = new Date(Date.parse(value.end_time)).getMonth() + 1
+      this.endDate.year = new Date(Date.parse(value.end_time)).getFullYear()
+      this.location = value.location || ''
+    },
     lookupContactPerson() {
       if (this.contactPerson.length >= 1) {
         this.$axios({
@@ -425,8 +417,7 @@ export default {
             validateStatus: () => true
           }).then(res => {
             if (res.status === 200) {
-              console.debug(res.data)
-              this.uuid = res.data.id || ''
+              this.uuid = res.data._id || ''
             } else {
               console.debug(res.data)
             }
