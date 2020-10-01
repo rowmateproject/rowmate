@@ -21,6 +21,7 @@ from makefun import with_signature
 from inspect import Signature, Parameter
 from datetime import datetime, timezone, timedelta
 from typing import Optional, Sequence, Type
+from bson.binary import Binary
 from uuid import UUID, uuid4
 from pathlib import Path
 
@@ -31,12 +32,17 @@ import re
 # settings
 from config import Settings
 
+# utils
+from utils.uuid import generate_uuid
+from utils.interval import generate_interval
+
 # models
 from models.user import (User, UserCreate, UserUpdate,
                          UserDB, UserList, FindUser)
 from models.theme import ThemeModel
 from models.template import TemplateModel, UpdateTemplateModel
 from models.event import Event, UpdateEvent
+from models.calendar import Calendar
 from models.boat import Boat
 
 # enums
@@ -621,8 +627,10 @@ async def patch_mail_template(hex: str,
 
 @app.get('/events/{lang}')
 async def get_all_events(lang, user=Depends(api_user.get_current_active_user)):
-    sort = [('_id', pymongo.DESCENDING)]
-    filter = {'_id': False,
+    query = {'event_time': {'$gte': datetime.utcnow()}}
+    sort = [('event_time', pymongo.ASCENDING)]
+
+    filter = {'_id': True,
               f'titles.{lang}.title': True,
               f'descriptions.{lang}.description': True,
               'max_participants': True,
@@ -632,11 +640,12 @@ async def get_all_events(lang, user=Depends(api_user.get_current_active_user)):
               'repeat_unit': True,
               'modified_at': True,
               'created_at': True,
+              'event_time': True,
               'start_time': True,
               'end_time': True,
               'location': True}
 
-    res = await db['events'].find({}, filter).sort(sort).to_list(length=30)
+    res = await db['events'].find(query, filter).sort(sort).to_list(length=600)
 
     if len(res) > 0:
         return res
@@ -646,8 +655,8 @@ async def get_all_events(lang, user=Depends(api_user.get_current_active_user)):
 
 @app.get('/event/latest')
 async def get_latest_event(user=Depends(api_user.get_current_active_user)):
-    sort = [('_id', pymongo.DESCENDING)]
-    filter = {'_id': False}
+    sort = [('created_at', pymongo.DESCENDING)]
+    filter = {'_id': True}
     res = await db['events'].find({}, filter).sort(sort).to_list(length=1)
 
     if len(res) > 0:
@@ -657,34 +666,59 @@ async def get_latest_event(user=Depends(api_user.get_current_active_user)):
 
 
 @app.post('/event')
-async def post_event(model: Event,
+async def post_event(request: Event,
                      user=Depends(api_user.get_current_superuser)):
-    object = dict(model)
+    event_times = generate_interval(request)
+    request_doc = dict(request)
+    events = []
 
-    res = await db['events'].insert_one(object)
+    for event_time in event_times:
+        uuid: Binary = generate_uuid()
+        created_at: datetime = datetime.utcnow()
+
+        event_doc: Event = {
+            '_id': uuid,
+            'created_at': created_at,
+            'event_time': event_time,
+            'titles': request_doc['titles'],
+            'location': request_doc['location'],
+            'repeat_unit': request_doc['repeat_unit'],
+            'descriptions': request_doc['descriptions'],
+            'repeat_interval': request_doc['repeat_interval'],
+            'min_participants': request_doc['min_participants'],
+            'max_participants': request_doc['max_participants'],
+            'contact_person': request_doc['contact_person'],
+            'start_time': request_doc['start_time'],
+            'end_time': request_doc['end_time']
+        }
+
+        res = await db['events'].insert_one(event_doc)
+
+        if res.acknowledged:
+            events.append(res.inserted_id)
+
+    uuid: Binary = generate_uuid()
+
+    calendar_doc: Calendar = {
+        '_id': uuid,
+        'events': events,
+        'start_time': request_doc['start_time'],
+        'end_time': request_doc['end_time']
+    }
+
+    res = await db['calendars'].insert_one(calendar_doc)
 
     if res.acknowledged:
-        return {'detail': 'Event successfully created',
-                'id': UUID(bytes=object['id'])}
+        return {'detail': 'Events successfully created'}
     else:
-        raise HTTPException(status_code=400, detail='Event not created')
+        raise HTTPException(status_code=400, detail='Error creating calendar')
 
 
 @app.patch('/event/{hex}')
 async def patch_event(hex: str,
-                      model: UpdateEvent,
+                      event: UpdateEvent,
                       user=Depends(api_user.get_current_superuser)):
     try:
-        uuid = UUID(hex=hex, version=4)
+        return UUID(hex=hex, version=4)
     except TypeError:
         raise HTTPException(status_code=404, detail='Event was not found')
-
-    condition = {'id': uuid}
-    filter = {'$set': dict(model)}
-
-    res = await db['events'].update_one(condition, filter, upsert=False)
-
-    if res.modified_count > 0:
-        return {'detail': 'Event successfully updated'}
-    else:
-        raise HTTPException(status_code=204)

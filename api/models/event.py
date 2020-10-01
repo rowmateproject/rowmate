@@ -1,56 +1,33 @@
-from bson.binary import Binary, UUID_SUBTYPE
-from typing import Dict, Optional, List
+from typing import Dict, List, Optional
+from bson.binary import Binary
 from pydantic import BaseModel
 from datetime import datetime
-from uuid import uuid4, UUID
 
 
 class Event(BaseModel):
-    id: Binary = Binary(bytes(bytearray(uuid4().bytes)), UUID_SUBTYPE)
-    location: str
-    start_time: datetime
+    event_time: Optional[datetime]
     end_time: Optional[datetime]
-    created_at: datetime = datetime.utcnow()
+    start_time: datetime
     min_participants: int
     max_participants: int
     repeat_interval: int
     contact_person: str
     repeat_unit: str
+    location: str
 
     # store translations
     titles: Dict[str, Dict[str, str]]
     descriptions: Dict[str, Dict[str, str]]
 
     # if boats is empty, max_participants has to be used
-    boats: List[UUID] = []
+    boats: List[Binary] = []
 
     # if empty, all members can sign up.
-    allowed_memberclasses: List[UUID] = []
+    allowed_memberclasses: List[Binary] = []
 
     # if equals 0, signup is not restricted
     # signup_from: timedelta = timedelta(seconds=0)
 
 
-class UpdateEvent(BaseModel):
-    location: str
-    start_time: datetime
+class UpdateEvent(Event):
     modified_at: datetime = datetime.utcnow()
-    end_time: Optional[datetime]
-    min_participants: int
-    max_participants: int
-    repeat_interval: int
-    contact_person: str
-    repeat_unit: str
-
-    # store translations
-    titles: Dict[str, Dict[str, str]]
-    descriptions: Dict[str, Dict[str, str]]
-
-    # if boats is empty, max_participants has to be used
-    boats: List[UUID] = []
-
-    # if empty, all members can sign up.
-    allowed_memberclasses: List[UUID] = []
-
-    # if equals 0, signup is not restricted
-    # signup_from: timedelta = timedelta(seconds=0)
