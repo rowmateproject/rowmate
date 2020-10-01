@@ -14,7 +14,7 @@
         <ul class="col-span-8 grid grid-cols-10 gap-6 mb-4">
           <li class="col-span-10">
             <p class="text-color-header font-medium">Zeitpunkt</p>
-            <span class="text-color-title text-xl font-bold">{{ makeStartEndDate(value.start_time, value.end_time) }}</span>
+            <span class="text-color-title text-xl font-bold">{{ makeStartEndDate(value.event_time) }}</span>
           </li>
           <li v-if="value.contact_person" class="col-span-4">
             <p class="text-color-header font-medium">Ansprechpartner</p>
@@ -24,7 +24,7 @@
             <p class="text-color-header font-medium">Geändert am</p>
             <span class="text-color-title text-xl font-bold">{{ makeDateTime(value.modified_at).join(' ') }}</span>
           </li>
-          <li v-else class="col-span-3">
+          <li v-if="value.created_at && !value.modified_at" class="col-span-3">
             <p class="text-color-header font-medium">Erstellt am</p>
             <span class="text-color-title text-xl font-bold">{{ makeDateTime(value.created_at).join(' ') }}</span>
           </li>
@@ -65,7 +65,6 @@ export default {
       validateStatus: () => true
     }).then((res) => {
       if (res.status === 200) {
-        console.log(res.data)
         this.events = res.data
       } else {
         console.debug(res.data)
@@ -85,7 +84,7 @@ export default {
       return `${value}-${locale}`
     },
     makeDateTime(value) {
-      const d = new Date(value)
+      const d = new Date(Date.parse(value))
 
       const day = new Intl.DateTimeFormat(this.currentLocale, {
         day: 'numeric'
@@ -106,28 +105,9 @@ export default {
 
       return [day, month, year, time]
     },
-    makeStartEndDate(startDate, endDate) {
-      const [dayStart, monthStart, yearStart, timeStart] = this.makeDateTime(startDate)
-      const [dayEnd, monthEnd, yearEnd, timeEnd] = this.makeDateTime(endDate)
-
-      let timeString = null
-      let dateString = null
-
-      if (timeStart === timeEnd) {
-        timeString = `${timeStart} Uhr`
-      } else {
-        timeString = `${timeStart} bis ${timeEnd} Uhr`
-      }
-
-      if (dayStart === dayEnd && monthStart === monthEnd && yearStart === yearEnd) {
-        dateString = `${dayStart}. ${monthStart} ${yearStart}, ${timeString}`
-      } else if (dayStart === dayEnd && monthStart !== monthEnd && yearStart === yearEnd) {
-        dateString = `${dayStart}. ${monthStart} - ${dayEnd}. ${monthEnd} ${yearStart}, ${timeString}`
-      } else if ((dayStart === dayEnd || dayStart !== dayEnd) && monthStart !== monthEnd && yearStart !== yearEnd) {
-        dateString = `${dayStart}. ${monthStart} ${yearStart} - ${dayEnd}. ${monthEnd} ${yearEnd}, ${timeString}`
-      } else {
-        dateString = `${dayStart}. ${monthStart} ${yearStart}, ${timeString}`
-      }
+    makeStartEndDate(eventDate) {
+      const [day, month, year, time] = this.makeDateTime(eventDate)
+      const dateString = `${day}. ${month}. ${year}, ${time} Uhr`
 
       return dateString
     }

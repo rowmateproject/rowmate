@@ -84,7 +84,7 @@
         </div>
       </div>
 
-      <event-repeat-form @repeatUnitNumber="handleRepeatUnit" @repeatIntervalNumber="handleRepeatInterval" :repeatUnit="repeatUnit" :repeatInterval="14" />
+      <event-repeat-form @repeatUnitNumber="handleRepeatUnit" @repeatIntervalNumber="handleRepeatInterval" :repeatUnit="repeatUnit" :repeatInterval="repeatInterval" />
 
       <div class="mt-8">
         <label class="text-color-form" for="location">Ort</label>
