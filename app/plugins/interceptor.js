@@ -55,7 +55,7 @@ export default ({
         config.config.headers.Authorization = `Bearer ${token}`
 
         return new Promise((resolve, reject) => {
-          app.$axios.$request(config.config).then((res) => {
+          return app.$axios.$request(config.config).then((res) => {
             resolve(res)
           }).catch((err) => {
             reject(err)
@@ -108,7 +108,7 @@ export default ({
         error.config.headers.Authorization = `Bearer ${token}`
 
         return new Promise((resolve, reject) => {
-          app.$axios.request(error.config).then((res) => {
+          return app.$axios.request(error.config).then((res) => {
             resolve(res)
           }).catch((err) => {
             // eslint-disable-next-line
