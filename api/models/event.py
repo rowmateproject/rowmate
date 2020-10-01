@@ -11,9 +11,16 @@ class Event(BaseModel):
     min_participants: int
     max_participants: int
     repeat_interval: int
-    contact_person: str
     repeat_unit: str
+
+    # TODO: should be type of uuid later on
+    contact_person: str
+
+    # TODO: should be type of location with lat lng
     location: str
+
+    # TODO: should be type of uuid later on
+    author: Optional[str]
 
     # store translations
     titles: Dict[str, Dict[str, str]]
@@ -31,3 +38,6 @@ class Event(BaseModel):
 
 class UpdateEvent(Event):
     modified_at: datetime = datetime.utcnow()
+
+    # TODO: should be type of uuid later on
+    modified_by: Optional[str]

@@ -614,10 +614,10 @@ async def patch_mail_template(hex: str,
     except TypeError:
         raise HTTPException(status_code=404, detail='Mail template not found')
 
-    condition = {'id': uuid}
-    filter = {'$set': dict(model)}
+    query = {'id': uuid}
+    document = {'$set': dict(model)}
 
-    res = await db['mails'].update_one(condition, filter, upsert=False)
+    res = await db['mails'].update_one(query, document, upsert=False)
 
     if res.modified_count > 0:
         return {'detail': 'Mail template was updated'}
@@ -656,8 +656,7 @@ async def get_all_events(lang, user=Depends(api_user.get_current_active_user)):
 @app.get('/event/latest')
 async def get_latest_event(user=Depends(api_user.get_current_active_user)):
     sort = [('created_at', pymongo.DESCENDING)]
-    filter = {'_id': True}
-    res = await db['events'].find({}, filter).sort(sort).to_list(length=1)
+    res = await db['events'].find().sort(sort).to_list(length=1)
 
     if len(res) > 0:
         return res[0]
@@ -670,7 +669,7 @@ async def post_event(request: Event,
                      user=Depends(api_user.get_current_superuser)):
     event_times = generate_interval(request)
     request_doc = dict(request)
-    events = []
+    inserted = []
 
     for event_time in event_times:
         uuid: Binary = generate_uuid()
@@ -678,6 +677,7 @@ async def post_event(request: Event,
 
         event_doc: Event = {
             '_id': uuid,
+            'author': user.name,
             'created_at': created_at,
             'event_time': event_time,
             'titles': request_doc['titles'],
@@ -695,13 +695,13 @@ async def post_event(request: Event,
         res = await db['events'].insert_one(event_doc)
 
         if res.acknowledged:
-            events.append(res.inserted_id)
+            inserted.append(res.inserted_id)
 
     uuid: Binary = generate_uuid()
 
     calendar_doc: Calendar = {
         '_id': uuid,
-        'events': events,
+        'events': inserted,
         'start_time': request_doc['start_time'],
         'end_time': request_doc['end_time']
     }
@@ -716,9 +716,50 @@ async def post_event(request: Event,
 
 @app.patch('/event/{hex}')
 async def patch_event(hex: str,
-                      event: UpdateEvent,
+                      request: UpdateEvent,
                       user=Depends(api_user.get_current_superuser)):
     try:
-        return UUID(hex=hex, version=4)
+        uuid = UUID(hex=hex, version=4)
     except TypeError:
         raise HTTPException(status_code=404, detail='Event was not found')
+
+    query = {'events': {'$in': [uuid]}}
+    res = await db['calendars'].find(query).to_list(length=1)
+
+    updated = []
+
+    if len(res) > 0:
+        for uuid in res[0]['events']:
+            request_doc = dict(request)
+            modified_at: datetime = datetime.utcnow()
+
+            event_doc: Event = {
+                'modified_by': user.name,
+                'modified_at': modified_at,
+                'titles': request_doc['titles'],
+                'location': request_doc['location'],
+                'event_time': request_doc['event_time'],
+                'repeat_unit': request_doc['repeat_unit'],
+                'descriptions': request_doc['descriptions'],
+                'repeat_interval': request_doc['repeat_interval'],
+                'min_participants': request_doc['min_participants'],
+                'max_participants': request_doc['max_participants'],
+                'contact_person': request_doc['contact_person'],
+                'start_time': request_doc['start_time'],
+                'end_time': request_doc['end_time']
+            }
+
+            print(event_doc)
+
+            query = {'_id': uuid}
+            document = {'$set': event_doc}
+
+            res = await db['events'].update_one(query, document, upsert=True)
+
+            if res.acknowledged:
+                updated.append(uuid)
+
+    if len(updated) > 0:
+        return {'detail': f'Updated {len(updated)} events'}
+    else:
+        raise HTTPException(status_code=400, detail='Could not update events')
