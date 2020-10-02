@@ -852,3 +852,15 @@ async def lookup_event_title(lang,
         return res
     else:
         raise HTTPException(status_code=404, detail='No events were not found')
+
+
+@app.get('/stats/dashboard')
+async def get_stats_dashboard(user=Depends(api_user.get_current_active_user)):
+    users = await collection.count_documents({'is_active': True})
+    events = await db['events'].count_documents({
+        'event_time': {'$gte': datetime.utcnow()}})
+
+    if users or events:
+        return {'users': users, 'events': events}
+    else:
+        raise HTTPException(status_code=404, detail='No stats were not found')
