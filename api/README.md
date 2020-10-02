@@ -46,7 +46,7 @@ pip3 install fastapi-users
 ### Run
 
 ```bash
-uvicorn main:app --reload
+uvicorn asgi:app --reload
 ```
 
 

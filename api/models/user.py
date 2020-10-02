@@ -52,6 +52,5 @@ class UserList(BaseModel):
     sendmail: bool = False
 
 
-class FindUser(BaseModel):
-    limit: int = 10
+class LookupUser(BaseModel):
     name: str
