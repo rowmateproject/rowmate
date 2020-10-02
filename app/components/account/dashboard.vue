@@ -11,7 +11,7 @@
           </div>
 
           <div class="mx-5">
-            <h4 class="text-2xl font-semibold text-color-page">{{ users.length }}</h4>
+            <h4 class="text-2xl font-semibold text-color-page">{{ users }}</h4>
             <div class="text-color-title">Registrierte Nutzer</div>
           </div>
         </div>
@@ -37,8 +37,8 @@
           </div>
 
           <div class="mx-5">
-            <h4 class="text-2xl font-semibold text-color-page">542</h4>
-            <div class="text-color-title">Erstellte Veranstaltungen</div>
+            <h4 class="text-2xl font-semibold text-color-page">{{ events }}</h4>
+            <div class="text-color-title">Anstehende Events</div>
           </div>
         </div>
       </div>
@@ -52,17 +52,19 @@
 export default {
   data() {
     return {
-      users: []
+      users: 0,
+      events: 0
     }
   },
   mounted() {
     this.$axios({
       method: 'GET',
-      url: `${process.env.API_URL}/manage/users/list`,
+      url: `${process.env.API_URL}/stats/dashboard`,
       validateStatus: () => true
     }).then((res) => {
       if (res.status === 200) {
         this.users = res.data.users
+        this.events = res.data.events
       } else {
         console.debug(res.data)
       }
