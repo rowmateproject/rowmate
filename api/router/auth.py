@@ -29,9 +29,9 @@ def get_auth_router(
 
         return await backend.get_login_response(user, response)
 
-    @router.post('/refresh',
-                 dependencies=[Depends(authenticator.get_current_active_user)])
-    async def refresh_jwt(response: Response):
-        return await backend.get_refresh_response(authenticator, response)
+    @router.post('/refresh')
+    async def refresh_jwt(response: Response, user=Depends(
+            authenticator.get_current_active_user)):
+        return await backend.get_refresh_response(user, response)
 
     return router
