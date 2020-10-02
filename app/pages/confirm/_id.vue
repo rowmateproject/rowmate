@@ -13,10 +13,15 @@ export default {
       status: 0
     }
   },
+  computed: {
+    token() {
+      return this.$route.params.id
+    }
+  },
   mounted() {
     this.$axios({
       method: 'GET',
-      url: `${process.env.API_URL}/confirm/`+this.$route.params.id,
+      url: `${process.env.API_URL}/auth/confirm/${this.token}`,
       alidateStatus: () => true
     }).then(res => {
       this.status = res.status
