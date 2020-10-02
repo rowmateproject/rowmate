@@ -1,13 +1,16 @@
 from fastapi import Depends, Response, HTTPException
+from fastapi.security import OAuth2PasswordBearer
 from fastapi_users.db import BaseUserDatabase
 from fastapi_users.authentication.base import BaseAuthentication
-from fastapi_users.authentication import (
-    JWTAuthentication, Authenticator, name_to_variable_name)
+from fastapi_users.authentication import Authenticator, name_to_variable_name
 from fastapi_users.models import BaseUserDB
 
 from makefun import with_signature
 from inspect import Signature, Parameter
 from typing import Optional, Sequence
+from pydantic import UUID4
+
+import jwt
 
 # utils
 from utils.jwt import generate_jwt
@@ -17,8 +20,11 @@ class AuthModel(BaseAuthentication):
     lifetime_seconds_refresh: int
 
 
-class Authentication(AuthModel, JWTAuthentication):
+class Authentication(AuthModel, BaseAuthentication[str]):
+    scheme: OAuth2PasswordBearer
     token_audience: str = 'jwt:auth'
+    lifetime_seconds: int
+    secret: str
 
     def __init__(self,
                  secret: str,
@@ -27,6 +33,35 @@ class Authentication(AuthModel, JWTAuthentication):
                  name: str = 'jwt'):
         super().__init__(name, lifetime_seconds)
         self.lifetime_seconds_refresh = lifetime_seconds_refresh
+        self.lifetime_seconds = lifetime_seconds
+        self.scheme = OAuth2PasswordBearer('/auth/jwt/login', auto_error=False)
+        self.secret = secret
+
+    async def __call__(
+            self,
+            credentials: Optional[str],
+            user_db: BaseUserDatabase) -> Optional[BaseUserDB]:
+        if credentials is None:
+            return None
+
+        try:
+            data = jwt.decode(
+                credentials,
+                self.secret,
+                audience=self.token_audience,
+                algorithms=['HS256'],
+            )
+            user_id = data.get('user_id')
+            if user_id is None:
+                return None
+        except jwt.PyJWTError:
+            return None
+
+        try:
+            user_uiid = UUID4(user_id)
+            return await user_db.get(user_uiid)
+        except ValueError:
+            return None
 
     async def generate_access_token(self, user: BaseUserDB) -> str:
         data = {'user_id': str(user.id), 'aud': self.token_audience}

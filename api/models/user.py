@@ -1,8 +1,8 @@
 from fastapi_users.models import (
     BaseUser, BaseUserDB, BaseUserCreate, BaseUserUpdate)
 from typing import Optional, List, Dict
-from datetime import datetime
 from pydantic import BaseModel
+from datetime import datetime
 
 
 class User(BaseUser):
