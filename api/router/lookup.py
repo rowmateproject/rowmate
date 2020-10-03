@@ -16,21 +16,18 @@ def get_lookup_router(database, authenticator) -> APIRouter:
     @router.post('/events/{lang}')
     async def lookup_events(lang, event: LookupEvent, user=Depends(
             authenticator.get_current_active_user)):
-        sort = [('created_at', pymongo.ASCENDING)]
-        query = {
-            f'titles.{lang}.title': {
-                '$regex': re.compile(event.query, re.IGNORECASE)
-            }
-        }
+        sort = [('score', {'$meta': 'textScore'})]
+        filter = {'score': {'$meta': 'textScore'}}
+        query = {'$text': {'$search': event.query, '$caseSensitive': False}}
 
         res = await database['events'].find(
-            query).sort(sort).to_list(length=15)
+            query, filter).sort(sort).to_list(length=15)
 
         if len(res) > 0:
             return res
         else:
             raise HTTPException(
-                status_code=404, detail='No events were not found')
+                status_code=404, detail='No events found')
 
     @router.post('/subscriptions/{lang}')
     async def lookup_subscriptions(lang, subscription: LookupSubscription,
@@ -43,17 +40,16 @@ def get_lookup_router(database, authenticator) -> APIRouter:
             raise HTTPException(
                 status_code=404, detail='No subscriptions found')
 
-        sort = [('created_at', pymongo.ASCENDING)]
+        sort = [('score', {'$meta': 'textScore'})]
+        filter = {'score': {'$meta': 'textScore'}}
         query = {
             '_id': {'$in': [x['events'] for x in res][0]},
-            'event_time': {'$gte': datetime.utcnow()},
-            f'titles.{lang}.title': {
-                '$regex': re.compile(subscription.query, re.IGNORECASE)
-            }
+            '$text': {'$search': subscription.query, '$caseSensitive': False},
+            'event_time': {'$gte': datetime.utcnow()}
         }
 
         res = await database['events'].find(
-            query).sort(sort).to_list(length=150)
+            query, filter).sort(sort).to_list(length=15)
 
         if len(res) > 0:
             return res
@@ -76,6 +72,6 @@ def get_lookup_router(database, authenticator) -> APIRouter:
             return res
         else:
             raise HTTPException(
-                status_code=404, detail='No users were not found')
+                status_code=404, detail='No users found')
 
     return router

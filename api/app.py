@@ -11,16 +11,19 @@ from models.user import User, UserDB, UserCreate, UserUpdate
 # classes
 from auth.user import Authentication
 from auth.api import APIUsers
+from pymongo import TEXT
 
 # settings
 settings = Settings()
 
-# database
+# client
 client = AsyncIOMotorClient(
     settings.database_url, uuidRepresentation='standard'
 )
 
+# database
 db = client['rowmate']
+db['events'].create_index([('ngrams', TEXT)], name='events_ngrams_index')
 
 user_db = MongoDBUserDatabase(UserDB, db['users'])
 

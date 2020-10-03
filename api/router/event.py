@@ -10,8 +10,9 @@ from models.event import Event, UpdateEvent
 from models.calendar import Calendar
 
 # utils
-from utils.interval import generate_interval
 from utils.uuid import generate_uuid
+from utils.interval import generate_interval
+from utils.ngram import make_ngrams
 
 
 def get_events_router(database, authenticator) -> APIRouter:
@@ -87,7 +88,14 @@ def get_event_router(database, authenticator) -> APIRouter:
                 'max_participants': request_doc['max_participants'],
                 'contact_person': request_doc['contact_person'],
                 'start_time': request_doc['start_time'],
-                'end_time': request_doc['end_time']
+                'end_time': request_doc['end_time'],
+                'ngrams': make_ngrams([
+                    request_doc['contact_person'],
+                    request_doc['descriptions'],
+                    request_doc['repeat_unit'],
+                    request_doc['location'],
+                    request_doc['titles']]
+                )
             }
 
             res = await database['events'].insert_one(event_doc)
@@ -151,7 +159,14 @@ def get_event_router(database, authenticator) -> APIRouter:
                 'max_participants': request_doc['max_participants'],
                 'contact_person': request_doc['contact_person'],
                 'start_time': request_doc['start_time'],
-                'end_time': request_doc['end_time']
+                'end_time': request_doc['end_time'],
+                'ngrams': make_ngrams([
+                    request_doc['contact_person'],
+                    request_doc['descriptions'],
+                    request_doc['repeat_unit'],
+                    request_doc['location'],
+                    request_doc['titles']]
+                )
             }
 
             if existing_events > 0:
