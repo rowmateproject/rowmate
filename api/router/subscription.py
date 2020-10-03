@@ -1,7 +1,15 @@
 from fastapi import Depends, APIRouter, HTTPException
+from bson.binary import Binary
 from datetime import datetime
+from uuid import UUID
 
 import pymongo
+
+# models
+from models.subscription import Subscription
+
+# utils
+from utils.uuid import generate_uuid
 
 
 def get_subscription_router(database, authenticator) -> APIRouter:
@@ -48,5 +56,50 @@ def get_subscription_router(database, authenticator) -> APIRouter:
         else:
             raise HTTPException(
                 status_code=404, detail='No subscriptions found')
+
+    @router.post('/event/{hex}')
+    async def post_subscribe_event(hex, user=Depends(
+            authenticator.get_current_superuser)):
+        try:
+            req_uuid = UUID(hex=hex, version=4)
+        except TypeError:
+            raise HTTPException(status_code=404, detail='Event was not found')
+
+        query = {'user_id': user.id}
+        res = await database['subscriptions'].find(query).to_list(length=150)
+
+        if len(res) == 0:
+            uuid: Binary = generate_uuid()
+            created_at: datetime = datetime.utcnow()
+
+            subscription_doc: Subscription = {
+                '_id': uuid,
+                'user_id': user.id,
+                'created_at': created_at,
+                'events': [req_uuid]
+            }
+
+            res = await database['subscriptions'].insert_one(subscription_doc)
+
+            if res.acknowledged:
+                return {'detail': 'Subscription was created'}
+            else:
+                raise HTTPException(
+                    status_code=400, detail='Error creating subscription')
+
+        subscription_doc: Subscription = {}
+        subscription_doc['modified_at']: datetime = datetime.utcnow()
+
+        document = {'$set': subscription_doc,
+                    '$addToSet': {'events': req_uuid}}
+        query = {'user_id': user.id}
+
+        res = await database['subscriptions'].update_one(query, document)
+
+        if res.acknowledged:
+            return {'detail': 'Updated event subscription'}
+        else:
+            raise HTTPException(
+                status_code=400, detail='Error creating subscription')
 
     return router

@@ -5,13 +5,14 @@ from datetime import datetime
 
 
 class Subscription(BaseModel):
+    _id: Binary
+    user_id: Binary
     created_at: datetime = datetime.utcnow()
     events: Optional[List[Binary]]
 
 
 class UpdateSubscription(Subscription):
     modified_at: datetime = datetime.utcnow()
-    events: Optional[List[Binary]]
 
 
 class LookupSubscription(BaseModel):
