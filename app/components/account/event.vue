@@ -355,7 +355,7 @@ export default {
           validateStatus: () => true
         }).then(res => {
           if (res.status === 200) {
-            this.users = res.data.users || []
+            this.users = res.data || []
           } else {
             console.debug(res.data)
           }
