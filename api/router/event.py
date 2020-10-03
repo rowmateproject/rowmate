@@ -62,7 +62,7 @@ def get_event_router(database, authenticator) -> APIRouter:
         else:
             raise HTTPException(status_code=404, detail='Event was not found')
 
-    @router.post('/')
+    @router.post('')
     async def post_event(request: Event,
                          user=Depends(authenticator.get_current_superuser)):
         event_times = generate_interval(request)
