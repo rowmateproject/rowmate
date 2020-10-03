@@ -10,8 +10,19 @@ def get_subscription_router(database, authenticator) -> APIRouter:
     @router.get('/events/{lang}')
     async def get_subscribed_events(lang, user=Depends(
             authenticator.get_current_active_user)):
-        # TODO: remove mock data and create real subscription entries
-        query = {'event_time': {'$gte': datetime.utcnow()}}
+        query = {'user_id': user.id}
+
+        res = await database['subscriptions'].find(query).to_list(length=15)
+
+        if len(res) == 0:
+            raise HTTPException(
+                status_code=404, detail='No subscriptions found')
+
+        query = {
+            '_id': {'$in': [x['_id'] for x in res]},
+            'event_time': {'$gte': datetime.utcnow()}
+        }
+
         sort = [('event_time', pymongo.ASCENDING)]
 
         filter = {'_id': True,
