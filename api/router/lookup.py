@@ -64,7 +64,7 @@ def get_lookup_router(database, authenticator) -> APIRouter:
         sort = [('_id', pymongo.DESCENDING)]
         query = {'name': {'$regex': re.compile(
             req.name, re.IGNORECASE)}, 'is_active': True}
-        filter = {'name': True, 'avatar': True}
+        filter = {'_id': False, 'name': True, 'avatar': True}
 
         res = await database['users'].find(
             query, filter).sort(sort).to_list(length=15)
