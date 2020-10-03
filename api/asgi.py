@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from router.stat import get_stats_router
 from router.boat import get_boats_router, get_boat_router
 from router.event import get_events_router, get_event_router
+from router.subscription import get_subscription_router
 from router.confirm import get_confirm_router
 from router.manage import get_manage_router
 from router.lookup import get_lookup_router
@@ -166,4 +167,14 @@ app.include_router(
     ),
     prefix='/boat',
     tags=['boats'],
+)
+
+
+app.include_router(
+    get_subscription_router(
+        database=db,
+        authenticator=api_user
+    ),
+    prefix='/subscription',
+    tags=['subscriptions'],
 )
