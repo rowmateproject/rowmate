@@ -76,7 +76,7 @@
             <label class="text-color-form" for="contactPerson">Ansprechpartner</label>
             <input v-model="contactPerson" @input="lookupContactPerson" type="text" class="w-full rounded border focus:outline-none p-2 mt-2">
 
-            <div v-if="users.length > 0" class="w-full absolute">
+            <div v-if="users.length > 0" class="w-full absolute z-30">
               <div @click="setSerchTerm(user)" class="hover:bg-gray-300 bg-color-form border shadow p-1" v-for="user in users">
                 <avatar class="inline mr-2 pr-2" width="75" :avatar="user.avatar" />
                 <span class="leading-5 font-medium text-gray-900">{{ user.name }}</span>

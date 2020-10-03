@@ -10,7 +10,7 @@
       </div>
     </div>
 
-    <ul v-if="events.length > 0" class="w-full absolute mt-1">
+    <ul v-if="events.length > 0" class="w-full absolute z-30 mt-1">
       <li v-for="value, index in events" @click="setSerchTerm(value.titles[currentLocale].title, makeEventTime(value.event_time), index)" :key="index" class="hover:bg-gray-300 bg-color-form border shadow p-2">
         <span class="text-color-form">{{ value.titles[currentLocale].title }} ({{ makeEventTime(value.event_time) }})</span>
       </li>

@@ -7,17 +7,13 @@
           <fa :icon="['fas', 'search']" class="text-color-body" />
         </svg>
       </span>
-      <div v-click-outside="hideSearch" @keydown.esc="hideSearch">
-        <input class="w-full rounded pl-10 pr-4 py-3 border focus:outline-none border-color-form-focus" type="text" @keyup="findUsers()" @focus="findUsers()" v-model="searchValue" :placeholder="$t('search')">
+      <div v-click-outside="toggleSearch" @keydown.esc="toggleSearch" class="relative">
+        <input v-model="searchTerm" @input="lookupSearchTerm" type="text" class="w-full rounded border focus:outline-none p-2 mt-2">
 
-        <div class="w-full absolute">
-          <div class="border p-3 my-1 shadow bg-color-form" v-if="users === false">
-            <span class="leading-5 font-medium text-gray-900">No users found</span>
-          </div>
-          <div class="border p-1 my-1 shadow bg-color-form" v-for="user in users" v-else>
+        <div v-if="users.length > 0" class="w-full absolute z-30">
+          <div @click="setSerchTerm(user)" class="hover:bg-gray-300 bg-color-form border shadow p-1" v-for="user in users">
             <avatar class="inline mr-2 pr-2" width="75" :avatar="user.avatar" />
             <span class="leading-5 font-medium text-gray-900">{{ user.name }}</span>
-            <span class="ml-auto" <fa :icon="['fas', 'comments']" /></span>
           </div>
         </div>
       </div>
@@ -61,7 +57,7 @@ export default {
   data() {
     return {
       showDropdown: false,
-      searchValue: '',
+      searchTerm: '',
       users: []
     }
   },
@@ -90,26 +86,34 @@ export default {
     }
   },
   methods: {
-    hideSearch() {
+    toggleSearch() {
       this.users = []
+    },
+    setSerchTerm(user) {
+      this.searchTerm = user.name
+      this.toggleSearch()
     },
     toggleDropdown() {
       return this.showDropdown = !this.showDropdown
     },
-    findUsers() {
-      if (this.searchValue.length >= 1) {
-        this.$axios.$post(`${process.env.API_URL}/lookup/users`, {
-          name: this.searchValue,
-          limit: 5
+    lookupSearchTerm() {
+      if (this.searchTerm.length >= 1) {
+        this.$axios({
+          method: 'POST',
+          url: `${process.env.API_URL}/lookup/users`,
+          data: {
+            name: this.searchTerm
+          },
+          validateStatus: () => true
         }).then(res => {
-          if (res.users.length === 0) {
-            this.users = false
+          if (res.status === 200) {
+            this.users = res.data || []
           } else {
-            this.users = res.users
+            console.debug(res.data)
           }
-        }).catch((error) => {
-          console.debug(error)
         })
+      } else {
+        this.users = []
       }
     },
     logoutUser() {
