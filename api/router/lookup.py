@@ -35,7 +35,7 @@ def get_lookup_router(database, authenticator) -> APIRouter:
     async def lookup_subscriptions(lang, subscription: LookupSubscription,
                                    user=Depends(
                                        authenticator.get_current_active_user)):
-        query = {'user_id': user._id}
+        query = {'user_id': user.id}
         res = await database['subscriptions'].find(query).to_list(length=15)
 
         if len(res) == 0:
