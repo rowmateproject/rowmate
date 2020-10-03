@@ -1,4 +1,5 @@
 from fastapi import Depends, APIRouter, HTTPException
+from datetime import datetime
 
 import pymongo
 import re
@@ -44,13 +45,15 @@ def get_lookup_router(database, authenticator) -> APIRouter:
 
         sort = [('created_at', pymongo.ASCENDING)]
         query = {
-            '_id': {'$in': [x['_id'] for x in res]}, f'titles.{lang}.title': {
+            '_id': {'$in': [x['events'] for x in res][0]},
+            'event_time': {'$gte': datetime.utcnow()},
+            f'titles.{lang}.title': {
                 '$regex': re.compile(subscription.query, re.IGNORECASE)
             }
         }
 
         res = await database['events'].find(
-            query).sort(sort).to_list(length=15)
+            query).sort(sort).to_list(length=150)
 
         if len(res) > 0:
             return res
