@@ -2,54 +2,8 @@
 <div>
   <h3 class="text-3xl font-medium text-color-title">Kalender</h3>
 
-  <event-filter @resultObject="handleResultObject" />
-
-  <ul>
-    <li v-for="value, index in events" :key="index" class="mt-3 lg:mt-8 p-3 lg:p-6 bg-color-form rounded-md shadow-md">
-      <div class="grid grid-cols-12 gap-x-6">
-        <h1 class="col-span-10 text-color-sale font-bold text-4xl mb-4">
-          {{ value.titles[currentLocale].title }}
-        </h1>
-        <div class="col-span-2 text-right">
-          <button class="bg-color-button text-color-button rounded-md focus:outline-none px-4 py-2">Jetzt Anmelden</button>
-        </div>
-        <ul class="col-span-8 grid grid-cols-10 gap-6 mb-4">
-          <li class="col-span-10">
-            <p class="text-color-header font-medium">Zeitpunkt</p>
-            <span class="text-color-title text-xl font-bold">{{ makeStartEndDate(value.event_time) }}</span>
-          </li>
-          <li v-if="value.contact_person" class="col-span-4">
-            <p class="text-color-header font-medium">Ansprechpartner</p>
-            <span class="text-color-title text-xl font-bold">{{ value.contact_person }}</span>
-          </li>
-          <li v-if="value.modified_at" class="col-span-3">
-            <p class="text-color-header font-medium">Geändert am</p>
-            <span class="text-color-title text-xl font-bold">{{ makeDateTime(value.modified_at).join(' ') }}</span>
-          </li>
-          <li v-if="value.created_at && !value.modified_at" class="col-span-3">
-            <p class="text-color-header font-medium">Erstellt am</p>
-            <span class="text-color-title text-xl font-bold">{{ makeDateTime(value.created_at).join(' ') }}</span>
-          </li>
-          <li v-if="value.min_participants > 0" class="col-span-3">
-            <p class="text-color-header font-medium">Teilnehmeranzahl</p>
-            <span class="text-color-title text-xl font-bold">{{ value.min_participants }}</span>
-            <span class="text-color-title text-xl font-bold" v-if="value.max_participants > 0"> - {{ value.max_participants }}</span>
-            <span class="text-color-title text-xl font-bold"> {{ value.min_participants > 1 ? 'Personen' : 'Person' }}</span>
-          </li>
-          <li v-if="value.repeat_interval > 0" class="col-span-4">
-            <p class="text-color-header font-medium">Wiederholung</p>
-            <span class="text-color-title text-xl font-bold">alle {{ value.repeat_interval }} {{ $t(value.repeat_unit) }}</span>
-          </li>
-          <li class="col-span-6">
-            <p class="text-color-header font-medium">Veranstaltungsort</p>
-            <span class="text-color-title text-xl font-bold">{{ value.location }}</span>
-          </li>
-        </ul>
-      </div>
-      <h2 class="text-color-header font-medium">Beschreibung</h2>
-      <p class="text-color-title text-lg">{{ value.descriptions[currentLocale].description }}</p>
-    </li>
-  </ul>
+  <event-filter @resultObject="handleResult" @resetFilter="handleReset" :eventSubscriptions="false" />
+  <event-cards :eventFilter="events" :resetFilter="reset" :eventSubscriptions="false" />
 </div>
 </template>
 
@@ -57,64 +11,16 @@
 export default {
   data() {
     return {
-      events: []
-    }
-  },
-  mounted() {
-    this.$axios({
-      method: 'GET',
-      url: `${process.env.API_URL}/events/${this.currentLocale}`,
-      validateStatus: () => true
-    }).then((res) => {
-      if (res.status === 200) {
-        this.events = res.data
-      } else {
-        console.debug(res.data)
-      }
-    })
-  },
-  computed: {
-    currentLocale() {
-      return this.$i18n.locale
+      events: [],
+      reset: true
     }
   },
   methods: {
-    makePath(locale) {
-      return `/flags/${locale}.svg`
+    handleReset(value) {
+      this.reset = value
     },
-    makeId(value, locale) {
-      return `${value}-${locale}`
-    },
-    handleResultObject(value) {
+    handleResult(value) {
       this.events = [value]
-    },
-    makeDateTime(value) {
-      const d = new Date(Date.parse(value))
-
-      const day = new Intl.DateTimeFormat(this.currentLocale, {
-        day: 'numeric'
-      }).format(d)
-
-      const month = new Intl.DateTimeFormat(this.currentLocale, {
-        month: 'short'
-      }).format(d)
-
-      const year = new Intl.DateTimeFormat(this.currentLocale, {
-        year: 'numeric'
-      }).format(d)
-
-      const time = new Intl.DateTimeFormat(this.currentLocale, {
-        minute: 'numeric',
-        hour: 'numeric'
-      }).format(d)
-
-      return [day, month, year, time]
-    },
-    makeStartEndDate(eventDate) {
-      const [day, month, year, time] = this.makeDateTime(eventDate)
-      const dateString = `${day}. ${month}. ${year}, ${time} Uhr`
-
-      return dateString
     }
   }
 }

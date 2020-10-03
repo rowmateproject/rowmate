@@ -1,10 +1,16 @@
 <template>
 <div class="mt-3 lg:mt-8 p-3 lg:p-6 bg-color-form rounded-md shadow">
   <div v-click-outside="toggleSearch" @keydown.esc="toggleSearch" class="relative">
-    <label class="text-color-form" for="eventFilter">Event Suche</label>
-    <input v-model="searchTerm" @input="lookupEvent" @focus="clearSearchTerm" type="text" class="w-full rounded border focus:outline-none p-2 mt-2">
+    <label class="text-color-form" for="eventFilter">Event Filter</label>
 
-    <ul v-if="events.length > 0" class="w-full absolute">
+    <div class="flex flex-wrap items-stretch w-full relative mt-2">
+      <input v-model="searchTerm" @input="lookupEvent" type="text" class="flex-shrink flex-grow flex-auto leading-normal flex-1 border rounded-l focus:outline-none p-2">
+      <div class="flex">
+        <button @click="clearSearchTerm" class="flex items-center leading-normal bg-gray-400 text-gray-800 focus:outline-none rounded-r px-3">Zurücksetzen</button>
+      </div>
+    </div>
+
+    <ul v-if="events.length > 0" class="w-full absolute mt-1">
       <li v-for="value, index in events" @click="setSerchTerm(value.titles[currentLocale].title, makeEventTime(value.event_time), index)" :key="index" class="hover:bg-gray-300 bg-color-form border shadow p-2">
         <span class="text-color-form">{{ value.titles[currentLocale].title }} ({{ makeEventTime(value.event_time) }})</span>
       </li>
@@ -27,19 +33,21 @@ export default {
     },
     availableLocales() {
       return this.$i18n.locales
-    },
+    }
   },
+  props: ['eventSubscriptions'],
   methods: {
     toggleSearch() {
       this.events = []
     },
     clearSearchTerm() {
       this.searchTerm = ''
+      this.$emit('resetFilter', true)
     },
     setSerchTerm(value, datetime, index) {
       this.searchTerm = `${value}, (${datetime})`
       this.$emit('resultObject', this.events[index])
-      this.clearSearchTerm()
+      this.$emit('resetFilter', false)
       this.toggleSearch()
     },
     makeDateTime(value) {
@@ -72,9 +80,15 @@ export default {
     },
     lookupEvent() {
       if (this.searchTerm.length > 0) {
+        let requestUrl = `${process.env.API_URL}/lookup/events/${this.currentLocale}`
+
+        if (this.$props.eventSubscriptions === true) {
+          requestUrl = `${process.env.API_URL}/lookup/subscriptions/${this.currentLocale}`
+        }
+
         this.$axios({
           method: 'POST',
-          url: `${process.env.API_URL}/lookup/events/${this.currentLocale}`,
+          url: requestUrl,
           data: {
             query: this.searchTerm
           },
