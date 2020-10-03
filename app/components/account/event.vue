@@ -2,7 +2,7 @@
 <div>
   <h3 class="text-3xl font-medium text-color-title">Event</h3>
 
-  <event-filter @resultObject="handleResultObject" />
+  <event-filter @resultObject="handleResultObject" @resetFilter="handleResetValue" />
 
   <form @submit.prevent="submitForm" class="mt-3 lg:mt-8 p-3 lg:p-6 bg-color-form rounded-md shadow">
     <div class="flex mb-8">
@@ -322,6 +322,32 @@ export default {
     },
     handleDescriptionString(value) {
       this.descriptions[value.locale].description = value.description
+    },
+    handleResetValue(value) {
+      if (value === true) {
+        this.availableLocales.forEach((locale) => {
+          this.descriptions[locale.code].description = ''
+          this.titles[locale.code].title = ''
+        })
+
+        this.repeatUnit = ''
+        this.repeatInterval = ''
+        this.contactPerson = ''
+        this.minParticipants = ''
+        this.maxParticipants = ''
+        this.startDate.day = ''
+        this.startDate.hour = ''
+        this.startDate.minute = ''
+        this.startDate.month = ''
+        this.startDate.year = ''
+        this.endDate.day = ''
+        this.endDate.hour = ''
+        this.endDate.minute = ''
+        this.endDate.month = ''
+        this.endDate.year = ''
+        this.location = ''
+        this.uuid = ''
+      }
     },
     handleResultObject(value) {
       this.uuid = value._id || ''
