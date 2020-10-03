@@ -17,7 +17,7 @@ def get_lookup_router(database, authenticator) -> APIRouter:
     async def lookup_events(lang, event: LookupEvent, user=Depends(
             authenticator.get_current_active_user)):
         sort = [('score', {'$meta': 'textScore'})]
-        filter = {'score': {'$meta': 'textScore'}}
+        filter = {'score': {'$meta': 'textScore'}, 'ngrams': False}
         query = {'$text': {'$search': event.query, '$caseSensitive': False}}
 
         res = await database['events'].find(
@@ -41,7 +41,7 @@ def get_lookup_router(database, authenticator) -> APIRouter:
                 status_code=404, detail='No subscriptions found')
 
         sort = [('score', {'$meta': 'textScore'})]
-        filter = {'score': {'$meta': 'textScore'}}
+        filter = {'score': {'$meta': 'textScore'}, 'ngrams': False}
         query = {
             '_id': {'$in': [x['events'] for x in res][0]},
             '$text': {'$search': subscription.query, '$caseSensitive': False},
