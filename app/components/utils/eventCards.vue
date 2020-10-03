@@ -6,7 +6,7 @@
         {{ value.titles[currentLocale].title }}
       </h1>
       <div class="col-span-2 text-right">
-        <button class="bg-color-button text-color-button rounded focus:outline-none px-4 py-2">Jetzt Anmelden</button>
+        <button @click="subscribeEvent(value._id)" class="bg-color-button text-color-button rounded focus:outline-none px-4 py-2">Jetzt Anmelden</button>
       </div>
       <ul class="col-span-8 grid grid-cols-10 gap-6 mb-4">
         <li class="col-span-10">
@@ -48,6 +48,10 @@
 </template>
 
 <script>
+import {
+  parse as uuidParse
+} from 'uuid'
+
 export default {
   data() {
     return {
@@ -107,6 +111,39 @@ export default {
     },
     makeId(value, locale) {
       return `${value}-${locale}`
+    },
+    buf2hex(buffer) {
+      const byteArray = new Uint8Array(buffer)
+      const hexParts = []
+
+      for (let i = 0; i < byteArray.length; i++) {
+        const hex = byteArray[i].toString(16)
+        const paddedHex = ('00' + hex).slice(-2)
+        hexParts.push(paddedHex)
+      }
+
+      return hexParts.join('');
+    },
+    subscribeEvent(value) {
+      let uuid = null
+
+      try {
+        uuid = this.buf2hex(uuidParse(value))
+      } catch (e) {
+        return e.message
+      }
+
+      this.$axios({
+        method: 'POST',
+        url: `${process.env.API_URL}/subscription/event/${uuid}`,
+        validateStatus: () => true
+      }).then((res) => {
+        if (res.status === 200) {
+          console.debug(res.data)
+        } else {
+          console.debug(res.data)
+        }
+      })
     },
     makeDateTime(value) {
       const d = new Date(Date.parse(value))
