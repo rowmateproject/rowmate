@@ -19,7 +19,7 @@
     "cookieparser": "^0.1.0",
     "core-js": "^3.6.5",
     "js-cookie": "^2.2.1",
-    "jwt-decode": "^3.0.0-beta.2",
+    "jwt-decode": "^3.0.0",
     "nuxt": "^2.14.5",
     "nuxt-i18n": "^6.15.1",
     "random-avatar-generator": "^2.0.0",
