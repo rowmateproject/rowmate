@@ -39,7 +39,10 @@ def get_themes_router(database, authenticator) -> APIRouter:
     async def get_theme_image():
         sort = [('_id', pymongo.DESCENDING)]
         query = await database['images'].find({}).sort(sort).to_list(length=1)
-        filename = query[0]['image']
+        if len(query) > 0:
+            filename = query[0]['image']
+        else:
+            raise HTTPException(status_code=404, detail='Image was not found')
 
         if os.path.isfile(f'./static/{filename}'):
             return FileResponse(f'./static/{filename}', media_type='image/png')
