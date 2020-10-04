@@ -1,0 +1,367 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: me@rowmate.org\n"
+"POT-Creation-Date: 2020-10-04 21:00+0200\n"
+"PO-Revision-Date: 2020-10-04 21:00+0200\n"
+"Last-Translator: Support <support@rowmate.org>\n"
+"Language-Team: English <support@rowmate.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "name"
+msgstr "Name"
+
+msgid "email"
+msgstr "Email"
+
+msgid "search"
+msgstr "Suche"
+
+msgid "signin"
+msgstr "Anmelden"
+
+msgid "signup"
+msgstr "Registrieren"
+
+msgid "password"
+msgstr "Passwort"
+
+msgid "save"
+msgstr "Speichern"
+
+msgid "mail"
+msgstr "Mail"
+
+msgid "days"
+msgstr "Tage"
+
+msgid "years"
+msgstr "Jahre"
+
+msgid "weeks"
+msgstr "Wochen"
+
+msgid "months"
+msgstr "Monate"
+
+msgid "subject"
+msgstr "Betreff"
+
+msgid "message"
+msgstr "Nachricht"
+
+msgid "settings"
+msgstr "Einstellungen"
+
+msgid "birthDate"
+msgstr "Geburtsdatum"
+
+msgid "phoneNumber"
+msgstr "Telefonnummer"
+
+msgid "mailAddress"
+msgstr "Email Adresse"
+
+msgid "confirmPassword"
+msgstr "Passwort bestättigen"
+
+msgid "resetPassword"
+msgstr "Passwort zurücksetzen"
+
+msgid "freeUserAccount"
+msgstr "Kostenloser Account"
+
+msgid "errorInvalidMail"
+msgstr "Ungültige Email Adresse"
+
+msgid "errorInvalidPhone"
+msgstr "Ungültige Telefonnummer"
+
+msgid "errorInvalidBirthDate"
+msgstr "Ungültiges Geburtsdatum"
+
+msgid "errorInvalidConfirmPassword"
+msgstr "Passwörter stimmen nicht überein"
+
+msgid "errorInvalidStartDate"
+msgstr "Fehlerhaftes Datum"
+
+msgid "errorInvalidPassword"
+msgstr "Ungültiges Passwort"
+
+msgid "errorInvalidSubject"
+msgstr "Fehlerhafte Eingabe"
+
+msgid "errorInvalidMessage"
+msgstr "Fehlerhafte Eingabe"
+
+msgid "errorInvalidName"
+msgstr "Fehlerhafte Eingabe"
+
+msgid "forgotPassword"
+msgstr "Passwort vergessen"
+
+msgid "createEvent"
+msgstr "Event anlegen"
+
+msgid "eyeType"
+msgstr "Augen"
+
+msgid "eyebrowType"
+msgstr "Augenbrauen"
+
+msgid "accessoriesType"
+msgstr "Brille"
+
+msgid "mouthType"
+msgstr "Mund"
+
+msgid "facialHairType"
+msgstr "Bart"
+
+msgid "facialHairColor"
+msgstr "Bartfarbe"
+
+msgid "skinColor"
+msgstr "Hautfarbe"
+
+msgid "topType"
+msgstr "Haarschnitt oder Hut"
+
+msgid "hairColor"
+msgstr "Haarfarbe"
+
+msgid "topColor"
+msgstr "Hutfarbe"
+
+msgid "clotheType"
+msgstr "Kleidung"
+
+msgid "graphicType"
+msgstr "Shirt Aufdruck"
+
+msgid "clotheColor"
+msgstr "Kleidungsfarbe"
+
+msgid "circleColor"
+msgstr "Hintergrundfarbe"
+
+msgid "category"
+msgstr "Kategorie"
+
+msgid "status"
+msgstr "Status"
+
+msgid "role"
+msgstr "Rolle"
+
+msgid "pageBackground"
+msgstr "Allgemeiner Hintergrund"
+
+msgid "buttonBackground"
+msgstr "Button Hintergrund"
+
+msgid "footerBackground"
+msgstr "Footer Hintergrund"
+
+msgid "formBackground"
+msgstr "Formular Hintergrund"
+
+msgid "headerBackground"
+msgstr "Header Hintergrund"
+
+msgid "imageBackground"
+msgstr "Bilder Hintergrund"
+
+msgid "navBackground"
+msgstr "Menu Hintergrund"
+
+msgid "formBorder"
+msgstr "Rahmen Formular"
+
+msgid "titleText"
+msgstr "Text Überschrift"
+
+msgid "bodyText"
+msgstr "Text Spezifisch"
+
+msgid "pageText"
+msgstr "Text Allgemein"
+
+msgid "buttonText"
+msgstr "Text Button"
+
+msgid "footerText"
+msgstr "Text Footer"
+
+msgid "formText"
+msgstr "Text Formular"
+
+msgid "imageText"
+msgstr "Text Bilder"
+
+msgid "saleText"
+msgstr "Text Teaser"
+
+msgid "linkText"
+msgstr "Text Links"
+
+msgid "navText"
+msgstr "Text Menu"
+
+msgid "Black"
+msgstr "Schwarz"
+
+msgid "Blue01"
+msgstr "Blau 1"
+
+msgid "Blue02"
+msgstr "Blau 2"
+
+msgid "Blue03"
+msgstr "Blau 3"
+
+msgid "Gray01"
+msgstr "Grau 1"
+
+msgid "Gray02"
+msgstr "Grau 2"
+
+msgid "Heather"
+msgstr "Dunkelviolett"
+
+msgid "PastelBlue"
+msgstr "Pastellblau"
+
+msgid "PastelOrange"
+msgstr "Pastellorange"
+
+msgid "PastelRed"
+msgstr "Pastellrot"
+
+msgid "PastelGreen"
+msgstr "Pastellgrün"
+
+msgid "PastelPink"
+msgstr "Pastellpink"
+
+msgid "PastelYellow"
+msgstr "Pastellgelb"
+
+msgid "SilverGray"
+msgstr "Silbergrau"
+
+msgid "Default"
+msgstr "Standard"
+
+msgid "Auburn"
+msgstr "Rotbraun"
+
+msgid "Blonde"
+msgstr "Blond"
+
+msgid "BlondeGolden"
+msgstr "Goldblond"
+
+msgid "Brown"
+msgstr "Braun"
+
+msgid "BrownDark"
+msgstr "Dunkelbraun"
+
+msgid "Platinum"
+msgstr "Grau"
+
+msgid "Red"
+msgstr "Rot"
+
+msgid "White"
+msgstr "Weiss"
+
+msgid "NoHair"
+msgstr "Glatze"
+
+msgid "Eyepatch"
+msgstr "Augenklappe"
+
+msgid "Hat"
+msgstr "Hut"
+
+msgid "Hijab"
+msgstr "Kopftuch"
+
+msgid "Turban"
+msgstr "Turban"
+
+msgid "WinterHat1"
+msgstr "Winterhut 1"
+
+msgid "WinterHat2"
+msgstr "Winterhut 2"
+
+msgid "WinterHat3"
+msgstr "Winterhut 3"
+
+msgid "WinterHat4"
+msgstr "Winterhut 4"
+
+msgid "LongHairBigHair"
+msgstr "Lange Haare Offen"
+
+msgid "LongHairBob"
+msgstr "Lange Haare Bob"
+
+msgid "LongHairBun"
+msgstr "Lange Haare gebunden"
+
+msgid "LongHairCurly"
+msgstr "Lange Haare gelockt"
+
+msgid "LongHairCurvy"
+msgstr "Lange Haare gewellt"
+
+msgid "LongHairDreads"
+msgstr "Lange Dreadlocks"
+
+msgid "Concerned"
+msgstr "Besorgt"
+
+msgid "Disbelief"
+msgstr "Unglaube"
+
+msgid "Eating"
+msgstr "Essend"
+
+msgid "Grimace"
+msgstr "Grimasse"
+
+msgid "Sad"
+msgstr "Traurig"
+
+msgid "ScreamOpen"
+msgstr "Schreiend"
+
+msgid "Serious"
+msgstr "Ernsthaft"
+
+msgid "Smile"
+msgstr "Lachen"
+
+msgid "Tongue"
+msgstr "Zunge"
+
+msgid "Twinkle"
+msgstr "Lächeln"
+
+msgid "Vomit"
+msgstr "Erbrechen"
+
+msgid "errorInvalidEndDate"
+msgstr "Digga das Datum stimmt nicht"
+
+msgid "rowingTeaser"
+msgstr ""
+"Rowmate ermöglicht es, sich innerhalb des Vereins zum Rudern zu verabreden. "
+"Registriere Dich jetzt kostenlos!"

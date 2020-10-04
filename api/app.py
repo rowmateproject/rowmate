@@ -2,7 +2,7 @@ from fastapi_users.db import MongoDBUserDatabase
 from fastapi_mail import FastMail, ConnectionConfig
 from motor.motor_asyncio import AsyncIOMotorClient
 
-# settings
+# config
 from config import Settings
 
 # models

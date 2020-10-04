@@ -1,6 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+# setup
+from setup.init import setup_translations
+
 # router
 from router.stat import get_stats_router
 from router.language import get_language_router
@@ -33,6 +36,11 @@ app.add_middleware(
     allow_methods=['*'],
     allow_headers=['*']
 )
+
+
+@app.on_event('startup')
+async def startup():
+    await setup_translations(db)
 
 
 app.include_router(
