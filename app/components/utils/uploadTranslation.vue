@@ -4,7 +4,7 @@
     <form enctype="multipart/form-data">
       <label class="flex justify-center items-center bg-color-header text-color-button cursor-pointer rounded px-4 py-2">
         <span class="leading-normal">Import Übersetzungen</span>
-        <input type="file" @input="uploadFile($event.target.files)" class="hidden">
+        <input type="file" @input="uploadTranslation($event.target.files)" class="hidden">
       </label>
     </form>
     <button @click="exportTranslation" class="px-4 py-2 bg-color-button text-color-button rounded hover:bg-gray-700 focus:outline-none focus:bg-gray-700">Export Übersetzungen</button>
@@ -23,7 +23,7 @@ export default {
     }
   },
   methods: {
-    uploadFile(file) {
+    uploadTranslation(file) {
       const formData = new FormData()
       formData.append('file', file[0])
 
@@ -37,7 +37,7 @@ export default {
         validateStatus: () => true
       }).then(res => {
         if (res.status === 200) {
-          console.debug(res.data)
+          this.$emit('importedTranslation', res.data)
         } else {
           console.debug(res.data)
         }

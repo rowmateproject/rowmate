@@ -2,7 +2,7 @@
 <div>
   <h3 class="text-3xl font-medium text-color-title">Sprache</h3>
 
-  <upload-translation />
+  <upload-translation @importedTranslation="handleImportedTranslation" />
 
   <form @submit.prevent="submitForm" class="mt-3 lg:mt-8 p-3 lg:p-6 bg-color-form rounded-md shadow-md">
     <h2 class="mb-6 flex justify-start items-center text-color-form text-xl">
@@ -65,6 +65,9 @@ export default {
     },
     makePath(locale) {
       return `/flags/${locale}.svg`
+    },
+    handleImportedTranslation(value) {
+      this.translations = value
     },
     submitForm() {
       this.$axios({
