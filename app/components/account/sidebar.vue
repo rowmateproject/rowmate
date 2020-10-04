@@ -16,8 +16,8 @@
         <fa :icon="['fas', 'calendar-week']" class="col-span-1" />
         <span class="col-span-5">Kalender</span>
       </nuxt-link>
-      
-      <nuxt-link v-if="isSuperuser === 'true' || isSuperuser === true" class="text-color-nav focus:outline-none grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('translation') ? activeClass : inactiveClass]" :to="localePath('/translation')">
+
+      <nuxt-link v-if="isSuperuser === 'true' || isSuperuser === true" class="text-color-nav focus:outline-none grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('language') ? activeClass : inactiveClass]" :to="localePath('/language')">
         <fa :icon="['fas', 'font']" class="col-span-1" />
         <span class="col-span-5">Sprache</span>
       </nuxt-link>

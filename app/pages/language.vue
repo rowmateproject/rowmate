@@ -1,5 +1,5 @@
 <template>
-  <translation />
+  <language />
 </template>
 
 <script>
