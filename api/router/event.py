@@ -21,9 +21,12 @@ def get_events_router(database, authenticator) -> APIRouter:
     @router.get('/{lang}')
     async def get_all_events(lang, user=Depends(
             authenticator.get_current_active_user)):
+        query = {'user_id': user.id}
+        subscriptions = await database['subscriptions'].find(
+            query).to_list(length=15)
+
         query = {'event_time': {'$gte': datetime.utcnow()}}
         sort = [('event_time', pymongo.ASCENDING)]
-
         filter = {'_id': True,
                   f'titles.{lang}.title': True,
                   f'descriptions.{lang}.description': True,
@@ -43,7 +46,11 @@ def get_events_router(database, authenticator) -> APIRouter:
             query, filter).sort(sort).to_list(length=150)
 
         if len(res) > 0:
-            return res
+            e = [e['events'] for e in subscriptions]
+            s = [{**r, 'subscribed': [r['_id'] in x for x in e][0]}
+                 for r in res]
+
+            return s
         else:
             raise HTTPException(status_code=404, detail='No events were found')
 
@@ -54,7 +61,8 @@ def get_event_router(database, authenticator) -> APIRouter:
     router = APIRouter()
 
     @router.get('/latest')
-    async def get_latest_event(user=Depends(authenticator.get_current_active_user)):
+    async def get_latest_event(user=Depends(
+            authenticator.get_current_active_user)):
         sort = [('created_at', pymongo.DESCENDING)]
         res = await database['events'].find().sort(sort).to_list(length=1)
 

@@ -19,15 +19,15 @@ def get_subscription_router(database, authenticator) -> APIRouter:
     async def get_subscribed_events(lang, user=Depends(
             authenticator.get_current_active_user)):
         query = {'user_id': user.id}
+        subscriptions = await database['subscriptions'].find(
+            query).to_list(length=150)
 
-        res = await database['subscriptions'].find(query).to_list(length=150)
-
-        if len(res) == 0:
+        if len(subscriptions) == 0:
             raise HTTPException(
                 status_code=404, detail='No subscriptions found')
 
         query = {
-            '_id': {'$in': [x['events'] for x in res][0]},
+            '_id': {'$in': [x['events'] for x in subscriptions][0]},
             'event_time': {'$gte': datetime.utcnow()}
         }
 
@@ -52,7 +52,11 @@ def get_subscription_router(database, authenticator) -> APIRouter:
             query, filter).sort(sort).to_list(length=150)
 
         if len(res) > 0:
-            return res
+            e = [e['events'] for e in subscriptions]
+            s = [{**r, 'subscribed': [r['_id'] in x for x in e][0]}
+                 for r in res]
+
+            return s
         else:
             raise HTTPException(
                 status_code=404, detail='No subscriptions found')
