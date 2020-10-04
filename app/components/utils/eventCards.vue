@@ -6,7 +6,7 @@
         {{ value.titles[currentLocale].title }}
       </h1>
       <div class="col-span-2 text-right">
-        <button @click="subscribeEvent(value._id)" class="bg-color-button text-color-button rounded focus:outline-none px-4 py-2">Jetzt Anmelden</button>
+        <button @click="subscribeEvent(value._id)" :class="[value.subscribed ? 'bg-color-header text-color-nav' : 'bg-color-button text-color-button']" class="rounded focus:outline-none px-4 py-2">{{ value.subscribed ? 'Zugesagt' : 'Jetzt Anmelden' }}</button>
       </div>
       <ul class="col-span-8 grid grid-cols-10 gap-6 mb-4">
         <li class="col-span-10">
