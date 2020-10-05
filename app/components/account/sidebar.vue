@@ -68,8 +68,6 @@ export default {
     }).then(res => {
       if (res.status === 200) {
         this.$store.commit('updateImageBlob', this.createObjectURL(res.data))
-      } else {
-        console.debug(res.data)
       }
     })
   },
