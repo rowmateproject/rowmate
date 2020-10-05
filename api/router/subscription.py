@@ -70,7 +70,9 @@ def get_subscription_router(database, authenticator) -> APIRouter:
             raise HTTPException(status_code=404, detail='Event was not found')
 
         query = {'user_id': user.id}
-        res = await database['subscriptions'].find(query).to_list(length=150)
+
+        docs = await database['subscriptions'].count_documents(query)
+        res = await database['subscriptions'].find(query).to_list(length=docs)
 
         if len(res) == 0:
             uuid: Binary = generate_uuid()
@@ -86,7 +88,7 @@ def get_subscription_router(database, authenticator) -> APIRouter:
             res = await database['subscriptions'].insert_one(subscription_doc)
 
             if res.acknowledged:
-                return {'detail': 'Subscription was created'}
+                return True
             else:
                 raise HTTPException(
                     status_code=400, detail='Error creating subscription')

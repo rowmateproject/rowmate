@@ -49,7 +49,6 @@ def get_events_router(database, authenticator) -> APIRouter:
             query, filter).sort(sort).to_list(length=docs)
 
         if len(res) > 0:
-            print(subscriptions)
             e = [s['events'] for s in subscriptions]
             s = [{**r, 'subscribed': [r['_id'] in x for x in e][0]
                   if len(e) > 0 else False} for r in res]
