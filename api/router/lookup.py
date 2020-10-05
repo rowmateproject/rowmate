@@ -7,8 +7,8 @@ import re
 # models
 from models.user import LookupUser
 from models.subscription import LookupSubscription
+from models.question import LookupQuestion
 from models.event import LookupEvent
-from models.poll import LookupPoll
 
 
 def get_lookup_router(database, authenticator) -> APIRouter:
@@ -58,21 +58,37 @@ def get_lookup_router(database, authenticator) -> APIRouter:
             raise HTTPException(
                 status_code=404, detail='No subscriptions found')
 
-    @router.post('/polls/{lang}')
-    async def lookup_polls(lang, poll: LookupPoll, user=Depends(
+    @router.post('/question/{lang}')
+    async def lookup_question(lang, model: LookupQuestion, user=Depends(
             authenticator.get_current_active_user)):
         sort = [('score', {'$meta': 'textScore'})]
         filter = {'score': {'$meta': 'textScore'}, 'ngrams': False}
-        query = {'$text': {'$search': poll.query, '$caseSensitive': False}}
+        query = {'$text': {'$search': model.query, '$caseSensitive': False}}
 
-        res = await database['polls'].find(
+        res = await database['questions'].find(
             query, filter).sort(sort).to_list(length=15)
 
         if len(res) > 0:
-            return res
+            query = {'questions': {'$in': [x['_id'] for x in res]}}
+            polls = await database['polls'].find_one(query)
+
+            if len(polls) > 0:
+                filter = {'ngrams': False, 'created_at': False,
+                          'modified_at': False, 'user_id': False}
+                query = {'_id': {'$in': polls['questions']}}
+                questions = await database['questions'].find(
+                    query, filter).to_list(length=150)
+
+                r = [{'questions': [q], '_id': polls['_id']}
+                     for q in questions]
+
+                return r[0] if len(r) > 0 else []
+            else:
+                raise HTTPException(
+                    status_code=404, detail='No poll found')
         else:
             raise HTTPException(
-                status_code=404, detail='No polls found')
+                status_code=404, detail='No question found')
 
     @router.post('/users')
     async def lookup_users(req: LookupUser, user=Depends(

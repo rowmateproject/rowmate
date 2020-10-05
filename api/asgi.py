@@ -5,11 +5,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from setup.init import setup_translations
 
 # router
-from router.poll import get_poll_router
 from router.stat import get_stats_router
 from router.language import get_language_router
 from router.boat import get_boats_router, get_boat_router
 from router.event import get_events_router, get_event_router
+from router.poll import get_poll_router, get_polls_router
 from router.subscription import get_subscription_router
 from router.confirm import get_confirm_router
 from router.manage import get_manage_router
@@ -206,5 +206,15 @@ app.include_router(
         authenticator=api_user
     ),
     prefix='/poll',
+    tags=['polls']
+)
+
+
+app.include_router(
+    get_polls_router(
+        database=db,
+        authenticator=api_user
+    ),
+    prefix='/polls',
     tags=['polls']
 )
