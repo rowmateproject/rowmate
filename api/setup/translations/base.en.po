@@ -358,6 +358,429 @@ msgstr "Lächeln"
 msgid "Vomit"
 msgstr "Erbrechen"
 
+msgid "AliceBlue"
+msgstr "Alice Blue"
+
+msgid "AntiqueWhite"
+msgstr "Antique White"
+
+msgid "Aqua"
+msgstr "Aqua"
+
+msgid "Aquamarine"
+msgstr "Aquamarine"
+
+msgid "Azure"
+msgstr "Azure"
+
+msgid "Beige"
+msgstr "Beige"
+
+msgid "Bisque"
+msgstr "Bisque"
+
+msgid "Black"
+msgstr "Black"
+
+msgid "BlanchedAlmond"
+msgstr "Blanched Almond"
+
+msgid "Blue"
+msgstr "Blue"
+
+msgid "BlueViolet"
+msgstr "Blue Violet"
+
+msgid "Brown"
+msgstr "Brown"
+
+msgid "BurlyWood"
+msgstr "BurlyWood"
+
+msgid "CadetBlue"
+msgstr "Cadet Blue"
+
+msgid "Chartreuse"
+msgstr "Chartreuse"
+
+msgid "Chocolate"
+msgstr "Chocolate"
+
+msgid "Coral"
+msgstr "Coral"
+
+msgid "CornflowerBlue"
+msgstr "Cornflower Blue"
+
+msgid "Cornsilk"
+msgstr "Cornsilk"
+
+msgid "Crimson"
+msgstr "Crimson"
+
+msgid "Cyan"
+msgstr "Cyan"
+
+msgid "DarkBlue"
+msgstr "Dark Blue"
+
+msgid "DarkCyan"
+msgstr "DarkCyan"
+
+msgid "DarkGoldenrod"
+msgstr "Dark Goldenrod"
+
+msgid "DarkGray"
+msgstr "Dark Gray"
+
+msgid "DarkGreen"
+msgstr "DarkGreen"
+
+msgid "DarkKhaki"
+msgstr "Dark Khaki"
+
+msgid "DarkMagenta"
+msgstr "Dark Magenta"
+
+msgid "DarkOliveGreen"
+msgstr "Dark OliveGreen"
+
+msgid "DarkOrange"
+msgstr "Dark Orange"
+
+msgid "DarkOrchid"
+msgstr "Dark Orchid"
+
+msgid "DarkRed"
+msgstr "Dark Red"
+
+msgid "DarkSalmon"
+msgstr "Dark Salmon"
+
+msgid "DarkSeaGreen"
+msgstr "Dark SeaGreen"
+
+msgid "DarkSlateBlue"
+msgstr "Dark Slate Blue"
+
+msgid "DarkSlateGray"
+msgstr "Dark Slate Gray"
+
+msgid "DarkTurquoise"
+msgstr "Dark Turquoise"
+
+msgid "DarkViolet"
+msgstr "Dark Violet"
+
+msgid "DeepPink"
+msgstr "Deep Pink"
+
+msgid "DeepSkyBlue"
+msgstr "Deep Sky Blue"
+
+msgid "DimGray"
+msgstr "Dim Gray"
+
+msgid "DodgerBlue"
+msgstr "Dodger Blue"
+
+msgid "FireBrick"
+msgstr "Fire Brick"
+
+msgid "FloralWhite"
+msgstr "Floral White"
+
+msgid "ForestGreen"
+msgstr "Forest Green"
+
+msgid "Fuchsia"
+msgstr "Fuchsia"
+
+msgid "Gainsboro"
+msgstr "Gainsboro"
+
+msgid "GhostWhite"
+msgstr "Ghost White"
+
+msgid "Gold"
+msgstr "Gold"
+
+msgid "Goldenrod"
+msgstr "Goldenrod"
+
+msgid "Gray"
+msgstr "Gray"
+
+msgid "Green"
+msgstr "Green"
+
+msgid "GreenYellow"
+msgstr "Green Yellow"
+
+msgid "HoneyDew"
+msgstr "Honey Dew"
+
+msgid "HotPink"
+msgstr "Hot Pink"
+
+msgid "IndianRed"
+msgstr "Indian Red"
+
+msgid "Indigo"
+msgstr "Indigo"
+
+msgid "Ivory"
+msgstr "Ivory"
+
+msgid "Khaki"
+msgstr "Khaki"
+
+msgid "Lavender"
+msgstr "Lavender"
+
+msgid "LavenderBlush"
+msgstr "Lavender Blush"
+
+msgid "LawnGreen"
+msgstr "Lawn Green"
+
+msgid "LemonChiffon"
+msgstr "Lemon Chiffon"
+
+msgid "LightBlue"
+msgstr "Light Blue"
+
+msgid "LightCoral"
+msgstr "Light Coral"
+
+msgid "LightCyan"
+msgstr "Light Cyan"
+
+msgid "LightGoldenrodYellow"
+msgstr "Light Goldenrod Yellow"
+
+msgid "LightGray"
+msgstr "Light Gray"
+
+msgid "LightGreen"
+msgstr "Light Green"
+
+msgid "LightPink"
+msgstr "Light Pink"
+
+msgid "LightSalmon"
+msgstr "Light Salmon"
+
+msgid "LightSeaGreen"
+msgstr "Light Sea Green"
+
+msgid "LightSkyBlue"
+msgstr "Light Sky Blue"
+
+msgid "LightSlateGray"
+msgstr "Light Slate Gray"
+
+msgid "LightSteelBlue"
+msgstr "Light Steel Blue"
+
+msgid "LightYellow"
+msgstr "Light Yellow"
+
+msgid "Lime"
+msgstr "Lime"
+
+msgid "LimeGreen"
+msgstr "Lime Green"
+
+msgid "Linen"
+msgstr "Linen"
+
+msgid "Magenta"
+msgstr "Magenta"
+
+msgid "Maroon"
+msgstr "Maroon"
+
+msgid "MediumAquamarine"
+msgstr "Medium Aquamarine"
+
+msgid "MediumBlue"
+msgstr "Medium Blue"
+
+msgid "MediumOrchid"
+msgstr "Medium Orchid"
+
+msgid "MediumPurple"
+msgstr "Medium Purple"
+
+msgid "MediumSeaGreen"
+msgstr "Medium Sea Green"
+
+msgid "MediumSlateBlue"
+msgstr "Medium Slate Blue"
+
+msgid "MediumSlateBlue"
+msgstr "Medium Slate Blue"
+
+msgid "MediumSpringGreen"
+msgstr "Medium Spring Green"
+
+msgid "MediumTurquoise"
+msgstr "Medium Turquoise"
+
+msgid "MediumVioletRed"
+msgstr "Medium Violet Red"
+
+msgid "MintCream"
+msgstr "Mint Cream"
+
+msgid "MistyRose"
+msgstr "Misty Rose"
+
+msgid "Moccasin"
+msgstr "Moccasin"
+
+msgid "NavajoWhite"
+msgstr "Navajo White"
+
+msgid "Navy"
+msgstr "Navy"
+
+msgid "OldLace"
+msgstr "Old Lace"
+
+msgid "Olive"
+msgstr "Olive"
+
+msgid "OliveDrab"
+msgstr "Olive Drab"
+
+msgid "Orange"
+msgstr "Orange"
+
+msgid "OrangeRed"
+msgstr "Orange Red"
+
+msgid "Orchid"
+msgstr "Orchid"
+
+msgid "PaleGoldenrod"
+msgstr "Pale Goldenrod"
+
+msgid "PaleGreen"
+msgstr "Pale Green"
+
+msgid "PaleTurquoise"
+msgstr "Pale Turquoise"
+
+msgid "PaleVioletRed"
+msgstr "Pale Violet Red"
+
+msgid "PapayaWhip"
+msgstr "Papaya Whip"
+
+msgid "PeachPuff"
+msgstr "Peach Puff"
+
+msgid "Peru"
+msgstr "Peru"
+
+msgid "Pink"
+msgstr "Pink"
+
+msgid "Plum"
+msgstr "Plum"
+
+msgid "PowderBlue"
+msgstr "Powder Blue"
+
+msgid "Purple"
+msgstr "Purple"
+
+msgid "RebeccaPurple"
+msgstr "Rebecca Purple"
+
+msgid "Red"
+msgstr "Red"
+
+msgid "RosyBrown"
+msgstr "Rosy Brown"
+
+msgid "RoyalBlue"
+msgstr "Royal Blue"
+
+msgid "SaddleBrown"
+msgstr "Saddle Brown"
+
+msgid "Salmon"
+msgstr "Salmon"
+
+msgid "SandyBrown"
+msgstr "Sandy Brown"
+
+msgid "SeaGreen"
+msgstr "Sea Green"
+
+msgid "SeaShell"
+msgstr "Sea Shell"
+
+msgid "Sienna"
+msgstr "Sienna"
+
+msgid "Silver"
+msgstr "Silver"
+
+msgid "SkyBlue"
+msgstr "Sky Blue"
+
+msgid "SlateBlue"
+msgstr "Slate Blue"
+
+msgid "SlateGray"
+msgstr "Slate Gray"
+
+msgid "Snow"
+msgstr "Snow"
+
+msgid "SpringGreen"
+msgstr "Spring Green"
+
+msgid "SteelBlue"
+msgstr "Steel Blue"
+
+msgid "Tan"
+msgstr "Tan"
+
+msgid "Teal"
+msgstr "Teal"
+
+msgid "Thistle"
+msgstr "Thistle"
+
+msgid "Tomato"
+msgstr "Tomato"
+
+msgid "Turquoise"
+msgstr "Turquoise"
+
+msgid "Violet"
+msgstr "Violet"
+
+msgid "Wheat"
+msgstr "Wheat"
+
+msgid "White"
+msgstr "White"
+
+msgid "WhiteSmoke"
+msgstr "White Smoke"
+
+msgid "Yellow"
+msgstr "Yellow"
+
+msgid "YellowGreen"
+msgstr "Yellow Green"
+
 msgid "errorInvalidEndDate"
 msgstr "Digga das Datum stimmt nicht"
 

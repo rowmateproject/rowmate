@@ -358,6 +358,429 @@ msgstr "Lächeln"
 msgid "Vomit"
 msgstr "Erbrechen"
 
+msgid "AliceBlue"
+msgstr "Alice Blau"
+
+msgid "AntiqueWhite"
+msgstr "Altweiß"
+
+msgid "Aqua"
+msgstr "Wasser"
+
+msgid "Aquamarine"
+msgstr "Aquamarin"
+
+msgid "Azure"
+msgstr "Azurblau"
+
+msgid "Beige"
+msgstr "Beige"
+
+msgid "Bisque"
+msgstr "Bisque"
+
+msgid "Black"
+msgstr "Schwarz"
+
+msgid "BlanchedAlmond"
+msgstr "Mandelweiß"
+
+msgid "Blue"
+msgstr "Blau"
+
+msgid "BlueViolet"
+msgstr "Blau Violett"
+
+msgid "Brown"
+msgstr "Braun"
+
+msgid "BurlyWood"
+msgstr "Kräftiges Holz"
+
+msgid "CadetBlue"
+msgstr "Kadettenblau"
+
+msgid "Chartreuse"
+msgstr "Chartreuse"
+
+msgid "Chocolate"
+msgstr "Schokolade"
+
+msgid "Coral"
+msgstr "Koralle"
+
+msgid "CornflowerBlue"
+msgstr "Kornblumenblau"
+
+msgid "Cornsilk"
+msgstr "Cornsilk"
+
+msgid "Crimson"
+msgstr "Purpur"
+
+msgid "Cyan"
+msgstr "Cyan"
+
+msgid "DarkBlue"
+msgstr "Dunkelblau"
+
+msgid "DarkCyan"
+msgstr "Dunkles Cyan"
+
+msgid "DarkGoldenrod"
+msgstr "Dunkel Goldrute"
+
+msgid "DarkGray"
+msgstr "Dunkelgrau"
+
+msgid "DarkGreen"
+msgstr "Dunkelgrün"
+
+msgid "DarkKhaki"
+msgstr "Dunkles Khaki"
+
+msgid "DarkMagenta"
+msgstr "Dunkles Magenta"
+
+msgid "DarkOliveGreen"
+msgstr "Dunkles Olivgrün"
+
+msgid "DarkOrange"
+msgstr "Dunkelorange"
+
+msgid "DarkOrchid"
+msgstr "Dunkle Orchidee"
+
+msgid "DarkRed"
+msgstr "Dunkelrot"
+
+msgid "DarkSalmon"
+msgstr "Dunkler Lachs"
+
+msgid "DarkSeaGreen"
+msgstr "Dunkelmeergrün"
+
+msgid "DarkSlateBlue"
+msgstr "Dunkles Schieferblau"
+
+msgid "DarkSlateGray"
+msgstr "Dunkles Schiefergrau"
+
+msgid "DarkTurquoise"
+msgstr "Dunkles Türkis"
+
+msgid "DarkViolet"
+msgstr "Dunkelviolett"
+
+msgid "DeepPink"
+msgstr "Dunkelrosa"
+
+msgid "DeepSkyBlue"
+msgstr "Tiefes Himmelblau"
+
+msgid "DimGray"
+msgstr "Dunkelgrau"
+
+msgid "DodgerBlue"
+msgstr "Persenningblau"
+
+msgid "FireBrick"
+msgstr "Backstein"
+
+msgid "FloralWhite"
+msgstr "Blumenweiß"
+
+msgid "ForestGreen"
+msgstr "Waldgrün"
+
+msgid "Fuchsia"
+msgstr "Fuchsie"
+
+msgid "Gainsboro"
+msgstr "Gainsboro"
+
+msgid "GhostWhite"
+msgstr "Geisterweiß"
+
+msgid "Gold"
+msgstr "Gold"
+
+msgid "Goldenrod"
+msgstr "Goldrute"
+
+msgid "Gray"
+msgstr "Grau"
+
+msgid "Green"
+msgstr "Grün"
+
+msgid "GreenYellow"
+msgstr "Grün Gelb"
+
+msgid "HoneyDew"
+msgstr "Honigtau"
+
+msgid "HotPink"
+msgstr "Pink"
+
+msgid "IndianRed"
+msgstr "Indischrot"
+
+msgid "Indigo"
+msgstr "Indigo"
+
+msgid "Ivory"
+msgstr "Elfenbein"
+
+msgid "Khaki"
+msgstr "Khaki"
+
+msgid "Lavender"
+msgstr "Lavendel"
+
+msgid "LavenderBlush"
+msgstr "Lavendelrosa"
+
+msgid "LawnGreen"
+msgstr "Rasengrün"
+
+msgid "LemonChiffon"
+msgstr "Zitronen-Chiffon"
+
+msgid "LightBlue"
+msgstr "Hellblau"
+
+msgid "LightCoral"
+msgstr "Leichte Koralle"
+
+msgid "LightCyan"
+msgstr "Leichtes Cyan"
+
+msgid "LightGoldenrodYellow"
+msgstr "Helles Goldrutengelb"
+
+msgid "LightGray"
+msgstr "Hellgrau"
+
+msgid "LightGreen"
+msgstr "Hellgrün"
+
+msgid "LightPink"
+msgstr "Hellrosa"
+
+msgid "LightSalmon"
+msgstr "Helle Lachsfarbe"
+
+msgid "LightSeaGreen"
+msgstr "Helles Seegrün"
+
+msgid "LightSkyBlue"
+msgstr "Helles Himmelblau"
+
+msgid "LightSlateGray"
+msgstr "Helles Schiefergrau"
+
+msgid "LightSteelBlue"
+msgstr "Helles Stahlblau"
+
+msgid "LightYellow"
+msgstr "Hellgelb"
+
+msgid "Lime"
+msgstr "Limette"
+
+msgid "LimeGreen"
+msgstr "Limonengrün"
+
+msgid "Linen"
+msgstr "Leinen"
+
+msgid "Magenta"
+msgstr "Magenta"
+
+msgid "Maroon"
+msgstr "Kastanienbraun"
+
+msgid "MediumAquamarine"
+msgstr "Mittlerer Aquamarin"
+
+msgid "MediumBlue"
+msgstr "Mittelblau"
+
+msgid "MediumOrchid"
+msgstr "Mittlere Orchidee"
+
+msgid "MediumPurple"
+msgstr "Mittel Lila"
+
+msgid "MediumSeaGreen"
+msgstr "Mittleres Seegrün"
+
+msgid "MediumSlateBlue"
+msgstr "Mittleres Schieferblau"
+
+msgid "MediumSlateBlue"
+msgstr "Mittleres Schieferblau"
+
+msgid "MediumSpringGreen"
+msgstr "Mittleres Frühlingsgrün"
+
+msgid "MediumTurquoise"
+msgstr "Mitteltürkis"
+
+msgid "MediumVioletRed"
+msgstr "Mittelviolettrot"
+
+msgid "MintCream"
+msgstr "Minzcreme"
+
+msgid "MistyRose"
+msgstr "Altrosa"
+
+msgid "Moccasin"
+msgstr "Mokassin"
+
+msgid "NavajoWhite"
+msgstr "Navajoweiß"
+
+msgid "Navy"
+msgstr "Marinenblau"
+
+msgid "OldLace"
+msgstr "Alte Spitze"
+
+msgid "Olive"
+msgstr "Olive"
+
+msgid "OliveDrab"
+msgstr "Olivgrün"
+
+msgid "Orange"
+msgstr "Orange"
+
+msgid "OrangeRed"
+msgstr "Orange Rot"
+
+msgid "Orchid"
+msgstr "Orchidee"
+
+msgid "PaleGoldenrod"
+msgstr "Blasse Goldrute"
+
+msgid "PaleGreen"
+msgstr "Blasses Grün"
+
+msgid "PaleTurquoise"
+msgstr "Blasses Türkis"
+
+msgid "PaleVioletRed"
+msgstr "Hellviolettrot"
+
+msgid "PapayaWhip"
+msgstr "Papayacreme"
+
+msgid "PeachPuff"
+msgstr "Pfirsich"
+
+msgid "Peru"
+msgstr "Peru"
+
+msgid "Pink"
+msgstr "Rosa"
+
+msgid "Plum"
+msgstr "Pflaume"
+
+msgid "PowderBlue"
+msgstr "Puderblau"
+
+msgid "Purple"
+msgstr "Lila"
+
+msgid "RebeccaPurple"
+msgstr "Rebecca Lila"
+
+msgid "Red"
+msgstr "Rot"
+
+msgid "RosyBrown"
+msgstr "Rosy Brown"
+
+msgid "RoyalBlue"
+msgstr "Königsblau"
+
+msgid "SaddleBrown"
+msgstr "Sattelbraun"
+
+msgid "Salmon"
+msgstr "Lachs"
+
+msgid "SandyBrown"
+msgstr "Sandy Brown"
+
+msgid "SeaGreen"
+msgstr "Meeresgrün"
+
+msgid "SeaShell"
+msgstr "Muschel"
+
+msgid "Sienna"
+msgstr "Sienna"
+
+msgid "Silver"
+msgstr "Silber"
+
+msgid "SkyBlue"
+msgstr "Himmelblau"
+
+msgid "SlateBlue"
+msgstr "SlateBlue"
+
+msgid "SlateGray"
+msgstr "Schiefer grau"
+
+msgid "Snow"
+msgstr "Schnee"
+
+msgid "SpringGreen"
+msgstr "Frühlingsgrün"
+
+msgid "SteelBlue"
+msgstr "Stahlblau"
+
+msgid "Tan"
+msgstr "Bräunen"
+
+msgid "Teal"
+msgstr "Blaugrün"
+
+msgid "Thistle"
+msgstr "Distel"
+
+msgid "Tomato"
+msgstr "Tomate"
+
+msgid "Turquoise"
+msgstr "Türkis"
+
+msgid "Violet"
+msgstr "Violett"
+
+msgid "Wheat"
+msgstr "Weizen"
+
+msgid "White"
+msgstr "Weiß"
+
+msgid "WhiteSmoke"
+msgstr "Weißer Rauch"
+
+msgid "Yellow"
+msgstr "Gelb"
+
+msgid "YellowGreen"
+msgstr "Gelbgrün"
+
 msgid "errorInvalidEndDate"
 msgstr "Digga das Datum stimmt nicht"
 
