@@ -64,7 +64,7 @@ export default ({
     // Return any error which is not due to authentication
     if (error.response.status !== 401) {
       return new Promise((resolve, reject) => {
-        resolve(error)
+        reject(error)
       })
     } else {
       // Logout user if token refresh didn't work

@@ -1,6 +1,6 @@
 <template>
 <div>
-  <h3 class="text-3xl font-medium text-color-title">Event</h3>
+  <h3 class="text-3xl font-medium text-color-title">Events</h3>
 
   <event-filter @resultObject="handleResultObject" @resetFilter="handleResetValue" />
 
