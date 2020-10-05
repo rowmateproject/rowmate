@@ -22,8 +22,10 @@ def get_events_router(database, authenticator) -> APIRouter:
     async def get_all_events(lang, user=Depends(
             authenticator.get_current_active_user)):
         query = {'user_id': user.id}
+
+        docs = await database['subscriptions'].count_documents(query)
         subscriptions = await database['subscriptions'].find(
-            query).to_list(length=15)
+            query).to_list(length=docs)
 
         query = {'event_time': {'$gte': datetime.utcnow()}}
         sort = [('event_time', pymongo.ASCENDING)]
@@ -42,13 +44,15 @@ def get_events_router(database, authenticator) -> APIRouter:
                   'end_time': True,
                   'location': True}
 
+        docs = await database['events'].count_documents(query)
         res = await database['events'].find(
-            query, filter).sort(sort).to_list(length=150)
+            query, filter).sort(sort).to_list(length=docs)
 
         if len(res) > 0:
-            e = [e['events'] for e in subscriptions]
-            s = [{**r, 'subscribed': [r['_id'] in x for x in e][0]}
-                 for r in res]
+            print(subscriptions)
+            e = [s['events'] for s in subscriptions]
+            s = [{**r, 'subscribed': [r['_id'] in x for x in e][0]
+                  if len(e) > 0 else False} for r in res]
 
             return s
         else:
