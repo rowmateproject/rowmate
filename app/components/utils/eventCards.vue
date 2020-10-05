@@ -6,7 +6,7 @@
         {{ value.titles[currentLocale].title }}
       </h1>
       <div class="col-span-2 text-right">
-        <button @click="subscribeEvent(value._id)" :class="[value.subscribed ? 'bg-color-header text-color-nav' : 'bg-color-button text-color-button']" class="rounded focus:outline-none px-4 py-2">{{ value.subscribed ? 'Zugesagt' : 'Jetzt Anmelden' }}</button>
+        <button @click="subscribeEvent(value._id, index)" :class="[value.subscribed ? 'bg-color-header text-color-nav' : 'bg-color-button text-color-button']" class="rounded focus:outline-none px-4 py-2">{{ value.subscribed ? 'Zugesagt' : 'Jetzt Anmelden' }}</button>
       </div>
       <ul class="col-span-8 grid grid-cols-10 gap-6 mb-4">
         <li class="col-span-10">
@@ -124,7 +124,7 @@ export default {
 
       return hexParts.join('');
     },
-    subscribeEvent(value) {
+    subscribeEvent(value, index) {
       let uuid = null
 
       try {
@@ -139,7 +139,7 @@ export default {
         validateStatus: () => true
       }).then((res) => {
         if (res.status === 200) {
-          console.debug(res.data)
+          this.events[index]['subscribed'] = res.data
         } else {
           console.debug(res.data)
         }
