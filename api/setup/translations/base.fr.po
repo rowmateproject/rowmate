@@ -359,19 +359,19 @@ msgid "Vomit"
 msgstr "Erbrechen"
 
 msgid "AliceBlue"
-msgstr "Alice Blau"
+msgstr "Alice bleu"
 
 msgid "AntiqueWhite"
-msgstr "Altweiß"
+msgstr "Blanc"
 
 msgid "Aqua"
-msgstr "Wasser"
+msgstr "Eau"
 
 msgid "Aquamarine"
-msgstr "Aquamarin"
+msgstr "Bleu vert"
 
 msgid "Azure"
-msgstr "Azurblau"
+msgstr "bleu azur"
 
 msgid "Beige"
 msgstr "Beige"
@@ -380,406 +380,406 @@ msgid "Bisque"
 msgstr "Bisque"
 
 msgid "Black"
-msgstr "Schwarz"
+msgstr "Noir"
 
 msgid "BlanchedAlmond"
-msgstr "Mandelweiß"
+msgstr "Amande blanche"
 
 msgid "Blue"
-msgstr "Blau"
+msgstr "Bleu"
 
 msgid "BlueViolet"
-msgstr "Blau Violett"
+msgstr "Bleu violet"
 
 msgid "Brown"
-msgstr "Braun"
+msgstr "Marron"
 
 msgid "BurlyWood"
-msgstr "Kräftiges Holz"
+msgstr "Bois solide"
 
 msgid "CadetBlue"
-msgstr "Kadettenblau"
+msgstr "Bleu cadet"
 
 msgid "Chartreuse"
 msgstr "Chartreuse"
 
 msgid "Chocolate"
-msgstr "Schokolade"
+msgstr "Chocolat"
 
 msgid "Coral"
-msgstr "Koralle"
+msgstr "Corail"
 
 msgid "CornflowerBlue"
-msgstr "Kornblumenblau"
+msgstr "Bleuet"
 
 msgid "Cornsilk"
-msgstr "Cornsilk"
+msgstr "Soie de maïs"
 
 msgid "Crimson"
-msgstr "Purpur"
+msgstr "Violet"
 
 msgid "Cyan"
 msgstr "Cyan"
 
 msgid "DarkBlue"
-msgstr "Dunkelblau"
+msgstr "Bleu foncé"
 
 msgid "DarkCyan"
-msgstr "Dunkles Cyan"
+msgstr "Cyan foncé"
 
 msgid "DarkGoldenrod"
-msgstr "Dunkel Goldrute"
+msgstr "Verge d'or sombre"
 
 msgid "DarkGray"
-msgstr "Dunkelgrau"
+msgstr "Gris foncé"
 
 msgid "DarkGreen"
-msgstr "Dunkelgrün"
+msgstr "Vert foncé"
 
 msgid "DarkKhaki"
-msgstr "Dunkles Khaki"
+msgstr "Kaki foncé"
 
 msgid "DarkMagenta"
-msgstr "Dunkles Magenta"
+msgstr "Magenta foncé"
 
 msgid "DarkOliveGreen"
-msgstr "Dunkles Olivgrün"
+msgstr "Vert olive foncé"
 
 msgid "DarkOrange"
-msgstr "Dunkelorange"
+msgstr "Orange sombre"
 
 msgid "DarkOrchid"
-msgstr "Dunkle Orchidee"
+msgstr "Orchidée sombre"
 
 msgid "DarkRed"
-msgstr "Dunkelrot"
+msgstr "Rouge foncé"
 
 msgid "DarkSalmon"
-msgstr "Dunkler Lachs"
+msgstr "Saumon noir"
 
 msgid "DarkSeaGreen"
-msgstr "Dunkelmeergrün"
+msgstr "Vert de mer foncé"
 
 msgid "DarkSlateBlue"
-msgstr "Dunkles Schieferblau"
+msgstr "Bleu ardoise foncé"
 
 msgid "DarkSlateGray"
-msgstr "Dunkles Schiefergrau"
+msgstr "Gris ardoise foncé"
 
 msgid "DarkTurquoise"
-msgstr "Dunkles Türkis"
+msgstr "Turquoise foncé"
 
 msgid "DarkViolet"
-msgstr "Dunkelviolett"
+msgstr "Violet foncé"
 
 msgid "DeepPink"
-msgstr "Dunkelrosa"
+msgstr "Rose foncé"
 
 msgid "DeepSkyBlue"
-msgstr "Tiefes Himmelblau"
+msgstr "Bleu ciel profond"
 
 msgid "DimGray"
-msgstr "Dunkelgrau"
+msgstr "Gris foncé"
 
 msgid "DodgerBlue"
-msgstr "Persenningblau"
+msgstr "Bâche bleue"
 
 msgid "FireBrick"
-msgstr "Backstein"
+msgstr "Brique"
 
 msgid "FloralWhite"
-msgstr "Blumenweiß"
+msgstr "Blanc fleuri"
 
 msgid "ForestGreen"
-msgstr "Waldgrün"
+msgstr "Forêt verte"
 
 msgid "Fuchsia"
-msgstr "Fuchsie"
+msgstr "Fuchsia"
 
 msgid "Gainsboro"
 msgstr "Gainsboro"
 
 msgid "GhostWhite"
-msgstr "Geisterweiß"
+msgstr "Blanc fantôme"
 
 msgid "Gold"
-msgstr "Gold"
+msgstr "Or"
 
 msgid "Goldenrod"
-msgstr "Goldrute"
+msgstr "Verge d'or"
 
 msgid "Gray"
-msgstr "Grau"
+msgstr "Gris"
 
 msgid "Green"
-msgstr "Grün"
+msgstr "Vert"
 
 msgid "GreenYellow"
-msgstr "Grün Gelb"
+msgstr "vert jaune"
 
 msgid "HoneyDew"
-msgstr "Honigtau"
+msgstr "Miellat"
 
 msgid "HotPink"
-msgstr "Pink"
+msgstr "Rose"
 
 msgid "IndianRed"
-msgstr "Indischrot"
+msgstr "Rouge indien"
 
 msgid "Indigo"
 msgstr "Indigo"
 
 msgid "Ivory"
-msgstr "Elfenbein"
+msgstr "Ivoire"
 
 msgid "Khaki"
-msgstr "Khaki"
+msgstr "Kaki"
 
 msgid "Lavender"
-msgstr "Lavendel"
+msgstr "Lavande"
 
 msgid "LavenderBlush"
-msgstr "Lavendelrosa"
+msgstr "Rose lavande"
 
 msgid "LawnGreen"
-msgstr "Rasengrün"
+msgstr "Pelouse verte"
 
 msgid "LemonChiffon"
-msgstr "Zitronen-Chiffon"
+msgstr "Mousseline citron"
 
 msgid "LightBlue"
-msgstr "Hellblau"
+msgstr "Bleu clair"
 
 msgid "LightCoral"
-msgstr "Leichte Koralle"
+msgstr "Corail clair"
 
 msgid "LightCyan"
-msgstr "Leichtes Cyan"
+msgstr "Cyan clair"
 
 msgid "LightGoldenrodYellow"
-msgstr "Helles Goldrutengelb"
+msgstr "Jaune verge d'or clair"
 
 msgid "LightGray"
-msgstr "Hellgrau"
+msgstr "Gris clair"
 
 msgid "LightGreen"
-msgstr "Hellgrün"
+msgstr "Vert clair"
 
 msgid "LightPink"
-msgstr "Hellrosa"
+msgstr "Rose clair"
 
 msgid "LightSalmon"
-msgstr "Helle Lachsfarbe"
+msgstr "Couleur saumon clair"
 
 msgid "LightSeaGreen"
-msgstr "Helles Seegrün"
+msgstr "Vert de mer clair"
 
 msgid "LightSkyBlue"
-msgstr "Helles Himmelblau"
+msgstr "Bleu ciel clair"
 
 msgid "LightSlateGray"
-msgstr "Helles Schiefergrau"
+msgstr "Gris ardoise clair"
 
 msgid "LightSteelBlue"
-msgstr "Helles Stahlblau"
+msgstr "Bleu acier clair"
 
 msgid "LightYellow"
-msgstr "Hellgelb"
+msgstr "Jaune clair"
 
 msgid "Lime"
-msgstr "Limette"
+msgstr "citron vert"
 
 msgid "LimeGreen"
-msgstr "Limonengrün"
+msgstr "Vert citron"
 
 msgid "Linen"
-msgstr "Leinen"
+msgstr "Lin"
 
 msgid "Magenta"
 msgstr "Magenta"
 
 msgid "Maroon"
-msgstr "Kastanienbraun"
+msgstr "Bordeaux"
 
 msgid "MediumAquamarine"
-msgstr "Mittlerer Aquamarin"
+msgstr "Aigue-marine moyenne"
 
 msgid "MediumBlue"
-msgstr "Mittelblau"
+msgstr "Bleu moyen"
 
 msgid "MediumOrchid"
-msgstr "Mittlere Orchidee"
+msgstr "Orchidée moyenne"
 
 msgid "MediumPurple"
-msgstr "Mittel Lila"
+msgstr "Violet moyen"
 
 msgid "MediumSeaGreen"
-msgstr "Mittleres Seegrün"
+msgstr "Vert de mer moyen"
 
 msgid "MediumSlateBlue"
-msgstr "Mittleres Schieferblau"
+msgstr "Bleu ardoise moyen"
 
 msgid "MediumSlateBlue"
-msgstr "Mittleres Schieferblau"
+msgstr "Bleu ardoise moyen"
 
 msgid "MediumSpringGreen"
-msgstr "Mittleres Frühlingsgrün"
+msgstr "Vert printemps moyen"
 
 msgid "MediumTurquoise"
-msgstr "Mitteltürkis"
+msgstr "Turquoise moyen"
 
 msgid "MediumVioletRed"
-msgstr "Mittelviolettrot"
+msgstr "Rouge violet moyen"
 
 msgid "MintCream"
-msgstr "Minzcreme"
+msgstr "Crème à la menthe"
 
 msgid "MistyRose"
-msgstr "Altrosa"
+msgstr "Rose poussiéreux"
 
 msgid "Moccasin"
-msgstr "Mokassin"
+msgstr "Mocassin"
 
 msgid "NavajoWhite"
-msgstr "Navajoweiß"
+msgstr "Navajo blanc"
 
 msgid "Navy"
-msgstr "Marinenblau"
+msgstr "Bleu marin"
 
 msgid "OldLace"
-msgstr "Alte Spitze"
+msgstr "Ancien conseil"
 
 msgid "Olive"
 msgstr "Olive"
 
 msgid "OliveDrab"
-msgstr "Olivgrün"
+msgstr "Olive verte"
 
 msgid "Orange"
 msgstr "Orange"
 
 msgid "OrangeRed"
-msgstr "Orange Rot"
+msgstr "Rouge-orange"
 
 msgid "Orchid"
-msgstr "Orchidee"
+msgstr "Orchidée"
 
 msgid "PaleGoldenrod"
-msgstr "Blasse Goldrute"
+msgstr "Verge d'or pâle"
 
 msgid "PaleGreen"
-msgstr "Blasses Grün"
+msgstr "Vert pâle"
 
 msgid "PaleTurquoise"
-msgstr "Blasses Türkis"
+msgstr "Turquoise pâle"
 
 msgid "PaleVioletRed"
-msgstr "Hellviolettrot"
+msgstr "Rouge violet clair"
 
 msgid "PapayaWhip"
-msgstr "Papayacreme"
+msgstr "Crème de papaye"
 
 msgid "PeachPuff"
-msgstr "Pfirsich"
+msgstr "Pêche"
 
 msgid "Peru"
-msgstr "Peru"
+msgstr "Pérou"
 
 msgid "Pink"
-msgstr "Rosa"
+msgstr "Rose"
 
 msgid "Plum"
-msgstr "Pflaume"
+msgstr "Prune"
 
 msgid "PowderBlue"
-msgstr "Puderblau"
+msgstr "Poudre bleue"
 
 msgid "Purple"
-msgstr "Lila"
+msgstr "Violet"
 
 msgid "RebeccaPurple"
 msgstr "Rebecca Lila"
 
 msgid "Red"
-msgstr "Rot"
+msgstr "Rouge"
 
 msgid "RosyBrown"
-msgstr "Rosy Brown"
+msgstr "Marron rosé"
 
 msgid "RoyalBlue"
-msgstr "Königsblau"
+msgstr "Bleu royal"
 
 msgid "SaddleBrown"
-msgstr "Sattelbraun"
+msgstr "Brun selle"
 
 msgid "Salmon"
-msgstr "Lachs"
+msgstr "Saumon"
 
 msgid "SandyBrown"
-msgstr "Sandy Brown"
+msgstr "Brun sable"
 
 msgid "SeaGreen"
-msgstr "Meeresgrün"
+msgstr "Vert de mer"
 
 msgid "SeaShell"
-msgstr "Muschel"
+msgstr "Coquille"
 
 msgid "Sienna"
-msgstr "Sienna"
+msgstr "Terre de sienne"
 
 msgid "Silver"
-msgstr "Silber"
+msgstr "Argent"
 
 msgid "SkyBlue"
-msgstr "Himmelblau"
+msgstr "Bleu ciel"
 
 msgid "SlateBlue"
-msgstr "SlateBlue"
+msgstr "Bleu ardoise"
 
 msgid "SlateGray"
-msgstr "Schiefer grau"
+msgstr "Gris ardoise"
 
 msgid "Snow"
-msgstr "Schnee"
+msgstr "Neige"
 
 msgid "SpringGreen"
-msgstr "Frühlingsgrün"
+msgstr "Vert printanier"
 
 msgid "SteelBlue"
-msgstr "Stahlblau"
+msgstr "Bleu acier"
 
 msgid "Tan"
-msgstr "Bräunen"
+msgstr "Bronzer"
 
 msgid "Teal"
-msgstr "Blaugrün"
+msgstr "Bleu vert"
 
 msgid "Thistle"
-msgstr "Distel"
+msgstr "Chardon"
 
 msgid "Tomato"
 msgstr "Tomate"
 
 msgid "Turquoise"
-msgstr "Türkis"
+msgstr "Turquoise"
 
 msgid "Violet"
-msgstr "Violett"
+msgstr "Violet"
 
 msgid "Wheat"
-msgstr "Weizen"
+msgstr "Blé"
 
 msgid "White"
-msgstr "Weiß"
+msgstr "Blanc"
 
 msgid "WhiteSmoke"
-msgstr "Weißer Rauch"
+msgstr "Fumée blanche"
 
 msgid "Yellow"
-msgstr "Gelb"
+msgstr "Jaune"
 
 msgid "YellowGreen"
-msgstr "Gelbgrün"
+msgstr "Vert jaunâtre"
 
 msgid "errorInvalidEndDate"
 msgstr "Digga das Datum stimmt nicht"
