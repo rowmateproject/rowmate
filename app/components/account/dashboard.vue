@@ -2,7 +2,7 @@
 <div>
   <h3 class="text-3xl font-medium text-color-title">Dashboard</h3>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6 mt-3 lg:mt-8">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6 mt-3 lg:mt-8 mb-12">
     <div>
       <div class="flex items-center px-5 py-6 shadow-sm rounded-md bg-color-form">
         <div class="flex items-center justify-center rounded-full bg-red-600 bg-opacity-75 w-16 h-16">
@@ -43,6 +43,10 @@
     </div>
   </div>
 
+  <h3 class="text-3xl font-medium text-color-title">Umfragen</h3>
+  <vote-form class="mb-12" />
+
+  <h3 class="text-3xl font-medium text-color-title">Events</h3>
   <event-filter @resultObject="handleResult" @resetFilter="handleReset" :eventSubscriptions="true" />
   <event-cards :eventFilter="events" :resetFilter="reset" :eventSubscriptions="true" />
 </div>

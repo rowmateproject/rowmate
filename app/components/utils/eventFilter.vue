@@ -1,5 +1,5 @@
 <template>
-<div class="mt-3 lg:mt-8 p-3 lg:p-6 bg-color-form rounded-md shadow">
+<div class="mt-3 p-3 lg:p-6 bg-color-form rounded-md shadow">
   <div v-click-outside="toggleSearch" @keydown.esc="toggleSearch" class="relative">
     <label class="text-color-form" for="eventFilter">Event Filter</label>
 

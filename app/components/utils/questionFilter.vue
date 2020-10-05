@@ -4,14 +4,14 @@
     <label class="text-color-form" for="eventFilter">Umfrage Filter</label>
 
     <div class="flex flex-wrap items-stretch w-full relative mt-2">
-      <input v-model="searchTerm" @input="lookupEvent" type="text" class="flex-shrink flex-grow flex-auto leading-normal flex-1 border rounded-l focus:outline-none p-2">
+      <input v-model="searchTerm" @input="lookupQuestion" type="text" class="flex-shrink flex-grow flex-auto leading-normal flex-1 border rounded-l focus:outline-none p-2">
       <div class="flex">
         <button @click="clearSearchTerm" class="flex items-center leading-normal bg-gray-400 text-gray-800 focus:outline-none rounded-r px-3">Zurücksetzen</button>
       </div>
     </div>
 
-    <ul v-if="polls.length > 0" class="w-full absolute z-30 mt-1">
-      <li v-for="value, index in polls" @click="setSerchTerm(value.question, index)" :key="index" class="hover:bg-gray-300 bg-color-form border shadow p-2">
+    <ul v-if="questions.length > 0" class="w-full absolute z-30 mt-1">
+      <li v-for="value, index in questions" @click="setSerchTerm(value.question, index)" :key="index" class="hover:bg-gray-300 bg-color-form border shadow p-2">
         <span class="text-color-form">{{ value.question }}</span>
       </li>
     </ul>
@@ -23,7 +23,7 @@
 export default {
   data() {
     return {
-      polls: [],
+      questions: [],
       searchTerm: null
     }
   },
@@ -38,37 +38,40 @@ export default {
   props: ['eventSubscriptions'],
   methods: {
     toggleSearch() {
-      this.polls = []
+      this.questions = []
     },
     clearSearchTerm() {
       this.searchTerm = ''
       this.$emit('resetFilter', true)
     },
     setSerchTerm(value, index) {
-      console.log(value)
       this.searchTerm = `${value}`
-      this.$emit('resultObject', this.polls[index])
+      this.$emit('resultObject', {
+        _id: this._id,
+        questions: this.questions
+      })
       this.$emit('resetFilter', false)
       this.toggleSearch()
     },
-    lookupEvent() {
+    lookupQuestion() {
       if (this.searchTerm.length > 0) {
         this.$axios({
           method: 'POST',
-          url: `${process.env.API_URL}/lookup/polls/${this.currentLocale}`,
+          url: `${process.env.API_URL}/lookup/question/${this.currentLocale}`,
           data: {
             query: this.searchTerm
           },
           validateStatus: () => true
         }).then((res) => {
           if (res.status === 200) {
-            this.polls = res.data
+            this._id = res.data._id
+            this.questions = res.data.questions
           } else {
             console.debug(res.data)
           }
         })
       } else {
-        this.polls = []
+        this.questions = []
       }
     }
   }
