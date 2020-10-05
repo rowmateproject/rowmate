@@ -8,43 +8,48 @@
 
     <nav class="mt-8">
       <nuxt-link v-if="isSuperuser === 'true' || isSuperuser === true" class="text-color-nav focus:outline-none grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('dashboard') ? activeClass : inactiveClass]" :to="localePath('/dashboard')">
-        <fa :icon="['fas', 'chart-line']" class="col-span-1" />
+        <fa :icon="['fas', 'chart-line']" class="col-span-1 mt-1" />
         <span class="col-span-5">Dashboard</span>
       </nuxt-link>
 
       <nuxt-link class="text-color-nav focus:outline-none grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('calendar') ? activeClass : inactiveClass]" :to="localePath('/calendar')">
-        <fa :icon="['fas', 'calendar-week']" class="col-span-1" />
+        <fa :icon="['fas', 'calendar-week']" class="col-span-1 mt-1" />
         <span class="col-span-5">Kalender</span>
       </nuxt-link>
 
+      <nuxt-link class="text-color-nav focus:outline-none grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('poll') ? activeClass : inactiveClass]" :to="localePath('/poll')">
+        <fa :icon="['fas', 'poll']" class="col-span-1 mt-1" />
+        <span class="col-span-5">Umfragen</span>
+      </nuxt-link>
+
       <nuxt-link v-if="isSuperuser === 'true' || isSuperuser === true" class="text-color-nav focus:outline-none grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('language') ? activeClass : inactiveClass]" :to="localePath('/language')">
-        <fa :icon="['fas', 'font']" class="col-span-1" />
+        <fa :icon="['fas', 'font']" class="col-span-1 mt-1" />
         <span class="col-span-5">Sprache</span>
       </nuxt-link>
 
       <nuxt-link class="text-color-nav focus:outline-none grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('settings') ? activeClass : inactiveClass]" :to="localePath('/settings')">
-        <fa :icon="['fas', 'user-cog']" class="col-span-1" />
+        <fa :icon="['fas', 'user-cog']" class="col-span-1 mt-1" />
         <span class="col-span-5">Profile</span>
       </nuxt-link>
 
       <nuxt-link v-if="isSuperuser === 'true' || isSuperuser === true" class="text-color-nav focus:outline-none grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('users') ? activeClass : inactiveClass]" :to="localePath('/users')">
-        <fa :icon="['fas', 'users']" class="col-span-1" />
+        <fa :icon="['fas', 'users']" class="col-span-1 mt-1" />
         <span class="col-span-5">Nutzer</span>
       </nuxt-link>
 
       <nuxt-link v-if="isSuperuser === 'true' || isSuperuser === true" class="text-color-nav focus:outline-none grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('theme') ? activeClass : inactiveClass]" :to="localePath('/theme')">
-        <fa :icon="['fas', 'comment-alt']" class="col-span-1" />
+        <fa :icon="['fas', 'comment-alt']" class="col-span-1 mt-1" />
         <span class="col-span-5">Theme</span>
       </nuxt-link>
 
       <nuxt-link v-if="isSuperuser === 'true' || isSuperuser === true" class="text-color-nav focus:outline-none grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('event') ? activeClass : inactiveClass]" :to="localePath('/event')">
-        <fa :icon="['fas', 'sticky-note']" class="col-span-1" />
-        <span class="col-span-5">Event</span>
+        <fa :icon="['fas', 'sticky-note']" class="col-span-1 mt-1" />
+        <span class="col-span-5">Events</span>
       </nuxt-link>
 
       <nuxt-link v-if="isSuperuser === 'true' || isSuperuser === true" class="text-color-nav focus:outline-none grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('mail') ? activeClass : inactiveClass]" :to="localePath('/mail')">
-        <fa :icon="['fas', 'mail-bulk']" class="col-span-1" />
-        <span class="col-span-5">Mail</span>
+        <fa :icon="['fas', 'mail-bulk']" class="col-span-1 mt-1" />
+        <span class="col-span-5">Vorlagen</span>
       </nuxt-link>
     </nav>
   </div>
