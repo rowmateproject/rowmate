@@ -8,6 +8,7 @@ import re
 from models.user import LookupUser
 from models.subscription import LookupSubscription
 from models.event import LookupEvent
+from models.poll import LookupPoll
 
 
 def get_lookup_router(database, authenticator) -> APIRouter:
@@ -56,6 +57,22 @@ def get_lookup_router(database, authenticator) -> APIRouter:
         else:
             raise HTTPException(
                 status_code=404, detail='No subscriptions found')
+
+    @router.post('/polls/{lang}')
+    async def lookup_polls(lang, poll: LookupPoll, user=Depends(
+            authenticator.get_current_active_user)):
+        sort = [('score', {'$meta': 'textScore'})]
+        filter = {'score': {'$meta': 'textScore'}, 'ngrams': False}
+        query = {'$text': {'$search': poll.query, '$caseSensitive': False}}
+
+        res = await database['polls'].find(
+            query, filter).sort(sort).to_list(length=15)
+
+        if len(res) > 0:
+            return res
+        else:
+            raise HTTPException(
+                status_code=404, detail='No polls found')
 
     @router.post('/users')
     async def lookup_users(req: LookupUser, user=Depends(
