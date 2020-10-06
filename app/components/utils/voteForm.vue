@@ -9,21 +9,29 @@
           class="appearance-none block w-full bg-white text-gray-700 border border-gray-500 rounded p-3 mt-2 leading-tight focus:outline-none">
       </div>
 
-      <div v-if="value.type == 'checkbox'" v-for="option, i in value.forms" :key="i" class="flex my-2">
-        <fa @click="toggleCheckbox(value._id, outerIndex, index, i)" :class="[setCheckboxClass(index, outerIndex, i) ? 'text-green-500' : 'text-gray-500']" :icon="['fas', 'check-square']"
-          class="cursor-pointer inline-block text-xl lg:text-2xl w-5 mr-2" />
-        <span>{{ option.value }}</span>
+      <div v-if="value.type == 'checkbox'">
+        <div v-for="option, i in value.forms" :key="i" class="flex my-2">
+          <fa @click="toggleCheckbox(value._id, outerIndex, index, i)" :class="[setCheckboxClass(index, outerIndex, i) ? 'text-green-500' : 'text-gray-500']" :icon="['fas', 'check-square']"
+            class="cursor-pointer inline-block text-xl lg:text-2xl w-5 mr-2" />
+          <span>{{ option.value }}</span>
+        </div>
+
+        <question-chart :dataForms="value.forms" class="mt-6" />
       </div>
 
-      <div v-if="value.type == 'select'" class="relative z-0">
-        <select v-model="polls[outerIndex][index].reply" @change="submitResponse(value._id, outerIndex, index)" class="appearance-none block w-full rounded border form-border-color focus:outline-none p-2 mt-2">
-          <option v-for="option in value.forms" :value="option.id">{{ option.value }}</option>
-        </select>
-        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 mt-1">
-          <svg class="text-color-form fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-          </svg>
+      <div v-if="value.type == 'select'">
+        <div class="relative z-0">
+          <select v-model="polls[outerIndex][index].reply" @change="submitResponse(value._id, outerIndex, index)" class="appearance-none block w-full rounded border form-border-color focus:outline-none p-2 mt-2">
+            <option v-for="option in value.forms" :value="option.id">{{ option.value }}</option>
+          </select>
+          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 mt-1">
+            <svg class="text-color-form fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+              <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+            </svg>
+          </div>
+
         </div>
+        <question-chart :dataForms="value.forms" class="mt-6" />
       </div>
     </li>
   </ul>
