@@ -45,6 +45,7 @@ export default {
       this.$emit('resetFilter', true)
     },
     setSerchTerm(value, index) {
+      console.log(this.questions)
       this.searchTerm = `${value}`
       this.$emit('resultObject', {
         _id: this._id,

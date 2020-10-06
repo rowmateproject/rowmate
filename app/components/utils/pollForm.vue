@@ -74,6 +74,7 @@ export default {
     },
     submitForm() {
       console.log(this._id)
+
       try {
         const uuid = this.buf2hex(uuidParse(this._id))
 
