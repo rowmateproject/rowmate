@@ -1,7 +1,7 @@
 <template>
-<form v-if="polls">
-  <ul v-for="outerValue, outerIndex in polls" :key="outerIndex" class="mt-3 px-6 pb-6 pt-4 bg-color-form rounded-md shadow-md mb-8">
-    <li v-for="value, index in outerValue" :class="{'mb-6': outerValue.length - index - 1 != 0}">
+<div v-if="polls">
+  <div v-for="outerValue, outerIndex in polls" :key="outerIndex" class="mt-3 px-6 pb-6 pt-4 bg-color-form rounded-md shadow-md mb-8">
+    <div v-for="value, index in outerValue" :class="{'mb-6': outerValue.length - index - 1 != 0}" :key="index">
       <h3 class="text-color-form">{{ value.question }}</h3>
 
       <div v-if="value.type === 'text'">
@@ -15,8 +15,6 @@
             class="cursor-pointer inline-block text-xl lg:text-2xl w-5 mr-2" />
           <span>{{ option.value }}</span>
         </div>
-
-        <question-chart :dataForms="value.forms" class="mt-6" />
       </div>
 
       <div v-if="value.type == 'select'">
@@ -29,13 +27,13 @@
               <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
             </svg>
           </div>
-
         </div>
-        <question-chart :dataForms="value.forms" class="mt-6" />
       </div>
-    </li>
-  </ul>
-</form>
+
+      <question-charts :values="value.forms" :target="makeId('svg-select', outerIndex, index)" />
+    </div>
+  </div>
+</div>
 </template>
 
 <script>
@@ -46,7 +44,8 @@ import {
 export default {
   data() {
     return {
-      polls: []
+      polls: [],
+      stats: []
     }
   },
   mounted() {
@@ -80,6 +79,9 @@ export default {
     }
   },
   methods: {
+    makeId(value, outerIndex, index) {
+      return `${value}-${outerIndex}-${index}`
+    },
     setCheckboxClass(index, outerIndex, checkboxIndex) {
       const elementId = `option${checkboxIndex}`
       let elementMatch = false
