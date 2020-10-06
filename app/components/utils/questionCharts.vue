@@ -58,7 +58,7 @@ export default {
         .padding(0.1)
 
       const tooltip = d3Tip().html((EVENT, d) => {
-        return `<div class="bg-color-nav text-color-nav rounded text-xs px-3 py-2">${d.value}, ${d.votes}%</div>`
+        return `<div class="tooltip bg-color-nav text-color-nav rounded text-xs px-3 py-2">${d.value}, ${d.votes}%</div>`
       })
 
       const svg = d3.select(`#${targetId}`).append('svg')
@@ -75,8 +75,9 @@ export default {
         .attr('y', (d, i) => y(i))
         .on('mousemove', function(event, d) {
           tooltip.show(event, d, this)
-          tooltip.style('top', `${(event.y + 10)}px`)
-          tooltip.style('left', `${(event.x + 10)}px`)
+          const tooltipWidth = document.querySelector('.tooltip').clientWidth
+          tooltip.style('top', `${(event.pageY - 45)}px`)
+          tooltip.style('left', `${(event.pageX - (tooltipWidth / 2))}px`)
         })
         .on('mouseleave', function(event, d) {
           tooltip.hide(event, d, this)
