@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from setup.init import setup_translations
 
 # router
+from router.vote import get_vote_router
 from router.stat import get_stats_router
 from router.language import get_language_router
 from router.boat import get_boats_router, get_boat_router
@@ -217,4 +218,14 @@ app.include_router(
     ),
     prefix='/polls',
     tags=['polls']
+)
+
+
+app.include_router(
+    get_vote_router(
+        database=db,
+        authenticator=api_user
+    ),
+    prefix='/vote',
+    tags=['votes']
 )

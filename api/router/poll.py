@@ -17,17 +17,34 @@ def get_polls_router(database, authenticator) -> APIRouter:
     router = APIRouter()
 
     @router.get('/{lang}')
-    async def get_latest_poll(lang, user=Depends(
+    async def get_polls(lang, user=Depends(
             authenticator.get_current_active_user)):
-        query = {'translation': lang}
+        # query = {'translation': lang}
+        docs = await database['polls'].count_documents({})
+        res = await database['polls'].find({}).to_list(length=docs)
 
-        docs = await database['polls'].count_documents(query)
-        res = await database['polls'].find(query).to_list(length=docs)
+        if len(res) > 0:
+            p = []
 
-        if res is not None:
-            return res
+            for id in [r['questions'] for r in res]:
+                filter = {'ngrams': False}
+                query = {'_id': {'$in': id}}
+
+                docs = await database['questions'].count_documents(query)
+                res1 = await database['questions'].find(
+                    query, filter).to_list(length=docs)
+
+                query = {'question_id': {'$in': [r['_id'] for r in res1]}}
+                docs = await database['votes'].count_documents(query)
+                res2 = await database['votes'].find(query).to_list(length=docs)
+
+                p.append(sorted([{**x, **{'reply': k['reply'] for k in res2
+                                          if x['_id'] == k['question_id']}}
+                                 for x in res1], key=lambda k: k['question']))
+
+            return p
         else:
-            raise HTTPException(status_code=404, detail='Questions not found')
+            raise HTTPException(status_code=404, detail='Polls not found')
 
     return router
 
@@ -55,10 +72,10 @@ def get_poll_router(database, authenticator) -> APIRouter:
                 'ngrams': make_ngrams([question.question, ngram_forms])
             }
 
-        res = await database['questions'].insert_one(question_doc)
+            res = await database['questions'].insert_one(question_doc)
 
-        if res.acknowledged:
-            inserted.append(UUID(bytes=res.inserted_id))
+            if res.acknowledged:
+                inserted.append(UUID(bytes=res.inserted_id))
 
         if len(inserted) > 0:
             document = {'_id': generate_uuid(), 'questions': inserted}
@@ -92,6 +109,8 @@ def get_poll_router(database, authenticator) -> APIRouter:
 
             if res.acknowledged:
                 updated.append(res.acknowledged)
+            else:
+                pass
 
         if len(updated) > 0:
             query = {'_id': req_uuid, 'questions': {'$in': updated}}

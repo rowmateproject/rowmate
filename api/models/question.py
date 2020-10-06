@@ -1,7 +1,7 @@
+from typing import Optional, List, Dict
 from bson.binary import Binary
 from pydantic import BaseModel
 from datetime import datetime
-from typing import List, Dict
 
 
 class Question(BaseModel):
@@ -17,7 +17,7 @@ class UpdateQuestion(Question):
 
 
 class RequestQuestion(BaseModel):
-    forms: List[Dict[str, str]]
+    forms: List[Optional[Dict[str, Optional[str]]]]
     question: str
     type: str
 

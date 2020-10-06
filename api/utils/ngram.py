@@ -13,7 +13,7 @@ def extract_values(d):
 
 
 def make_ngrams(object, min=1):
-    words = [w.split(' ') for w in extract_values(object)]
+    words = [w.split(' ') for w in extract_values(object) if w]
     wordlist = [re.sub(r'((?<=[^\w\s])\w(?=[^\w\s])|(\W))+', '', x)
                 for x in extract_values(words)]
     keyword = []
