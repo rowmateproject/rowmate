@@ -14,7 +14,7 @@ httptools==0.1.1
 idna==2.10
 makefun==1.9.3
 motor==2.3.0
-passlib==1.7.2
+passlib==1.7.3
 polib==1.1.0
 pycparser==2.20
 pydantic==1.6.1
