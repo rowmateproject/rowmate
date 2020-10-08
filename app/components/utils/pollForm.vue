@@ -2,7 +2,9 @@
 <div>
   <h3 class="text-3xl font-medium text-color-title">Umfagen</h3>
 
-  <question-filter @resultObject="handleFilterObject" @resetFilter="handleResetValue" />
+  <div class="mt-3 lg:mt-8 p-3 lg:p-6 bg-color-form rounded-md shadow">
+    <question-filter @resultObject="handleFilterObject" @resetFilter="handleResetValue" />
+  </div>
 
   <form @submit.prevent="submitForm" class="mt-3 lg:mt-8 p-6 bg-color-form rounded-md shadow-md">
     <question-form v-if="questions.length > 0" v-for="poll, index in questions" :key="index" @resultObject="handleFormObject($event, index)" :formObject="poll" class="mb-6" />
@@ -73,8 +75,6 @@ export default {
       return hexParts.join('')
     },
     submitForm() {
-      console.log(this._id)
-
       try {
         const uuid = this.buf2hex(uuidParse(this._id))
 

@@ -1,25 +1,25 @@
 <template>
-<div class="mt-3 lg:mt-8 p-3 lg:p-6 bg-color-form rounded-md shadow">
-  <div v-click-outside="toggleSearch" @keydown.esc="toggleSearch" class="relative">
-    <label class="text-color-form" for="eventFilter">Umfrage Filter</label>
-
-    <div class="flex flex-wrap items-stretch w-full relative mt-2">
-      <input v-model="searchTerm" @input="lookupQuestion" type="text" class="flex-shrink flex-grow flex-auto leading-normal flex-1 border rounded-l focus:outline-none p-2">
-      <div class="flex">
-        <button @click="clearSearchTerm" class="flex items-center leading-normal bg-gray-400 text-gray-800 focus:outline-none rounded-r px-3">Zurücksetzen</button>
-      </div>
+<div v-click-outside="toggleSearch" @keydown.esc="toggleSearch" class="relative">
+  <div class="flex flex-wrap items-stretch w-full relative mt-2">
+    <input v-model="searchTerm" @input="lookupQuestion" type="text" class="flex-shrink flex-grow flex-auto leading-normal flex-1 border rounded-l focus:outline-none p-2">
+    <div class="flex">
+      <button @click="clearSearchTerm" class="flex items-center leading-normal bg-gray-400 text-gray-800 focus:outline-none rounded-r px-3" type="button">Zurücksetzen</button>
     </div>
-
-    <ul v-if="questions.length > 0" class="w-full absolute z-30 mt-1">
-      <li v-for="value, index in questions" @click="setSerchTerm(value.question, index)" :key="index" class="hover:bg-gray-300 bg-color-form border shadow p-2">
-        <span class="text-color-form">{{ value.question }}</span>
-      </li>
-    </ul>
   </div>
+
+  <ul v-if="questions.length > 0" class="w-full absolute z-30 mt-1">
+    <li v-for="value, index in questions" @click="setSerchTerm(value)" :key="index" class="hover:bg-gray-300 bg-color-form border shadow p-2">
+      <span class="text-color-form">{{ value.question }}</span>
+    </li>
+  </ul>
 </div>
 </template>
 
 <script>
+import {
+  parse as uuidParse
+} from 'uuid'
+
 export default {
   data() {
     return {
@@ -44,15 +44,30 @@ export default {
       this.searchTerm = ''
       this.$emit('resetFilter', true)
     },
-    setSerchTerm(value, index) {
-      console.log(this.questions)
-      this.searchTerm = `${value}`
-      this.$emit('resultObject', {
-        _id: this._id,
-        questions: this.questions
-      })
-      this.$emit('resetFilter', false)
-      this.toggleSearch()
+    setSerchTerm(value) {
+      try {
+        this.searchTerm = value.question
+        this.$emit('resultObject', {
+          _id: this.buf2hex(uuidParse(value._id)),
+          questions: value.question
+        })
+        this.$emit('resetFilter', false)
+        this.toggleSearch()
+      } catch (e) {
+        console.debug(e.message)
+      }
+    },
+    buf2hex(buffer) {
+      const byteArray = new Uint8Array(buffer)
+      const hexParts = []
+
+      for (let i = 0; i < byteArray.length; i++) {
+        const hex = byteArray[i].toString(16)
+        const paddedHex = ('00' + hex).slice(-2)
+        hexParts.push(paddedHex)
+      }
+
+      return hexParts.join('')
     },
     lookupQuestion() {
       if (this.searchTerm.length > 0) {
