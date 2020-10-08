@@ -1,5 +1,5 @@
 <template>
-<div class="grid grid-cols-6 gap-x-4 mt-4">
+<div class="grid grid-cols-2 gap-2">
   <div class="col-span-1">
     <label class="text-color-form" for="repeat-event">Wiederholungen</label>
 
