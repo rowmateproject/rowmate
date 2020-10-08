@@ -12,7 +12,7 @@ fastapi-users==3.0.5
 h11==0.11.0
 httptools==0.1.1
 idna==2.10
-makefun==1.9.3
+makefun==1.9.4
 motor==2.3.0
 passlib==1.7.3
 polib==1.1.0
