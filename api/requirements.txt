@@ -9,7 +9,7 @@ email-validator==1.1.1
 fastapi==0.61.1
 fastapi-mail==0.2.8.3
 fastapi-users==3.0.5
-h11==0.10.0
+h11==0.11.0
 httptools==0.1.1
 idna==2.10
 makefun==1.9.3
