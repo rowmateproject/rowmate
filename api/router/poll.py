@@ -19,30 +19,25 @@ def get_polls_router(database, authenticator) -> APIRouter:
     @router.get('/{lang}')
     async def get_polls(lang, user=Depends(
             authenticator.get_current_active_user)):
-        # query = {'translation': lang}
+        query = [{'$unwind': '$questions'},
+                 {'$lookup': {'from': 'questions', 'localField': 'questions',
+                              'foreignField': '_id', 'as': 'a'}},
+                 {'$unwind': {'path': '$a'}},
+                 {'$project': {'_id': '$a._id', 'forms': '$a.forms',
+                               'type': '$a.type', 'question': '$a.question'}},
+                 {'$group': {'_id': {'_id': '$_id', 'type': '$type',
+                                     'question': '$question'},
+                             'forms': {'$push': '$forms'}}},
+                 {'$unwind': {'path': '$forms'}},
+                 {'$project': {'_id': '$_id._id', 'question': '$_id.question',
+                               'type': '$_id.type', 'forms': '$forms'}},
+                 {'$addFields': {'reply': []}}]
+
         docs = await database['polls'].count_documents({})
-        res = await database['polls'].find({}).to_list(length=docs)
+        res = await database['polls'].aggregate(query).to_list(length=docs)
 
         if len(res) > 0:
-            p = []
-
-            for id in [r['questions'] for r in res]:
-                filter = {'ngrams': False}
-                query = {'_id': {'$in': id}}
-
-                docs = await database['questions'].count_documents(query)
-                res1 = await database['questions'].find(
-                    query, filter).to_list(length=docs)
-
-                query = {'question_id': {'$in': [r['_id'] for r in res1]}}
-                docs = await database['votes'].count_documents(query)
-                res2 = await database['votes'].find(query).to_list(length=docs)
-
-                p.append(sorted([{**x, **{'reply': k['reply'] for k in res2
-                                          if x['_id'] == k['question_id']}}
-                                 for x in res1], key=lambda k: k['question']))
-
-            return p
+            return res
         else:
             raise HTTPException(status_code=404, detail='Polls not found')
 
