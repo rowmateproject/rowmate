@@ -7,7 +7,7 @@
     </div>
 
     <nav class="mt-8">
-      <nuxt-link v-if="isSuperuser === 'true' || isSuperuser === true" class="text-color-nav focus:outline-none grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('dashboard') ? activeClass : inactiveClass]" :to="localePath('/dashboard')">
+      <nuxt-link class="text-color-nav focus:outline-none grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('dashboard') ? activeClass : inactiveClass]" :to="localePath('/dashboard')">
         <fa :icon="['fas', 'chart-line']" class="col-span-1 mt-1" />
         <span class="col-span-5">Dashboard</span>
       </nuxt-link>

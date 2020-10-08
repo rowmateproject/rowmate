@@ -8,28 +8,14 @@ import d3Tip from 'd3-tip'
 
 export default {
   mounted() {
-    const forms = this.chartLabels
     this.barChart(this.targetId)
   },
   computed: {
-    chartLabels() {
-      return this.$props.values.filter(e => e).map(({
-        value
-      }) => value)
-    },
-    mockData() {
-      return this.chartLabels.filter((e) => e).map((v) => {
-        return {
-          'votes': Math.floor(Math.random() * 100 + 1),
-          'value': v
-        }
-      })
-    },
-    formData() {
-      return this.$props.values
-    },
     targetId() {
       return this.$props.target
+    },
+    voteData() {
+      return this.$props.values
     }
   },
   props: ['values', 'target'],
@@ -44,7 +30,7 @@ export default {
         left: 0
       })
 
-      const height = Math.ceil((this.mockData.length + 0.1) * barHeight) + margin.top + margin.bottom
+      const height = Math.ceil((this.voteData.length + 0.1) * barHeight) + margin.top + margin.bottom
 
       const width = 1000
 
@@ -53,12 +39,12 @@ export default {
         .range([margin.left, width - margin.right])
 
       const y = d3.scaleBand()
-        .domain(d3.range(this.mockData.length))
+        .domain(d3.range(this.voteData.length))
         .rangeRound([margin.top, height - margin.bottom])
         .padding(0.1)
 
       const tooltip = d3Tip().html((EVENT, d) => {
-        return `<div class="tooltip bg-color-nav text-color-nav rounded text-xs px-3 py-2">${d.value}, ${d.votes}%</div>`
+        return `<div class="tooltip bg-color-nav text-color-nav rounded text-xs px-3 py-2">${d.label}, ${d.percentage}%</div>`
       })
 
       const svg = d3.select(`#${targetId}`).append('svg')
@@ -67,12 +53,14 @@ export default {
 
       svg.append('g')
         .attr('fill', 'currentColor')
-        .attr('class', 'text-color-sale')
+        .attr('class', 'text-color-image')
         .selectAll('rect')
-        .data(this.mockData)
+        .data(this.voteData)
         .join('rect')
         .attr('x', x(0))
         .attr('y', (d, i) => y(i))
+        .attr('width', d => x(100))
+        .attr('height', y.bandwidth())
         .on('mousemove', function(event, d) {
           tooltip.show(event, d, this)
           const tooltipWidth = document.querySelector('.tooltip').clientWidth
@@ -82,8 +70,26 @@ export default {
         .on('mouseleave', function(event, d) {
           tooltip.hide(event, d, this)
         })
-        .attr('width', d => x(d.votes) - x(0))
+
+      svg.append('g')
+        .attr('fill', 'currentColor')
+        .attr('class', 'text-color-sale')
+        .selectAll('rect')
+        .data(this.voteData)
+        .join('rect')
+        .attr('x', x(0))
+        .attr('y', (d, i) => y(i))
+        .attr('width', d => x(d.percentage) - x(0))
         .attr('height', y.bandwidth())
+        .on('mousemove', function(event, d) {
+          tooltip.show(event, d, this)
+          const tooltipWidth = document.querySelector('.tooltip').clientWidth
+          tooltip.style('top', `${(event.pageY - 45)}px`)
+          tooltip.style('left', `${(event.pageX - (tooltipWidth / 2))}px`)
+        })
+        .on('mouseleave', function(event, d) {
+          tooltip.hide(event, d, this)
+        })
 
       svg.append('g')
         .attr('fill', 'currentColor')
@@ -92,18 +98,28 @@ export default {
         .attr('font-family', 'sans')
         .attr('font-size', 12)
         .selectAll('text')
-        .data(this.mockData)
+        .data(this.voteData)
         .join('text')
-        .attr('x', d => x(d.votes))
+        .attr('x', d => x(100))
         .attr('y', (d, i) => y(i) + y.bandwidth() / 2)
         .attr('dy', '0.35em')
-        .attr('dx', -4)
-        .text(d => `${d.votes}%`)
-        .call(text => text.filter(d => x(d.votes) - x(0) < 30)
-          .attr('dx', +4)
-          .attr('fill', 'black')
-          .attr('text-anchor', 'start'))
+        .attr('dx', -5)
+        .text(d => `${d.percentage}%`)
 
+      svg.append('g')
+        .attr('fill', 'currentColor')
+        .attr('class', 'text-color-nav')
+        .attr('text-anchor', 'start')
+        .attr('font-family', 'sans')
+        .attr('font-size', 12)
+        .selectAll('text')
+        .data(this.voteData)
+        .join('text')
+        .attr('x', '0.35em')
+        .attr('y', (d, i) => y(i) + y.bandwidth() / 2)
+        .attr('dy', '0.35em')
+        .attr('dx', 0)
+        .text(d => `${d.label}`)
 
       svg.call(tooltip)
     }

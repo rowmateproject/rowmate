@@ -44,6 +44,7 @@
   </div>
 
   <h3 class="text-3xl font-medium text-color-title">Umfragen</h3>
+  <vote-results class="mb-12" />
   <vote-form class="mb-12" />
 
   <h3 class="text-3xl font-medium text-color-title">Events</h3>
