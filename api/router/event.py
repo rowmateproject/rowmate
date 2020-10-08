@@ -42,7 +42,8 @@ def get_events_router(database, authenticator) -> APIRouter:
                   'event_time': True,
                   'start_time': True,
                   'end_time': True,
-                  'location': True}
+                  'location': True,
+                  'poll_id': True}
 
         docs = await database['events'].count_documents(query)
         res = await database['events'].find(
@@ -100,6 +101,7 @@ def get_event_router(database, authenticator) -> APIRouter:
                 'contact_person': request_doc['contact_person'],
                 'start_time': request_doc['start_time'],
                 'end_time': request_doc['end_time'],
+                'poll_id': UUID(hex=request_doc['poll_id']),
                 'ngrams': make_ngrams([
                     request_doc['contact_person'],
                     request_doc['descriptions'],
@@ -171,6 +173,7 @@ def get_event_router(database, authenticator) -> APIRouter:
                 'contact_person': request_doc['contact_person'],
                 'start_time': request_doc['start_time'],
                 'end_time': request_doc['end_time'],
+                'poll_id': UUID(hex=request_doc['poll_id']),
                 'ngrams': make_ngrams([
                     request_doc['contact_person'],
                     request_doc['descriptions'],
@@ -187,7 +190,8 @@ def get_event_router(database, authenticator) -> APIRouter:
                 document = {'$set': event_doc}
                 query = {'_id': {'$in': [res[0]['events'][event_time_index]]}}
 
-                update_res = await database['events'].update_many(query, document)
+                update_res = await database['events'].update_many(
+                    query, document)
 
                 if update_res.acknowledged:
                     updated.append(res[0]['events'][event_time_index])
