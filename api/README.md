@@ -35,11 +35,7 @@ source venv/bin/activate
 ### Dependencies
 
 ```python
-pip3 install fastapi
-pip3 install uvicorn
-pip3 install pydantic
-pip3 install python-dotenv
-pip3 install fastapi-users
+pip3 install -r requirements.txt --use-feature=2020-resolver
 ```
 
 
