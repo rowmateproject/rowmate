@@ -7,11 +7,15 @@
     <template-filter @resultObject="handleTemplateObject" @resetFilter="handleTemplateResetValue" />
   </div>
 
-  <template-form v-if="mailTemplate" @resultObject="handleTemplateObject" :templateObject="mailTemplate" />
+  <template-form v-if="editTemplate" @resultObject="handleTemplateObject" :templateObject="editTemplate" />
+  <template-cards v-if="templates.length > 0" @deleteResultId="deleteTemplate" @resultObject="handleTemplatesObject" :templates="templates" />
 
-  <div v-if="!mailTemplate" class="mt-3 lg:mt-8 p-6 bg-color-form rounded-md shadow-md">
+  <div v-if="!editTemplate && templates.length === 0" class="mt-3 lg:mt-8 p-6 bg-color-form rounded-md shadow-md">
     <div class="flex justify-end">
-      <button @click="createTemplateForm" class="bg-color-nav text-color-nav rounded focus:outline-none px-4 py-2">
+      <button @click="showAllTemplates" class="bg-color-nav text-color-nav rounded focus:outline-none px-4 py-2">
+        Alle Templates anzeigen
+      </button>
+      <button @click="createTemplateForm" class="bg-color-button text-color-button rounded focus:outline-none px-4 py-2 ml-4">
         Template erstellen
       </button>
     </div>
@@ -20,10 +24,16 @@
 </template>
 
 <script>
+import {
+  parse as uuidParse
+} from 'uuid'
+
 export default {
   data() {
     return {
-      mailTemplate: null
+      templates: [],
+      showTemplateForm: false,
+      editTemplate: null
     }
   },
   computed: {
@@ -33,7 +43,7 @@ export default {
   },
   methods: {
     createTemplateForm() {
-      this.mailTemplate = {
+      this.editTemplate = {
         locale: this.currentLocale,
         subject: '',
         message: '',
@@ -43,11 +53,64 @@ export default {
     },
     handleTemplateResetValue(value) {
       if (value === true) {
-        this.mailTemplate = null
+        this.templates = []
+        this.editTemplate = null
       }
     },
     handleTemplateObject(value) {
-      this.mailTemplate = value.template
+      this.editTemplate = value.template
+    },
+    handleTemplatesObject(value) {
+      this.editTemplate = value
+      this.templates = []
+    },
+    buf2hex(buffer) {
+      const byteArray = new Uint8Array(buffer)
+      const hexParts = []
+
+      for (let i = 0; i < byteArray.length; i++) {
+        const hex = byteArray[i].toString(16)
+        const paddedHex = ('00' + hex).slice(-2)
+        hexParts.push(paddedHex)
+      }
+
+      return hexParts.join('');
+    },
+    deleteTemplate(value) {
+      let uuid = null
+
+      try {
+        uuid = this.buf2hex(uuidParse(value))
+      } catch (e) {
+        console.debug(e)
+      }
+
+      this.$axios({
+        method: 'DELETE',
+        url: `${process.env.API_URL}/template/${uuid}`,
+        validateStatus: () => true
+      }).then((res) => {
+        if (res.status === 200 && res.data === true) {
+          this.templates = this.templates.filter(e => e['_id'] !== value)
+        } else {
+          console.debug(res.data)
+        }
+      })
+    },
+    showAllTemplates() {
+      this.editTemplate = null
+
+      this.$axios({
+        method: 'GET',
+        url: `${process.env.API_URL}/templates/`,
+        validateStatus: () => true
+      }).then((res) => {
+        if (res.status === 200) {
+          this.templates = res.data
+        } else {
+          console.debug(res.data)
+        }
+      })
     }
   }
 }

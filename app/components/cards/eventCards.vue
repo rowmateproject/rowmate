@@ -122,7 +122,7 @@ export default {
         hexParts.push(paddedHex)
       }
 
-      return hexParts.join('');
+      return hexParts.join('')
     },
     subscribeEvent(value, index) {
       let uuid = null
