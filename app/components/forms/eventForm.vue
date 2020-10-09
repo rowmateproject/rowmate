@@ -23,11 +23,9 @@ export default {
       return this.$props.code
     },
     titleErrorString() {
-      // console.log(typeof this.$props.titleError)
       return this.$props.titleError
     },
     descriptionErrorString() {
-      // console.log(typeof this.$props.descriptionError)
       return this.$props.descriptionError
     },
     titleString: {

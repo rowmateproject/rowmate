@@ -8,8 +8,8 @@
   </div>
 
   <div v-if="templates.length > 0" class="w-full absolute z-30">
-    <div @click="setSerchTerm(template)" class="hover:bg-gray-300 bg-color-form border shadow p-1" v-for="template in templates">
-      <span class="leading-5 font-medium text-gray-900">{{ template.name }}</span>
+    <div @click="setSerchTerm(template)" v-for="template in templates" class="hover:bg-gray-300 bg-color-form border shadow p-1">
+      <span class="leading-5 font-medium text-gray-900">{{ template.subject }}</span>
     </div>
   </div>
 </div>
@@ -35,17 +35,21 @@ export default {
     setSerchTerm(value) {
       this.searchTerm = value.name
       this.$emit('resultObject', {
-        template: value.name
+        template: value
       })
       this.toggleSearch()
+    },
+    clearSearchTerm() {
+      this.searchTerm = ''
+      this.$emit('resetFilter', true)
     },
     lookupTemplate() {
       if (this.searchTerm.length >= 1) {
         this.$axios({
           method: 'POST',
-          url: `${process.env.API_URL}/lookup/templates`,
+          url: `${process.env.API_URL}/lookup/template/${this.currentLocale}`,
           data: {
-            name: this.searchTerm
+            query: this.searchTerm
           },
           validateStatus: () => true
         }).then(res => {

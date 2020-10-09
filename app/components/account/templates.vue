@@ -4,10 +4,18 @@
 
   <div class="mt-3 p-3 lg:p-6 bg-color-form rounded-md shadow">
     <h4 class="text-color-form">Template Filter</h4>
-    <template-filter @resultObject="handleTemplateFilterResult" @resetFilter="handleTemplateResetValue" />
+    <template-filter @resultObject="handleTemplateObject" @resetFilter="handleTemplateResetValue" />
   </div>
 
-  <template-form v-for="value, index in availableLocales" :code="value.code" :key="index" />
+  <template-form v-if="mailTemplate" @resultObject="handleTemplateObject" :templateObject="mailTemplate" />
+
+  <div v-if="!mailTemplate" class="mt-3 lg:mt-8 p-6 bg-color-form rounded-md shadow-md">
+    <div class="flex justify-end">
+      <button @click="createTemplateForm" class="bg-color-nav text-color-nav rounded focus:outline-none px-4 py-2">
+        Template erstellen
+      </button>
+    </div>
+  </div>
 </div>
 </template>
 
@@ -15,22 +23,31 @@
 export default {
   data() {
     return {
-      mailTemplate: {}
+      mailTemplate: null
     }
   },
   computed: {
-    availableLocales() {
-      return this.$i18n.locales
+    currentLocale() {
+      return this.$i18n.locale
     }
   },
   methods: {
-    handleTemplateResetValue(value) {
-      if (value === true) {
-        this.mailTemplate = {}
+    createTemplateForm() {
+      this.mailTemplate = {
+        locale: this.currentLocale,
+        subject: '',
+        message: '',
+        topic: '',
+        _id: ''
       }
     },
-    handleTemplateFilterResult(value) {
-      this.mailTemplate = value._id
+    handleTemplateResetValue(value) {
+      if (value === true) {
+        this.mailTemplate = null
+      }
+    },
+    handleTemplateObject(value) {
+      this.mailTemplate = value.template
     }
   }
 }
