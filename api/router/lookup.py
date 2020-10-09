@@ -6,6 +6,7 @@ import re
 
 # models
 from models.user import LookupUser
+from models.template import LookupTemplate
 from models.subscription import LookupSubscription
 from models.question import LookupQuestion
 from models.event import LookupEvent
@@ -89,6 +90,22 @@ def get_lookup_router(database, authenticator) -> APIRouter:
         else:
             raise HTTPException(
                 status_code=404, detail='No question found')
+
+    @router.post('/template/{lang}')
+    async def lookup_template(lang, model: LookupTemplate, user=Depends(
+            authenticator.get_current_superuser)):
+        sort = [('score', {'$meta': 'textScore'})]
+        filter = {'score': {'$meta': 'textScore'}, 'ngrams': False}
+        query = {'$text': {'$search': model.query, '$caseSensitive': False}}
+
+        res = await database['templates'].find(
+            query, filter).sort(sort).to_list(length=15)
+
+        if len(res) > 0:
+            return res
+        else:
+            raise HTTPException(
+                status_code=404, detail='No mail template found')
 
     @router.post('/users')
     async def lookup_users(req: LookupUser, user=Depends(

@@ -23,8 +23,9 @@ client = AsyncIOMotorClient(
 
 # database
 db = client['rowmate']
-db['events'].create_index([('ngrams', TEXT)], name='events_ngrams_index')
+db['templates'].create_index([('ngrams', TEXT)], name='templates_ngrams_index')
 db['questions'].create_index([('ngrams', TEXT)], name='questions_ngrams_index')
+db['events'].create_index([('ngrams', TEXT)], name='events_ngrams_index')
 
 user_db = MongoDBUserDatabase(UserDB, db['users'])
 

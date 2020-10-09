@@ -12,12 +12,12 @@ from router.boat import get_boats_router, get_boat_router
 from router.event import get_events_router, get_event_router
 from router.poll import get_poll_router, get_polls_router
 from router.subscription import get_subscription_router
+from router.template import get_template_router
 from router.confirm import get_confirm_router
 from router.manage import get_manage_router
 from router.lookup import get_lookup_router
 from router.theme import get_themes_router
 from router.auth import get_auth_router
-from router.mail import get_mail_router
 
 # hooks
 from hooks.register import on_after_register
@@ -142,12 +142,12 @@ app.include_router(
 
 
 app.include_router(
-    get_mail_router(
+    get_template_router(
         database=db,
         authenticator=api_user
     ),
-    prefix='/mail',
-    tags=['mails']
+    prefix='/template',
+    tags=['templates']
 )
 
 
