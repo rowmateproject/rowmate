@@ -1,20 +1,26 @@
 <template>
-<div class="bg-color-form mt-3 lg:mt-8 p-2 rounded shadow">
-  <div class="grid grid-cols-12 gap-2">
+<div class="bg-color-form mt-3 lg:mt-8 p-6 rounded shadow">
+  <div class="grid grid-cols-12 gap-6">
     <div class="col-span-12 sm:col-span-8 md:col-span-9">
       <img v-if="image" :src="image" class="w-full object-cover bg-color-image rounded">
     </div>
 
-    <div class="col-span-12 sm:col-span-4 md:col-span-3 sm:flex justify-end items-end">
-      <form enctype="multipart/form-data" class="w-full h-full">
-        <label class="h-full flex flex-col justify-center items-center bg-color-header text-color-button cursor-pointer rounded shadow px-4 py-2">
-          <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-            <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
-          </svg>
-          <span class="mt-2 text-base leading-normal">Wähle ein Bild aus</span>
-          <input type="file" accept="image/*" @input="upload($event.target.files)" class="hidden">
-        </label>
-      </form>
+    <div class="col-span-12 sm:col-span-4 md:col-span-3">
+      <div class="bg-color-image rounded px-4 py-2 mb-6">
+        <h4 class="text-xl mb-1">Hinweis</h4>
+        <p>Das hochzuladende Bild muss eine Größe von 1280px zu 330px haben oder im Verhältnis sein.</p>
+      </div>
+      <div class="sm:flex justify-end items-end">
+        <form enctype="multipart/form-data" class="w-full h-full">
+          <label class="h-full flex flex-col justify-center items-center bg-color-header text-color-button cursor-pointer rounded shadow px-4 py-2">
+            <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+              <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
+            </svg>
+            <span class="mt-2 text-base leading-normal">Wähle ein Bild aus</span>
+            <input type="file" accept="image/*" @input="upload($event.target.files)" class="hidden">
+          </label>
+        </form>
+      </div>
     </div>
   </div>
 </div>
@@ -103,7 +109,7 @@ export default {
 
       imageData.src = this.createObjectURL(file[0])
       imageData.onload = function(e) {
-        const canvas = vm.createCanvas(e.target, 1080, 330)
+        const canvas = vm.createCanvas(e.target, 1280, 330)
         const dataImage = canvas.toDataURL('image/png')
         const dataString = dataImage.replace('data:image/png;base64,', '')
         const blobData = vm.b64toBlob(dataString, 'image/png')

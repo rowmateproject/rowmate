@@ -1,5 +1,5 @@
 <template>
-<header class="flex justify-between items-center py-3 md:py-4 px-3 md:px-6 bg-color-form border-b-4 border-blue-550">
+<header class="flex justify-between items-center px-3 md:px-6 bg-color-form border-b-4 border-blue-550 h-20">
   <div class="flex items-center w-full md:w-6/12 lg:w-5/12 xl:w-3/12">
     <div class="w-full relative">
       <span class="absolute inset-y-0 left-0 pl-3 flex items-center">
@@ -8,7 +8,7 @@
         </svg>
       </span>
       <div v-click-outside="toggleSearch" @keydown.esc="toggleSearch" class="relative">
-        <input v-model="searchTerm" @input="lookupSearchTerm" type="text" class="w-full rounded border focus:outline-none p-2 mt-2">
+        <input v-model="searchTerm" @input="lookupSearchTerm" type="text" class="w-full rounded border focus:outline-none p-2">
 
         <div v-if="users.length > 0" class="w-full absolute z-30">
           <div @click="setSerchTerm(user)" class="hover:bg-gray-300 bg-color-form border shadow p-1" v-for="user in users">

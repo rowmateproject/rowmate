@@ -1,9 +1,9 @@
 <template>
 <div class="flex min-h-screen">
   <div class="bg-color-nav fixed z-30 inset-y-0 left-0 w-64 transition duration-300 transform -translate-x-full ease-in overflow-y-auto lg:translate-x-0 lg:static lg:inset-0">
-    <div class="bg-color-footer text-center py-1">
-      <img v-if="imgageBlob" :src="imgageBlob" class="w-full object-cover px-4 py-1">
-      <logo v-else class="px-4 py-1" />
+    <div class="flex items-center bg-color-image border-b-4 border-gray-900 h-20">
+      <img v-if="imageBlobFile" :src="imageBlobFile" class="w-full object-cover px-4">
+      <img v-else src="/rowmate.png" class="px-4">
     </div>
 
     <nav class="mt-8">
@@ -80,7 +80,7 @@ export default {
     pageName() {
       return this.$route.name
     },
-    imgageBlob() {
+    imageBlobFile() {
       return this.$store.state.imageBlob
     },
     isSuperuser() {

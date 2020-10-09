@@ -2,7 +2,7 @@
 <div>
   <h3 class="text-3xl font-medium text-color-title">Theme</h3>
 
-  <upload />
+  <image-upload-form />
 
   <form @submit.prevent="patchTheme">
     <ul class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-3 mt-8">
