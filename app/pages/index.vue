@@ -1,7 +1,6 @@
 <template>
-<div class="flex flex-col items-center">
-  <logo class="w-full max-w-4xl mt-12 sm:mt-24 md:mt-32 lg:mt-48" />
-  <p class="text-center text-color-nav text-10xl font-normal mt-6">rowmate.org</p>
+<div class="flex flex-col items-center ">
+  <img src="/rowmate.png" class="max-w-4xl w-full mt-8 sm:mt-32 md:mt-48 lg:mt-64" />
 </div>
 </template>
 

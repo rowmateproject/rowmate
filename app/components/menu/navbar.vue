@@ -1,5 +1,5 @@
 <template>
-<div v-click-outside="hideNav" class="fixed z-50 w-full bg-color-nav mb-3 lg:mb-8 lg:px-6">
+<div v-click-outside="hideNav" class="fixed z-50 w-full bg-gray-800 mb-3 lg:mb-8 lg:px-6">
   <header class="flex flex-wrap items-center">
     <div class="flex-1 flex justify-between items-center py-2 pl-3 lg:pl-0">
       <nuxt-link :to="localePath('/')" class="flex justify-between focus:outline-none text-lg font-bold">
