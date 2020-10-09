@@ -49,7 +49,9 @@ export default {
         this.searchTerm = value.question
         this.$emit('resultObject', {
           _id: this.buf2hex(uuidParse(value._id)),
-          questions: value.question
+          question: value.question,
+          forms: value.forms,
+          type: value.type
         })
         this.$emit('resetFilter', false)
         this.toggleSearch()
@@ -80,8 +82,7 @@ export default {
           validateStatus: () => true
         }).then((res) => {
           if (res.status === 200) {
-            this._id = res.data._id
-            this.questions = res.data.questions
+            this.questions = res.data
           } else {
             console.debug(res.data)
           }

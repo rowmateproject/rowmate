@@ -7,7 +7,7 @@
   </div>
 
   <form @submit.prevent="submitForm" class="mt-3 lg:mt-8 p-6 bg-color-form rounded-md shadow-md">
-    <question-form v-if="questions.length > 0" v-for="poll, index in questions" :key="index" @resultObject="handleFormObject($event, index)" :formObject="poll" class="mb-6" />
+    <question-form v-if="questions.length > 0" v-for="value, index in questions" :key="value._id" @resultObject="handleFormObject($event, index)" :formObject="value" class="mb-6" />
 
     <div class="flex justify-end">
       <button @click="addPollForm" class="bg-color-nav text-color-nav rounded focus:outline-none px-4 py-2">
@@ -29,7 +29,6 @@ import {
 export default {
   data() {
     return {
-      _id: null,
       questions: []
     }
   },
@@ -41,13 +40,11 @@ export default {
   methods: {
     handleResetValue(value) {
       if (value === true) {
-        this._id = null
         this.questions = []
       }
     },
     handleFilterObject(value) {
-      this._id = value._id
-      this.questions = value.questions
+      this.questions = [value]
     },
     handleFormObject(value, index) {
       this.questions[index] = value
