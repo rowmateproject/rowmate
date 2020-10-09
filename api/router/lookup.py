@@ -23,7 +23,7 @@ def get_lookup_router(database, authenticator) -> APIRouter:
         query = {'$text': {'$search': event.query, '$caseSensitive': False}}
 
         res = await database['events'].find(
-            query, filter).sort(sort).to_list(length=15)
+            query, filter).sort(sort).to_list(length=10)
 
         if len(res) > 0:
             return res
@@ -36,7 +36,7 @@ def get_lookup_router(database, authenticator) -> APIRouter:
                                    user=Depends(
                                        authenticator.get_current_active_user)):
         query = {'user_id': user.id}
-        res = await database['subscriptions'].find(query).to_list(length=15)
+        res = await database['subscriptions'].find(query).to_list(length=10)
 
         if len(res) == 0:
             raise HTTPException(
@@ -51,7 +51,7 @@ def get_lookup_router(database, authenticator) -> APIRouter:
         }
 
         res = await database['events'].find(
-            query, filter).sort(sort).to_list(length=15)
+            query, filter).sort(sort).to_list(length=10)
 
         if len(res) > 0:
             return res
@@ -88,7 +88,7 @@ def get_lookup_router(database, authenticator) -> APIRouter:
         query = {'$text': {'$search': model.query, '$caseSensitive': False}}
 
         res = await database['templates'].find(
-            query, filter).sort(sort).to_list(length=15)
+            query, filter).sort(sort).to_list(length=10)
 
         if len(res) > 0:
             return res
@@ -100,12 +100,15 @@ def get_lookup_router(database, authenticator) -> APIRouter:
     async def lookup_users(req: LookupUser, user=Depends(
             authenticator.get_current_active_user)):
         sort = [('_id', pymongo.DESCENDING)]
+        filter = {'_id': False, 'name': True, 'avatar': True}
         query = {'name': {'$regex': re.compile(
             req.name, re.IGNORECASE)}, 'is_active': True}
-        filter = {'_id': False, 'name': True, 'avatar': True}
+
+        if user.is_superuser is True:
+            filter = {'_id': False, 'hashed_password': False}
 
         res = await database['users'].find(
-            query, filter).sort(sort).to_list(length=15)
+            query, filter).sort(sort).to_list(length=10)
 
         if len(res) > 0:
             return res
