@@ -1,21 +1,17 @@
 <template>
-<div class="mt-3 p-3 lg:p-6 bg-color-form rounded-md shadow">
-  <div v-click-outside="toggleSearch" @keydown.esc="toggleSearch" class="relative">
-    <label class="text-color-form" for="eventFilter">Event Filter</label>
-
-    <div class="flex flex-wrap items-stretch w-full relative mt-2">
-      <input v-model="searchTerm" @input="lookupEvent" type="text" class="flex-shrink flex-grow flex-auto leading-normal flex-1 border rounded-l focus:outline-none p-2">
-      <div class="flex">
-        <button @click="clearSearchTerm" class="flex items-center leading-normal bg-gray-400 text-gray-800 focus:outline-none rounded-r px-3">Zurücksetzen</button>
-      </div>
+<div v-click-outside="toggleSearch" @keydown.esc="toggleSearch" class="relative">
+  <div class="flex flex-wrap items-stretch w-full relative mt-2">
+    <input v-model="searchTerm" @input="lookupEvent" type="text" class="flex-shrink flex-grow flex-auto leading-normal flex-1 border rounded-l focus:outline-none p-2">
+    <div class="flex">
+      <button @click="clearSearchTerm" class="flex items-center leading-normal bg-gray-400 text-gray-800 focus:outline-none rounded-r px-3">Zurücksetzen</button>
     </div>
-
-    <ul v-if="events.length > 0" class="w-full absolute z-30 mt-1">
-      <li v-for="value, index in events" @click="setSerchTerm(value.titles[currentLocale].title, makeEventTime(value.event_time), index)" :key="index" class="hover:bg-gray-300 bg-color-form border shadow p-2">
-        <span class="text-color-form">{{ value.titles[currentLocale].title }} ({{ makeEventTime(value.event_time) }})</span>
-      </li>
-    </ul>
   </div>
+
+  <ul v-if="events.length > 0" class="w-full absolute z-30 mt-1">
+    <li v-for="value, index in events" @click="setSerchTerm(value.titles[currentLocale].title, makeEventTime(value.event_time), index)" :key="index" class="hover:bg-gray-300 bg-color-form border shadow p-2">
+      <span class="text-color-form">{{ value.titles[currentLocale].title }} ({{ makeEventTime(value.event_time) }})</span>
+    </li>
+  </ul>
 </div>
 </template>
 

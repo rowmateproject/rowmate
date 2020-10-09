@@ -14,6 +14,13 @@
 </div>
 </template>
 
+<style>
+.bg-svg-image {
+  background-image: url('/image.svg');
+  background-repeat: no-repeat;
+}
+</style>
+
 <script>
 export default {
   async mounted() {

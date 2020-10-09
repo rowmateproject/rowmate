@@ -2,7 +2,8 @@
 <div>
   <h3 class="text-3xl font-medium text-color-title">Umfagen</h3>
 
-  <div class="mt-3 lg:mt-8 p-3 lg:p-6 bg-color-form rounded-md shadow">
+  <div class="mt-3 lg:mt-4 p-3 lg:px-6 lg:pb-6 lg:pt-4 bg-svg-image bg-blue-500 rounded-md shadow">
+    <h4 class="text-color-nav">Umfrage Filter</h4>
     <question-filter @resultObject="handleFilterObject" @resetFilter="handleResetValue" />
   </div>
 
