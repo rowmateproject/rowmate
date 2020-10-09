@@ -10,9 +10,9 @@ from router.stat import get_stats_router
 from router.language import get_language_router
 from router.boat import get_boats_router, get_boat_router
 from router.event import get_events_router, get_event_router
+from router.template import get_template_router, get_templates_router
 from router.poll import get_poll_router, get_polls_router
 from router.subscription import get_subscription_router
-from router.template import get_template_router
 from router.confirm import get_confirm_router
 from router.manage import get_manage_router
 from router.lookup import get_lookup_router
@@ -147,6 +147,16 @@ app.include_router(
         authenticator=api_user
     ),
     prefix='/template',
+    tags=['templates']
+)
+
+
+app.include_router(
+    get_templates_router(
+        database=db,
+        authenticator=api_user
+    ),
+    prefix='/templates',
     tags=['templates']
 )
 
