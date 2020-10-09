@@ -37,7 +37,7 @@
     <div class="grid grid-cols-12 gap-6 mt-6">
       <div class="col-span-4">
         <h4 class="text-color-form">Ansprechpartner</h4>
-        <user-filter @resultObject="handleUserFilterObject" />
+        <user-filter @resultObject="handleUserFilterObject" :showResetButton="false" />
       </div>
       <div class="col-span-8">
         <h4 class="text-color-form" for="eventFilter">Umfrage hinzufügen (optional)</h4>
@@ -272,7 +272,7 @@ export default {
       this.descriptions[value.locale].description = value.description
     },
     handleUserFilterObject(value) {
-      this.contactPerson = value.user
+      this.contactPerson = value.user.name
     },
     handleQuestionResetValue(value) {
       if (value === true) {

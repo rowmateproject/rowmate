@@ -2,22 +2,27 @@
 <div>
   <h3 class="text-3xl font-medium text-color-title">Nutzer</h3>
 
+  <div class="mt-3 lg:mt-8 p-3 lg:px-6 lg:pb-6 lg:pt-4 bg-svg-image bg-blue-500 rounded-md shadow">
+    <h4 class="text-color-nav">Nutzer Filter</h4>
+    <user-filter @resultObject="handleUserFilter" @resetFilter="handleUserReset" :showResetButton="true" />
+  </div>
+
   <div v-if="users.length > 0" class="flex flex-col mt-8">
     <div class="overflow-x-auto">
       <div class="min-w-full align-middle inline-block shadow overflow-hidden rounded">
         <table class="min-w-full">
-          <thead class="bg-color-header text-color-button">
+          <thead class="bg-gray-500 text-gray-900">
             <tr>
-              <th class="px-6 py-6 border-b border-color-form text-left text-xs leading-4 font-medium uppercase tracking-wider">
+              <th class="px-6 py-6 text-left text-xs leading-4 font-medium uppercase tracking-wider">
                 {{ $t('name') }}
               </th>
-              <th class="py-6 border-b border-color-form text-left text-xs leading-4 font-medium uppercase tracking-wider">
+              <th class="py-6 text-left text-xs leading-4 font-medium uppercase tracking-wider">
                 {{ $t('status') }}
               </th>
-              <th class="px-6 py-6 border-b border-color-form text-left text-xs leading-4 font-medium uppercase tracking-wider">
+              <th class="px-6 py-6 text-left text-xs leading-4 font-medium uppercase tracking-wider">
                 {{ $t('role') }}
               </th>
-              <th class="px-6 py-6 border-b border-color-form"></th>
+              <th class="px-6 py-6"></th>
             </tr>
           </thead>
           <tbody class="bg-color-form">
@@ -81,7 +86,8 @@ export default {
   },
   data() {
     return {
-      users: []
+      users: [],
+      usersBackup: []
     }
   },
   mounted() {
@@ -92,12 +98,21 @@ export default {
     }).then((res) => {
       if (res.status === 200) {
         this.users = res.data.users
+        this.usersBackup = res.data.users
       } else {
         console.debug(res.data)
       }
     })
   },
   methods: {
+    handleUserFilter(value) {
+      this.users = [value.user]
+    },
+    handleUserReset(value) {
+      if (value === true) {
+        this.users = this.usersBackup
+      }
+    },
     activateUser(uuid, index) {
       this.$axios({
         method: 'POST',

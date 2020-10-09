@@ -2,7 +2,7 @@
 <div>
   <h3 class="text-3xl font-medium text-color-title">Kalender</h3>
 
-  <div class="mt-3 lg:mt-4 p-3 lg:px-6 lg:pb-6 lg:pt-4 bg-svg-image bg-blue-500 rounded-md shadow">
+  <div class="mt-3 lg:mt-8 p-3 lg:px-6 lg:pb-6 lg:pt-4 bg-svg-image bg-blue-500 rounded-md shadow">
     <h4 class="text-color-nav">Event Filter</h4>
     <event-filter @resultObject="handleResult" @resetFilter="handleReset" :eventSubscriptions="false" />
   </div>
