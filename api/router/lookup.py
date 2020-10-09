@@ -62,34 +62,23 @@ def get_lookup_router(database, authenticator) -> APIRouter:
     @router.post('/question/{lang}')
     async def lookup_question(lang, model: LookupQuestion, user=Depends(
             authenticator.get_current_active_user)):
-        sort = [('score', {'$meta': 'textScore'})]
-        filter = {'score': {'$meta': 'textScore'}, 'ngrams': False}
-        query = {'$text': {'$search': model.query, '$caseSensitive': False}}
+        query = [{'$match': {'$text': {'$search': model.query,
+                                       '$caseSensitive': False}}},
+                 {'$sort': {'score': {'$meta': 'textScore'}}},
+                 {'$lookup': {'from': 'polls', 'localField': '_id',
+                              'foreignField': 'questions', 'as': 'a'}},
+                 {'$project': {'score': {'$meta': 'textScore'},
+                               'question': '$question',
+                               'forms': '$forms', 'type': '$type'}}]
 
-        res = await database['questions'].find(
-            query, filter).sort(sort).to_list(length=15)
+        docs = await database['questions'].count_documents({})
+        res = await database['questions'].aggregate(query).to_list(length=docs)
 
         if len(res) > 0:
-            query = {'questions': {'$in': [x['_id'] for x in res]}}
-            polls = await database['polls'].find_one(query)
-
-            if len(polls) > 0:
-                filter = {'ngrams': False, 'created_at': False,
-                          'modified_at': False, 'user_id': False}
-                query = {'_id': {'$in': polls['questions']}}
-                questions = await database['questions'].find(
-                    query, filter).to_list(length=150)
-
-                r = [{'questions': [q], '_id': polls['_id']}
-                     for q in questions]
-
-                return r[0] if len(r) > 0 else []
-            else:
-                raise HTTPException(
-                    status_code=404, detail='No poll found')
+            return res
         else:
             raise HTTPException(
-                status_code=404, detail='No question found')
+                status_code=404, detail='No questions found')
 
     @router.post('/template/{lang}')
     async def lookup_template(lang, model: LookupTemplate, user=Depends(
