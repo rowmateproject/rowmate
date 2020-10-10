@@ -1,0 +1,764 @@
+msgid ""
+msgstr ""
+
+msgid "name"
+msgstr ""
+
+msgid "email"
+msgstr ""
+
+msgid "search"
+msgstr ""
+
+msgid "signin"
+msgstr ""
+
+msgid "signup"
+msgstr ""
+
+msgid "password"
+msgstr ""
+
+msgid "save"
+msgstr ""
+
+msgid "mail"
+msgstr ""
+
+msgid "days"
+msgstr ""
+
+msgid "years"
+msgstr ""
+
+msgid "weeks"
+msgstr ""
+
+msgid "months"
+msgstr ""
+
+msgid "subject"
+msgstr ""
+
+msgid "message"
+msgstr ""
+
+msgid "settings"
+msgstr ""
+
+msgid "birthDate"
+msgstr ""
+
+msgid "phoneNumber"
+msgstr ""
+
+msgid "mailAddress"
+msgstr ""
+
+msgid "confirmPassword"
+msgstr ""
+
+msgid "resetPassword"
+msgstr ""
+
+msgid "freeUserAccount"
+msgstr ""
+
+msgid "errorInvalidMail"
+msgstr ""
+
+msgid "errorInvalidPhone"
+msgstr ""
+
+msgid "errorInvalidBirthDate"
+msgstr ""
+
+msgid "errorInvalidConfirmPassword"
+msgstr ""
+
+msgid "errorInvalidStartDate"
+msgstr ""
+
+msgid "errorInvalidPassword"
+msgstr ""
+
+msgid "errorInvalidSubject"
+msgstr ""
+
+msgid "errorInvalidMessage"
+msgstr ""
+
+msgid "errorInvalidName"
+msgstr ""
+
+msgid "forgotPassword"
+msgstr ""
+
+msgid "createEvent"
+msgstr ""
+
+msgid "eyeType"
+msgstr ""
+
+msgid "eyebrowType"
+msgstr ""
+
+msgid "accessoriesType"
+msgstr ""
+
+msgid "mouthType"
+msgstr ""
+
+msgid "facialHairType"
+msgstr ""
+
+msgid "facialHairColor"
+msgstr ""
+
+msgid "skinColor"
+msgstr ""
+
+msgid "topType"
+msgstr ""
+
+msgid "hairColor"
+msgstr ""
+
+msgid "topColor"
+msgstr ""
+
+msgid "clotheType"
+msgstr ""
+
+msgid "graphicType"
+msgstr ""
+
+msgid "clotheColor"
+msgstr ""
+
+msgid "circleColor"
+msgstr ""
+
+msgid "category"
+msgstr ""
+
+msgid "status"
+msgstr ""
+
+msgid "role"
+msgstr ""
+
+msgid "pageBackground"
+msgstr ""
+
+msgid "buttonBackground"
+msgstr ""
+
+msgid "footerBackground"
+msgstr ""
+
+msgid "formBackground"
+msgstr ""
+
+msgid "headerBackground"
+msgstr ""
+
+msgid "imageBackground"
+msgstr ""
+
+msgid "navBackground"
+msgstr ""
+
+msgid "formBorder"
+msgstr ""
+
+msgid "titleText"
+msgstr ""
+
+msgid "bodyText"
+msgstr ""
+
+msgid "pageText"
+msgstr ""
+
+msgid "buttonText"
+msgstr ""
+
+msgid "footerText"
+msgstr ""
+
+msgid "formText"
+msgstr ""
+
+msgid "imageText"
+msgstr ""
+
+msgid "saleText"
+msgstr ""
+
+msgid "linkText"
+msgstr ""
+
+msgid "navText"
+msgstr ""
+
+msgid "Black"
+msgstr ""
+
+msgid "Blue01"
+msgstr ""
+
+msgid "Blue02"
+msgstr ""
+
+msgid "Blue03"
+msgstr ""
+
+msgid "Gray01"
+msgstr ""
+
+msgid "Gray02"
+msgstr ""
+
+msgid "Heather"
+msgstr ""
+
+msgid "PastelBlue"
+msgstr ""
+
+msgid "PastelOrange"
+msgstr ""
+
+msgid "PastelRed"
+msgstr ""
+
+msgid "PastelGreen"
+msgstr ""
+
+msgid "PastelPink"
+msgstr ""
+
+msgid "PastelYellow"
+msgstr ""
+
+msgid "SilverGray"
+msgstr ""
+
+msgid "Default"
+msgstr ""
+
+msgid "Auburn"
+msgstr ""
+
+msgid "Blonde"
+msgstr ""
+
+msgid "BlondeGolden"
+msgstr ""
+
+msgid "Brown"
+msgstr ""
+
+msgid "BrownDark"
+msgstr ""
+
+msgid "Platinum"
+msgstr ""
+
+msgid "Red"
+msgstr ""
+
+msgid "White"
+msgstr ""
+
+msgid "NoHair"
+msgstr ""
+
+msgid "Eyepatch"
+msgstr ""
+
+msgid "Hat"
+msgstr ""
+
+msgid "Hijab"
+msgstr ""
+
+msgid "Turban"
+msgstr ""
+
+msgid "WinterHat1"
+msgstr ""
+
+msgid "WinterHat2"
+msgstr ""
+
+msgid "WinterHat3"
+msgstr ""
+
+msgid "WinterHat4"
+msgstr ""
+
+msgid "LongHairBigHair"
+msgstr ""
+
+msgid "LongHairBob"
+msgstr ""
+
+msgid "LongHairBun"
+msgstr ""
+
+msgid "LongHairCurly"
+msgstr ""
+
+msgid "LongHairCurvy"
+msgstr ""
+
+msgid "LongHairDreads"
+msgstr ""
+
+msgid "Concerned"
+msgstr ""
+
+msgid "Disbelief"
+msgstr ""
+
+msgid "Eating"
+msgstr ""
+
+msgid "Grimace"
+msgstr ""
+
+msgid "Sad"
+msgstr ""
+
+msgid "ScreamOpen"
+msgstr ""
+
+msgid "Serious"
+msgstr ""
+
+msgid "Smile"
+msgstr ""
+
+msgid "Tongue"
+msgstr ""
+
+msgid "Twinkle"
+msgstr ""
+
+msgid "Vomit"
+msgstr ""
+
+msgid "AliceBlue"
+msgstr ""
+
+msgid "AntiqueWhite"
+msgstr ""
+
+msgid "Aqua"
+msgstr ""
+
+msgid "Aquamarine"
+msgstr ""
+
+msgid "Azure"
+msgstr ""
+
+msgid "Beige"
+msgstr ""
+
+msgid "Bisque"
+msgstr ""
+
+msgid "BlanchedAlmond"
+msgstr ""
+
+msgid "Blue"
+msgstr ""
+
+msgid "BlueViolet"
+msgstr ""
+
+msgid "BurlyWood"
+msgstr ""
+
+msgid "CadetBlue"
+msgstr ""
+
+msgid "Chartreuse"
+msgstr ""
+
+msgid "Chocolate"
+msgstr ""
+
+msgid "Coral"
+msgstr ""
+
+msgid "CornflowerBlue"
+msgstr ""
+
+msgid "Cornsilk"
+msgstr ""
+
+msgid "Crimson"
+msgstr ""
+
+msgid "Cyan"
+msgstr ""
+
+msgid "DarkBlue"
+msgstr ""
+
+msgid "DarkCyan"
+msgstr ""
+
+msgid "DarkGoldenrod"
+msgstr ""
+
+msgid "DarkGray"
+msgstr ""
+
+msgid "DarkGreen"
+msgstr ""
+
+msgid "DarkKhaki"
+msgstr ""
+
+msgid "DarkMagenta"
+msgstr ""
+
+msgid "DarkOliveGreen"
+msgstr ""
+
+msgid "DarkOrange"
+msgstr ""
+
+msgid "DarkOrchid"
+msgstr ""
+
+msgid "DarkRed"
+msgstr ""
+
+msgid "DarkSalmon"
+msgstr ""
+
+msgid "DarkSeaGreen"
+msgstr ""
+
+msgid "DarkSlateBlue"
+msgstr ""
+
+msgid "DarkSlateGray"
+msgstr ""
+
+msgid "DarkTurquoise"
+msgstr ""
+
+msgid "DarkViolet"
+msgstr ""
+
+msgid "DeepPink"
+msgstr ""
+
+msgid "DeepSkyBlue"
+msgstr ""
+
+msgid "DimGray"
+msgstr ""
+
+msgid "DodgerBlue"
+msgstr ""
+
+msgid "FireBrick"
+msgstr ""
+
+msgid "FloralWhite"
+msgstr ""
+
+msgid "ForestGreen"
+msgstr ""
+
+msgid "Fuchsia"
+msgstr ""
+
+msgid "Gainsboro"
+msgstr ""
+
+msgid "GhostWhite"
+msgstr ""
+
+msgid "Gold"
+msgstr ""
+
+msgid "Goldenrod"
+msgstr ""
+
+msgid "Gray"
+msgstr ""
+
+msgid "Green"
+msgstr ""
+
+msgid "GreenYellow"
+msgstr ""
+
+msgid "HoneyDew"
+msgstr ""
+
+msgid "HotPink"
+msgstr ""
+
+msgid "IndianRed"
+msgstr ""
+
+msgid "Indigo"
+msgstr ""
+
+msgid "Ivory"
+msgstr ""
+
+msgid "Khaki"
+msgstr ""
+
+msgid "Lavender"
+msgstr ""
+
+msgid "LavenderBlush"
+msgstr ""
+
+msgid "LawnGreen"
+msgstr ""
+
+msgid "LemonChiffon"
+msgstr ""
+
+msgid "LightBlue"
+msgstr ""
+
+msgid "LightCoral"
+msgstr ""
+
+msgid "LightCyan"
+msgstr ""
+
+msgid "LightGoldenrodYellow"
+msgstr ""
+
+msgid "LightGray"
+msgstr ""
+
+msgid "LightGreen"
+msgstr ""
+
+msgid "LightPink"
+msgstr ""
+
+msgid "LightSalmon"
+msgstr ""
+
+msgid "LightSeaGreen"
+msgstr ""
+
+msgid "LightSkyBlue"
+msgstr ""
+
+msgid "LightSlateGray"
+msgstr ""
+
+msgid "LightSteelBlue"
+msgstr ""
+
+msgid "LightYellow"
+msgstr ""
+
+msgid "Lime"
+msgstr ""
+
+msgid "LimeGreen"
+msgstr ""
+
+msgid "Linen"
+msgstr ""
+
+msgid "Magenta"
+msgstr ""
+
+msgid "Maroon"
+msgstr ""
+
+msgid "MediumAquamarine"
+msgstr ""
+
+msgid "MediumBlue"
+msgstr ""
+
+msgid "MediumOrchid"
+msgstr ""
+
+msgid "MediumPurple"
+msgstr ""
+
+msgid "MediumSeaGreen"
+msgstr ""
+
+msgid "MediumSlateBlue"
+msgstr ""
+
+msgid "MediumSpringGreen"
+msgstr ""
+
+msgid "MediumTurquoise"
+msgstr ""
+
+msgid "MediumVioletRed"
+msgstr ""
+
+msgid "MintCream"
+msgstr ""
+
+msgid "MistyRose"
+msgstr ""
+
+msgid "Moccasin"
+msgstr ""
+
+msgid "NavajoWhite"
+msgstr ""
+
+msgid "Navy"
+msgstr ""
+
+msgid "OldLace"
+msgstr ""
+
+msgid "Olive"
+msgstr ""
+
+msgid "OliveDrab"
+msgstr ""
+
+msgid "Orange"
+msgstr ""
+
+msgid "OrangeRed"
+msgstr ""
+
+msgid "Orchid"
+msgstr ""
+
+msgid "PaleGoldenrod"
+msgstr ""
+
+msgid "PaleGreen"
+msgstr ""
+
+msgid "PaleTurquoise"
+msgstr ""
+
+msgid "PaleVioletRed"
+msgstr ""
+
+msgid "PapayaWhip"
+msgstr ""
+
+msgid "PeachPuff"
+msgstr ""
+
+msgid "Peru"
+msgstr ""
+
+msgid "Pink"
+msgstr ""
+
+msgid "Plum"
+msgstr ""
+
+msgid "PowderBlue"
+msgstr ""
+
+msgid "Purple"
+msgstr ""
+
+msgid "RebeccaPurple"
+msgstr ""
+
+msgid "RosyBrown"
+msgstr ""
+
+msgid "RoyalBlue"
+msgstr ""
+
+msgid "SaddleBrown"
+msgstr ""
+
+msgid "Salmon"
+msgstr ""
+
+msgid "SandyBrown"
+msgstr ""
+
+msgid "SeaGreen"
+msgstr ""
+
+msgid "SeaShell"
+msgstr ""
+
+msgid "Sienna"
+msgstr ""
+
+msgid "Silver"
+msgstr ""
+
+msgid "SkyBlue"
+msgstr ""
+
+msgid "SlateBlue"
+msgstr ""
+
+msgid "SlateGray"
+msgstr ""
+
+msgid "Snow"
+msgstr ""
+
+msgid "SpringGreen"
+msgstr ""
+
+msgid "SteelBlue"
+msgstr ""
+
+msgid "Tan"
+msgstr ""
+
+msgid "Teal"
+msgstr ""
+
+msgid "Thistle"
+msgstr ""
+
+msgid "Tomato"
+msgstr ""
+
+msgid "Turquoise"
+msgstr ""
+
+msgid "Violet"
+msgstr ""
+
+msgid "Wheat"
+msgstr ""
+
+msgid "WhiteSmoke"
+msgstr ""
+
+msgid "Yellow"
+msgstr ""
+
+msgid "YellowGreen"
+msgstr ""
+
+msgid "errorInvalidEndDate"
+msgstr ""
+
+msgid "rowingTeaser"
+msgstr ""
