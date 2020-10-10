@@ -10,8 +10,8 @@
   <div class="bg-color-image rounded px-6 pb-6 pt-4 mt-8">
     <h4 class="text-xl mb-1">Hinweis</h4>
     <p class="mb-2">Es können folgende Template Variablen im Style von <code v-html="variableExample" class="font-mono"></code> in den verwendet werden.</p>
-    <ul class="grid grid-cols-12 gap-6 list-inside list-disc">
-      <li v-for="value, index in templateVariables" :key="index" class="col-span-2 font-mono">{{ value }}</li>
+    <ul class="grid grid-cols-12 gap-x-6 list-inside list-disc">
+      <li v-for="value, index in templateVariables" :key="index" class="col-span-12 sm:col-span-6 lg:col-span-4 xl:col-span-3 font-mono">{{ value }}</li>
     </ul>
   </div>
 
@@ -42,12 +42,31 @@ export default {
       templates: [],
       variableExample: '{{ variablen_name }}',
       templateVariables: [
-        'username',
-        'society_name',
-        'society_address',
-        'society_phone',
+        'author_name',
+        'author_phone',
+        'author_mail',
+        'user_name',
+        'user_phone',
+        'user_mail',
+        'org_name',
+        'org_logo',
+        'org_mail',
+        'org_phone',
+        'org_street',
+        'org_zip_code',
+        'org_house_number',
+        'org_location',
+        'org_address',
+        'event_date',
+        'event_title',
+        'event_contact',
+        'event_attendees',
+        'event_description',
+        'event_location',
         'current_date',
-        'action_url',
+        'current_time',
+        'action_title',
+        'action_url'
       ],
       showTemplateForm: false,
       editTemplate: null
@@ -119,7 +138,7 @@ export default {
 
       this.$axios({
         method: 'GET',
-        url: `${process.env.API_URL}/templates/`,
+        url: `${process.env.API_URL}/templates`,
         validateStatus: () => true
       }).then((res) => {
         if (res.status === 200) {
