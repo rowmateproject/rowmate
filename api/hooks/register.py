@@ -19,10 +19,12 @@ async def on_after_register(user: UserDB, request: Request):
         print(await db['users'].update_one(
             {'id': user.id}, {'$set': {'is_accepted': True}}))
 
+    token_url = f'{settings.frontend_url}/confirm/{token}'
+
     message = MessageSchema(
         subject='Welcome to rowmate.org',
         receipients=[user.email],
-        body=f'Hi {user.name},\n\nthis is your registration mail with your verification link:\n\n{settings.frontend_url}/confirm/{token}\n\nBest regards,\nrowmate.org'
+        body=f'Hi {user.name},\n\nthis is your registration mail with your verification link:\n\n{token_url}\n\nBest regards,\nrowmate.org'
     )
 
     await mail.send_message(message)
