@@ -48,6 +48,11 @@
         <span class="col-span-5">Nutzer</span>
       </nuxt-link>
 
+      <nuxt-link v-if="isSuperuser === 'true' || isSuperuser === true" class="text-color-nav focus:outline-none grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('boats') ? activeClass : inactiveClass]" :to="localePath('/boats')">
+        <fa :icon="['fas', 'ship']" class="col-span-1 mt-1" />
+        <span class="col-span-5">Boote</span>
+      </nuxt-link>
+
       <nuxt-link v-if="isSuperuser === 'true' || isSuperuser === true" class="text-color-nav focus:outline-none grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('theme') ? activeClass : inactiveClass]" :to="localePath('/theme')">
         <fa :icon="['fas', 'comment-alt']" class="col-span-1 mt-1" />
         <span class="col-span-5">Theme</span>
