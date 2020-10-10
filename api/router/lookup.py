@@ -10,7 +10,7 @@ from models.template import LookupTemplate
 from models.subscription import LookupSubscription
 from models.question import LookupQuestion
 from models.event import LookupEvent
-
+from models.boat import LookupBoat
 
 def get_lookup_router(database, authenticator) -> APIRouter:
     router = APIRouter()
@@ -115,5 +115,22 @@ def get_lookup_router(database, authenticator) -> APIRouter:
         else:
             raise HTTPException(
                 status_code=404, detail='No users found')
+
+    @router.post('/boats')
+    async def lookup_boats(req: LookupBoat, user=Depends(
+            authenticator.get_current_active_user)):
+        sort = [('_id', pymongo.DESCENDING)]
+        filter = {'_id': False}
+        query = {'name': {'$regex': re.compile(
+            req.name, re.IGNORECASE)}}
+
+        res = await database['boats'].find(
+            query, filter).sort(sort).to_list(length=10)
+
+        if len(res) > 0:
+            return res
+        else:
+            raise HTTPException(
+                status_code=404, detail='No boats found')
 
     return router
