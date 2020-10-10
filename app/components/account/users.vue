@@ -7,11 +7,16 @@
     <user-filter @resultObject="handleUserFilter" @resetFilter="handleUserReset" :showResetButton="true" />
   </div>
 
+  <div class="bg-color-image mt-3 lg:mt-8 px-6 pb-6 pt-4 rounded shadow">
+    <h4 class="text-xl mb-1">Benutzer einladen</h4>
+    <p>Alleine arbeiten macht keinen Spass. Lade weitere Benutzer ein und bestimme deren Zugriffsrechte. Du kannst diese jederzeit ändern.</p>
+  </div>
+
   <div v-if="users.length > 0" class="flex flex-col mt-8">
     <div class="overflow-x-auto">
       <div class="min-w-full align-middle inline-block shadow overflow-hidden rounded">
         <table class="min-w-full">
-          <thead class="bg-gray-500 text-gray-900">
+          <thead class="bg-color-image text-gray-900">
             <tr>
               <th class="px-6 py-6 text-left text-xs leading-4 font-medium uppercase tracking-wider">
                 {{ $t('name') }}

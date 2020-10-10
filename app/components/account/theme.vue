@@ -2,6 +2,11 @@
 <div>
   <h3 class="text-3xl font-medium text-color-title">Theme</h3>
 
+  <div class="bg-color-image mt-3 lg:mt-8 px-6 pb-6 pt-4 rounded shadow">
+    <h4 class="text-xl mb-1">Hinweis</h4>
+    <p>Dein Logo und deine Farben werden auf E-Mails, Newsletter und deiner Profilseite genutzt. Es hilft den Wiedererkennungswert für deine Mitglieder zu steigern.</p>
+  </div>
+
   <image-upload-form />
 
   <form @submit.prevent="patchTheme">

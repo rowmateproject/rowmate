@@ -12,14 +12,25 @@
         <span class="col-span-5">Dashboard</span>
       </nuxt-link>
 
-      <nuxt-link class="text-color-nav focus:outline-none grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('calendar') ? activeClass : inactiveClass]" :to="localePath('/calendar')">
-        <fa :icon="['fas', 'calendar-week']" class="col-span-1 mt-1" />
-        <span class="col-span-5">Kalender</span>
+      <nuxt-link v-if="isSuperuser === 'true' || isSuperuser === true" class="text-color-nav focus:outline-none grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('organization') ? activeClass : inactiveClass]"
+        :to="localePath('/organization')">
+        <fa :icon="['fas', 'columns']" class="col-span-1 mt-1" />
+        <span class="col-span-5">Organisation</span>
       </nuxt-link>
 
       <nuxt-link class="text-color-nav focus:outline-none grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('poll') ? activeClass : inactiveClass]" :to="localePath('/poll')">
         <fa :icon="['fas', 'poll']" class="col-span-1 mt-1" />
         <span class="col-span-5">Umfragen</span>
+      </nuxt-link>
+
+      <nuxt-link v-if="isSuperuser === 'true' || isSuperuser === true" class="text-color-nav focus:outline-none grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('templates') ? activeClass : inactiveClass]" :to="localePath('/templates')">
+        <fa :icon="['fas', 'mail-bulk']" class="col-span-1 mt-1" />
+        <span class="col-span-5">Vorlagen</span>
+      </nuxt-link>
+
+      <nuxt-link class="text-color-nav focus:outline-none grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('calendar') ? activeClass : inactiveClass]" :to="localePath('/calendar')">
+        <fa :icon="['fas', 'calendar-week']" class="col-span-1 mt-1" />
+        <span class="col-span-5">Kalender</span>
       </nuxt-link>
 
       <nuxt-link v-if="isSuperuser === 'true' || isSuperuser === true" class="text-color-nav focus:outline-none grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('language') ? activeClass : inactiveClass]" :to="localePath('/language')">
@@ -45,11 +56,6 @@
       <nuxt-link v-if="isSuperuser === 'true' || isSuperuser === true" class="text-color-nav focus:outline-none grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('event') ? activeClass : inactiveClass]" :to="localePath('/event')">
         <fa :icon="['fas', 'sticky-note']" class="col-span-1 mt-1" />
         <span class="col-span-5">Events</span>
-      </nuxt-link>
-
-      <nuxt-link v-if="isSuperuser === 'true' || isSuperuser === true" class="text-color-nav focus:outline-none grid grid-cols-6 mt-1 py-3 px-6" :class="[comparePageName('templates') ? activeClass : inactiveClass]" :to="localePath('/templates')">
-        <fa :icon="['fas', 'mail-bulk']" class="col-span-1 mt-1" />
-        <span class="col-span-5">Vorlagen</span>
       </nuxt-link>
     </nav>
   </div>

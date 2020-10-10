@@ -7,6 +7,14 @@
     <template-filter @resultObject="handleTemplateObject" @resetFilter="handleTemplateResetValue" />
   </div>
 
+  <div class="bg-color-image rounded px-6 pb-6 pt-4 mt-8">
+    <h4 class="text-xl mb-1">Hinweis</h4>
+    <p class="mb-2">Es können folgende Template Variablen im Style von <code v-html="variableExample" class="font-mono"></code> in den verwendet werden.</p>
+    <ul class="grid grid-cols-12 gap-6 list-inside list-disc">
+      <li v-for="value, index in templateVariables" :key="index" class="col-span-2 font-mono">{{ value }}</li>
+    </ul>
+  </div>
+
   <template-form v-if="editTemplate" @resultObject="handleTemplateObject" :templateObject="editTemplate" />
   <template-cards v-if="templates.length > 0" @deleteResultId="deleteTemplate" @resultObject="handleTemplatesObject" :templates="templates" />
 
@@ -32,6 +40,15 @@ export default {
   data() {
     return {
       templates: [],
+      variableExample: '{{ variablen_name }}',
+      templateVariables: [
+        'username',
+        'society_name',
+        'society_address',
+        'society_phone',
+        'current_date',
+        'action_url',
+      ],
       showTemplateForm: false,
       editTemplate: null
     }
