@@ -1,35 +1,18 @@
 <template>
-<form @submit.prevent="submitManagementForm" class="px-6 pb-6 pt-4 bg-color-form rounded-md shadow-md">
-  <div class="grid grid-cols-12 gap-6 mb-4">
-    <div class="col-span-6">
-      <label class="text-color-form">1. Vorsitzender</label>
-      <user-filter @resultObject="handleFirstChairman" @resetFilter="handleFirstChairmanReset" :showResetButton="false" />
-    </div>
-    <div class="col-span-6">
-      <label class="text-color-form">2. Vorsitzender</label>
-      <user-filter @resultObject="handleSecondChairman" @resetFilter="handleSecondChairmanReset" :showResetButton="false" />
-    </div>
-  </div>
-  <div class="grid grid-cols-12 gap-6 mb-4">
-    <div class="col-span-6">
-      <label class="text-color-form">Schriftführer</label>
-      <user-filter @resultObject="handleSecretary" @resetFilter="handleSecretaryReset" :showResetButton="false" />
-    </div>
-    <div class="col-span-6">
-      <label class="text-color-form">Kassenwart</label>
-      <user-filter @resultObject="handleTreasurer" @resetFilter="handleTreasurerReset" :showResetButton="false" />
-    </div>
-  </div>
-  <div class="grid grid-cols-12 gap-6">
-    <div class="col-span-6">
-      <label class="text-color-form">Beisitzer</label>
-      <user-filter @resultObject="handleAssessor" @resetFilter="handleAssessorReset" :showResetButton="false" />
-    </div>
-    <div class="col-span-6 flex justify-end items-end">
-      <button class="bg-color-nav text-color-nav rounded focus:outline-none px-4 py-2">
-        {{ $t('save') }}
-      </button>
-    </div>
+<form @submit.prevent="submitForm" class="px-6 pb-6 pt-4 bg-color-form rounded-md shadow-md">
+  <ul>
+    <li v-for="position, index in positions" :key="index" class="mb-4">
+      <position-form @resultObject="handlePositionResult($event, index)" :positionObject="position" />
+    </li>
+  </ul>
+
+  <div :class="[positions.length === 0 ? 'mt-2' : 'mt-6']" class="flex justify-end">
+    <button type="button" @click="addPositionForm" class="bg-color-button text-color-button rounded focus:outline-none px-4 py-2">
+      Position hinzufügen
+    </button>
+    <button v-if="positions.length > 0" class="bg-color-nav text-color-nav rounded focus:outline-none px-4 py-2 ml-4">
+      {{ $t('save') }}
+    </button>
   </div>
 </form>
 </template>
@@ -41,43 +24,26 @@ import {
 
 export default {
   data() {
-    return {}
-  },
-  computed: {
-    currentLocale() {
-      return this.$i18n.locale
+    return {
+      positions: [],
+      organization: {
+        _id: ''
+      }
     }
   },
+  mounted() {
+    this.organization._id = this.$props.organizationId
+  },
+  props: ['organizationId'],
   methods: {
-    handleFirstChairman() {
-      return true
+    addPositionForm(value) {
+      this.positions.push({
+        title: '',
+        member: ''
+      })
     },
-    handleFirstChairmanReset() {
-      return true
-    },
-    handleSecondChairman() {
-      return true
-    },
-    handleSecondChairmanReset() {
-      return true
-    },
-    handleSecretary() {
-      return true
-    },
-    handleSecretaryReset() {
-      return true
-    },
-    handleTreasurer() {
-      return true
-    },
-    handleTreasurerReset() {
-      return true
-    },
-    handleAssessor() {
-      return true
-    },
-    handleAssessorReset() {
-      return true
+    handlePositionResult(value, index) {
+      this.positions[index] = value
     },
     buf2hex(buffer) {
       const byteArray = new Uint8Array(buffer)
@@ -91,8 +57,27 @@ export default {
 
       return hexParts.join('')
     },
-    submitManagementForm() {
-      return true
+    submitForm() {
+      let uuid = null
+
+      try {
+        uuid = this.buf2hex(uuidParse(this.organization._id))
+      } catch (e) {
+        console.debug(e.message)
+      }
+
+      this.$axios({
+        method: 'PATCH',
+        url: `${process.env.API_URL}/organization/${uuid}/positions`,
+        data: {
+          positions: this.positions
+        },
+        validateStatus: () => true
+      }).then(res => {
+        if (res.status !== 200) {
+          console.debug(res.data)
+        }
+      })
     }
   }
 }

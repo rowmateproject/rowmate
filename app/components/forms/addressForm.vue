@@ -1,5 +1,5 @@
 <template>
-<form @submit.prevent="submitAddressForm" class="px-6 pb-6 pt-4 bg-color-form rounded-md shadow-md">
+<form @submit.prevent="submitForm" class="px-6 pb-6 pt-4 bg-color-form rounded-md shadow-md">
   <div class="mb-4">
     <label class="text-color-form">Länderauswahl</label>
     <div class="relative z-0 mb-1">
@@ -15,39 +15,39 @@
         </svg>
       </div>
     </div>
-    <p v-if="errors.countryCode" class="text-red-500 text-xs italic">{{ $t('errorsInvalidName') }}</p>
+    <p v-if="errors.countryCode" class="text-red-500 text-xs italic">{{ $t('errorInvalidName') }}</p>
   </div>
   <div class="mb-4">
     <label class="text-color-form">Organisation</label>
     <input v-model="address.name" type="text" :class="[errors.name ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1">
-    <p v-if="errors.name" class="text-red-500 text-xs italic">{{ $t('errorsInvalidName') }}</p>
+    <p v-if="errors.name" class="text-red-500 text-xs italic">{{ $t('errorInvalidName') }}</p>
   </div>
   <div class="grid grid-cols-12 gap-6 mb-4">
     <div class="col-span-10">
       <label class="text-color-form">Straße</label>
       <input v-model="address.streetName" type="text" :class="[errors.streetName ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1">
-      <p v-if="errors.streetName" class="text-red-500 text-xs italic">{{ $t('errorsInvalidName') }}</p>
+      <p v-if="errors.streetName" class="text-red-500 text-xs italic">{{ $t('errorInvalidName') }}</p>
     </div>
     <div class="col-span-2">
       <label class="text-color-form">Hausnummer</label>
       <input v-model="address.houseNumber" type="text" :class="[errors.houseNumber ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1">
-      <p v-if="errors.houseNumber" class="text-red-500 text-xs italic">{{ $t('errorsInvalidName') }}</p>
+      <p v-if="errors.houseNumber" class="text-red-500 text-xs italic">{{ $t('errorInvalidName') }}</p>
     </div>
   </div>
   <div class="grid grid-cols-12 gap-6">
     <div class="col-span-2">
       <label class="text-color-form">Postleitzahl</label>
       <input v-model="address.zipCode" type="text" :class="[errors.zipCode ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1">
-      <p v-if="errors.zipCode" class="text-red-500 text-xs italic">{{ $t('errorsInvalidName') }}</p>
+      <p v-if="errors.zipCode" class="text-red-500 text-xs italic">{{ $t('errorInvalidName') }}</p>
     </div>
     <div class="col-span-10">
       <label class="text-color-form">Ort</label>
       <input v-model="address.location" type="text" :class="[errors.location ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1">
-      <p v-if="errors.location" class="text-red-500 text-xs italic">{{ $t('errorsInvalidName') }}</p>
+      <p v-if="errors.location" class="text-red-500 text-xs italic">{{ $t('errorInvalidName') }}</p>
     </div>
   </div>
 
-  <div class="flex justify-end mt-6">
+  <div class="flex justify-end mt-4">
     <button class="bg-color-nav text-color-nav rounded focus:outline-none px-4 py-2 ml-4">
       {{ $t('save') }}
     </button>
@@ -96,6 +96,8 @@ export default {
         this.address.countryCode = res.data.country_code || ''
         this.address.location = res.data.location || ''
         this.address.name = res.data.name || ''
+
+        this.$emit('organizationId', res.data._id)
       } else {
         console.debug(res.data)
       }
@@ -187,7 +189,7 @@ export default {
 
       return hexParts.join('')
     },
-    submitAddressForm() {
+    submitForm() {
       const isValidForm = (currentValue) => currentValue !== true
 
       if (!this.address.name) {
