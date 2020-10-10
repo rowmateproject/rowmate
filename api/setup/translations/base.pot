@@ -762,3 +762,12 @@ msgstr ""
 
 msgid "rowingTeaser"
 msgstr ""
+
+msgid "steered"
+msgstr ""
+
+msgid "crewsize"
+msgstr ""
+
+msgid "discipline"
+msgstr ""
