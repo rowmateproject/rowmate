@@ -22,8 +22,10 @@ export default {
   data() {
     return {
       users: [],
-      searchTerm: null
+      searchTerm: ''
     }
+  },
+  mounted() {
   },
   computed: {
     currentLocale() {
@@ -36,7 +38,12 @@ export default {
       return this.$props.showResetButton
     }
   },
-  props: ['eventSubscriptions', 'showResetButton'],
+  watch: {
+    searchQuery: function(value) {
+      this.searchTerm = value
+    }
+  },
+  props: ['searchQuery', 'showResetButton'],
   methods: {
     toggleSearch() {
       this.users = []
@@ -46,10 +53,16 @@ export default {
       this.$emit('resetFilter', true)
     },
     setSerchTerm(value) {
-      this.searchTerm = value.name
+      if (this.searchQueryTerm) {
+        this.searchTerm = this.searchQueryTerm
+      } else {
+        this.searchTerm = value.name
+      }
+
       this.$emit('resultObject', {
         user: value
       })
+
       this.toggleSearch()
     },
     lookupUser() {

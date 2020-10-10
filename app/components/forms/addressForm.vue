@@ -97,7 +97,7 @@ export default {
         this.address.location = res.data.location || ''
         this.address.name = res.data.name || ''
 
-        this.$emit('organizationId', res.data._id)
+        this.$emit('organizationObject', res.data)
       } else {
         console.debug(res.data)
       }

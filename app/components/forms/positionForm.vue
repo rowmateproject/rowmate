@@ -1,5 +1,3 @@
-
-  console.log(value)
 <template>
 <div class="grid grid-cols-12 gap-6">
   <div class="col-span-6">
@@ -10,7 +8,7 @@
   </div>
   <div class="col-span-6">
     <label class="text-color-form">Mitglieder Filter</label>
-    <user-filter @resultObject="handleMember" @resetFilter="handleMemberReset" :showResetButton="true" />
+    <user-filter @resultObject="handleMember" @resetFilter="handleMemberReset" :searchQuery="position.member" :showResetButton="true" />
   </div>
 </div>
 </template>
@@ -20,8 +18,9 @@ export default {
   data() {
     return {
       position: {
-        title: '',
-        member: ''
+        _id: '',
+        member: '',
+        title: ''
       },
       errors: {
         title: false,
@@ -29,13 +28,8 @@ export default {
       }
     }
   },
-  computed: {
-    watchMe() {
-      const positionObject = this.$props.positionObject
-
-      this.position.title = positionObject.title
-      this.position.member = positionObject.member
-    }
+  mounted() {
+    this.position = this.$props.positionObject
   },
   watch: {
     'position.title': function() {

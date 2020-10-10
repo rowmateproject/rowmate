@@ -1,6 +1,6 @@
 <template>
 <form @submit.prevent="submitForm" class="px-6 pb-6 pt-4 bg-color-form rounded-md shadow-md">
-  <ul>
+  <ul v-if="positions.length > 0">
     <li v-for="position, index in positions" :key="index" class="mb-4">
       <position-form @resultObject="handlePositionResult($event, index)" :positionObject="position" />
     </li>
@@ -32,9 +32,10 @@ export default {
     }
   },
   mounted() {
-    this.organization._id = this.$props.organizationId
+    this.organization = this.$props.organizationObject
+    this.positions = this.$props.organizationObject.positions
   },
-  props: ['organizationId'],
+  props: ['organizationObject'],
   methods: {
     addPositionForm(value) {
       this.positions.push({

@@ -9,12 +9,12 @@
 
   <div class="mt-3 md:mt-6 lg:mt-8">
     <h4 class="text-color-form text-2xl font-medium mb-4">Adresse</h4>
-    <address-form @organizationId="handleOrganizationId" />
+    <address-form @organizationObject="handleOrganizationObject" />
   </div>
 
   <div v-if="organization._id" class="mt-3 md:mt-6 lg:mt-8">
     <h4 class="text-color-form text-2xl font-medium mb-4">Verwaltung</h4>
-    <organization-form :organizationId="organization._id" />
+    <organization-form :organizationObject="organization" />
   </div>
 </div>
 </template>
@@ -29,9 +29,8 @@ export default {
     }
   },
   methods: {
-    handleOrganizationId(value) {
-      console.log(value)
-      this.organization._id = value
+    handleOrganizationObject(value) {
+      this.organization = value
     }
   }
 }
