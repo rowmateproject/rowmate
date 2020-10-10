@@ -58,11 +58,11 @@ export default {
       element.sheet.insertRule(`.bg-color-header {background-color: ${res.headerBackground}}`, 0)
       element.sheet.insertRule(`.bg-color-footer {background-color: ${res.footerBackground}}`, 0)
       element.sheet.insertRule(`.bg-color-button {background-color: ${res.buttonBackground}}`, 0)
-      element.sheet.insertRule(`.bg-color-button:focus {background-color: ${this.handleColor(res.buttonBackground, -40)}}`, 0)
-      element.sheet.insertRule(`.bg-color-button:hover {background-color: ${this.handleColor(res.buttonBackground, -40)}}`, 0)
+      element.sheet.insertRule(`.bg-color-button:focus {background-color: ${this.handleColor(res.buttonBackground, -10)}}`, 0)
+      element.sheet.insertRule(`.bg-color-button:hover {background-color: ${this.handleColor(res.buttonBackground, -10)}}`, 0)
       element.sheet.insertRule(`.border-color-form {border-color: ${res.formBorder}}`, 0)
-      element.sheet.insertRule(`.border-color-form:hover {border-color: ${this.handleColor(res.formBorder, -40)}}`, 0)
-      element.sheet.insertRule(`.border-color-form:focus {border-color: ${this.handleColor(res.formBorder, -40)}}`, 0)
+      element.sheet.insertRule(`.border-color-form:hover {border-color: ${this.handleColor(res.formBorder, -10)}}`, 0)
+      element.sheet.insertRule(`.border-color-form:focus {border-color: ${this.handleColor(res.formBorder, -10)}}`, 0)
     })
   },
   methods: {
