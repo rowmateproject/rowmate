@@ -1,10 +1,13 @@
 from fastapi import Depends, APIRouter, HTTPException
+from pydantic import parse_obj_as
 from bson.binary import Binary
+from typing import List
 from uuid import UUID
 
 # models
 from models.address import RequestAddress
 from models.organization import Organization, UpdateOrganization
+from models.position import Position, RequestPosition
 
 # utils
 from utils.uuid import generate_uuid
@@ -16,16 +19,17 @@ def get_organization_router(database, authenticator) -> APIRouter:
     @router.get('')
     async def get_organization(user=Depends(
             authenticator.get_current_active_user)):
-        query = [{'$lookup': {'from': 'addresses', 'localField':
-                              'address_id', 'foreignField': '_id', 'as': 'a'}},
+        query = [{'$lookup': {'from': 'addresses', 'localField': 'address_id',
+                              'foreignField': '_id', 'as': 'a'}},
+                 {'$lookup': {'from': 'positions', 'localField': 'positions',
+                              'foreignField': '_id', 'as': 'b'}},
                  {'$unwind': {'path': '$a'}},
                  {'$project': {'_id': '$_id', 'name': '$a.name',
                                'street_name': '$a.street_name',
                                'house_number': '$a.house_number',
-                               'zip_code': '$a.zip_code',
                                'country_code': '$a.country_code',
-                               'location': '$a.location',
-                               'name': '$a.name'}}]
+                               'zip_code': '$a.zip_code', 'name': '$a.name',
+                               'location': '$a.location', 'positions': '$b'}}]
 
         res = await database['organizations'].aggregate(
             query).to_list(length=1)
@@ -85,6 +89,45 @@ def get_organization_router(database, authenticator) -> APIRouter:
             else:
                 raise HTTPException(
                     status_code=400, detail='Address not updated')
+        else:
+            raise HTTPException(
+                status_code=404, detail='Organization not updated')
+
+    @router.patch('/{hex}/positions')
+    async def patch_position(hex, model: RequestPosition, user=Depends(
+            authenticator.get_current_superuser)):
+        try:
+            req_uuid = UUID(hex=hex, version=4)
+        except (TypeError, ValueError):
+            raise HTTPException(
+                status_code=404, detail='Invalid identifier')
+        doc = parse_obj_as(List[Position], dict(model)['positions'])
+        positions = [dict(x) for x in doc]
+        query = {'_id': req_uuid}
+
+        res = await database['organizations'].find_one(query)
+
+        if res is not None:
+            for position in positions:
+                # TODO: title should be refactored with as _id
+                query = {'title': position['title']}
+                doc = {'$set': {**position}}
+
+                res = await database['positions'].update_one(query, doc)
+
+                if res.modified_count == 0 and res.matched_count == 0:
+                    position_uuid: Binary = generate_uuid()
+
+                    doc = {**position}
+                    doc['_id'] = position_uuid
+
+                    res = await database['positions'].insert_one(doc)
+
+                    if res.acknowledged:
+                        query = {'_id': req_uuid}
+                        doc = {'$addToSet': {'positions': position_uuid}}
+
+                        await database['organizations'].update_one(query, doc)
         else:
             raise HTTPException(
                 status_code=404, detail='Organization not updated')

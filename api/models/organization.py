@@ -10,7 +10,7 @@ from models.address import Address
 class Organization(Address, BaseModel):
     created_at: datetime = datetime.utcnow()
     address_id: Binary
-    members: Optional[List[UUID4]]
+    positions: Optional[List[UUID4]]
 
 
 class UpdateOrganization(Organization):
