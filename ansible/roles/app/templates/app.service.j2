@@ -1,0 +1,13 @@
+[Unit]
+Description=Nuxtjs instance to serve app
+After=network.target
+
+[Service]
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/opt/rowmate/app
+ExecStart=/usr/bin/node /opt/rowmate/app/node_modules/.bin/nuxt start --hostname {{ app_private_address }} --port 3000
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

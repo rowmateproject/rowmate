@@ -1,0 +1,25 @@
+---
+
+- hosts: all
+  roles:
+    - system
+
+
+- hosts: dbserver
+  roles:
+    - db
+
+
+- hosts: webserver
+  roles:
+    - server
+
+
+- hosts: appserver
+  roles:
+    - api
+
+
+- hosts: appserver
+  roles:
+    - app

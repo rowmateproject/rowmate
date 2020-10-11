@@ -1,0 +1,133 @@
+server {
+  server_name {{ api_domain }};
+  listen 443 ssl http2;
+
+  ssl_certificate /etc/letsencrypt/live/{{ api_domain }}/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/{{ api_domain }}/privkey.pem;
+  ssl_trusted_certificate /etc/letsencrypt/live/{{ api_domain }}/fullchain.pem;
+
+  # enable session resumption to improve https performance
+  # http://vincent.bernat.im/en/blog/2011-ssl-session-reuse-rfc5077.html
+  ssl_session_cache shared:SSL:10m;
+  ssl_session_timeout 5m;
+  ssl_stapling on;
+  ssl_stapling_verify on;
+
+  location /.well-known/acme-challenge {
+    root /var/www/letsencrypt;
+    try_files $uri $uri/ =404;
+  }
+
+  location / {
+    if ($request_method = 'OPTIONS') {
+      add_header 'Access-Control-Allow-Origin' 'https://{{ app_domain }}' always;
+      add_header 'Access-Control-Allow-Methods' 'GET, POST, PATCH, PUT, DELETE, OPTIONS' always;
+
+      # Custom headers and headers various browsers *should* be OK with but aren't
+      add_header 'Access-Control-Allow-Headers' 'Authorization,DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range' always;
+
+      # Tell client that this pre-flight info is valid for 20 days
+      add_header 'Access-Control-Max-Age' 1728000 always;
+      add_header 'Content-Type' 'text/plain; charset=utf-8' always;
+      add_header 'Content-Length' 0 always;
+      return 204;
+    }
+
+    if ($request_method = 'PATCH') {
+      add_header 'Access-Control-Allow-Origin' 'https://{{ app_domain }}' always;
+      add_header 'Access-Control-Allow-Methods' 'GET, POST, PATCH, PUT, DELETE, OPTIONS' always;
+      add_header 'Access-Control-Allow-Headers' 'Authorization,DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range' always;
+    }
+
+    if ($request_method = 'POST') {
+      add_header 'Access-Control-Allow-Origin' 'https://{{ app_domain }}' always;
+      add_header 'Access-Control-Allow-Methods' 'GET, POST, PATCH, PUT, DELETE, OPTIONS' always;
+      add_header 'Access-Control-Allow-Headers' 'Authorization,DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range' always;
+    }
+
+    if ($request_method = 'GET') {
+      add_header 'Access-Control-Allow-Origin' 'https://{{ app_domain }}' always;
+      add_header 'Access-Control-Allow-Methods' 'GET, POST, PATCH, PUT, DELETE, OPTIONS' always;
+      add_header 'Access-Control-Allow-Headers' 'Authorization,DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range' always;
+    }
+
+    if ($request_method = 'PUT') {
+      add_header 'Access-Control-Allow-Origin' 'https://{{ app_domain }}' always;
+      add_header 'Access-Control-Allow-Methods' 'GET, POST, PATCH, PUT, DELETE, OPTIONS' always;
+      add_header 'Access-Control-Allow-Headers' 'Authorization,DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range' always;
+    }
+
+    if ($request_method = 'DELETE') {
+      add_header 'Access-Control-Allow-Origin' 'https://{{ app_domain }}' always;
+      add_header 'Access-Control-Allow-Methods' 'GET, POST, PATCH, PUT, DELETE, OPTIONS' always;
+      add_header 'Access-Control-Allow-Headers' 'Authorization,DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range' always;
+    }
+
+    proxy_pass http://{{ api_private_address }}:5000;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header X-Forwarded-Host $http_host;
+    proxy_set_header X-Forwarded-For $remote_addr;
+    proxy_set_header X-Forwarded-Port $server_port;
+  }
+
+  error_page 500 /500.html;
+  location /500.html{
+    add_header 'Content-Type' 'application/json charset=UTF-8';
+    return 500 '{"detail": 500, "message": "Internal Server Error"}';
+  }
+
+  error_page 502 /502.html;
+  location /502.html{
+    add_header 'Content-Type' 'application/json charset=UTF-8';
+    return 502 '{"detail": 502, "message": "Bad Gateway Jonny"}';
+  }
+
+  error_page 503 /503.html;
+  location /503.html{
+    add_header 'Content-Type' 'application/json charset=UTF-8';
+    return 503 '{"detail": 503, "message": "Service Unavailable"}';
+  }
+
+  error_page 504 /504.html;
+  location /504.html{
+    add_header 'Content-Type' 'application/json charset=UTF-8';
+    return 504 '{"detail": 504, "message": "Gateway Timeout"}';
+  }
+
+  error_page 400 /400.html;
+  location /400.html{
+    add_header 'Content-Type' 'application/json charset=UTF-8';
+    return 400 '{"detail": 400, "message": "Bad Request Dude"}';
+  }
+
+  error_page 401 /401.html;
+  location /401.html{
+    add_header 'Content-Type' 'application/json charset=UTF-8';
+    return 401 '{"detail": 401, "message": "Unauthorized Bob"}';
+  }
+
+  error_page 403 /403.html;
+  location /403.html{
+    add_header 'Content-Type' 'application/json charset=UTF-8';
+    return 403 '{"detail": 403, "message": "Forbidden Peet"}';
+  }
+
+  error_page 404 /404.html;
+  location /404.html{
+    add_header 'Content-Type' 'application/json charset=UTF-8';
+    return 404 '{"detail": 404, "message": "Not Found Digga"}';
+  }
+
+  error_page 408 /408.html;
+  location /408.html{
+    add_header 'Content-Type' 'application/json charset=UTF-8';
+    return 408 '{"detail": 408, "message": "Request Timeout}';
+  }
+
+  error_page 418 /418.html;
+  location /418.html{
+    add_header 'Content-Type' 'application/json charset=UTF-8';
+    return 418 '{"detail": 418, "message": "I\'m a teapot"}';
+  }
+}

@@ -1,0 +1,15 @@
+[Unit]
+Description=Gunicorn instance to serve api
+After=network.target
+
+[Service]
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/opt/rowmate/api
+Environment="PATH=/opt/rowmate/api/venv/bin"
+ExecStart=/opt/rowmate/api/venv/bin/uvicorn --host {{ app_private_address }} --port 5000 asgi:app --workers 4 --log-level info
+Restart=on-failure
+RestartSec=2s
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,39 @@
+---
+
+- name: update all packages to the latest version
+  apt:
+    update_cache: yes
+    force_apt_get: yes
+
+- name: upgrade all packages to the latest version
+  apt:
+    upgrade: dist
+
+- name: install fail2ban, net-tools, git, vim, httpie, htop
+  apt:
+    package: fail2ban, net-tools, git, vim, httpie, htop
+    state: present
+
+- name: set default system editor
+  alternatives:
+    name: editor
+    path: /usr/bin/vim.tiny
+
+- name: disable password authentication
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^PasswordAuthentication'
+    line: 'PasswordAuthentication no'
+    state: present
+    backup: yes
+
+- name: ensure service sshd is restarted
+  service:
+    name: sshd
+    state: restarted
+
+- name: ensure service fail2ban is started
+  service:
+    name: fail2ban
+    state: started
+    enabled: yes

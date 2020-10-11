@@ -1,0 +1,75 @@
+---
+
+- name: create an ubuntu user with less rights
+  user:
+    name: ubuntu
+    password: "{{ appserver_password | password_hash('sha512', general_password_salt) }}"
+    shell: /bin/bash
+    groups: sudo
+    append: yes
+    state: present
+
+- name: download specific nodejs version 14x
+  get_url:
+    force: yes
+    url: https://deb.nodesource.com/setup_14.x
+    dest: /tmp/node_setup.sh
+    mode: '0755'
+
+- name: install specific nodejs version 14x
+  command: bash /tmp/node_setup.sh
+
+- name: ensure dependencies are installed
+  apt:
+    name: nodejs, build-essential
+    state: present
+
+- name: clone git repository rowmate
+  git:
+    repo: 'https://github.com/maurosbicego/rowmate.git'
+    dest: /opt/rowmate
+    version: master
+    force: yes
+
+- name: change ownership of a rowmate
+  file:
+    path: /opt/rowmate
+    state: directory
+    recurse: yes
+    owner: ubuntu
+    group: ubuntu
+
+- name: create ansible temp directory
+  file:
+    path: /home/ubuntu/.ansible/tmp
+    state: directory
+    mode: '0700'
+
+- name: install packages based on package.json
+  become_user: ubuntu
+  npm:
+    path: /opt/rowmate/app
+    state: present
+
+- name: add a enviroment file for app
+  template:
+    src: app.env.j2
+    dest: /opt/rowmate/app/.env
+    mode: '0644'
+
+- name: build nuxtjs app based on package.json
+  command: npm run build
+  args:
+    chdir: /opt/rowmate/app
+
+- name: add a service systemd file for app
+  template:
+    src: app.service.j2
+    dest: /etc/systemd/system/app.service
+    mode: '0644'
+
+- name: enable and restart service app
+  service:
+    name: app
+    state: restarted
+    enabled: yes

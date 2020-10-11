@@ -1,0 +1,125 @@
+---
+
+- name: create an ubuntu user with less rights
+  user:
+    name: ubuntu
+    password: "{{ webserver_password | password_hash('sha512', general_password_salt) }}"
+    shell: /bin/bash
+    groups: sudo
+    append: yes
+    state: present
+
+- name: install certbot from ppa on ubuntu 18.04
+  apt_repository:
+    repo: ppa:certbot/certbot
+    mode: '0644'
+  when: ansible_distribution_release == 'bionic'
+
+- name: ensure nginx, certbot, cron are installed
+  apt:
+    name: nginx, certbot, cron
+    state: latest
+
+- name: create letsencrypt directory
+  file:
+    name: /var/www/letsencrypt
+    state: directory
+
+- name: remove default nginx sites config files
+  file:
+    name: '{{ item }}'
+    state: absent
+  with_items:
+    - /etc/nginx/sites-enabled/default
+    - /etc/nginx/sites-available/default
+
+- name: add nginx config template
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+    mode: '0644'
+
+- name: install nginx site for letsencrypt requests
+  template:
+    src: default.conf.j2
+    dest: /etc/nginx/sites-enabled/default.conf
+    mode: '0644'
+
+- name: reload nginx to activate letsencrypt site
+  service:
+    name: nginx
+    state: restarted
+    enabled: yes
+
+- name: check that the letsencrypt app directory exists
+  stat:
+    path: /etc/letsencrypt/live/{{ app_domain }}
+  register: letsencrypt_app_result
+
+- name: create letsencrypt certificate for app
+  shell: certbot certonly -n --webroot -w /var/www/letsencrypt -m {{ admin_email }} --agree-tos -d {{ app_domain }}
+  args:
+    creates: /etc/letsencrypt/live/{{ app_domain }}
+  when: not letsencrypt_app_result.stat.exists
+
+- name: check that the letsencrypt api directory exists
+  stat:
+    path: '/etc/letsencrypt/live/{{ api_domain }}'
+  register: letsencrypt_api_result
+
+- name: create letsencrypt certificate for api
+  shell: 'certbot certonly -n --webroot -w /var/www/letsencrypt -m {{ admin_email }} --agree-tos -d {{ api_domain }}'
+  args:
+    creates: '/etc/letsencrypt/live/{{ api_domain }}'
+  when: not letsencrypt_app_result.stat.exists
+
+- name: check that the diffie-hellman parameters exists
+  stat:
+    path: /etc/nginx/dhparams.pem
+  register: diffie_hellman_parameters_result
+
+- name: generate diffie-hellman parameters
+  shell: openssl dhparam -out /etc/nginx/dhparams.pem 2048
+  args:
+    creates: /etc/nginx/dhparams.pem
+  when: not diffie_hellman_parameters_result.stat.exists
+
+- name: add letsencrypt cronjob for certificates renewal
+  cron:
+    name: letsencrypt_certificates
+    special_time: weekly
+    job: certbot --renew-by-default certonly -n --webroot -w /var/www/letsencrypt -m {{ admin_email }} --agree-tos -d {{ app_domain }} -d {{ api_domain }} && service nginx reload
+
+- name: add app template to the nginx
+  template:
+    src: app.conf.j2
+    dest: /etc/nginx/sites-available/app.conf
+    mode: '0644'
+
+- name: enable available sites to enabled sites
+  file:
+    src: /etc/nginx/sites-available/app.conf
+    dest: /etc/nginx/sites-enabled/app.conf
+    state: link
+
+- name: add api template to the nginx
+  template:
+    src: api.conf.j2
+    dest: /etc/nginx/sites-available/api.conf
+    mode: '0644'
+
+- name: enable available sites to enabled sites
+  file:
+    src: /etc/nginx/sites-available/api.conf
+    dest: /etc/nginx/sites-enabled/api.conf
+    state: link
+
+- name: remove default nginx config from enabled sites
+  file:
+    name: /etc/nginx/sites-enabled/default.conf
+    state: absent
+
+- name: reload nginx to activate app and api
+  service:
+    name: nginx
+    state: restarted

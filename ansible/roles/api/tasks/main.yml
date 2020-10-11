@@ -1,0 +1,82 @@
+---
+
+- name: create an ubuntu user with less rights
+  user:
+    name: ubuntu
+    password: "{{ apiserver_password | password_hash('sha512', general_password_salt) }}"
+    shell: /bin/bash
+    groups: sudo
+    append: yes
+    state: present
+
+- name: ensure api dependencies are installed
+  apt:
+    name: python3.8, python3-pip
+    state: present
+
+- name: clone git repository rowmate
+  git:
+    repo: 'https://github.com/maurosbicego/rowmate.git'
+    dest: /opt/rowmate
+    version: master
+    force: yes
+
+- name: change ownership of a rowmate
+  file:
+    path: /opt/rowmate
+    state: directory
+    recurse: yes
+    owner: ubuntu
+    group: ubuntu
+
+- name: add api.env.j2 to api folder
+  template:
+    src: api.env.j2
+    dest: /opt/rowmate/api/.env
+    mode: '0644'
+
+- name: install virtualenv with pip
+  pip:
+    name: virtualenv
+    state: present
+
+- name: install asgi server with pip
+  pip:
+    name: uvicorn
+    virtualenv: /opt/rowmate/api/venv
+    state: present
+
+- name: install dependencies with pip
+  pip:
+    requirements: /opt/rowmate/api/requirements.txt
+    virtualenv: /opt/rowmate/api/venv
+    state: latest
+
+- name: add a service systemd file for api
+  template:
+    src: api.service.j2
+    dest: /etc/systemd/system/api.service
+    mode: '0644'
+
+- name: create log directory if it does not exist
+  file:
+    path: /var/log/api
+    state: directory
+    mode: '0755'
+
+- name: create api log files
+  file:
+    path: '{{ item }}'
+    state: touch
+    owner: ubuntu
+    group: ubuntu
+    mode: '0644'
+  with_items:
+    - /var/log/api/error.log
+    - /var/log/api/access.log
+
+- name: enable and restart service api
+  service:
+    name: api
+    state: restarted
+    enabled: yes

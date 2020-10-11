@@ -1,0 +1,51 @@
+---
+
+- name: create an ubuntu user with less rights
+  user:
+    name: ubuntu
+    password: "{{ dbserver_password | password_hash('sha512', general_password_salt) }}"
+    shell: /bin/bash
+    groups: sudo
+    append: yes
+    state: present
+
+- name: create mongodb admin password
+  set_fact:
+    password_mongodb_admin: "{{ db_password | password_hash('sha512', general_password_salt) }}"
+
+- name: output mongodb admin password
+  debug:
+    msg: '{{ password_mongodb_admin }}'
+
+- name: ensure dependencies are installed
+  apt:
+    name: mongodb-server, mongodb-clients, python3-pymongo
+    state: latest
+
+- name: create mongodb user admin
+  # no_log: true
+  mongodb_user:
+    database: admin
+    name: admin
+    password: '{{ password_mongodb_admin }}'
+    roles: userAdmin
+    state: present
+
+- name: create mongodb user password
+  set_fact:
+    password_mongodb_user: "{{ db_password | password_hash('sha512', general_password_salt) }}"
+
+- name: output mongodb user password
+  debug:
+    msg: '{{ password_mongodb_user }}'
+
+- name: 'create mongodb user {{ db_name }}'
+  # no_log: true
+  mongodb_user:
+    login_user: admin
+    login_password: '{{ password_mongodb_admin }}'
+    database: '{{ db_name }}'
+    name: '{{ db_name }}'
+    password: '{{ password_mongodb_user }}'
+    roles: readWrite
+    state: present
