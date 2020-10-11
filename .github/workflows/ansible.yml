@@ -52,7 +52,7 @@ jobs:
         chmod 400 id_rsa
       working-directory: ansible
 
-    - name: Run ansible playbook
+    - name: Create ssh host vars file
       env:
         DB_NAME: ${{ secrets.DB_NAME }}
         APP_NAME: ${{ secrets.APP_NAME }}
@@ -77,29 +77,36 @@ jobs:
         SMTP_PORT: ${{ secrets.SMTP_PORT }}
         SMTP_TLS: ${{ secrets.SMTP_TLS }}
         SMTP_SSL: ${{ secrets.SMTP_SSL }}
-        OPTIONS: |
-          --extra-vars 'db_name="$DB_NAME"'
-          --extra-vars 'app_name="$APP_NAME"'
-          --extra-vars 'app_domain="$APP_DOMAIN"'
-          --extra-vars 'api_domain="$API_DOMAIN"'
-          --extra-vars 'admin_email="$ADMIN_EMAIL"'
-          --extra-vars 'jwt_secret="$JWT_TOKEN"'
-          --extra-vars 'reset_secret="$RESET_SECRET"'
-          --extra-vars 'db_private_address="$DB_PRIVATE_ADDRESS"'
-          --extra-vars 'app_private_address="$APP_PRIVATE_ADDRESS"'
-          --extra-vars 'api_private_address="$API_PRIVATE_ADDRESS"'
-          --extra-vars 'db_password="$DB_PASSWORD"'
-          --extra-vars 'db_url_string="$DB_URL_STRING"'
-          --extra-vars 'dbserver_password="$DBSERVER_PASSWORD"'
-          --extra-vars 'webserver_password="$WEBSERVER_PASSWORD"'
-          --extra-vars 'appserver_password="$APPSERVER_PASSWORD"'
-          --extra-vars 'apiserver_password="$APISERVER_PASSWORD"'
-          --extra-vars 'general_password_salt="$GENERAL_PASSWORD_SALT"'
-          --extra-vars 'smtp_username="$SMTP_USERNAME"'
-          --extra-vars 'smtp_password="$SMTP_PASSWORD"'
-          --extra-vars 'smtp_server="$SMTP_SERVER"'
-          --extra-vars 'smtp_port="$SMTP_PORT"'
-          --extra-vars 'smtp_tls="$SMTP_TLS"'
-          --extra-vars 'smtp_ssl="$SMTP_SSL"'
+      run: |
+        cat << EOF > host_vars/all
+        ---
+
+        db_name: "$DB_NAME"
+        app_name: "$APP_NAME"
+        app_domain: "$APP_DOMAIN"
+        api_domain: "$API_DOMAIN"
+        admin_email: "$ADMIN_EMAIL"
+        jwt_secret: "$JWT_TOKEN"
+        reset_secret: "$RESET_SECRET"
+        db_private_address: "$DB_PRIVATE_ADDRESS"
+        app_private_address: "$APP_PRIVATE_ADDRESS"
+        api_private_address: "$API_PRIVATE_ADDRESS"
+        db_password: "$DB_PASSWORD"
+        db_url_string: "$DB_URL_STRING"
+        dbserver_password: "$DBSERVER_PASSWORD"
+        webserver_password: "$WEBSERVER_PASSWORD"
+        appserver_password: "$APPSERVER_PASSWORD"
+        apiserver_password: "$APISERVER_PASSWORD"
+        general_password_salt: "$GENERAL_PASSWORD_SALT"
+        smtp_username: "$SMTP_USERNAME"
+        smtp_password: "$SMTP_PASSWORD"
+        smtp_server: "$SMTP_SERVER"
+        smtp_port: "$SMTP_PORT"
+        smtp_tls: "$SMTP_TLS"
+        smtp_ssl: "$SMTP_SSL"
+        EOF
+      working-directory: ansible
+
+    - name: Run ansible playbook
       run: ansible-playbook sites.yml --private-key id_rsa --inventory hosts
       working-directory: ansible
