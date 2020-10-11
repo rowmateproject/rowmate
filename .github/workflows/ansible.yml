@@ -52,7 +52,7 @@ jobs:
         chmod 400 id_rsa
       working-directory: ansible
 
-    - name: Create ssh host vars file
+    - name: Create group_vars/all file
       env:
         DB_NAME: ${{ secrets.DB_NAME }}
         APP_NAME: ${{ secrets.APP_NAME }}
@@ -78,7 +78,7 @@ jobs:
         SMTP_TLS: ${{ secrets.SMTP_TLS }}
         SMTP_SSL: ${{ secrets.SMTP_SSL }}
       run: |
-        cat << EOF > host_vars/all
+        cat << EOF > group_vars/all
         ---
 
         db_name: "$DB_NAME"
