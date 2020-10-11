@@ -42,7 +42,13 @@ jobs:
         [dbserver]
         $DB_SERVER ansible_user=root
         EOF
-        echo "$HOSTS"
+      working-directory: ansible
+
+    - name: Create ssh private key file
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      run: |
+        cat "$SSH_PRIVATE_KEY" > id_rsa
       working-directory: ansible
 
     - name: Run ansible playbook
@@ -64,7 +70,6 @@ jobs:
         APPSERVER_PASSWORD: ${{ secrets.APPSERVER_PASSWORD }}
         APISERVER_PASSWORD: ${{ secrets.APISERVER_PASSWORD }}
         DBSERVER_PASSWORD: ${{ secrets.DBSERVER_PASSWORD }}
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
         SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
         SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
@@ -95,5 +100,5 @@ jobs:
           --extra-vars 'smtp_port="$SMTP_PORT"'
           --extra-vars 'smtp_tls="$SMTP_TLS"'
           --extra-vars 'smtp_ssl="$SMTP_SSL"'
-      run: ansible-playbook sites.yml --private-key "$SSH_PRIVATE_KEY" --inventory hosts
+      run: ansible-playbook sites.yml --private-key id_rsa --inventory hosts
       working-directory: ansible
