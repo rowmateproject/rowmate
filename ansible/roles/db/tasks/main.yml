@@ -25,8 +25,9 @@
 - name: create mongodb user admin
   # no_log: true
   mongodb_user:
-    database: admin
     name: admin
+    database: admin
+    login_host: '{{ db_private_address }}'
     password: '{{ password_mongodb_admin }}'
     roles: userAdmin
     state: present
@@ -44,6 +45,7 @@
   mongodb_user:
     login_user: admin
     login_password: '{{ password_mongodb_admin }}'
+    login_host: '{{ db_private_address }}'
     database: '{{ db_name }}'
     name: '{{ db_name }}'
     password: '{{ password_mongodb_user }}'
