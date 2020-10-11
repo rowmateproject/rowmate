@@ -20,40 +20,40 @@ jobs:
       with:
         playbook: sites.yml
         directory: ansible
-        key: ${{secrets.SSH_PRIVATE_KEY}}
+        key: '${{secrets.SSH_PRIVATE_KEY}}'
         inventory: |
           [webserver]
-          ${{secrets.WEB_SERVER}} ansible_user=root
+          '${{secrets.WEB_SERVER}}' ansible_user=root
 
           [apiserver]
-          ${{secrets.API_SERVER}} ansible_user=root
+          '${{secrets.API_SERVER}}' ansible_user=root
 
           [appserver]
-          ${{secrets.APP_SERVER}} ansible_user=root
+          '${{secrets.APP_SERVER}}' ansible_user=root
 
           [dbserver]
-          ${{secrets.DB_SERVER}} ansible_user=root
+          '${{secrets.DB_SERVER}}' ansible_user=root
         options: |
-          --extra-vars "db_name=${{secrets.DB_NAME}}"
-          --extra-vars "app_name=${{secrets.APP_NAME}}"
-          --extra-vars "app_domain=${{secrets.APP_DOMAIN}}"
-          --extra-vars "api_domain=${{secrets.API_DOMAIN}}"
-          --extra-vars "admin_email=${{secrets.ADMIN_EMAIL}}"
-          --extra-vars "jwt_secret=${{secrets.JWT_TOKEN}}"
-          --extra-vars "reset_secret=${{secrets.RESET_SECRET}}"
-          --extra-vars "db_private_address=${{secrets.DB_PRIVATE_ADDRESS}}"
-          --extra-vars "app_private_address=${{secrets.APP_PRIVATE_ADDRESS}}"
-          --extra-vars "api_private_address=${{secrets.API_PRIVATE_ADDRESS}}"
-          --extra-vars "db_password=${{secrets.DB_PASSWORD}}"
-          --extra-vars "db_url_string=${{secrets.DB_URL_STRING}}"
-          --extra-vars "dbserver_password=${{secrets.DBSERVER_PASSWORD}}"
-          --extra-vars "webserver_password=${{secrets.WEBSERVER_PASSWORD}}"
-          --extra-vars "appserver_password=${{secrets.APPSERVER_PASSWORD}}"
-          --extra-vars "apiserver_password=${{secrets.APISERVER_PASSWORD}}"
-          --extra-vars "general_password_salt=${{secrets.GENERAL_PASSWORD_SALT}}"
-          --extra-vars "smtp_username=${{secrets.SMTP_USERNAME}}"
-          --extra-vars "smtp_password=${{secrets.SMTP_PASSWORD}}"
-          --extra-vars "smtp_server=${{secrets.SMTP_SERVER}}"
-          --extra-vars "smtp_port=${{secrets.SMTP_PORT}}"
-          --extra-vars "smtp_tls=${{secrets.SMTP_TLS}}"
-          --extra-vars "smtp_ssl=${{secrets.SMTP_SSL}}"
+          --extra-vars "db_name='${{secrets.DB_NAME}}'"
+          --extra-vars "app_name='${{secrets.APP_NAME}}'"
+          --extra-vars "app_domain='${{secrets.APP_DOMAIN}}'"
+          --extra-vars "api_domain='${{secrets.API_DOMAIN}}'"
+          --extra-vars "admin_email='${{secrets.ADMIN_EMAIL}}'"
+          --extra-vars "jwt_secret='${{secrets.JWT_TOKEN}}'"
+          --extra-vars "reset_secret='${{secrets.RESET_SECRET}}'"
+          --extra-vars "db_private_address='${{secrets.DB_PRIVATE_ADDRESS}}'"
+          --extra-vars "app_private_address='${{secrets.APP_PRIVATE_ADDRESS}}'"
+          --extra-vars "api_private_address='${{secrets.API_PRIVATE_ADDRESS}}'"
+          --extra-vars "db_password='${{secrets.DB_PASSWORD}}'"
+          --extra-vars "db_url_string='${{secrets.DB_URL_STRING}}'"
+          --extra-vars "dbserver_password='${{secrets.DBSERVER_PASSWORD}}'"
+          --extra-vars "webserver_password='${{secrets.WEBSERVER_PASSWORD}}'"
+          --extra-vars "appserver_password='${{secrets.APPSERVER_PASSWORD}}'"
+          --extra-vars "apiserver_password='${{secrets.APISERVER_PASSWORD}}'"
+          --extra-vars "general_password_salt='${{secrets.GENERAL_PASSWORD_SALT}}'"
+          --extra-vars "smtp_username='${{secrets.SMTP_USERNAME}}'"
+          --extra-vars "smtp_password='${{secrets.SMTP_PASSWORD}}'"
+          --extra-vars "smtp_server='${{secrets.SMTP_SERVER}}'"
+          --extra-vars "smtp_port='${{secrets.SMTP_PORT}}'"
+          --extra-vars "smtp_tls='${{secrets.SMTP_TLS}}'"
+          --extra-vars "smtp_ssl='${{secrets.SMTP_SSL}}'"
