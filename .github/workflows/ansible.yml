@@ -42,10 +42,10 @@ jobs:
           [dbserver]
           "${{ env.DB_SERVER }}" ansible_user=root
       run: |
-        echo "$WEB_SERVER"
-        echo "$API_SERVER"
-        echo "$APP_SERVER"
-        echo "$DB_SERVER"
+        echo ${{ secrets.WEB_SERVER }}
+        echo ${{ secrets.API_SERVER }}
+        echo ${{ secrets.APP_SERVER }}
+        echo ${{ secrets.DB_SERVER }}
         echo "$HOSTS" >> hosts
 
     - name: Run ansible playbook
@@ -98,5 +98,5 @@ jobs:
           --extra-vars 'smtp_port="$SMTP_PORT"'
           --extra-vars 'smtp_tls="$SMTP_TLS"'
           --extra-vars 'smtp_ssl="$SMTP_SSL"'
-      run: ansible-playbook sites.yml --private-key "$SSH_PRIVATE_KEY" --inventory hosts "$OPTIONS"
+      run: ansible-playbook sites.yml --private-key "$SSH_PRIVATE_KEY" --inventory hosts
       working-directory: ansible
