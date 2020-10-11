@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: me@rowmate.org\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2020-10-11 11:36+0200\n"
+"PO-Revision-Date: 2020-10-12 00:47+0200\n"
 "Last-Translator: Support <support@rowmate.org>\n"
 "Language-Team: English <support@rowmate.org>\n"
 "Language: de\n"
@@ -777,10 +777,286 @@ msgstr ""
 "Registriere Dich jetzt kostenlos."
 
 msgid "steered"
-msgstr ""
+msgstr "gesteuert"
 
 msgid "crewsize"
-msgstr ""
+msgstr "Besatzungsgröße"
 
 msgid "discipline"
-msgstr ""
+msgstr "Disziplin"
+
+msgid "boats"
+msgstr "Boote"
+
+#, fuzzy
+msgid "Close"
+msgstr "Schließen"
+
+msgid "Cry"
+msgstr "Weinen"
+
+msgid "Dizzy"
+msgstr "Schwindlig"
+
+msgid "EyeRoll"
+msgstr "Augenverdrehen"
+
+msgid "Happy"
+msgstr "Glücklich"
+
+msgid "Hearts"
+msgstr "Herzen"
+
+msgid "Side"
+msgstr "Seitliche Augenbraue"
+
+msgid "Squint"
+msgstr "Schielen"
+
+msgid "Surprised"
+msgstr "Überrascht"
+
+msgid "Wink"
+msgstr "Wink"
+
+msgid "WinkWacky"
+msgstr "Verrückt"
+
+msgid "Angry"
+msgstr "Wütend"
+
+msgid "AngryNatural"
+msgstr "Wütend verstärkt"
+
+#, fuzzy
+#| msgid "Default"
+msgid "DefaultNatural"
+msgstr "Standard"
+
+msgid "FlatNatural"
+msgstr "Natürlich"
+
+msgid "RaisedExcited"
+msgstr "Aufgeregt"
+
+msgid "RaisedExcitedNatural"
+msgstr "Erhöhte Aufregung"
+
+#, fuzzy
+#| msgid "Concerned"
+msgid "SadConcerned"
+msgstr "Besorgt"
+
+#, fuzzy
+#| msgid "Concerned"
+msgid "SadConcernedNatural"
+msgstr "Besorgt"
+
+msgid "UnibrowNatural"
+msgstr "Augenbrauen"
+
+msgid "UpDown"
+msgstr "Oben unten"
+
+msgid "UpDownNatural"
+msgstr "Natürlich"
+
+msgid "Blank"
+msgstr "Leer"
+
+msgid "Kurt"
+msgstr "Kurt"
+
+msgid "Prescription01"
+msgstr "Korrekturgläser 1"
+
+msgid "Prescription02"
+msgstr "Korrekturgläser 2"
+
+msgid "Round"
+msgstr "Runde Brille"
+
+msgid "Sunglasses"
+msgstr "Sonnenbrille"
+
+msgid "Wayfarers"
+msgstr "Wanderer"
+
+msgid "BeardMedium"
+msgstr "Bart Medium"
+
+msgid "BeardLight"
+msgstr "Bart leicht"
+
+msgid "BeardMajestic"
+msgstr "Bart Majestätisch"
+
+msgid "MoustacheFancy"
+msgstr "Schnurrbart Phantasie"
+
+msgid "MoustacheMagnum"
+msgstr "Schnurrbart Magnum"
+
+msgid "Tanned"
+msgstr "Braun gebrannt"
+
+#, fuzzy
+#| msgid "PaleGreen"
+msgid "Pale"
+msgstr "Blasses Grün"
+
+#, fuzzy
+#| msgid "LightBlue"
+msgid "Light"
+msgstr "Hellblau"
+
+#, fuzzy
+#| msgid "Brown"
+msgid "DarkBrown"
+msgstr "Braun"
+
+#, fuzzy
+#| msgid "LongHairDreads"
+msgid "LongHairFrida"
+msgstr "Lange Dreadlocks"
+
+#, fuzzy
+#| msgid "LongHairBob"
+msgid "LongHairFro"
+msgstr "Lange Haare Bob"
+
+#, fuzzy
+#| msgid "LongHairBun"
+msgid "LongHairFroBand"
+msgstr "Lange Haare gebunden"
+
+#, fuzzy
+#| msgid "LongHairBob"
+msgid "LongHairNotTooLong"
+msgstr "Lange Haare Bob"
+
+#, fuzzy
+#| msgid "LongHairDreads"
+msgid "LongHairShavedSides"
+msgstr "Lange Dreadlocks"
+
+#, fuzzy
+#| msgid "LongHairBigHair"
+msgid "LongHairMiaWallace"
+msgstr "Lange Haare Offen"
+
+#, fuzzy
+#| msgid "LongHairDreads"
+msgid "LongHairStraight"
+msgstr "Lange Dreadlocks"
+
+#, fuzzy
+#| msgid "LongHairDreads"
+msgid "LongHairStraight2"
+msgstr "Lange Dreadlocks"
+
+#, fuzzy
+#| msgid "LongHairDreads"
+msgid "LongHairStraightStrand"
+msgstr "Lange Dreadlocks"
+
+#, fuzzy
+#| msgid "LongHairDreads"
+msgid "ShortHairDreads01"
+msgstr "Lange Dreadlocks"
+
+#, fuzzy
+#| msgid "LongHairDreads"
+msgid "ShortHairDreads02"
+msgstr "Lange Dreadlocks"
+
+msgid "ShortHairFrizzle"
+msgstr "Kurzes Haar Frizzle"
+
+msgid "ShortHairShaggyMullet"
+msgstr "Kurzes Haar Shaggy Mullet"
+
+#, fuzzy
+#| msgid "LongHairCurly"
+msgid "ShortHairShortCurly"
+msgstr "Lange Haare gelockt"
+
+msgid "ShortHairShortFlat"
+msgstr "Kurzes Plattes Haar"
+
+msgid "ShortHairShortRound"
+msgstr "Kurzes Haar Kurze Runde"
+
+msgid "ShortHairShortWaved"
+msgstr "Kurzes Haar Kurz gewellt"
+
+msgid "ShortHairSides"
+msgstr "Kurze Haarseiten"
+
+msgid "ShortHairTheCaesar"
+msgstr "Kurz Haar Cäsar"
+
+msgid "ShortHairTheCaesarSidePart"
+msgstr "Kurz Haar Cäsar Seitenteil"
+
+msgid "BlazerShirt"
+msgstr "Blazer T-Shirt"
+
+msgid "BlazerSweater"
+msgstr "Blazer Pullover"
+
+msgid "CollarSweater"
+msgstr "Kragenpullover"
+
+msgid "GraphicShirt"
+msgstr "Bedrucktes T-Shirt"
+
+msgid "Hoodie"
+msgstr "Kapuzenpullover"
+
+msgid "Overall"
+msgstr "Overall"
+
+msgid "ShirtCrewNeck"
+msgstr "Hemd Rundhalsausschnitt"
+
+msgid "ShirtScoopNeck"
+msgstr "Hemd U-Ausschnitt"
+
+msgid "ShirtVNeck"
+msgstr "T-Shirt V-Ausschnitt"
+
+#, fuzzy
+#| msgid "Hat"
+msgid "Bat"
+msgstr "Hut"
+
+msgid "Cumbia"
+msgstr "Cumbia"
+
+msgid "Deer"
+msgstr "Hirsch"
+
+msgid "Diamond"
+msgstr "Diamant"
+
+msgid "Hola"
+msgstr "Hola"
+
+msgid "Pizza"
+msgstr "Pizza"
+
+msgid "Resist"
+msgstr "Widerstehen"
+
+msgid "Selena"
+msgstr "Selena"
+
+msgid "Bear"
+msgstr "Bär"
+
+msgid "SkullOutline"
+msgstr "Schädel Umriss"
+
+msgid "Skull"
+msgstr "Schädel"
