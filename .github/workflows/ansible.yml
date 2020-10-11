@@ -17,43 +17,72 @@ jobs:
     - name: Setup deployment scripts
       uses: dawidd6/action-ansible-playbook@v2
 
+      env:
+        DB_NAME: ${{ secrets.DB_NAME }}
+        APP_NAME: ${{ secrets.APP_NAME }}
+        JWT_TOKEN: ${{ secrets.JWT_TOKEN }}
+        APP_DOMAIN: ${{ secrets.APP_DOMAIN }}
+        API_DOMAIN: ${{ secrets.API_DOMAIN }}
+        ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        RESET_SECRET: ${{ secrets.RESET_SECRET }}
+        DB_URL_STRING: ${{ secrets.DB_URL_STRING }}
+        DB_PRIVATE_ADDRESS: ${{ secrets.DB_PRIVATE_ADDRESS }}
+        APP_PRIVATE_ADDRESS: ${{ secrets.APP_PRIVATE_ADDRESS }}
+        API_PRIVATE_ADDRESS: ${{ secrets.API_PRIVATE_ADDRESS }}
+        GENERAL_PASSWORD_SALT: ${{ secrets.GENERAL_PASSWORD_SALT }}
+        WEBSERVER_PASSWORD: ${{ secrets.WEBSERVER_PASSWORD }}
+        APPSERVER_PASSWORD: ${{ secrets.APPSERVER_PASSWORD }}
+        APISERVER_PASSWORD: ${{ secrets.APISERVER_PASSWORD }}
+        DBSERVER_PASSWORD: ${{ secrets.DBSERVER_PASSWORD }}
+        SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
+        SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+        SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
+        WEB_SERVER: ${{ secrets.WEB_SERVER }}
+        API_SERVER: ${{ secrets.API_SERVER }}
+        APP_SERVER: ${{ secrets.APP_SERVER }}
+        DB_SERVER: ${{ secrets.DB_SERVER }}
+        SMTP_PORT: ${{ secrets.SMTP_PORT }}
+        SMTP_TLS: ${{ secrets.SMTP_TLS }}
+        SMTP_SSL: ${{ secrets.SMTP_SSL }}
+
       with:
         playbook: sites.yml
         directory: ansible
         key: '${{secrets.SSH_PRIVATE_KEY}}'
         inventory: |
           [webserver]
-          '${{secrets.WEB_SERVER}}' ansible_user=root
+          %WEB_SERVER% ansible_user=root
 
           [apiserver]
-          '${{secrets.API_SERVER}}' ansible_user=root
+          %API_SERVER% ansible_user=root
 
           [appserver]
-          '${{secrets.APP_SERVER}}' ansible_user=root
+          %APP_SERVER% ansible_user=root
 
           [dbserver]
-          '${{secrets.DB_SERVER}}' ansible_user=root
+          %DB_SERVER% ansible_user=root
         options: |
-          --extra-vars "db_name='${{secrets.DB_NAME}}'"
-          --extra-vars "app_name='${{secrets.APP_NAME}}'"
-          --extra-vars "app_domain='${{secrets.APP_DOMAIN}}'"
-          --extra-vars "api_domain='${{secrets.API_DOMAIN}}'"
-          --extra-vars "admin_email='${{secrets.ADMIN_EMAIL}}'"
-          --extra-vars "jwt_secret='${{secrets.JWT_TOKEN}}'"
-          --extra-vars "reset_secret='${{secrets.RESET_SECRET}}'"
-          --extra-vars "db_private_address='${{secrets.DB_PRIVATE_ADDRESS}}'"
-          --extra-vars "app_private_address='${{secrets.APP_PRIVATE_ADDRESS}}'"
-          --extra-vars "api_private_address='${{secrets.API_PRIVATE_ADDRESS}}'"
-          --extra-vars "db_password='${{secrets.DB_PASSWORD}}'"
-          --extra-vars "db_url_string='${{secrets.DB_URL_STRING}}'"
-          --extra-vars "dbserver_password='${{secrets.DBSERVER_PASSWORD}}'"
-          --extra-vars "webserver_password='${{secrets.WEBSERVER_PASSWORD}}'"
-          --extra-vars "appserver_password='${{secrets.APPSERVER_PASSWORD}}'"
-          --extra-vars "apiserver_password='${{secrets.APISERVER_PASSWORD}}'"
-          --extra-vars "general_password_salt='${{secrets.GENERAL_PASSWORD_SALT}}'"
-          --extra-vars "smtp_username='${{secrets.SMTP_USERNAME}}'"
-          --extra-vars "smtp_password='${{secrets.SMTP_PASSWORD}}'"
-          --extra-vars "smtp_server='${{secrets.SMTP_SERVER}}'"
-          --extra-vars "smtp_port='${{secrets.SMTP_PORT}}'"
-          --extra-vars "smtp_tls='${{secrets.SMTP_TLS}}'"
-          --extra-vars "smtp_ssl='${{secrets.SMTP_SSL}}'"
+          --extra-vars "db_name=%DB_NAME%"
+          --extra-vars "app_name=%APP_NAME%"
+          --extra-vars "app_domain=%APP_DOMAIN%"
+          --extra-vars "api_domain=%API_DOMAIN%"
+          --extra-vars "admin_email=%ADMIN_EMAIL%"
+          --extra-vars "jwt_secret=%JWT_TOKEN%"
+          --extra-vars "reset_secret=%RESET_SECRET%"
+          --extra-vars "db_private_address=%DB_PRIVATE_ADDRESS%"
+          --extra-vars "app_private_address=%APP_PRIVATE_ADDRESS%"
+          --extra-vars "api_private_address=%API_PRIVATE_ADDRESS%"
+          --extra-vars "db_password=%DB_PASSWORD%"
+          --extra-vars "db_url_string=%DB_URL_STRING%"
+          --extra-vars "dbserver_password=%DBSERVER_PASSWORD%"
+          --extra-vars "webserver_password=%WEBSERVER_PASSWORD%"
+          --extra-vars "appserver_password=%APPSERVER_PASSWORD%"
+          --extra-vars "apiserver_password=%APISERVER_PASSWORD%"
+          --extra-vars "general_password_salt=%GENERAL_PASSWORD_SALT%"
+          --extra-vars "smtp_username=%SMTP_USERNAME%"
+          --extra-vars "smtp_password=%SMTP_PASSWORD%"
+          --extra-vars "smtp_server=%SMTP_SERVER%"
+          --extra-vars "smtp_port=%SMTP_PORT%"
+          --extra-vars "smtp_tls=%SMTP_TLS%"
+          --extra-vars "smtp_ssl=%SMTP_SSL%"
