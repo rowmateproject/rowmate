@@ -1,9 +1,7 @@
-name: Ansible deployment
+name: Run ansible deployment
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
     branches: [ master ]
 
 jobs:
@@ -49,7 +47,7 @@ jobs:
       with:
         playbook: sites.yml
         directory: ansible
-        key: '${{secrets.SSH_PRIVATE_KEY}}'
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
         inventory: |
           [webserver]
           $WEB_SERVER ansible_user=root
