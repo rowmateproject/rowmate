@@ -15,7 +15,7 @@
       </div>
     </div>
 
-    <nav :class="[showNav ? 'block z-50' : 'hidden']" class="sm:block sm:mt-8">
+    <ul :class="[showNav ? 'block z-50' : 'hidden']" class="sm:block sm:mt-8">
       <li @click="toggleNav" :class="[comparePageName('dashboard') ? activeClass : inactiveClass]" class="text-color-nav">
         <nuxt-link class="focus:outline-none grid grid-cols-6 sm:mt-1 py-3 px-3 sm:px-6" :to="localePath('/dashboard')">
           <fa :icon="['fas', 'chart-line']" class="col-span-1 mt-1" />
@@ -82,7 +82,7 @@
           <span class="col-span-5">Events</span>
         </nuxt-link>
       </li>
-    </nav>
+    </ul>
   </div>
 </div>
 </template>
