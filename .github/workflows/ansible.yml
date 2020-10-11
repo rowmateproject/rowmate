@@ -89,5 +89,5 @@ jobs:
           --extra-vars "smtp_port='$SMTP_PORT'"
           --extra-vars "smtp_tls='$SMTP_TLS'"
           --extra-vars "smtp_ssl='$SMTP_SSL'"
-        run: ansible-playbook sites.yml --inventory "$INVENTORY" --private-key "$SSH_PRIVATE_KEY"
-        working-directory: ansible
+      run: ansible-playbook sites.yml --inventory "$INVENTORY" --private-key "$SSH_PRIVATE_KEY"
+      working-directory: ansible
