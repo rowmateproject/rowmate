@@ -16,7 +16,7 @@ jobs:
       uses: dawidd6/action-ansible-playbook@v2
       with:
         playbook: sites.yml
-        directory: ansible
+        directory: ./ansible
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         inventory: |
           [webserver]
@@ -54,6 +54,7 @@ jobs:
           --extra-vars "smtp_port='$SMTP_PORT'"
           --extra-vars "smtp_tls='$SMTP_TLS'"
           --extra-vars "smtp_ssl='$SMTP_SSL'"
+          --verbose
       env:
         DB_NAME: ${{ secrets.DB_NAME }}
         APP_NAME: ${{ secrets.APP_NAME }}
