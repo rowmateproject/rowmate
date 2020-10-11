@@ -1,12 +1,7 @@
 <template>
 <header class="sm:flex justify-between items-center pl-3 pr-2 md:px-6 bg-color-form border-b-4 border-blue-550 sm:h-20 py-3 sm:py-0">
-  <div class="flex justify-between items-center w-full md:w-6/12 lg:w-5/12 xl:w-3/12">
-    <div class="w-full relative">
-      <span class="absolute inset-y-0 left-0 pl-3 flex items-center">
-        <svg class="h-5 w-5 text-color-nav" viewBox="0 0 24 24" fill="none">
-          <fa :icon="['fas', 'search']" class="text-color-body" />
-        </svg>
-      </span>
+  <div class="flex justify-between items-center w-full">
+    <div class="w-full md:w-6/12 lg:w-5/12 xl:w-3/12 relative">
       <div v-click-outside="toggleSearch" @keydown.esc="toggleSearch" class="relative">
         <input v-model="searchTerm" @input="lookupSearchTerm" type="text" class="w-full rounded border focus:outline-none p-2">
 
