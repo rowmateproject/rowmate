@@ -19,8 +19,7 @@ jobs:
 
     - name: Install ansible with pip
       run: |
-        python -m pip install --upgrade pip
-        pip install anyio ansible
+        pip install ansible
       working-directory: ansible
 
     - name: Create ansible hosts file
@@ -29,24 +28,22 @@ jobs:
         API_SERVER: ${{ secrets.API_SERVER }}
         APP_SERVER: ${{ secrets.APP_SERVER }}
         DB_SERVER: ${{ secrets.DB_SERVER }}
-        HOSTS: |
-          [webserver]
-          "${{ env.WEB_SERVER }}" ansible_user=root
-
-          [apiserver]
-          "${{ env.API_SERVER }}" ansible_user=root
-
-          [appserver]
-          "${{ env.APP_SERVER }}" ansible_user=root
-
-          [dbserver]
-          "${{ env.DB_SERVER }}" ansible_user=root
       run: |
-        echo ${{ secrets.WEB_SERVER }}
-        echo ${{ secrets.API_SERVER }}
-        echo ${{ secrets.APP_SERVER }}
-        echo ${{ secrets.DB_SERVER }}
-        echo "$HOSTS" >> hosts
+        cat << EOF > hosts
+        [webserver]
+        $WEB_SERVER ansible_user=root
+
+        [apiserver]
+        $API_SERVER ansible_user=root
+
+        [appserver]
+        $APP_SERVER ansible_user=root
+
+        [dbserver]
+        $DB_SERVER ansible_user=root
+        EOF
+        echo "$HOSTS"
+      working-directory: ansible
 
     - name: Run ansible playbook
       env:
