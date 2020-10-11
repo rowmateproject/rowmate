@@ -1,4 +1,4 @@
-name: rowmate
+name: Run python tests
 
 on:
   push:
