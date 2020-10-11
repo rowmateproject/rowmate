@@ -7,12 +7,12 @@
       </nuxt-link>
     </div>
 
-    <label @click="toggleNav" class="cursor-pointer lg:hidden block py-2 pr-4">
+    <div @click="toggleNav" class="cursor-pointer lg:hidden block py-2 pr-4">
       <svg class="w-5 h-5 text-color-nav focus:outline-none fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
         <title>Menu</title>
         <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
       </svg>
-    </label>
+    </div>
 
     <div :class="[showNav ? 'block z-50' : 'hidden']" class="w-full border-t lg:border-0 border-gray-800 mt-2 lg:mt-0 lg:flex lg:items-center lg:w-auto">
       <ul class="lg:flex items-center justify-between text-base text-color-nav pt-0 lg:pt-0">
@@ -54,7 +54,7 @@ export default {
     toggleDropdown() {
       this.toggleNav()
       return this.showDropdown = !this.showDropdown
-    },
+    }
   }
 }
 </script>

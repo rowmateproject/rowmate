@@ -1,11 +1,11 @@
 <template>
-<div class="flex min-h-screen bg-color-page font-roboto">
+<div class="sm:flex min-h-screen bg-color-page font-roboto">
   <sidebar />
 
-  <div class="flex-1 flex flex-col overflow-hidden">
+  <div class="sm:flex-1 sm:flex sm:flex-col sm:overflow-hidden">
     <searchbar />
 
-    <main class="flex-1 overflow-x-hidden overflow-y-auto">
+    <main class="sm:flex-1 overflow-x-hidden overflow-y-auto">
       <div class="lg:container mx-auto px-3 md:px-6 py-3 md:py-8">
         <nuxt />
       </div>
