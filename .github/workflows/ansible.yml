@@ -52,37 +52,37 @@ jobs:
         key: '${{secrets.SSH_PRIVATE_KEY}}'
         inventory: |
           [webserver]
-          %WEB_SERVER% ansible_user=root
+          $WEB_SERVER ansible_user=root
 
           [apiserver]
-          %API_SERVER% ansible_user=root
+          $API_SERVER ansible_user=root
 
           [appserver]
-          %APP_SERVER% ansible_user=root
+          $APP_SERVER ansible_user=root
 
           [dbserver]
-          %DB_SERVER% ansible_user=root
+          $DB_SERVER ansible_user=root
         options: |
-          --extra-vars "db_name=%DB_NAME%"
-          --extra-vars "app_name=%APP_NAME%"
-          --extra-vars "app_domain=%APP_DOMAIN%"
-          --extra-vars "api_domain=%API_DOMAIN%"
-          --extra-vars "admin_email=%ADMIN_EMAIL%"
-          --extra-vars "jwt_secret=%JWT_TOKEN%"
-          --extra-vars "reset_secret=%RESET_SECRET%"
-          --extra-vars "db_private_address=%DB_PRIVATE_ADDRESS%"
-          --extra-vars "app_private_address=%APP_PRIVATE_ADDRESS%"
-          --extra-vars "api_private_address=%API_PRIVATE_ADDRESS%"
-          --extra-vars "db_password=%DB_PASSWORD%"
-          --extra-vars "db_url_string=%DB_URL_STRING%"
-          --extra-vars "dbserver_password=%DBSERVER_PASSWORD%"
-          --extra-vars "webserver_password=%WEBSERVER_PASSWORD%"
-          --extra-vars "appserver_password=%APPSERVER_PASSWORD%"
-          --extra-vars "apiserver_password=%APISERVER_PASSWORD%"
-          --extra-vars "general_password_salt=%GENERAL_PASSWORD_SALT%"
-          --extra-vars "smtp_username=%SMTP_USERNAME%"
-          --extra-vars "smtp_password=%SMTP_PASSWORD%"
-          --extra-vars "smtp_server=%SMTP_SERVER%"
-          --extra-vars "smtp_port=%SMTP_PORT%"
-          --extra-vars "smtp_tls=%SMTP_TLS%"
-          --extra-vars "smtp_ssl=%SMTP_SSL%"
+          --extra-vars "db_name=$DB_NAME"
+          --extra-vars "app_name=$APP_NAME"
+          --extra-vars "app_domain=$APP_DOMAIN"
+          --extra-vars "api_domain=$API_DOMAIN"
+          --extra-vars "admin_email=$ADMIN_EMAIL"
+          --extra-vars "jwt_secret=$JWT_TOKEN"
+          --extra-vars "reset_secret=$RESET_SECRET"
+          --extra-vars "db_private_address=$DB_PRIVATE_ADDRESS"
+          --extra-vars "app_private_address=$APP_PRIVATE_ADDRESS"
+          --extra-vars "api_private_address=$API_PRIVATE_ADDRESS"
+          --extra-vars "db_password=$DB_PASSWORD"
+          --extra-vars "db_url_string=$DB_URL_STRING"
+          --extra-vars "dbserver_password=$DBSERVER_PASSWORD"
+          --extra-vars "webserver_password=$WEBSERVER_PASSWORD"
+          --extra-vars "appserver_password=$APPSERVER_PASSWORD"
+          --extra-vars "apiserver_password=$APISERVER_PASSWORD"
+          --extra-vars "general_password_salt=$GENERAL_PASSWORD_SALT"
+          --extra-vars "smtp_username=$SMTP_USERNAME"
+          --extra-vars "smtp_password=$SMTP_PASSWORD"
+          --extra-vars "smtp_server=$SMTP_SERVER"
+          --extra-vars "smtp_port=$SMTP_PORT"
+          --extra-vars "smtp_tls=$SMTP_TLS"
+          --extra-vars "smtp_ssl=$SMTP_SSL"
