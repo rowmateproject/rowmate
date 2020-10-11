@@ -20,19 +20,19 @@ jobs:
       with:
         playbook: sites.yml
         directory: ansible
-        key: ${{secrets.SSH_PRIVATE_KE }}
+        key: ${{secrets.SSH_PRIVATE_KEY}}
         inventory: |
           [webserver]
-          ${{secrets.WEB_SERVER }} ansible_user=oot
+          ${{secrets.WEB_SERVER}} ansible_user=root
 
           [apiserver]
-          ${{secrets.API_SERVER }} ansible_user=oot
+          ${{secrets.API_SERVER}} ansible_user=root
 
           [appserver]
-          ${{secrets.APP_SERVER }} ansible_user=oot
+          ${{secrets.APP_SERVER}} ansible_user=root
 
           [dbserver]
-          ${{secrets.DB_SERVER }} ansible_user=oot
+          ${{secrets.DB_SERVER}} ansible_user=root
         options: |
           --extra-vars "db_name=${{secrets.DB_NAME}}"
           --extra-vars "app_name=${{secrets.APP_NAME}}"
