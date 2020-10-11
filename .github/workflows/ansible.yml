@@ -14,36 +14,6 @@ jobs:
 
     - name: Setup deployment scripts
       uses: dawidd6/action-ansible-playbook@v2
-
-      env:
-        DB_NAME: ${{ secrets.DB_NAME }}
-        APP_NAME: ${{ secrets.APP_NAME }}
-        JWT_TOKEN: ${{ secrets.JWT_TOKEN }}
-        APP_DOMAIN: ${{ secrets.APP_DOMAIN }}
-        API_DOMAIN: ${{ secrets.API_DOMAIN }}
-        ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
-        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        RESET_SECRET: ${{ secrets.RESET_SECRET }}
-        DB_URL_STRING: ${{ secrets.DB_URL_STRING }}
-        DB_PRIVATE_ADDRESS: ${{ secrets.DB_PRIVATE_ADDRESS }}
-        APP_PRIVATE_ADDRESS: ${{ secrets.APP_PRIVATE_ADDRESS }}
-        API_PRIVATE_ADDRESS: ${{ secrets.API_PRIVATE_ADDRESS }}
-        GENERAL_PASSWORD_SALT: ${{ secrets.GENERAL_PASSWORD_SALT }}
-        WEBSERVER_PASSWORD: ${{ secrets.WEBSERVER_PASSWORD }}
-        APPSERVER_PASSWORD: ${{ secrets.APPSERVER_PASSWORD }}
-        APISERVER_PASSWORD: ${{ secrets.APISERVER_PASSWORD }}
-        DBSERVER_PASSWORD: ${{ secrets.DBSERVER_PASSWORD }}
-        SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
-        SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
-        SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
-        WEB_SERVER: ${{ secrets.WEB_SERVER }}
-        API_SERVER: ${{ secrets.API_SERVER }}
-        APP_SERVER: ${{ secrets.APP_SERVER }}
-        DB_SERVER: ${{ secrets.DB_SERVER }}
-        SMTP_PORT: ${{ secrets.SMTP_PORT }}
-        SMTP_TLS: ${{ secrets.SMTP_TLS }}
-        SMTP_SSL: ${{ secrets.SMTP_SSL }}
-
       with:
         playbook: sites.yml
         directory: ansible
@@ -84,3 +54,31 @@ jobs:
           --extra-vars "smtp_port=$SMTP_PORT"
           --extra-vars "smtp_tls=$SMTP_TLS"
           --extra-vars "smtp_ssl=$SMTP_SSL"
+      env:
+        DB_NAME: ${{ secrets.DB_NAME }}
+        APP_NAME: ${{ secrets.APP_NAME }}
+        JWT_TOKEN: ${{ secrets.JWT_TOKEN }}
+        APP_DOMAIN: ${{ secrets.APP_DOMAIN }}
+        API_DOMAIN: ${{ secrets.API_DOMAIN }}
+        ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        RESET_SECRET: ${{ secrets.RESET_SECRET }}
+        DB_URL_STRING: ${{ secrets.DB_URL_STRING }}
+        DB_PRIVATE_ADDRESS: ${{ secrets.DB_PRIVATE_ADDRESS }}
+        APP_PRIVATE_ADDRESS: ${{ secrets.APP_PRIVATE_ADDRESS }}
+        API_PRIVATE_ADDRESS: ${{ secrets.API_PRIVATE_ADDRESS }}
+        GENERAL_PASSWORD_SALT: ${{ secrets.GENERAL_PASSWORD_SALT }}
+        WEBSERVER_PASSWORD: ${{ secrets.WEBSERVER_PASSWORD }}
+        APPSERVER_PASSWORD: ${{ secrets.APPSERVER_PASSWORD }}
+        APISERVER_PASSWORD: ${{ secrets.APISERVER_PASSWORD }}
+        DBSERVER_PASSWORD: ${{ secrets.DBSERVER_PASSWORD }}
+        SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
+        SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+        SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
+        WEB_SERVER: ${{ secrets.WEB_SERVER }}
+        API_SERVER: ${{ secrets.API_SERVER }}
+        APP_SERVER: ${{ secrets.APP_SERVER }}
+        DB_SERVER: ${{ secrets.DB_SERVER }}
+        SMTP_PORT: ${{ secrets.SMTP_PORT }}
+        SMTP_TLS: ${{ secrets.SMTP_TLS }}
+        SMTP_SSL: ${{ secrets.SMTP_SSL }}
