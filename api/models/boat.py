@@ -20,5 +20,6 @@ class Boat(BaseModel):
     manufacturer: Optional[str]
     built: Optional[int]
 
+
 class LookupBoat(BaseModel):
     name: str
