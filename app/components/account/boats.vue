@@ -44,8 +44,6 @@
                   </div>
                 </div>
               </td>
-
-
               <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-color-body">
                 <span v-if="b.category == 0">Gig</span>
                 <span v-else>Rennboot</span>
@@ -56,7 +54,6 @@
                 <span v-if="b.coxswain == 2">Wechselbar</span>
                 <span v-if="b.coxswain == 3">Ja (wechselbar)</span>
                 <span v-if="b.coxswain == 4">Nein (wechselbar)</span>
-
               </td>
               <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-color-body">
                 {{ b.crewsize }}
@@ -78,20 +75,16 @@
 </template>
 
 <script>
-import Avataaars from 'vuejs-avataaars'
-import { BoatCategory } from '@/plugins/boatcategory'
+import {
+  BoatCategory
+} from '@/plugins/boatcategory'
 
 export default {
-  components: {
-    Avataaars
-  },
   data() {
     return {
       boats: [],
-      boatsBackup: [],
       boatCategories: {},
-      users: [],
-      usersBackup: []
+      boatsBackup: []
     }
   },
   mounted() {
