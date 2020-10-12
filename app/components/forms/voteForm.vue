@@ -1,7 +1,14 @@
 <template>
 <ul v-if="polls">
-  <li v-for="value, index in polls" :class="{'mb-6': polls.length - index - 1 != 0}" :key="index" class="mt-3 px-6 pb-6 pt-4 bg-color-form rounded-md shadow-md mb-8">
-    <h3 class="text-color-form">{{ value.question }}</h3>
+  <li v-for="value, index in polls" :class="{'mb-6': polls.length - index - 1 != 0}" :key="index" class="mt-3 px-3 lg:px-6 pb-3 lg:pb-6 pt-2 lg:pt-4 bg-color-form rounded-md shadow-md">
+    <div class="grid grid-cols-12 gap-x-3 sm:gap-x-6">
+      <div class="col-span-12 md:col-span-6 lg:col-span-5 xl:col-span-4 grid md:block grid-cols-12 gap-x-3 md:text-right my-1 lg:mt-2">
+        <button @click="deletePoll(index)" class="col-span-6 bg-red-600 text-white rounded focus:outline-none px-4 py-2 md:mb-2 lg:mb-0">Löschen</button>
+        <button v-if="isSuperuser === 'true' || isSuperuser === true" @click="editPoll(index)" class="col-span-6 bg-color-nav text-color-nav rounded focus:outline-none px-4 py-2 md:ml-1 lg:ml-2">Bearbeiten</button>
+      </div>
+
+      <h3 class="md:row-start-1 md:col-start-1 col-span-12 md:col-span-6 lg:col-span-7 xl:col-span-8 text-color-sale font-bold text-2xl">{{ value.question }}</h3>
+    </div>
 
     <div v-if="value.type === 'text'">
       <input v-model="polls[index].reply" @input="submitResponse(value._id, index)" type="text" class="appearance-none block w-full bg-white text-gray-700 border border-gray-500 rounded p-3 mt-2 leading-tight focus:outline-none">
@@ -55,11 +62,20 @@ export default {
   computed: {
     currentLocale() {
       return this.$i18n.locale
+    },
+    isSuperuser() {
+      return this.$store.state.isSuperuser
     }
   },
   methods: {
     makeId(value, index) {
       return `${value}-$-${index}`
+    },
+    editPoll(index) {
+      this.$emit('pollObject', [this.polls[index]])
+    },
+    deletePoll(index) {
+      this.$emit('deletePollId', this.polls[index]._id)
     },
     buf2hex(buffer) {
       const byteArray = new Uint8Array(buffer)

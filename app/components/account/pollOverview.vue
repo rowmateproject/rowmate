@@ -19,6 +19,8 @@
       </button>
     </div>
   </form>
+
+  <vote-form v-if="questions.length <= 0" @deletePollId="deletePoll" @pollObject="handlePollsObject" class="mt-3 lg:mt-8" />
 </div>
 </template>
 
@@ -71,6 +73,30 @@ export default {
       }
 
       return hexParts.join('')
+    },
+    handlePollsObject(value) {
+      this.questions = value
+    },
+    deletePoll(value) {
+      let uuid = null
+
+      try {
+        uuid = this.buf2hex(uuidParse(value))
+      } catch (e) {
+        console.debug(e)
+      }
+
+      this.$axios({
+        method: 'DELETE',
+        url: `${process.env.API_URL}/poll/${uuid}`,
+        validateStatus: () => true
+      }).then((res) => {
+        if (res.status === 200 && res.data === true) {
+          console.debug(res.data)
+        } else {
+          console.debug(res.data)
+        }
+      })
     },
     submitForm() {
       try {

@@ -1,5 +1,5 @@
 <template>
-  <poll-form />
+  <poll-overview />
 </template>
 
 <script>
