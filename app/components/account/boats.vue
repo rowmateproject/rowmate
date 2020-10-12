@@ -2,7 +2,7 @@
 <div>
   <h3 class="text-xl sm:text-2xl md:text-3xl font-medium text-color-title">{{ $t('boats') }}</h3>
 
-  <div class="mt-1 sm:mt-3 md:mt-5 lg:mt-8 p-3 lg:px-6 lg:pb-6 lg:pt-4 bg-svg-image bg-blue-500 rounded-md shadow">
+  <div class="bg-svg-image bg-blue-500 rounded shadow p-3 lg:px-6 lg:pb-6 lg:pt-4 mt-1 sm:mt-3 md:mt-5 lg:mt-8 mb-3 md:mb-5 lg:mb-8">
     <h4 class="text-color-nav">Boote Filter</h4>
     <boat-filter @resultObject="handleBoatFilter" @resetFilter="handleBoatReset" :showResetButton="true" />
   </div>
