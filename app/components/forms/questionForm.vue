@@ -3,7 +3,7 @@
   <div>
     <label class="text-color-form" for="confirmPassword">Fragentyp</label>
 
-    <div class="col-span-3 relative z-0">
+    <div class="relative z-0">
       <select v-model="questionType" class="appearance-none block w-full rounded border form-border-color focus:outline-none p-2 mt-2">
         <option value="text">Textfrage</option>
         <option value="select">Auswahlfrage</option>
@@ -23,24 +23,28 @@
   </div>
 
   <div v-if="questionType == 'select'" class="mt-3">
-    <label class="text-color-form">Auswahlfrage</label>
-    <div v-for="option, index in options" :key="option.id" class="flex items-center">
-      <input v-model="option.value" class="w-full rounded border border-color-form focus:outline-none p-2 mt-2 mb-1 mr-3">
+    <label class="text-color-form">Antworten</label>
+    <div v-for="option, index in options" :key="option.id" class="grid grid-cols-12">
+      <input v-model="option.value" class="col-span-9 rounded border border-color-form focus:outline-none p-2 mr-3">
 
-      <button type="button" @click="removeInput(index)" :disabled="options.length === 1" :class="[options.length === 1 ? 'bg-gray-500' : 'bg-color-header hover:bg-gray-700']"
-        class="focus:outline-none rounded text-white text-sm font-medium h-10 w-10 mt-1 mr-2">-</button>
-      <button type="button" @click="addInputField(index)" class="bg-color-header focus:outline-none rounded text-white text-sm font-medium h-10 w-10 mt-1">+</button>
+      <div class="col-span-3 flex items-center">
+        <button type="button" @click="removeInput(index)" :disabled="options.length === 1" :class="[options.length === 1 ? 'bg-gray-500' : 'bg-color-header hover:bg-gray-700']"
+          class="focus:outline-none rounded text-white text-sm font-medium h-10 w-10 mr-2">-</button>
+        <button type="button" @click="addInputField(index)" class="bg-color-header focus:outline-none rounded text-white text-sm font-medium h-10 w-10">+</button>
+      </div>
     </div>
   </div>
 
   <div v-if="questionType == 'checkbox'" class="mt-3">
     <label class="text-color-form">Checkboxfrage</label>
-    <div v-for="option, index in options" :key="option.id" class="flex items-center">
-      <input v-model="option.value" class="w-full rounded border border-color-form focus:outline-none p-2 mt-2 mb-1 mr-3">
+    <div v-for="option, index in options" :key="option.id" class="grid grid-cols-12">
+      <input v-model="option.value" class="col-span-9 rounded border border-color-form focus:outline-none p-2 mr-3">
 
-      <button type="button" @click="removeInput(index)" :disabled="options.length === 1" :class="[options.length === 1 ? 'bg-gray-500' : 'bg-color-header hover:bg-gray-700']"
-        class="focus:outline-none rounded text-white text-sm font-medium h-10 w-10 mt-1 mr-2">-</button>
-      <button type="button" @click="addInputField(index)" class="bg-color-header focus:outline-none rounded text-white text-sm font-medium h-10 w-10 mt-1">+</button>
+      <div class="col-span-3 flex items-center">
+        <button type="button" @click="removeInput(index)" :disabled="options.length === 1" :class="[options.length === 1 ? 'bg-gray-500' : 'bg-color-header hover:bg-gray-700']"
+          class="focus:outline-none rounded text-white text-sm font-medium h-10 w-10 mr-2">-</button>
+        <button type="button" @click="addInputField(index)" class="bg-color-header focus:outline-none rounded text-white text-sm font-medium h-10 w-10">+</button>
+      </div>
     </div>
   </div>
 </div>

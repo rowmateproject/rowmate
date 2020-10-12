@@ -7,14 +7,14 @@
     <question-filter @resultObject="handleFilterObject" @resetFilter="handleResetValue" />
   </div>
 
-  <form @submit.prevent="submitForm" class="mt-1 sm:mt-3 md:mt-5 lg:mt-8 p-6 bg-color-form rounded shadow">
-    <question-form v-if="questions.length > 0" v-for="value, index in questions" :key="value._id" @resultObject="handleFormObject($event, index)" :formObject="value" class="mb-6" />
+  <form @submit.prevent="submitForm" class="bg-color-form rounded shadow p-3 lg:p-6 mt-1 sm:mt-3 md:mt-5 lg:mt-8">
+    <question-form v-if="questions.length > 0" v-for="value, index in questions" :key="value._id" @resultObject="handleFormObject($event, index)" :formObject="value" class="mb-3 lg:mb-6" />
 
     <div class="flex justify-end">
-      <button @click="addPollForm" class="bg-color-nav text-color-nav rounded focus:outline-none px-4 py-2">
-        Frage hinzufügen
+      <button @click="addPollForm" class="bg-color-button text-color-button rounded focus:outline-none px-4 py-2">
+        {{ questions.length === 0 ? 'Frage erstellen' : 'Frage hinzufügen'}}
       </button>
-      <button v-if="questions.length > 0" class="bg-color-button text-color-button rounded focus:outline-none px-4 py-2 ml-4">
+      <button v-if="questions.length > 0" class="bg-blue-600 text-color-button rounded focus:outline-none px-4 py-2 ml-3">
         {{ $t('save') }}
       </button>
     </div>
