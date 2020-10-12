@@ -1,5 +1,5 @@
 <template>
-<form @submit.prevent="submitForm" class="px-6 pb-6 pt-4 bg-color-form rounded-md shadow-md">
+<form @submit.prevent="submitForm" class="px-3 sm:px-6 pb-3 sm:pb-6 pt-2 sm:pt-4 bg-color-form rounded-md shadow-md">
   <div class="mb-4">
     <label class="text-color-form">Länderauswahl</label>
     <div class="relative z-0 mb-1">
@@ -22,25 +22,25 @@
     <input v-model="address.name" type="text" :class="[errors.name ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1">
     <p v-if="errors.name" class="text-red-500 text-xs italic">{{ $t('errorInvalidName') }}</p>
   </div>
-  <div class="grid grid-cols-12 gap-6 mb-4">
-    <div class="col-span-10">
+  <div class="grid grid-cols-12 gap-x-3 sm:gap-x-6 mb-4">
+    <div class="col-span-8 sm:col-span-10">
       <label class="text-color-form">Straße</label>
       <input v-model="address.streetName" type="text" :class="[errors.streetName ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1">
       <p v-if="errors.streetName" class="text-red-500 text-xs italic">{{ $t('errorInvalidName') }}</p>
     </div>
-    <div class="col-span-2">
-      <label class="text-color-form">Hausnummer</label>
+    <div class="col-span-4 sm:col-span-2">
+      <label class="text-color-form">Haus Nr.</label>
       <input v-model="address.houseNumber" type="text" :class="[errors.houseNumber ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1">
       <p v-if="errors.houseNumber" class="text-red-500 text-xs italic">{{ $t('errorInvalidName') }}</p>
     </div>
   </div>
-  <div class="grid grid-cols-12 gap-6">
-    <div class="col-span-2">
+  <div class="grid grid-cols-12 gap-x-3 sm:gap-x-6">
+    <div class="col-span-4 sm:col-span-2">
       <label class="text-color-form">Postleitzahl</label>
       <input v-model="address.zipCode" type="text" :class="[errors.zipCode ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1">
       <p v-if="errors.zipCode" class="text-red-500 text-xs italic">{{ $t('errorInvalidName') }}</p>
     </div>
-    <div class="col-span-10">
+    <div class="col-span-8 sm:col-span-10">
       <label class="text-color-form">Ort</label>
       <input v-model="address.location" type="text" :class="[errors.location ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1">
       <p v-if="errors.location" class="text-red-500 text-xs italic">{{ $t('errorInvalidName') }}</p>
@@ -48,7 +48,7 @@
   </div>
 
   <div class="flex justify-end mt-4">
-    <button class="bg-color-nav text-color-nav rounded focus:outline-none px-4 py-2 ml-4">
+    <button class="bg-blue-600 text-color-nav rounded focus:outline-none px-4 py-2 ml-4">
       {{ $t('save') }}
     </button>
   </div>

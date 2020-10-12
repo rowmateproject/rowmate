@@ -3,9 +3,7 @@
   <input v-if="!resetButton" v-model="searchTerm" @input="lookupBoat" type="text" class="w-full rounded border border-color-form focus:outline-none p-2 mt-2">
   <div v-else class="flex flex-wrap items-stretch w-full relative mt-2">
     <input v-model="searchTerm" @input="lookupBoat" type="text" class="flex-shrink flex-grow flex-auto leading-normal flex-1 border-l border-t border-b border-color-form rounded-l focus:outline-none p-2">
-    <div class="flex">
-      <button @click="clearSearchTerm" class="flex items-center leading-normal bg-gray-400 text-gray-800 focus:outline-none rounded-r px-3" type="button">Zurücksetzen</button>
-    </div>
+    <button @click="clearSearchTerm" class="flex items-center leading-normal bg-gray-400 text-gray-800 focus:outline-none rounded-r px-3" type="button">Zurücksetzen</button>
   </div>
 
   <div v-if="boats.length > 0" class="w-full absolute z-30">
