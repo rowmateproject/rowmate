@@ -47,6 +47,44 @@ def get_polls_router(database, authenticator) -> APIRouter:
 def get_poll_router(database, authenticator) -> APIRouter:
     router = APIRouter()
 
+    @router.delete('/{hex}')
+    async def delete_poll(hex, user=Depends(
+            authenticator.get_current_superuser)):
+        try:
+            req_uuid = UUID(hex=hex, version=4)
+        except (TypeError, ValueError):
+            raise HTTPException(
+                status_code=404, detail='Invalid identifier')
+
+        query = [{'$match': {'questions': {'$in': [req_uuid]}}},
+                 {'$lookup': {'from': 'votes', 'localField': 'questions',
+                              'foreignField': 'question_id', 'as': 'a'}},
+                 {'$lookup': {'from': 'answers', 'localField': 'a._id',
+                              'foreignField': 'votes', 'as': 'b'}},
+                 {'$project': {'_id': False, 'poll_id': '$_id',
+                               'answers': '$b._id', 'votes': '$a._id',
+                               'questions': '$questions', }}]
+
+        res = await database['polls'].aggregate(query).to_list(length=1)
+
+        if len(res) > 0:
+            for r in res[0]['answers']:
+                await database['answers'].delete_one({'_id': r})
+
+            for r in res[0]['votes']:
+                await database['votes'].delete_one({'_id': r})
+
+            for r in res[0]['questions']:
+                await database['questions'].delete_one({'_id': r})
+
+            query = {'_id': res[0]['poll_id']}
+            await database['polls'].delete_one(query)
+
+            return True
+        else:
+            raise HTTPException(
+                status_code=404, detail='Mail poll not found')
+
     @router.post('')
     async def post_poll(model: RequestPoll, user=Depends(
             authenticator.get_current_superuser)):
