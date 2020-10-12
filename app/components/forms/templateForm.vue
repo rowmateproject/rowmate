@@ -1,5 +1,5 @@
 <template>
-<form @submit.prevent="submitForm" class="mt-3 lg:mt-8 p-6 bg-color-form rounded-md shadow-md">
+<form @submit.prevent="submitForm" class="mt-1 sm:mt-3 md:mt-5 lg:mt-8 p-6 bg-color-form rounded shadow">
   <div class="grid grid-cols-4 gap-6 mb-6">
     <div class="col-span-2">
       <label class="flex justify-start items-center text-color-form" :for="makeId('locale', mailTemplate.locale)">

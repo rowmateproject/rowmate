@@ -1,10 +1,10 @@
 <template>
 <div>
-  <h3 class="text-3xl font-medium text-color-title">Sprache</h3>
+  <h3 class="text-xl sm:text-2xl md:text-3xl font-medium text-color-title">Sprache</h3>
 
   <upload-translation @importedTranslation="handleImportedTranslation" />
 
-  <form @submit.prevent="submitForm" class="mt-3 lg:mt-8 p-3 lg:p-6 bg-color-form rounded-md shadow-md">
+  <form @submit.prevent="submitForm" class="mt-1 sm:mt-3 md:mt-5 lg:mt-8 p-3 lg:p-6 bg-color-form rounded shadow">
     <h2 class="mb-6 flex justify-start items-center text-color-form text-xl">
       <img :src="makePath(currentLocale)" :alt="currentLocale" class="h-5 mr-1">
       <span>Übersetzungen</span>

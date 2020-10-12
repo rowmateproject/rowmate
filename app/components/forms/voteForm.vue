@@ -1,7 +1,7 @@
 <template>
 <ul v-if="polls">
-  <li v-for="value, index in polls" :class="{'mb-6': polls.length - index - 1 != 0}" :key="index" class="mt-3 px-3 lg:px-6 pb-3 lg:pb-6 pt-2 lg:pt-4 bg-color-form rounded-md shadow-md">
-    <div class="grid grid-cols-12 gap-x-3 sm:gap-x-6">
+  <li v-for="value, index in polls" :class="{'mb-6': polls.length - index - 1 != 0}" :key="index" class="mt-3 px-3 lg:px-6 pb-3 lg:pb-6 pt-2 lg:pt-4 bg-color-form rounded shadow">
+    <div class="grid grid-cols-12 gap-3 lg:gap-6">
       <div v-if="isSuperuser === 'true' || isSuperuser === true" class="col-span-12 md:col-span-6 lg:col-span-5 xl:col-span-4 grid md:block grid-cols-12 gap-x-3 md:text-right my-1 lg:mt-2">
         <button @click="deletePoll(index)" class="col-span-6 bg-red-600 text-white rounded focus:outline-none px-4 py-2 md:mb-2 lg:mb-0">Löschen</button>
         <button @click="editPoll(index)" class="col-span-6 bg-blue-600 text-color-nav rounded focus:outline-none px-4 py-2 md:ml-1 lg:ml-2">Bearbeiten</button>

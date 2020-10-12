@@ -1,14 +1,14 @@
 <template>
-<div class="grid grid-cols-12 gap-6">
-  <div class="col-span-6">
+<div class="grid grid-cols-12 gap-3 lg:gap-6">
+  <div class="col-span-12 sm:col-span-6">
     <label class="text-color-form">Position</label>
     <input v-model="position.title" type="text" :class="[errors.position ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1"
       placeholder="Vorsitzender, Schriftfüher oder Kassenwart">
     <p v-if="errors.position" class="text-red-500 text-xs italic">{{ $t('errorInvalidName') }}</p>
   </div>
-  <div class="col-span-6">
-    <label class="text-color-form">Mitglieder Filter</label>
-    <user-filter @resultObject="handleMember" @resetFilter="handleMemberReset" :searchQuery="position.member" :showResetButton="true" />
+  <div class="col-span-12 sm:col-span-6">
+    <label class="text-color-form">Name</label>
+    <user-filter @resultObject="handleMember" @resetFilter="handleMemberReset" :searchQuery="position.member" :showResetButton="false" />
   </div>
 </div>
 </template>

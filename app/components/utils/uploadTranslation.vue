@@ -1,6 +1,6 @@
 <template>
-<div class="bg-color-form mt-3 lg:mt-8 rounded shadow">
-  <div class="grid grid-cols-2 gap-3 sm:gap-6 p-3 sm:p-6">
+<div class="bg-color-form mt-1 sm:mt-3 md:mt-5 lg:mt-8 rounded shadow">
+  <div class="grid grid-cols-2 gap-3 lg:gap-6 p-3 sm:p-6">
     <form enctype="multipart/form-data">
       <label class="flex justify-center items-center bg-color-header text-color-button cursor-pointer rounded px-4 py-2">
         <span class="leading-normal">Import Übersetzungen</span>

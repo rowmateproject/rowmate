@@ -1,6 +1,6 @@
 <template>
 <ul>
-  <li v-for="value, index in templateItems" :key="index" class="mt-3 lg:mt-8 p-3 lg:p-6 bg-color-form rounded-md shadow-md grid grid-cols-12 gap-x-6">
+  <li v-for="value, index in templateItems" :key="index" class="mt-1 sm:mt-3 md:mt-5 lg:mt-8 p-3 lg:p-6 bg-color-form rounded-md shadow-md grid grid-cols-12 gap-x-6">
     <div class="col-span-8">
       <h2 class="flex justify-start items-center text-color-header font-medium" :for="makeId('locale', value.locale)">
         <img v-if="value.locale !== 'undefined'" :src="makePath(value.locale)" :alt="value.locale" class="h-4 mr-1">

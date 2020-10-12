@@ -1,16 +1,16 @@
 <template>
-<form @submit.prevent="submitForm" class="px-6 pb-6 pt-4 bg-color-form rounded-md shadow-md">
+<form @submit.prevent="submitForm" class="sm:px-3 lg:px-6 sm:pb-3 lg:pb-6 sm:pt-2 lg:pt-4 sm:bg-white sm:rounded sm:shadow">
   <ul v-if="positions.length > 0">
-    <li v-for="position, index in positions" :key="index" class="mb-4">
+    <li v-for="position, index in positions" :key="index" class="bg-white sm:bg-transparent rounded sm:rounded-0 p-2 sm:p-0 mb-3">
       <position-form @resultObject="handlePositionResult($event, index)" :positionObject="position" />
     </li>
   </ul>
 
-  <div :class="[positions.length === 0 ? 'mt-2' : 'mt-6']" class="flex justify-end">
+  <div :class="[positions.length === 0 ? 'mt-2' : 'mt-3 lg:mt-6']" class="flex justify-end">
     <button type="button" @click="addPositionForm" class="bg-color-button text-color-button rounded focus:outline-none px-4 py-2">
       Position hinzufügen
     </button>
-    <button v-if="positions.length > 0" class="bg-color-nav text-color-nav rounded focus:outline-none px-4 py-2 ml-4">
+    <button v-if="positions.length > 0" class="bg-color-nav text-color-nav rounded focus:outline-none px-4 py-2 ml-3 lg:ml-4">
       {{ $t('save') }}
     </button>
   </div>

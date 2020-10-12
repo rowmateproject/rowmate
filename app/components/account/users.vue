@@ -1,13 +1,13 @@
 <template>
 <div>
-  <h3 class="text-3xl font-medium text-color-title">Nutzer</h3>
+  <h3 class="text-xl sm:text-2xl md:text-3xl font-medium text-color-title">Nutzer</h3>
 
-  <div class="mt-3 lg:mt-8 p-3 lg:px-6 lg:pb-6 lg:pt-4 bg-svg-image bg-blue-500 rounded-md shadow">
+  <div class="mt-1 sm:mt-3 md:mt-5 lg:mt-8 p-3 lg:px-6 lg:pb-6 lg:pt-4 bg-svg-image bg-blue-500 rounded-md shadow">
     <h4 class="text-color-nav">Nutzer Filter</h4>
     <user-filter @resultObject="handleUserFilter" @resetFilter="handleUserReset" :showResetButton="true" />
   </div>
 
-  <div class="bg-color-image mt-3 lg:mt-8 px-6 pb-6 pt-4 rounded shadow">
+  <div class="bg-color-image mt-1 sm:mt-3 md:mt-5 lg:mt-8 px-3 lg:px-6 pb-3 lg:pb-6 pt-2 lg:pt-4 rounded shadow">
     <h4 class="text-xl mb-1">Benutzer einladen</h4>
     <p>Alleine arbeiten macht keinen Spass. Lade weitere Benutzer ein und bestimme deren Zugriffsrechte. Du kannst diese jederzeit ändern.</p>
   </div>

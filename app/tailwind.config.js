@@ -1,3 +1,5 @@
+const plugin = require('tailwindcss/plugin')
+
 const {
   colors
 } = require('tailwindcss/defaultTheme')
@@ -29,6 +31,25 @@ module.exports = {
       }
     },
   },
-  variants: {},
-  plugins: [],
+  variants: {
+    margin: ['responsive', 'siblings'],
+    backgroundColor: ['responsive', 'hover', 'focus', 'even', 'odd']
+  },
+  plugins: [
+    plugin(function({
+      addVariant,
+      e
+    }) {
+      addVariant('siblings', ({
+        modifySelectors,
+        separator
+      }) => {
+        modifySelectors(({
+          className
+        }) => {
+          return `.${e(`siblings${separator}${className}`)} > * + *`
+        })
+      })
+    })
+  ]
 }

@@ -1,13 +1,13 @@
 <template>
 <div>
-  <h3 class="text-3xl font-medium text-color-title">Umfagen</h3>
+  <h3 class="text-xl sm:text-2xl md:text-3xl font-medium text-color-title">Umfagen</h3>
 
-  <div class="mt-3 lg:mt-8 p-3 lg:px-6 lg:pb-6 lg:pt-4 bg-svg-image bg-blue-500 rounded-md shadow">
+  <div class="mt-1 sm:mt-3 md:mt-5 lg:mt-8 p-3 lg:px-6 lg:pb-6 lg:pt-4 bg-svg-image bg-blue-500 rounded-md shadow">
     <h4 class="text-color-nav">Umfrage Filter</h4>
     <question-filter @resultObject="handleFilterObject" @resetFilter="handleResetValue" />
   </div>
 
-  <form @submit.prevent="submitForm" class="mt-3 lg:mt-8 p-6 bg-color-form rounded-md shadow-md">
+  <form @submit.prevent="submitForm" class="mt-1 sm:mt-3 md:mt-5 lg:mt-8 p-6 bg-color-form rounded shadow">
     <question-form v-if="questions.length > 0" v-for="value, index in questions" :key="value._id" @resultObject="handleFormObject($event, index)" :formObject="value" class="mb-6" />
 
     <div class="flex justify-end">
@@ -20,7 +20,7 @@
     </div>
   </form>
 
-  <vote-form v-if="questions.length <= 0" @deletePollId="deletePoll" @pollObject="handlePollsObject" class="mt-3 lg:mt-8" />
+  <vote-form v-if="questions.length <= 0" @deletePollId="deletePoll" @pollObject="handlePollsObject" class="mt-1 sm:mt-3 md:mt-5 lg:mt-8" />
 </div>
 </template>
 

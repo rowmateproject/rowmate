@@ -1,13 +1,13 @@
 <template>
 <div>
-  <h3 class="text-3xl font-medium text-color-title">Events</h3>
+  <h3 class="text-xl sm:text-2xl md:text-3xl font-medium text-color-title">Events</h3>
 
-  <div class="mt-3 lg:mt-8 p-3 lg:px-6 lg:pb-6 lg:pt-4 bg-svg-image bg-blue-500 rounded-md shadow">
+  <div class="mt-1 sm:mt-3 md:mt-5 lg:mt-8 p-3 lg:px-6 lg:pb-6 lg:pt-4 bg-svg-image bg-blue-500 rounded-md shadow">
     <h4 class="text-color-nav">Event Filter</h4>
     <event-filter @resultObject="handleEventFilterResult" @resetFilter="handleEventResetValue" />
   </div>
 
-  <form @submit.prevent="submitForm" class="mt-3 lg:mt-8 p-3 lg:p-6 bg-color-form rounded-md shadow">
+  <form @submit.prevent="submitForm" class="mt-1 sm:mt-3 md:mt-5 lg:mt-8 p-3 lg:p-6 bg-color-form rounded-md shadow">
     <div class="grid grid-cols-12 gap-4">
       <div class="col-span-8">
         <date-form @minute="handleStartMinute" @hour="handleStartHour" @day="handleStartDay" @month="handleStartMonth" @year="handleStartYear" :minute="startDate.minute" :hour="startDate.hour" :day="startDate.day" :month="startDate.month"

@@ -1,5 +1,5 @@
 <template>
-<div class="bg-color-form mt-3 lg:mt-8 p-6 rounded shadow">
+<div class="bg-color-form mt-1 sm:mt-3 md:mt-5 lg:mt-8 p-6 rounded shadow">
   <div class="grid grid-cols-12 gap-6">
     <div class="col-span-12 sm:col-span-8 md:col-span-9">
       <img v-if="image" :src="image" class="w-full object-cover bg-color-image rounded">
