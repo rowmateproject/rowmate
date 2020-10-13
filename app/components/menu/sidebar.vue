@@ -1,17 +1,14 @@
 <template>
 <div v-click-outside="hideNav" class="sm:flex sm:min-h-screen h-12 sm:h-auto">
   <div class="fixed w-full top-0 left-0 sm:w-64 overflow-y-auto transition duration-300 transform ease-in overflow-y-auto sm:translate-x-0 sm:static sm:inset-0 z-50 sm:z-0 bg-color-nav">
-    <div class="flex justify-between items-center bg-color-image sm:border-b-4 sm:border-gray-900 h-12 sm:h-20">
+    <div class="flex justify-between items-center bg-color-image sm:border-b-4 sm:border-gray-900 h-12 sm:h-16 lg:h-20">
       <div>
         <img v-if="imageBlobFile" :src="imageBlobFile" class="w-48 sm:w-full sm:object-cover px-2 sm:px-4">
         <img v-else src="/rowmate.png" class="w-48 sm:w-full sm:object-cover px-2 sm:px-4">
       </div>
 
-      <div @click="toggleNav" class="sm:hidden block cursor-pointer py-2 pr-3">
-        <svg class="text-color-sale fill-current focus:outline-none w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-          <title>Menu</title>
-          <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
-        </svg>
+      <div @click="toggleNav" class="block sm:hidden overflow-hidden focus:outline-none cursor-pointer h-12 w-12 pr-3">
+        <avatar :avatar="avatar" class="h-full w-full object-cover" />
       </div>
     </div>
 
@@ -117,6 +114,25 @@ export default {
     },
     isSuperuser() {
       return this.$store.state.isSuperuser
+    },
+    avatar() {
+      return {
+        eyeType: this.$store.state.eyeType,
+        isCircle: Boolean(this.$store.state.isCircle),
+        clotheType: this.$store.state.clotheType,
+        circleColor: this.$store.state.circleColor,
+        accessoriesType: this.$store.state.accessoriesType,
+        facialHairColor: this.$store.state.facialHairColor,
+        facialHairType: this.$store.state.facialHairType,
+        clotheColor: this.$store.state.clotheColor,
+        eyebrowType: this.$store.state.eyebrowType,
+        graphicType: this.$store.state.graphicType,
+        hairColor: this.$store.state.hairColor,
+        mouthType: this.$store.state.mouthType,
+        skinColor: this.$store.state.skinColor,
+        topColor: this.$store.state.topColor,
+        topType: this.$store.state.topType
+      }
     }
   },
   methods: {

@@ -1,6 +1,6 @@
 <template>
-<header class="sm:flex justify-between items-center pl-3 pr-2 md:px-6 bg-color-form border-b-4 border-blue-550 sm:h-20 py-3 sm:py-0">
-  <div class="flex justify-between items-center w-full">
+<header class="hidden sm:flex justify-between items-center bg-color-form border-b-4 border-blue-550 h-16 lg:h-20 px-3 py-3 lg:px-6">
+  <div class="w-full flex justify-between items-center">
     <div class="w-full md:w-6/12 lg:w-5/12 xl:w-3/12 relative">
       <div v-click-outside="toggleSearch" @keydown.esc="toggleSearch" class="relative">
         <input v-model="searchTerm" @input="lookupSearchTerm" type="text" class="w-full rounded border focus:outline-none p-2">
@@ -14,12 +14,12 @@
       </div>
     </div>
 
-    <div class="relative ml-2 sm:ml-0">
-      <button @click="toggleDropdown" @keydown.esc="toggleDropdown" class="relative z-10 block h-10 w-10 overflow-hidden focus:outline-none">
+    <div class="relative w-10 lg:w-12">
+      <div @click.stop="toggleDropdown" class="block overflow-hidden focus:outline-none cursor-pointer h-10 w-10">
         <avatar :avatar="avatar" class="h-full w-full object-cover" />
-      </button>
+      </div>
 
-      <ul v-click-outside="toggleDropdown" v-if="showDropdown" class="absolute right-0 mt-2 w-48 bg-color-nav overflow-hidden rounded shadow z-20">
+      <ul v-click-outside="hideDropdown" v-if="showDropdown" class="absolute right-0 mt-2 w-48 bg-color-nav overflow-hidden rounded shadow z-20">
         <li @click="toggleDropdown">
           <nuxt-link :to="localePath('/settings')" class="block px-4 py-2 text-sm text-color-nav hover:bg-gray-800 border-b border-color-form">Profile</nuxt-link>
         </li>
@@ -77,6 +77,9 @@ export default {
     setSerchTerm(user) {
       this.searchTerm = user.name
       this.toggleSearch()
+    },
+    hideDropdown() {
+      return this.showDropdown = false
     },
     toggleDropdown() {
       return this.showDropdown = !this.showDropdown
