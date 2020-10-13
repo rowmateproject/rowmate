@@ -7,7 +7,7 @@
         <img v-else src="/rowmate.png" class="w-48 sm:w-full sm:object-cover px-2 sm:px-4">
       </div>
 
-      <div @click="toggleNav" class="block sm:focus:outline-none hidden overflow-hidden cursor-pointer h-12 w-12 pr-3">
+      <div @click="toggleNav" class="block sm:hidden focus:outline-none overflow-hidden cursor-pointer h-12 w-12 pr-3">
         <avatar :avatar="avatar" class="h-full w-full object-cover" />
       </div>
     </div>
