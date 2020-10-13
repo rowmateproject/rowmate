@@ -51,6 +51,9 @@ export default {
     src: '@/plugins/vClickOutside',
     ssr: false
   }, {
+    src: '@/plugins/vTailwindPicker',
+    ssr: false
+  }, {
     src: '@/plugins/interceptor',
     ssr: true
   }],

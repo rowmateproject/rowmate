@@ -57,7 +57,11 @@
 </template>
 
 <script>
+import VueTailwindPicker from 'vue-tailwind-picker'
 export default {
+  components: {
+    VueTailwindPicker
+  },
   data() {
     return {
       stats: {
@@ -65,7 +69,8 @@ export default {
         events: 0
       },
       events: [],
-      reset: true
+      reset: true,
+      checkin: ''
     }
   },
   mounted() {

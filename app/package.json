@@ -11,8 +11,8 @@
     "lint": "npm run lint:js"
   },
   "dependencies": {
-    "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "@fortawesome/free-brands-svg-icons": "^5.15.1",
+    "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "@nuxtjs/axios": "^5.12.2",
     "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/fontawesome": "^1.1.2",
@@ -27,6 +27,8 @@
     "uuid": "^8.3.1",
     "v-click-outside": "^3.1.2",
     "vue-color": "^2.7.1",
+    "vue-dayjs": "^1.0.2",
+    "vue-tailwind-picker": "^1.1.4",
     "vuejs-avataaars": "^4.0.1"
   },
   "devDependencies": {
