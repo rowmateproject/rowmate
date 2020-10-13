@@ -1,6 +1,6 @@
 <template>
 <div>
-  <h3 class="text-xl sm:text-2xl md:text-3xl font-medium text-color-title">Sprache</h3>
+  <h3 class="text-xl sm:text-2xl md:text-3xl font-medium leading-none text-color-title">Sprache</h3>
 
   <upload-translation @importedTranslation="handleImportedTranslation" />
 

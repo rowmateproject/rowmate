@@ -1,6 +1,6 @@
 <template>
 <div>
-  <h3 class="text-xl sm:text-2xl md:text-3xl font-medium text-color-title">Profile</h3>
+  <h3 class="text-xl sm:text-2xl md:text-3xl font-medium leading-none text-color-title">Profile</h3>
 
   <form @submit.prevent="saveExtendedUser">
     <div class="mt-1 sm:mt-3 md:mt-5 lg:mt-8 p-6 bg-color-form rounded shadow">

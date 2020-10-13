@@ -1,43 +1,49 @@
 <template>
 <div>
-  <h3 class="text-xl sm:text-2xl md:text-3xl font-medium text-color-title">Dashboard</h3>
+  <h3 class="text-xl sm:text-2xl md:text-3xl font-medium leading-none text-color-title">Dashboard</h3>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6 mt-1 sm:mt-3 md:mt-5 lg:mt-8 mb-5 sm:mb-8">
-    <div>
-      <div class="flex items-center px-5 py-6 shadow-sm rounded-md bg-color-form">
-        <div class="flex items-center justify-center rounded-full bg-red-600 bg-opacity-75 w-16 h-16">
-          <fa :icon="['fas', 'users']" class="text-color-nav text-3xl" />
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-6 my-3 lg:my-6">
+    <div class="grid grid-cols-12 gap-3 bg-color-form shadow rounded p-3 lg:p-4">
+      <div class="col-span-12 flex items-center">
+        <div class="mr-3 lg:mr-4">
+          <div class="flex items-center justify-center rounded-full bg-red-600 w-16 h-16">
+            <fa :icon="['fas', 'users']" class="text-color-nav text-3xl" />
+          </div>
         </div>
 
-        <div class="mx-5">
-          <h4 class="text-2xl font-semibold text-color-page">{{ stats.users }}</h4>
-          <div class="text-color-title">Registrierte Nutzer</div>
-        </div>
-      </div>
-    </div>
-
-    <div>
-      <div class="flex items-center px-5 py-6 shadow-sm rounded-md bg-color-form">
-        <div class="flex items-center justify-center rounded-full bg-orange-600 bg-opacity-75 w-16 h-16">
-          <fa :icon="['fas', 'network-wired']" class="text-color-nav text-3xl" />
-        </div>
-
-        <div class="mx-5">
-          <h4 class="text-2xl font-semibold text-color-page">2.021</h4>
-          <div class="text-color-title">Registrierte Vereine</div>
+        <div class="flex flex-col justify-center">
+          <h4 class="text-2xl font-semibold leading-tight text-color-page">{{ stats.users }}</h4>
+          <div class="text-color-title leading-tight">Registrierte Nutzer</div>
         </div>
       </div>
     </div>
 
-    <div>
-      <div class="flex items-center px-5 py-6 shadow-sm rounded-md bg-color-form">
-        <div class="flex items-center justify-center rounded-full bg-green-600 bg-opacity-75 w-16 h-16">
-          <fa :icon="['fas', 'calendar-alt']" class="text-color-nav text-3xl" />
+    <div class="grid grid-cols-12 gap-3 bg-color-form shadow rounded p-3 lg:p-4">
+      <div class="col-span-12 flex items-center">
+        <div class="mr-3 lg:mr-4">
+          <div class="flex items-center justify-center rounded-full bg-indigo-600 w-16 h-16">
+            <fa :icon="['fas', 'network-wired']" class="text-color-nav text-3xl" />
+          </div>
         </div>
 
-        <div class="mx-5">
-          <h4 class="text-2xl font-semibold text-color-page">{{ stats.events }}</h4>
-          <div class="text-color-title">Anstehende Events</div>
+        <div class="flex flex-col justify-center">
+          <h4 class="text-2xl font-semibold leading-tight text-color-page">2.021</h4>
+          <div class="text-color-title leading-tight">Registrierte Vereine</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-12 gap-3 bg-color-form shadow rounded p-3 lg:p-4">
+      <div class="col-span-12 flex items-center">
+        <div class="mr-3 lg:mr-4">
+          <div class="flex items-center justify-center rounded-full bg-green-600 w-16 h-16">
+            <fa :icon="['fas', 'calendar-alt']" class="text-color-nav text-3xl" />
+          </div>
+        </div>
+
+        <div class="flex flex-col justify-center">
+          <h4 class="text-2xl font-semibold leading-tight text-color-page">{{ stats.events }}</h4>
+          <div class="text-color-title leading-tight">Anstehende Events</div>
         </div>
       </div>
     </div>
@@ -48,7 +54,7 @@
 
   <h3 class="text-lg sm:text-xl lg:text-2xl font-medium text-color-title mb-2">Events</h3>
   <div class="p-3 lg:px-6 lg:pb-6 lg:pt-4 bg-svg-image bg-blue-500 rounded-md shadow mb-3 sm:mb-6">
-    <h4 class="text-color-nav">Event Filter</h4>
+    <h4 class="text-color-nav leading-none">Event Filter</h4>
     <event-filter @resultObject="handleResult" @resetFilter="handleReset" :eventSubscriptions="true" :borderSettings="false" />
   </div>
 

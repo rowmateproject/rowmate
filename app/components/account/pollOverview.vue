@@ -1,9 +1,9 @@
 <template>
 <div>
-  <h3 class="text-xl sm:text-2xl md:text-3xl font-medium text-color-title">Umfagen</h3>
+  <h3 class="text-xl sm:text-2xl md:text-3xl font-medium leading-none text-color-title">Umfagen</h3>
 
-  <div class="bg-svg-image bg-blue-500 rounded shadow p-3 lg:px-6 lg:pb-6 lg:pt-4 mt-1 sm:mt-3 md:mt-5 lg:mt-8 mb-3 md:mb-5 lg:mb-8">
-    <h4 class="text-color-nav">Umfrage Filter</h4>
+  <div class="bg-svg-image bg-blue-500 rounded shadow p-3 lg:p-6 my-3 lg:my-6 mb-3">
+    <h4 class="text-color-nav leading-none">Umfrage Filter</h4>
     <question-filter @resultObject="handleFilterObject" @resetFilter="handleResetValue" :borderSettings="false" />
   </div>
 

@@ -1,6 +1,6 @@
 <template>
 <div>
-  <h3 class="text-xl sm:text-2xl md:text-3xl font-medium text-color-title">Organisation</h3>
+  <h3 class="text-xl sm:text-2xl md:text-3xl font-medium leading-none text-color-title">Organisation</h3>
 
   <div class="bg-color-image mt-3 md:mt-6 lg:mt-8 px-3 lg:px-6 pb-3 lg:pb-6 pt-2 lg:pt-4 rounded shadow">
     <h4 class="text-xl mb-1">Hinweis</h4>
