@@ -9,51 +9,51 @@
 
   <form @submit.prevent="submitForm" class="mt-1 sm:mt-3 md:mt-5 lg:mt-8 p-3 lg:p-6 bg-color-form rounded-md shadow">
     <div class="grid grid-cols-12 gap-4">
-      <div class="col-span-8">
+      <div class="col-span-12 lg:col-span-8">
         <date-form @minute="handleStartMinute" @hour="handleStartHour" @day="handleStartDay" @month="handleStartMonth" @year="handleStartYear" :minute="startDate.minute" :hour="startDate.hour" :day="startDate.day" :month="startDate.month"
-          :year="startDate.year" direction="forward" minYear="2020" maxYear="2025" title="Beginn" />
+          :year="startDate.year" direction="forward" minYear="2020" maxYear="2025" title="Veranstaltungs Beginn" />
         <p v-if="errors.startDateFull" class="text-red-500 text-xs italic">{{ $t('errorInvalidStartDate') }}</p>
       </div>
-      <div class="col-span-4 grid grid-cols-4 gap-x-2">
-        <div class="col-span-2">
-          <label class="text-color-form" for="date">Min. Teilnehmer</label>
-          <input v-model="minParticipants" type="text" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1">
-        </div>
-        <div class="col-span-2">
-          <label class="text-color-form" for="date">Max. Teilnehmer</label>
-          <input v-model="maxParticipants" type="text" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1">
-        </div>
+      <div class="col-span-12 lg:col-span-4 row-start-3">
+        <event-repeat-form @repeatUnitNumber="handleRepeatUnit" @repeatIntervalNumber="handleRepeatInterval" :repeatUnit="repeatUnit" :repeatInterval="repeatInterval" />
       </div>
-      <div class="col-span-8">
+      <div class="col-span-12 lg:col-span-8">
         <date-form @minute="handleEndMinute" @hour="handleEndHour" @day="handleEndDay" @month="handleEndMonth" @year="handleEndYear" :minute="endDate.minute" :hour="endDate.hour" :day="endDate.day" :month="endDate.month" :year="endDate.year"
-          direction="forward" minYear="2020" maxYear="2025" title="Ende" />
+          direction="forward" minYear="2020" maxYear="2025" title="Veranstaltungs Ende" />
         <p v-if="errors.endDateFull" class="text-red-500 text-xs italic">{{ $t('errorInvalidEndDate') }}</p>
       </div>
-      <div class="col-span-4">
-        <event-repeat-form @repeatUnitNumber="handleRepeatUnit" @repeatIntervalNumber="handleRepeatInterval" :repeatUnit="repeatUnit" :repeatInterval="repeatInterval" />
+      <div class="col-span-12 lg:col-span-4 grid grid-cols-12 lg:grid-cols-4 gap-3">
+        <div class="col-span-6 grid grid-cols-12 gap-2">
+          <label class="col-span-12 text-color-form leading-none">Min. Teilnehmer</label>
+          <input v-model="minParticipants" type="text" class="col-span-12 rounded border border-color-form focus:outline-none p-2">
+        </div>
+        <div class="col-span-6 grid grid-cols-12 gap-2">
+          <label class="col-span-12 text-color-form leading-none">Max. Teilnehmer</label>
+          <input v-model="maxParticipants" type="text" class="col-span-12 rounded border border-color-form focus:outline-none p-2">
+        </div>
       </div>
     </div>
 
     <div class="grid grid-cols-12 gap-6 mt-6">
-      <div class="col-span-4">
-        <h4 class="text-color-form">Ansprechpartner</h4>
+      <div class="col-span-12 lg:col-span-4">
+        <h4 class="text-color-form leading-none">Ansprechpartner</h4>
         <user-filter @resultObject="handleUserFilterObject" :showResetButton="false" />
       </div>
-      <div class="col-span-8">
-        <h4 class="text-color-form" for="eventFilter">Umfrage hinzufügen (optional)</h4>
+      <div class="col-span-12 lg:col-span-8">
+        <h4 class="text-color-form leading-none" for="eventFilter">Umfrage hinzufügen (optional)</h4>
         <question-filter @resultObject="handleQuestionFilterResult" @resetFilter="handleQuestionResetValue" />
       </div>
     </div>
 
     <div class="mt-8">
-      <label class="text-color-form" for="location">Ort</label>
+      <label class="text-color-form leading-none" for="location">Ort</label>
       <input v-model="location" type="text" placeholder="Ort hinzufügen" :class="[errors.location ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1">
       <p v-if="errors.location" class="text-red-500 text-xs italic">{{ $t('errorInvalidName') }}</p>
     </div>
 
     <div v-for="value, index in availableLocales" :key="index" class="mt-8">
       <event-form :code="value.code" :title="titles[value.code].title" :description="descriptions[value.code].description" :titleError="errors.titles[value.code].title" :descriptionError="errors.descriptions[value.code].description"
-        @titleString="handleTitleString" @descriptionString="handleDescriptionString" />
+        @titleString="handletitleString" @descriptionString="handleDescriptionString" />
     </div>
 
     <div class="flex justify-end mt-4">
@@ -265,7 +265,7 @@ export default {
     handleRepeatInterval(value) {
       this.repeatInterval = value
     },
-    handleTitleString(value) {
+    handletitleString(value) {
       this.titles[value.locale].title = value.title
     },
     handleDescriptionString(value) {
