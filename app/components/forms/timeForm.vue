@@ -13,6 +13,7 @@
         </svg>
       </div>
     </div>
+
     <div class="col-span-6 lg:col-span-1 relative z-0">
       <select v-model="minuteSelected" :class="[errors.minute ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="appearance-none block w-full rounded border focus:outline-none p-2">
         <option v-for="value, index in minutes" :key="index" :value="value">{{ value }}</option>
