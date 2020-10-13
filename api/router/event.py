@@ -86,6 +86,11 @@ def get_event_router(database, authenticator) -> APIRouter:
             uuid: Binary = generate_uuid()
             created_at: datetime = datetime.utcnow()
 
+            try:
+                poll_id = UUID(hex=request_doc['poll_id'])
+            except (TypeError, ValueError):
+                poll_id = None
+
             event_doc: Event = {
                 '_id': uuid,
                 'author': user.name,
@@ -101,7 +106,7 @@ def get_event_router(database, authenticator) -> APIRouter:
                 'contact_person': request_doc['contact_person'],
                 'start_time': request_doc['start_time'],
                 'end_time': request_doc['end_time'],
-                'poll_id': UUID(hex=request_doc['poll_id']),
+                'poll_id': poll_id,
                 'ngrams': make_ngrams([
                     request_doc['contact_person'],
                     request_doc['descriptions'],
@@ -134,13 +139,13 @@ def get_event_router(database, authenticator) -> APIRouter:
                 status_code=400, detail='Error creating calendar')
 
     @router.patch('/{hex}')
-    async def patch_event(hex: str,
-                          request: UpdateEvent,
-                          user=Depends(authenticator.get_current_superuser)):
+    async def patch_event(hex: str, request: UpdateEvent, user=Depends(
+            authenticator.get_current_superuser)):
         try:
             req_uuid = UUID(hex=hex, version=4)
-        except TypeError:
-            raise HTTPException(status_code=404, detail='Event was not found')
+        except (TypeError, ValueError):
+            raise HTTPException(
+                status_code=404, detail='Invalid identifier')
 
         query = {'events': {'$in': [req_uuid]}}
         res = await database['calendars'].find(query).to_list(length=1)
@@ -161,6 +166,11 @@ def get_event_router(database, authenticator) -> APIRouter:
             modified_at: datetime = datetime.utcnow()
             request_doc = dict(request)
 
+            try:
+                poll_id = UUID(hex=request_doc['poll_id'])
+            except (TypeError, ValueError):
+                poll_id = None
+
             event_doc: Event = {
                 'event_time': event_time,
                 'titles': request_doc['titles'],
@@ -173,7 +183,7 @@ def get_event_router(database, authenticator) -> APIRouter:
                 'contact_person': request_doc['contact_person'],
                 'start_time': request_doc['start_time'],
                 'end_time': request_doc['end_time'],
-                'poll_id': UUID(hex=request_doc['poll_id']),
+                'poll_id': poll_id,
                 'ngrams': make_ngrams([
                     request_doc['contact_person'],
                     request_doc['descriptions'],
