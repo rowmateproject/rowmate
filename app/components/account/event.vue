@@ -8,21 +8,30 @@
   </div>
 
   <form @submit.prevent="submitForm" class="mt-1 sm:mt-3 md:mt-5 lg:mt-8 p-3 lg:p-6 bg-color-form rounded-md shadow">
+
     <div class="grid grid-cols-12 gap-4">
+
       <div class="col-span-12 lg:col-span-8">
-        <date-form @minute="handleStartMinute" @hour="handleStartHour" @day="handleStartDay" @month="handleStartMonth" @year="handleStartYear" :minute="startDate.minute" :hour="startDate.hour" :day="startDate.day" :month="startDate.month"
-          :year="startDate.year" direction="forward" minYear="2020" maxYear="2025" title="Veranstaltungs Beginn" />
+        <VueTailwindPicker @change="(v) => handleStartDate(v)" :startFromMonday="true">
+            <input type="text" v-model="startDateString" />
+        </VueTailwindPicker>
+
+        <time-form @minute="handleStartMinute" @hour="handleStartHour" :minute="startDate.minute" :hour="startDate.hour" direction="forward" title="Start"/>
         <p v-if="errors.startDateFull" class="text-red-500 text-xs italic">{{ $t('errorInvalidStartDate') }}</p>
       </div>
+
       <div class="col-span-12 lg:col-span-4 row-start-3 lg:row-start-1 lg:col-start-9">
         <event-repeat-form @repeatUnitNumber="handleRepeatUnit" @repeatIntervalNumber="handleRepeatInterval" :repeatUnit="repeatUnit" :repeatInterval="repeatInterval" />
       </div>
+
       <div class="col-span-12 lg:col-span-8">
         <date-form @minute="handleEndMinute" @hour="handleEndHour" @day="handleEndDay" @month="handleEndMonth" @year="handleEndYear" :minute="endDate.minute" :hour="endDate.hour" :day="endDate.day" :month="endDate.month" :year="endDate.year"
-          direction="forward" minYear="2020" maxYear="2025" title="Veranstaltungs Ende" />
+          direction="forward" minYear="2020" maxYear="2025" title="Veranstaltungs Ende" v-if="multiday"/>
+        <time-form @minute="handleEndMinute" @hour="handleEndHour" :minute="endDate.minute" :hour="endDate.hour" direction="forward" title="Ende" v-else/>
         <p v-if="errors.endDateFull" class="text-red-500 text-xs italic">{{ $t('errorInvalidEndDate') }}</p>
       </div>
-      <div class="col-span-12 lg:col-span-4 grid grid-cols-12 gap-3">
+
+      <div class="col-span-12 lg:col-span-4 grid grid-cols-12 gap-3 justify-end">
         <div class="col-span-6 grid grid-cols-12 gap-2">
           <label class="col-span-12 text-color-form leading-none">Min. Teilnehmer</label>
           <input v-model="minParticipants" type="text" class="col-span-12 rounded border border-color-form focus:outline-none p-2">
@@ -32,6 +41,12 @@
           <input v-model="maxParticipants" type="text" class="col-span-12 rounded border border-color-form focus:outline-none p-2">
         </div>
       </div>
+    </div>
+
+
+    <div class="col-span-12 lg:col-span-8">
+      <input type="checkbox" v-model="multiday" />
+      <label>Event dauert mehrere Tage</label>
     </div>
 
     <div class="grid grid-cols-12 gap-6 mt-6">
@@ -69,6 +84,7 @@
 import {
   parse as uuidParse
 } from 'uuid'
+import VueTailwindPicker from 'vue-tailwind-picker'
 
 export default {
   data() {
@@ -76,6 +92,7 @@ export default {
       uuid: '',
       titles: {},
       descriptions: {},
+      multiday: false,
       contactPerson: '',
       minParticipants: '',
       maxParticipants: '',
@@ -83,6 +100,7 @@ export default {
       repeatUnit: '',
       location: '',
       pollId: '',
+      startDateString: '',
       endDate: {
         day: null,
         hour: null,
@@ -175,6 +193,9 @@ export default {
     }
   },
   watch: {
+    multiday: function() {
+      this.multidayDate()
+    },
     location: function() {
       if (this.location !== '') {
         if (this.location.trim().length >= 3) {
@@ -208,6 +229,25 @@ export default {
     }
   },
   methods: {
+    multidayDate(value,param) {
+      if (this.multiday === false) {
+        if (value !== undefined && param !== undefined) {
+          this.endDate[param] = value
+        } else {
+          this.endDate.year = this.startDate.year
+          this.endDate.month = this.startDate.month
+          this.endDate.day = this.startDate.day
+        }
+      }
+    },
+    handleStartDate(v) {
+      this.startDateString = v
+      let startdate = new Date(v)
+      this.handleStartYear(startdate.getFullYear())
+      this.handleStartMonth(startdate.getMonth())
+      this.handleStartDay(startdate.getDay())
+
+    },
     makePath(locale) {
       return `/flags/${locale}.svg`
     },
@@ -236,12 +276,15 @@ export default {
       this.startDate.hour = value
     },
     handleStartDay(value) {
+      this.multidayDate(value,"day")
       this.startDate.day = value
     },
     handleStartMonth(value) {
+      this.multidayDate(value,"month")
       this.startDate.month = value
     },
     handleStartYear(value) {
+      this.multidayDate(value,"year")
       this.startDate.year = value
     },
     handleEndMinute(value) {
@@ -418,6 +461,9 @@ export default {
         }
       }
     }
+  },
+  components: {
+    VueTailwindPicker
   }
 }
 </script>
