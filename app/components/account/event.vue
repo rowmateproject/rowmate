@@ -14,7 +14,7 @@
           :year="startDate.year" direction="forward" minYear="2020" maxYear="2025" title="Veranstaltungs Beginn" />
         <p v-if="errors.startDateFull" class="text-red-500 text-xs italic">{{ $t('errorInvalidStartDate') }}</p>
       </div>
-      <div class="col-span-12 lg:col-span-4 row-start-3">
+      <div class="col-span-12 lg:col-span-4 row-start-3 lg:row-start-1 lg:col-start-9">
         <event-repeat-form @repeatUnitNumber="handleRepeatUnit" @repeatIntervalNumber="handleRepeatInterval" :repeatUnit="repeatUnit" :repeatInterval="repeatInterval" />
       </div>
       <div class="col-span-12 lg:col-span-8">
@@ -22,7 +22,7 @@
           direction="forward" minYear="2020" maxYear="2025" title="Veranstaltungs Ende" />
         <p v-if="errors.endDateFull" class="text-red-500 text-xs italic">{{ $t('errorInvalidEndDate') }}</p>
       </div>
-      <div class="col-span-12 lg:col-span-4 grid grid-cols-12 lg:grid-cols-4 gap-3">
+      <div class="col-span-12 lg:col-span-4 grid grid-cols-12 gap-3">
         <div class="col-span-6 grid grid-cols-12 gap-2">
           <label class="col-span-12 text-color-form leading-none">Min. Teilnehmer</label>
           <input v-model="minParticipants" type="text" class="col-span-12 rounded border border-color-form focus:outline-none p-2">

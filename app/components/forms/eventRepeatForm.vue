@@ -1,10 +1,10 @@
 <template>
-<div class="grid grid-cols-2 gap-3">
-  <div class="col-span-1">
-    <label class="text-color-form" for="repeat-event">Wiederholen alle</label>
+<div class="grid grid-cols-2 gap-x-3">
+  <div class="col-span-1 grid grid-cols-12 gap-y-2 gap-x-3">
+    <label class="col-span-12 text-color-form leading-none">Wiederholen</label>
 
-    <div class="relative">
-      <select v-model="repeatIntervalNumber" class="appearance-none block w-full rounded border border-color-form focus:outline-none p-2 mt-2">
+    <div class="col-span-12 relative">
+      <select v-model="repeatIntervalNumber" class="appearance-none block w-full rounded border border-color-form focus:outline-none p-2">
         <option value="0">Keine</option>
         <option v-for="value, index in repeatIntervals" :key="index" :value="value">{{ value }}</option>
       </select>
@@ -15,11 +15,11 @@
       </div>
     </div>
   </div>
-  <div class="col-span-1">
-    <label class="text-color-form" for="repeat-event">Einheiten</label>
+  <div class="col-span-1 grid grid-cols-12 gap-y-2 gap-x-3">
+    <label class="col-span-12 text-color-form leading-none">Einheiten</label>
 
-    <div class="relative">
-      <select v-model="repeatUnitNumber" class="appearance-none block w-full rounded border border-color-form focus:outline-none p-2 mt-2">
+    <div class="col-span-12 relative">
+      <select v-model="repeatUnitNumber" class="appearance-none block w-full rounded border border-color-form focus:outline-none p-2">
         <option v-for="value, index in repeatUnits" :key="index" :value="value">{{ $t(value) }}</option>
       </select>
       <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 mt-1 text-color-nav">
