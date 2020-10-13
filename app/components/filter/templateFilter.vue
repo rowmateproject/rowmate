@@ -1,10 +1,8 @@
 <template>
 <div v-click-outside="toggleSearch" @keydown.esc="toggleSearch" class="relative">
   <div class="flex flex-wrap items-stretch w-full relative mt-2">
-    <input v-model="searchTerm" @input="lookupTemplate" type="text" class="flex-shrink flex-grow flex-auto leading-normal flex-1 border rounded-l focus:outline-none p-2">
-    <div class="flex">
-      <button @click="clearSearchTerm" class="flex items-center leading-normal bg-gray-400 text-gray-800 focus:outline-none rounded-r px-3" type="button">Zurücksetzen</button>
-    </div>
+    <input v-model="searchTerm" @input="lookupTemplate" type="text" class="flex-shrink flex-grow flex-auto leading-normal flex-1 border-r-0 rounded md:rounded-r-none md:rounded-l focus:outline-none p-2">
+    <button @click="clearSearchTerm" class="w-full md:w-auto leading-normal bg-gray-400 text-gray-800 focus:outline-none rounded md:rounded-l-none md:rounded-r py-2 px-3 mt-2 md:mt-0" type="button">Zurücksetzen</button>
   </div>
 
   <div v-if="templates.length > 0" class="w-full absolute z-30">

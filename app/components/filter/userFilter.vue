@@ -2,8 +2,8 @@
 <div v-click-outside="toggleSearch" @keydown.esc="toggleSearch" class="relative">
   <input v-if="!resetButton" v-model="searchTerm" @input="lookupUser" type="text" class="w-full rounded border border-color-form focus:outline-none p-2 mt-2">
   <div v-else class="flex flex-wrap items-stretch w-full relative mt-2">
-    <input v-model="searchTerm" @input="lookupUser" type="text" class="flex-shrink flex-grow flex-auto leading-normal flex-1 border border-color-form rounded sm:rounded-r-none sm:rounded-l focus:outline-none p-2">
-    <button @click="clearSearchTerm" class="w-full sm:w-auto leading-normal bg-gray-400 text-gray-800 focus:outline-none rounded sm:rounded-l-none sm:rounded-r py-2 px-3 mt-2 sm:mt-0" type="button">Zurücksetzen</button>
+    <input v-model="searchTerm" @input="lookupUser" type="text" class="flex-shrink flex-grow flex-auto leading-normal flex-1 border-r-0 rounded md:rounded-r-none md:rounded-l focus:outline-none p-2">
+    <button @click="clearSearchTerm" class="w-full md:w-auto leading-normal bg-gray-400 text-gray-800 focus:outline-none rounded md:rounded-l-none md:rounded-r py-2 px-3 mt-2 md:mt-0" type="button">Zurücksetzen</button>
   </div>
 
   <div v-if="users.length > 0" class="w-full absolute z-30">
