@@ -1,44 +1,44 @@
 <template>
 <ul v-if="events.length > 0" class="siblings:mt-3 md:siblings:mt-5 lg:siblings:mt-8">
   <li v-for="value, index in events" :key="index" class="bg-color-form rounded shadow p-3 lg:p-6">
-    <div class="grid grid-cols-12 gap-x-3 gap-x-6">
-      <div class="col-span-12 grid grid-cols-12 gap-x-3 gap-x-6">
-        <h1 class="col-span-6 sm:col-span-8 md:col-span-10 text-color-sale font-bold text-xl sm:text-2xl md:text-3xl xl:text-4xl mb-4">
+    <div class="grid grid-cols-12 gap-3 lg:gap-6">
+      <div class="col-span-12 grid grid-cols-12 gap-3 lg:gap-6">
+        <h1 class="col-span-6 md:col-span-9 xl:col-span-10 text-color-sale font-bold leading-none text-xl sm:text-2xl md:text-3xl xl:text-4xl">
           {{ value.titles[currentLocale].title }}
         </h1>
-        <div class="col-span-6 sm:col-span-4 md:col-span-2 text-right">
+        <div class="col-span-6 md:col-span-3 xl:col-span-2 text-right">
           <button @click="subscribeEvent(value._id, index)" :class="[value.subscribed ? 'bg-color-header text-color-nav' : 'bg-color-button text-color-button']"
             class="rounded focus:outline-none px-4 py-2">{{ value.subscribed ? 'Zugesagt' : 'Jetzt Anmelden' }}</button>
         </div>
       </div>
-      <ul class="col-span-8 grid grid-cols-10 gap-3 sm:gap-6 mb-3 md:mb-5 lg:mb-8">
-        <li class="col-span-12 sm:col-span-10">
+      <ul class="col-span-12 xl:col-span-9 grid grid-cols-12 gap-3 lg:gap-6 mb-3 lg:mb-6">
+        <li class="col-span-12">
           <p class="text-color-header font-medium">Zeitpunkt</p>
-          <span class="text-color-title text-md sm:text-lg md:text-xl md:font-bold">{{ makeStartEndDate(value.event_time) }}</span>
+          <span class="text-color-title text-md sm:col-span-6 lg:text-lg md:text-xl md:font-bold">{{ makeStartEndDate(value.event_time) }}</span>
         </li>
-        <li v-if="value.contact_person" class="col-span-12 sm:col-span-4">
+        <li v-if="value.contact_person" class="col-span-12 sm:col-span-6 xl:col-span-4">
           <p class="text-color-header font-medium">Ansprechpartner</p>
-          <span class="text-color-title text-md sm:text-lg md:text-xl md:font-bold">{{ value.contact_person }}</span>
+          <span class="text-color-title text-md sm:col-span-6 lg:text-lg md:text-xl md:font-bold">{{ value.contact_person }}</span>
         </li>
-        <li v-if="value.modified_at" class="col-span-12 sm:col-span-3">
+        <li v-if="value.modified_at" class="col-span-12 sm:col-span-6 xl:col-span-4">
           <p class="text-color-header font-medium">Geändert am</p>
           <span class="text-color-title text-md sm:text-lg md:text-xl md:font-bold">{{ makeDateTime(value.modified_at).join(' ') }}</span>
         </li>
-        <li v-if="value.created_at && !value.modified_at" class="col-span-12 sm:col-span-3">
+        <li v-if="value.created_at && !value.modified_at" class="col-span-12 sm:col-span-6 xl:col-span-4">
           <p class="text-color-header font-medium">Erstellt am</p>
           <span class="text-color-title text-md sm:text-lg md:text-xl md:font-bold">{{ makeDateTime(value.created_at).join(' ') }}</span>
         </li>
-        <li v-if="value.min_participants > 0" class="col-span-12 sm:col-span-3">
+        <li v-if="value.min_participants > 0" class="col-span-12 sm:col-span-6 xl:col-span-4">
           <p class="text-color-header font-medium">Teilnehmeranzahl</p>
           <span class="text-color-title text-md sm:text-lg md:text-xl md:font-bold">{{ value.min_participants }}</span>
           <span class="text-color-title text-md sm:text-lg md:text-xl md:font-bold" v-if="value.max_participants > 0"> - {{ value.max_participants }}</span>
           <span class="text-color-title text-md sm:text-lg md:text-xl md:font-bold"> {{ value.min_participants > 1 ? 'Personen' : 'Person' }}</span>
         </li>
-        <li v-if="value.repeat_interval > 0" class="col-span-12 sm:col-span-4">
+        <li v-if="value.repeat_interval > 0" class="col-span-12 sm:col-span-6 xl:col-span-4">
           <p class="text-color-header font-medium">Wiederholung</p>
           <span class="text-color-title text-md sm:text-lg md:text-xl md:font-bold">alle {{ value.repeat_interval }} {{ $t(value.repeat_unit) }}</span>
         </li>
-        <li class="col-span-12 sm:col-span-6">
+        <li class="col-span-12">
           <p class="text-color-header font-medium">Veranstaltungsort</p>
           <span class="text-color-title text-md sm:text-lg md:text-xl md:font-bold">{{ value.location }}</span>
         </li>
