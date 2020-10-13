@@ -7,77 +7,83 @@
         <img v-else src="/rowmate.png" class="w-48 sm:w-full sm:object-cover px-2 sm:px-4">
       </div>
 
-      <div @click="toggleNav" class="block sm:hidden overflow-hidden focus:outline-none cursor-pointer h-12 w-12 pr-3">
+      <div @click="toggleNav" class="block sm:focus:outline-none hidden overflow-hidden cursor-pointer h-12 w-12 pr-3">
         <avatar :avatar="avatar" class="h-full w-full object-cover" />
       </div>
     </div>
 
     <ul :class="[showNav ? 'block z-50' : 'hidden']" class="sm:block sm:mt-8">
       <li @click="toggleNav" :class="[comparePageName('dashboard') ? activeClass : inactiveClass]" class="text-color-nav">
-        <nuxt-link class="focus:outline-none grid grid-cols-6 sm:mt-1 py-3 px-3 sm:px-6" :to="localePath('/dashboard')">
+        <nuxt-link class="grid grid-cols-6 focus:outline-none sm:mt-1 py-3 px-3 sm:px-6" :to="localePath('/dashboard')">
           <fa :icon="['fas', 'chart-line']" class="col-span-1 mt-1" />
           <span class="col-span-5">Dashboard</span>
         </nuxt-link>
       </li>
       <li v-if="isSuperuser === 'true' || isSuperuser === true" @click="toggleNav" :class="[comparePageName('organization') ? activeClass : inactiveClass]" class="text-color-nav">
-        <nuxt-link class="focus:outline-none grid grid-cols-6 sm:mt-1 py-3 px-3 sm:px-6" :to="localePath('/organization')">
+        <nuxt-link class="grid grid-cols-6 focus:outline-none sm:mt-1 py-3 px-3 sm:px-6" :to="localePath('/organization')">
           <fa :icon="['fas', 'columns']" class="col-span-1 mt-1" />
           <span class="col-span-5">Organisation</span>
         </nuxt-link>
       </li>
       <li @click="toggleNav" :class="[comparePageName('poll') ? activeClass : inactiveClass]" class="text-color-nav">
-        <nuxt-link class="focus:outline-none grid grid-cols-6 sm:mt-1 py-3 px-3 sm:px-6" :to="localePath('/poll')">
+        <nuxt-link class="grid grid-cols-6 focus:outline-none  sm:mt-1 py-3 px-3 sm:px-6" :to="localePath('/poll')">
           <fa :icon="['fas', 'poll']" class="col-span-1 mt-1" />
           <span class="col-span-5">Umfragen</span>
         </nuxt-link>
       </li>
       <li v-if="isSuperuser === 'true' || isSuperuser === true" @click="toggleNav" :class="[comparePageName('templates') ? activeClass : inactiveClass]" class="text-color-nav">
-        <nuxt-link class="focus:outline-none grid grid-cols-6 sm:mt-1 py-3 px-3 sm:px-6" :to="localePath('/templates')">
+        <nuxt-link class="grid grid-cols-6 focus:outline-none sm:mt-1 py-3 px-3 sm:px-6" :to="localePath('/templates')">
           <fa :icon="['fas', 'mail-bulk']" class="col-span-1 mt-1" />
           <span class="col-span-5">Vorlagen</span>
         </nuxt-link>
       </li>
       <li @click="toggleNav" :class="[comparePageName('calendar') ? activeClass : inactiveClass]" class="text-color-nav">
-        <nuxt-link class="focus:outline-none grid grid-cols-6 sm:mt-1 py-3 px-3 sm:px-6" :to="localePath('/calendar')">
+        <nuxt-link class="grid grid-cols-6 focus:outline-none sm:mt-1 py-3 px-3 sm:px-6" :to="localePath('/calendar')">
           <fa :icon="['fas', 'calendar-week']" class="col-span-1 mt-1" />
           <span class="col-span-5">Kalender</span>
         </nuxt-link>
       </li>
       <li v-if="isSuperuser === 'true' || isSuperuser === true" @click="toggleNav" :class="[comparePageName('language') ? activeClass : inactiveClass]" class="text-color-nav">
-        <nuxt-link class="focus:outline-none grid grid-cols-6 sm:mt-1 py-3 px-3 sm:px-6" :to="localePath('/language')">
+        <nuxt-link class="grid grid-cols-6 focus:outline-none sm:mt-1 py-3 px-3 sm:px-6" :to="localePath('/language')">
           <fa :icon="['fas', 'font']" class="col-span-1 mt-1" />
           <span class="col-span-5">Sprache</span>
         </nuxt-link>
       </li>
       <li @click="toggleNav" :class="[comparePageName('settings') ? activeClass : inactiveClass]" class="text-color-nav">
-        <nuxt-link class="focus:outline-none grid grid-cols-6 sm:mt-1 py-3 px-3 sm:px-6" :to="localePath('/settings')">
+        <nuxt-link class="grid grid-cols-6 sm:focus:outline-none mt-1 py-3 px-3 sm:px-6" :to="localePath('/settings')">
           <fa :icon="['fas', 'user-cog']" class="col-span-1 mt-1" />
           <span class="col-span-5">Profile</span>
         </nuxt-link>
       </li>
       <li v-if="isSuperuser === 'true' || isSuperuser === true" @click="toggleNav" :class="[comparePageName('users') ? activeClass : inactiveClass]" class="text-color-nav">
-        <nuxt-link class="focus:outline-none grid grid-cols-6 sm:mt-1 py-3 px-3 sm:px-6" :to="localePath('/users')">
+        <nuxt-link class="grid grid-cols-6 focus:outline-none sm:mt-1 py-3 px-3 sm:px-6" :to="localePath('/users')">
           <fa :icon="['fas', 'users']" class="col-span-1 mt-1" />
           <span class="col-span-5">Nutzer</span>
         </nuxt-link>
       </li>
       <li v-if="isSuperuser === 'true' || isSuperuser === true" @click="toggleNav" :class="[comparePageName('boats') ? activeClass : inactiveClass]" class="text-color-nav">
-        <nuxt-link class="focus:outline-none grid grid-cols-6 sm:mt-1 py-3 px-3 sm:px-6" :to="localePath('/boats')">
+        <nuxt-link class="grid grid-cols-6 focus:outline-none sm:mt-1 py-3 px-3 sm:px-6" :to="localePath('/boats')">
           <fa :icon="['fas', 'ship']" class="col-span-1 mt-1" />
           <span class="col-span-5">Boote</span>
         </nuxt-link>
       </li>
       <li v-if="isSuperuser === 'true' || isSuperuser === true" @click="toggleNav" :class="[comparePageName('theme') ? activeClass : inactiveClass]" class="text-color-nav">
-        <nuxt-link class="focus:outline-none grid grid-cols-6 sm:mt-1 py-3 px-3 sm:px-6" :to="localePath('/theme')">
+        <nuxt-link class="grid grid-cols-6 focus:outline-none sm:mt-1 py-3 px-3 sm:px-6" :to="localePath('/theme')">
           <fa :icon="['fas', 'paint-brush']" class="col-span-1 mt-1" />
           <span class="col-span-5">Theme</span>
         </nuxt-link>
       </li>
       <li v-if="isSuperuser === 'true' || isSuperuser === true" @click="toggleNav" :class="[comparePageName('event') ? activeClass : inactiveClass]" class="text-color-nav">
-        <nuxt-link class="focus:outline-none grid grid-cols-6 sm:mt-1 py-3 px-3 sm:px-6" :to="localePath('/event')">
+        <nuxt-link class="grid grid-cols-6 focus:outline-none sm:mt-1 py-3 px-3 sm:px-6" :to="localePath('/event')">
           <fa :icon="['fas', 'sticky-note']" class="col-span-1 mt-1" />
           <span class="col-span-5">Events</span>
         </nuxt-link>
+      </li>
+      <li @click="logoutUser" class="sm:hidden text-color-nav border-gray-900 text-color-nav hover:bg-gray-600 hover:bg-opacity-25 hover:text-gray-100">
+        <a class="grid grid-cols-6 focus:outline-none sm:mt-1 py-3 px-3 sm:px-6">
+          <fa :icon="['fas', 'sign-out-alt']" class="col-span-1 mt-1" />
+          <span class="col-span-5">Logout</span>
+        </a>
       </li>
     </ul>
   </div>
@@ -147,6 +153,10 @@ export default {
     },
     comparePageName(value) {
       return this.pageName === `${value}___${this.$i18n.locale}`
+    },
+    logoutUser() {
+      this.toggleNav()
+      this.$logout()
     }
   }
 }

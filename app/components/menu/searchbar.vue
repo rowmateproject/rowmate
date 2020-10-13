@@ -36,8 +36,6 @@
 </template>
 
 <script>
-import Cookies from 'js-cookie'
-
 export default {
   data() {
     return {
@@ -105,121 +103,7 @@ export default {
       }
     },
     logoutUser() {
-      Cookies.remove('accessToken', {
-        secure: true
-      })
-
-      Cookies.remove('refreshToken', {
-        secure: true
-      })
-
-      Cookies.remove('isActive', {
-        secure: true
-      })
-
-      Cookies.remove('isConfirmed', {
-        secure: true
-      })
-
-      Cookies.remove('isSuperuser', {
-        secure: true
-      })
-
-      Cookies.remove('updateAccessToken', {
-        secure: true
-      })
-
-      Cookies.remove('name', {
-        secure: true
-      })
-
-      Cookies.remove('accessoriesType', {
-        secure: true
-      })
-
-      Cookies.remove('facialHairColor', {
-        secure: true
-      })
-
-      Cookies.remove('facialHairType', {
-        secure: true
-      })
-
-      Cookies.remove('graphicType', {
-        secure: true
-      })
-
-      Cookies.remove('clotheColor', {
-        secure: true
-      })
-
-      Cookies.remove('eyebrowType', {
-        secure: true
-      })
-
-      Cookies.remove('circleColor', {
-        secure: true
-      })
-
-      Cookies.remove('clotheType', {
-        secure: true
-      })
-
-      Cookies.remove('hairColor', {
-        secure: true
-      })
-
-      Cookies.remove('mouthType', {
-        secure: true
-      })
-
-      Cookies.remove('skinColor', {
-        secure: true
-      })
-
-      Cookies.remove('isCircle', {
-        secure: true
-      })
-
-      Cookies.remove('eyeType', {
-        secure: true
-      })
-
-      Cookies.remove('topColor', {
-        secure: true
-      })
-
-      Cookies.remove('topType', {
-        secure: true
-      })
-
-      this.$store.commit('updateName', null)
-      this.$store.commit('updateIsActive', null)
-      this.$store.commit('updateImageBlob', null)
-      this.$store.commit('updateAccessToken', null)
-      this.$store.commit('updateRefreshToken', null)
-      this.$store.commit('updateIsConfirmed', null)
-      this.$store.commit('updateIsSuperuser', null)
-
-      this.$store.commit('updateAccessoriesType', null)
-      this.$store.commit('updateFacialHairColor', null)
-      this.$store.commit('updateFacialHairType', null)
-      this.$store.commit('updateGraphicType', null)
-      this.$store.commit('updateClotheColor', null)
-      this.$store.commit('updateEyebrowType', null)
-      this.$store.commit('updateCircleColor', null)
-      this.$store.commit('updateClotheType', null)
-      this.$store.commit('updateHairColor', null)
-      this.$store.commit('updateMouthType', null)
-      this.$store.commit('updateSkinColor', null)
-      this.$store.commit('updateIsCircle', null)
-      this.$store.commit('updateTopColor', null)
-      this.$store.commit('updateEyeType', null)
-      this.$store.commit('updateTopType', null)
-
-      this.$router.push(this.localePath({
-        name: 'index'
-      }))
+      this.$logout()
     }
   }
 }
