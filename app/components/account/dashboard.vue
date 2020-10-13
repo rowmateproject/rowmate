@@ -49,7 +49,7 @@
   <h3 class="text-lg sm:text-xl lg:text-2xl font-medium text-color-title mb-2">Events</h3>
   <div class="p-3 lg:px-6 lg:pb-6 lg:pt-4 bg-svg-image bg-blue-500 rounded-md shadow mb-3 sm:mb-6">
     <h4 class="text-color-nav">Event Filter</h4>
-    <event-filter @resultObject="handleResult" @resetFilter="handleReset" :eventSubscriptions="true" />
+    <event-filter @resultObject="handleResult" @resetFilter="handleReset" :eventSubscriptions="true" :borderSettings="false" />
   </div>
 
   <event-cards :eventFilter="events" :resetFilter="reset" :eventSubscriptions="true" />

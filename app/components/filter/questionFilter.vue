@@ -1,7 +1,7 @@
 <template>
 <div v-click-outside="toggleSearch" @keydown.esc="toggleSearch" class="relative">
   <div class="flex flex-wrap items-stretch w-full relative mt-2">
-    <input v-model="searchTerm" @input="lookupQuestion" type="text" class="flex-shrink flex-grow flex-auto leading-normal flex-1 border border-color-form rounded sm:rounded-r-none sm:rounded-l focus:outline-none p-2">
+    <input v-model="searchTerm" @input="lookupQuestion" type="text" :class="{'border border-color-form' : hasBorder}" class="flex-shrink flex-grow flex-auto leading-normal flex-1 border-r-0 rounded sm:rounded-r-none sm:rounded-l focus:outline-none p-2">
     <button @click="clearSearchTerm" class="w-full sm:w-auto leading-normal bg-gray-400 text-gray-800 focus:outline-none rounded sm:rounded-l-none sm:rounded-r py-2 px-3 mt-2 sm:mt-0" type="button">Zurücksetzen</button>
   </div>
 
@@ -31,9 +31,12 @@ export default {
     },
     availableLocales() {
       return this.$i18n.locales
+    },
+    hasBorder() {
+      return this.$props.borderSettings
     }
   },
-  props: ['eventSubscriptions'],
+  props: ['borderSettings'],
   methods: {
     toggleSearch() {
       this.questions = []

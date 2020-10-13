@@ -23,24 +23,24 @@
     <p v-if="errors.name" class="text-red-500 text-xs italic">{{ $t('errorInvalidName') }}</p>
   </div>
   <div class="grid grid-cols-12 gap-3 lg:gap-6 mb-4">
-    <div class="col-span-8 sm:col-span-10">
+    <div class="col-span-8 sm:col-span-9 md:col-span-10">
       <label class="text-color-form">Straße</label>
       <input v-model="address.streetName" type="text" :class="[errors.streetName ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1">
       <p v-if="errors.streetName" class="text-red-500 text-xs italic">{{ $t('errorInvalidName') }}</p>
     </div>
-    <div class="col-span-4 sm:col-span-2">
+    <div class="col-span-4 sm:col-span-3 md:col-span-2">
       <label class="text-color-form">Haus Nr.</label>
       <input v-model="address.houseNumber" type="text" :class="[errors.houseNumber ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1">
       <p v-if="errors.houseNumber" class="text-red-500 text-xs italic">{{ $t('errorInvalidName') }}</p>
     </div>
   </div>
   <div class="grid grid-cols-12 gap-3 lg:gap-6">
-    <div class="col-span-4 sm:col-span-2">
+    <div class="col-span-4 sm:col-span-3 md:col-span-2">
       <label class="text-color-form">Postleitzahl</label>
       <input v-model="address.zipCode" type="text" :class="[errors.zipCode ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1">
       <p v-if="errors.zipCode" class="text-red-500 text-xs italic">{{ $t('errorInvalidName') }}</p>
     </div>
-    <div class="col-span-8 sm:col-span-10">
+    <div class="col-span-8 sm:col-span-9 md:col-span-10">
       <label class="text-color-form">Ort</label>
       <input v-model="address.location" type="text" :class="[errors.location ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1">
       <p v-if="errors.location" class="text-red-500 text-xs italic">{{ $t('errorInvalidName') }}</p>
