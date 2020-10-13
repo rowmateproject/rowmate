@@ -1,5 +1,5 @@
 <template>
-<div class="grid grid-cols-12 lg:grid-cols-11 gap-3 w-full mb-1">
+<div class="grid grid-cols-12 lg:grid-cols-11 gap-3 w-full">
   <div class="col-span-12 lg:col-span-7 grid grid-cols-12 lg:grid-cols-5 gap-y-2 gap-x-3">
     <label class="col-span-12 lg:col-span-5 text-color-form leading-none" for="date">{{ titleDateString }}</label>
 
