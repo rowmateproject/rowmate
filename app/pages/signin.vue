@@ -1,29 +1,33 @@
 <template>
-<div class="flex items-center justify-center mt-3 mx-3 sm:mt-24 lg:mx-0 lg:mt-48">
-  <form @submit.prevent="loginSubmit" class="bg-color-form rounded-lg w-full max-w-md p-3">
-    <h1 class="text-2xl lg:text-4xl font-medium mb-3">{{ $t('signin') }}</h1>
-    <p v-if="showResponse" class="text-red-500 lg:text-lg mb-3">{{ response }}</p>
-    <div class="w-full mb-6">
-      <label class="block uppercase tracking-wide text-color-form text-xs font-bold mb-2" for="email">
-        {{ $t('email') }}
-      </label>
-      <input name="email" v-model="email" v-bind:class="{'border-red-500': errors.email}" class="appearance-none block w-full text-color-body border rounded p-3 mb-1 leading-tight focus:outline-none" id="email" type="text"
-        placeholder="me@example.com">
-      <p v-if="errors.email" class="text-red-500 text-xs italic">{{ $t('errorInvalidMail') }}</p>
-    </div>
-    <div class="w-full mb-6">
-      <label class="block uppercase tracking-wide text-color-form text-xs font-bold mb-2" for="password">
-        {{ $t('password') }}
-      </label>
-      <input name="password" v-model="password" v-bind:class="{'border-red-500': errors.password}" class="appearance-none block w-full text-color-body border rounded p-3 mb-1 leading-tight focus:outline-none" id="password" type="password"
-        placeholder="••••••••">
-      <p v-if="errors.password" class="text-red-500 text-xs italic">{{ $t('errorInvalidPassword') }}</p>
-    </div>
-    <p class="text-right">
-      <nuxt-link to="/reset" class="text-color-link focus:outline-none mr-2">{{ $t('forgotPassword') }}</nuxt-link>
-      <button class="cursor-pointer bg-color-button focus:outline-none rounded text-color-nav text-sm font-medium tracking-wide p-2" type="submit">{{ $t('signin') }}</button>
-    </p>
-  </form>
+<div class="flex flex-col min-h-screen">
+  <div class="flex-grow flex flex-col items-center justify-center p-3 lg:p-0">
+    <img src="/rowmate_without_margins.png" class="w-full max-w-md px-3 pb-3 lg:px-6 lg:pb-6" />
+    <form @submit.prevent="loginSubmit" class="bg-color-form rounded-lg w-full max-w-md p-3 lg:p-6">
+      <h1 class="text-2xl lg:text-4xl leading-none font-medium mb-3">{{ $t('signin') }}</h1>
+      <p class="text-gray-800 text-lg">Melde dich an um dein Dashboard zu sehen und um Dich in anstehende Events zu einzutragen.</p>
+      <p v-if="showResponse" class="text-red-500 lg:text-lg my-3">{{ response }}</p>
+      <div class="w-full my-3 lg:my-6">
+        <label class="block text-color-form font-semibold mb-2" for="email">
+          {{ $t('email') }}
+        </label>
+        <input name="email" v-model="email" :class="[errors.email ? 'border-red-500' : 'border-color-form']" class="appearance-none block w-full bg-gray-100 text-color-title border rounded focus:outline-none px-3 py-2" id="email" type="text"
+          placeholder="me@example.com">
+        <p v-if="errors.email" class="text-red-500 text-xs italic">{{ $t('errorInvalidMail') }}</p>
+      </div>
+      <div class="w-full my-3 lg:my-6">
+        <label class="block text-color-form font-semibold mb-2" for="password">
+          {{ $t('password') }}
+        </label>
+        <input name="password" v-model="password" :class="[errors.password ? 'border-red-500' : 'border-color-form']" class="appearance-none block w-full bg-gray-100 text-color-title border rounded focus:outline-none px-3 py-2" id="password" type="password"
+          placeholder="••••••••">
+        <p v-if="errors.password" class="text-red-500 text-xs italic">{{ $t('errorInvalidPassword') }}</p>
+      </div>
+      <p class="text-right">
+        <nuxt-link to="/forgot" class="text-color-link focus:outline-none mr-2">{{ $t('forgotPassword') }}</nuxt-link>
+        <button class="cursor-pointer bg-color-button text-color-button rounded focus:outline-none px-4 py-2" type="submit">{{ $t('signin') }}</button>
+      </p>
+    </form>
+  </div>
 </div>
 </template>
 
