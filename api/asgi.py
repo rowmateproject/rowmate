@@ -78,7 +78,7 @@ app.include_router(
     api_user.get_reset_password_router(
         settings.reset_secret,
         after_forgot_password=on_after_forgot_password,
-        reset_password_token_lifetime_seconds=3600
+        reset_password_token_lifetime_seconds=43200
     ),
     prefix='/auth',
     tags=['auth']

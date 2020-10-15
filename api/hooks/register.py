@@ -24,7 +24,7 @@ async def on_after_register(user: UserDB, request: Request):
     message = MessageSchema(
         subject='Welcome to rowmate.org',
         recipients=[user.email],
-        body=f'Hi {user.name},\n\nthis is your registration mail with your verification link:\n\n{token_url}\n\nBest regards,\nrowmate.org'
+        body=f'Hi {user.name},\n\nthis is your registration mail with your verification link:\n\n{token_url}\n\nBest regards,\napp.rowmate.org'
     )
 
     await mail.send_message(message)
