@@ -14,8 +14,8 @@
       </div>
     </div>
 
-    <div class="relative w-10 lg:w-12">
-      <div @click.stop="toggleDropdown" class="block overflow-hidden focus:outline-none cursor-pointer h-10 w-10">
+    <div class="hidden sm:block relative ml-3">
+      <div @click="toggleDropdown" class="focus:outline-none overflow-hidden cursor-pointer h-10 lg:h-12 w-10 lg:w-12">
         <avatar :avatar="avatar" class="h-full w-full object-cover" />
       </div>
 
@@ -48,7 +48,6 @@ export default {
     avatar() {
       return {
         eyeType: this.$store.state.eyeType,
-        isCircle: Boolean(this.$store.state.isCircle),
         clotheType: this.$store.state.clotheType,
         circleColor: this.$store.state.circleColor,
         accessoriesType: this.$store.state.accessoriesType,

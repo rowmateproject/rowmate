@@ -119,7 +119,6 @@ export default {
             this.$store.commit('updateHairColor', res.data.avatar.hairColor)
             this.$store.commit('updateMouthType', res.data.avatar.mouthType)
             this.$store.commit('updateSkinColor', res.data.avatar.skinColor)
-            this.$store.commit('updateIsCircle', Boolean(res.data.avatar.isCircle))
             this.$store.commit('updateTopColor', res.data.avatar.topColor)
             this.$store.commit('updateEyeType', res.data.avatar.eyeType)
             this.$store.commit('updateTopType', res.data.avatar.topType)
@@ -221,12 +220,6 @@ export default {
             })
 
             Cookies.set('skinColor', res.data.avatar.skinColor, {
-              samesite: 'Lax',
-              expires: 3600,
-              secure: true
-            })
-
-            Cookies.set('isCircle', Boolean(res.data.isCircle), {
               samesite: 'Lax',
               expires: 3600,
               secure: true

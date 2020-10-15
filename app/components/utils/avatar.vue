@@ -6,7 +6,6 @@
     :skinColor="avatar.skinColor"
     :topColor="avatar.topColor"
     :topType="avatar.topType"
-    :isCircle="avatar.isCircle"
     :circleColor="avatar.circleColor"
     :accessoriesType="avatar.accessoriesType"
     :eyebrowType="avatar.eyebrowType"

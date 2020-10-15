@@ -7,7 +7,7 @@
         <img v-else src="/rowmate.png" class="w-48 sm:w-full sm:object-cover px-2 sm:px-4">
       </div>
 
-      <div @click="toggleNav" class="block sm:hidden focus:outline-none overflow-hidden cursor-pointer h-12 w-12 pr-3">
+      <div v-if="showAvatar" @click="toggleNav" class="block sm:hidden focus:outline-none overflow-hidden cursor-pointer h-12 w-12 pr-3">
         <avatar :avatar="avatar" class="h-full w-full object-cover" />
       </div>
     </div>
@@ -94,9 +94,22 @@
 export default {
   data() {
     return {
+      screens: {
+        'sm': 640,
+        'md': 768,
+        'lg': 1024,
+        'xl': 1280
+      },
       showNav: false,
+      showAvatar: false,
       activeClass: 'bg-gray-600 bg-opacity-25 text-gray-100 border-gray-100',
       inactiveClass: 'border-gray-900 text-color-nav hover:bg-gray-600 hover:bg-opacity-25 hover:text-gray-100'
+    }
+  },
+  created() {
+    if (process.client) {
+      this.handleBreakpoint()
+      window.addEventListener('resize', this.handleBreakpoint)
     }
   },
   mounted() {
@@ -111,6 +124,11 @@ export default {
       }
     })
   },
+  beforeDestroy() {
+    if (process.client) {
+      window.removeEventListener('resize', this.handleBreakpoint)
+    }
+  },
   computed: {
     pageName() {
       return this.$route.name
@@ -124,7 +142,6 @@ export default {
     avatar() {
       return {
         eyeType: this.$store.state.eyeType,
-        isCircle: Boolean(this.$store.state.isCircle),
         clotheType: this.$store.state.clotheType,
         circleColor: this.$store.state.circleColor,
         accessoriesType: this.$store.state.accessoriesType,
@@ -153,6 +170,13 @@ export default {
     },
     comparePageName(value) {
       return this.pageName === `${value}___${this.$i18n.locale}`
+    },
+    handleBreakpoint() {
+      if (this.screens.sm >= window.innerWidth) {
+        this.showAvatar = true
+      } else {
+        this.showAvatar = false
+      }
     },
     logoutUser() {
       this.toggleNav()
