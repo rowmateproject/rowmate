@@ -1,7 +1,7 @@
 <template>
 <div class="relative bg-gray-400 flex flex-col min-h-screen">
   <navbar />
-  <main class="flex-grow">
+  <main class="mt-20 sm:mt-0 flex-grow">
     <nuxt />
   </main>
 </div>
