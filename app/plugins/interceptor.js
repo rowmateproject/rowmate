@@ -62,7 +62,8 @@ export default ({
     return config
   }, (error) => {
     // Return any error which is not due to authentication
-    if (error.response.status !== 401) {
+    // You may see errors when cors allow_origins is empty
+    if (error.config.status !== 401) {
       return new Promise((resolve, reject) => {
         reject(error)
       })
