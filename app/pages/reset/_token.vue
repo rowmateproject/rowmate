@@ -4,7 +4,6 @@
     <img src="/rowmate_without_margins.png" class="w-full max-w-md px-3 pb-3 lg:px-6 lg:pb-6" />
     <form @submit.prevent="submitForm" class="bg-color-form rounded-lg w-full max-w-md p-3 lg:p-6">
       <h1 class="text-2xl lg:text-4xl leading-none font-medium mb-3">Passwort ändern</h1>
-      <p v-if="showResponse" :class="classResponse" class="lg:text-lg mb-3">{{ response }}</p>
       <p class="text-lg w-full lg:w-11/12">Um Dein aktuelles Passwort zurückzusetzen, gebe ein starkes Passwort ein und bestätige das Passwort nochmals. Anschließend wirst Du zur <nuxt-link to="/signin" class="text-blue-600 hover:text-blue-800">
           Anmeldeseite</nuxt-link> weitergeleitet.</p>
       <div class="w-full my-3 lg:my-6">
@@ -40,10 +39,7 @@ export default {
       errors: {
         confirm: false,
         password: false
-      },
-      response: null,
-      showResponse: false,
-      classResponse: null
+      }
     }
   },
   watch: {
@@ -102,9 +98,7 @@ export default {
               name: 'signin'
             }))
           } else {
-            this.classResponse = 'text-red-500'
-            this.showResponse = true
-            this.response = res.data
+            console.debug(res.data)
           }
         })
       }
