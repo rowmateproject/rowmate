@@ -20,6 +20,7 @@
     "core-js": "^3.6.5",
     "d3": "^6.2.0",
     "d3-tip": "^0.9.1",
+    "dayjs-dynamic-locale": "0.0.7",
     "js-cookie": "^2.2.1",
     "jwt-decode": "^3.0.0",
     "nuxt": "^2.14.5",
@@ -28,7 +29,7 @@
     "v-click-outside": "^3.1.2",
     "vue-color": "^2.7.1",
     "vue-dayjs": "^1.0.2",
-    "vue-tailwind-picker": "^1.1.4",
+    "vue-tailwind-datetime-picker": "^1.0.3",
     "vuejs-avataaars": "^4.0.1"
   },
   "devDependencies": {

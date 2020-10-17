@@ -12,11 +12,13 @@
     <div class="grid grid-cols-12 gap-4">
 
       <div class="col-span-12 lg:col-span-8">
-        <VueTailwindPicker @change="(v) => handleStartDate(v)" :startFromMonday="true">
+        <client-only>
+          <VueTailwindDatetimePicker @change="(v) => handleStartDate(v)" :startFromMonday="true">
             <input type="text" v-model="startDateString" />
-        </VueTailwindPicker>
+          </VueTailwindDatetimePicker>
+        </client-only>
 
-        <time-form @minute="handleStartMinute" @hour="handleStartHour" :minute="startDate.minute" :hour="startDate.hour" direction="forward" title="Start"/>
+        <time-form @minute="handleStartMinute" @hour="handleStartHour" :minute="startDate.minute" :hour="startDate.hour" direction="forward" title="Start" />
         <p v-if="errors.startDateFull" class="text-red-500 text-xs italic">{{ $t('errorInvalidStartDate') }}</p>
       </div>
 
@@ -26,8 +28,8 @@
 
       <div class="col-span-12 lg:col-span-8">
         <date-form @minute="handleEndMinute" @hour="handleEndHour" @day="handleEndDay" @month="handleEndMonth" @year="handleEndYear" :minute="endDate.minute" :hour="endDate.hour" :day="endDate.day" :month="endDate.month" :year="endDate.year"
-          direction="forward" minYear="2020" maxYear="2025" title="Veranstaltungs Ende" v-if="multiday"/>
-        <time-form @minute="handleEndMinute" @hour="handleEndHour" :minute="endDate.minute" :hour="endDate.hour" direction="forward" title="Ende" v-else/>
+          direction="forward" minYear="2020" maxYear="2025" title="Veranstaltungs Ende" v-if="multiday" />
+        <time-form @minute="handleEndMinute" @hour="handleEndHour" :minute="endDate.minute" :hour="endDate.hour" direction="forward" title="Ende" v-else />
         <p v-if="errors.endDateFull" class="text-red-500 text-xs italic">{{ $t('errorInvalidEndDate') }}</p>
       </div>
 
@@ -81,10 +83,10 @@
 </template>
 
 <script>
+import VueTailwindDatetimePicker from 'vue-tailwind-datetime-picker'
 import {
   parse as uuidParse
 } from 'uuid'
-import VueTailwindPicker from 'vue-tailwind-picker'
 
 export default {
   data() {
@@ -229,7 +231,7 @@ export default {
     }
   },
   methods: {
-    multidayDate(value,param) {
+    multidayDate(value, param) {
       if (this.multiday === false) {
         if (value !== undefined && param !== undefined) {
           this.endDate[param] = value
@@ -276,15 +278,15 @@ export default {
       this.startDate.hour = value
     },
     handleStartDay(value) {
-      this.multidayDate(value,"day")
+      this.multidayDate(value, "day")
       this.startDate.day = value
     },
     handleStartMonth(value) {
-      this.multidayDate(value,"month")
+      this.multidayDate(value, "month")
       this.startDate.month = value
     },
     handleStartYear(value) {
-      this.multidayDate(value,"year")
+      this.multidayDate(value, "year")
       this.startDate.year = value
     },
     handleEndMinute(value) {
@@ -463,7 +465,7 @@ export default {
     }
   },
   components: {
-    VueTailwindPicker
+    VueTailwindDatetimePicker
   }
 }
 </script>
