@@ -11,7 +11,7 @@ from models.user import User, UserDB, UserCreate, UserUpdate
 # classes
 from auth.user import Authentication
 from auth.api import APIUsers
-from pymongo import TEXT, DESCENDING
+from pymongo import TEXT
 
 # settings
 settings = Settings()

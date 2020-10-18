@@ -3,6 +3,8 @@ from pydantic import BaseSettings
 
 class Settings(BaseSettings):
     app_name: str
+    client_id: str
+    client_key: str
     jwt_secret: str
     admin_email: str
     cors_origin: str

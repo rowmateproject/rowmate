@@ -9,6 +9,8 @@ Create a dotenv file in to root foler
 ```env
 APP_NAME="<default_app_name>"
 DATABASE_URL="mongodb://localhost:27017"
+CLIENT_ID="<your_google_client_id_here>"
+CLIENT_KEY="<your_google_client_key_here>"
 JWT_SECRET="<your_json_webtoken_secret_here>"
 RESET_SECRET="<your_password_reset_secret_here>"
 ADMIN_EMAIL="<your_admin_mail_address>"

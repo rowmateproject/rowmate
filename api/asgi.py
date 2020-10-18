@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from httpx_oauth.clients.google import GoogleOAuth2
 
 # setup
 from setup.init import setup_translations
@@ -53,6 +54,19 @@ app.include_router(
         authenticator=api_user
     ),
     prefix='/auth/jwt',
+    tags=['auth']
+)
+
+
+app.include_router(
+    api_user.get_oauth_router(
+        GoogleOAuth2(
+            settings.client_id,
+            settings.client_key
+        ),
+        settings.reset_secret
+    ),
+    prefix='/auth/google',
     tags=['auth']
 )
 
