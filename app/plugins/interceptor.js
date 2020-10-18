@@ -49,7 +49,8 @@ export default ({
           })
         })
       }).catch((e) => {
-        Promise.reject(e)
+        // Logout user when a new refresh token cant be retrieved
+        app.$logout()
       })
     }
 
