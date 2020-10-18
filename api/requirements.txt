@@ -10,7 +10,10 @@ fastapi
 fastapi-mail
 fastapi-users
 h11
+httpcore
 httptools
+httpx
+httpx-oauth
 idna
 makefun
 motor
