@@ -3,6 +3,7 @@ const plugin = require('tailwindcss/plugin')
 const {
   colors
 } = require('tailwindcss/defaultTheme')
+
 const {
   fontsize
 } = require('tailwindcss/defaultTheme')
@@ -12,7 +13,12 @@ module.exports = {
     removeDeprecatedGapUtilities: true,
     purgeLayersByDefault: true,
   },
-  purge: [],
+  purge: {
+    enabled: true,
+    content: [
+      'node_modules/vue-tailwind-datetime-picker/dist/vue-tailwind-datetime-picker.esm.js'
+    ]
+  },
   theme: {
     extend: {
       fontSize: {
