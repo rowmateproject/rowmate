@@ -57,6 +57,8 @@ jobs:
         DB_NAME: ${{ secrets.DB_NAME }}
         APP_NAME: ${{ secrets.APP_NAME }}
         JWT_TOKEN: ${{ secrets.JWT_TOKEN }}
+        CLIENT_ID: ${{ secrets.CLIENT_ID }}
+        CLIENT_KEY: ${{ secrets.CLIENT_KEY }}
         APP_DOMAIN: ${{ secrets.APP_DOMAIN }}
         API_DOMAIN: ${{ secrets.API_DOMAIN }}
         ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
@@ -83,6 +85,8 @@ jobs:
 
         db_name: "$DB_NAME"
         app_name: "$APP_NAME"
+        client_id: "$CLIENT_ID"
+        client_key: "$CLIENT_KEY"
         app_domain: "$APP_DOMAIN"
         api_domain: "$API_DOMAIN"
         admin_email: "$ADMIN_EMAIL"
