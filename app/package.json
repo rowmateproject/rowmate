@@ -29,7 +29,7 @@
     "v-click-outside": "^3.1.2",
     "vue-color": "^2.7.1",
     "vue-dayjs": "^1.0.2",
-    "vue-tailwind-datetime-picker": "^1.0.4",
+    "vue-tailwind-datetime-picker": "^1.0.6",
     "vuejs-avataaars": "^4.0.1"
   },
   "devDependencies": {

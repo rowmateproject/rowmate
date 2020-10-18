@@ -13,12 +13,10 @@
 
       <div class="col-span-12 lg:col-span-8">
         <client-only>
-          <VueTailwindDatetimePicker @change="(v) => handleStartDate(v)" :startFromMonday="true">
+          <VueTailwindDatetimePicker @change="(v) => handleStartDate(v)" :lang="$i18n.locale" :startFromMonday="true">
             <input type="text" v-model="startDateString" />
           </VueTailwindDatetimePicker>
         </client-only>
-
-        <time-form @minute="handleStartMinute" @hour="handleStartHour" :minute="startDate.minute" :hour="startDate.hour" direction="forward" title="Start" />
         <p v-if="errors.startDateFull" class="text-red-500 text-xs italic">{{ $t('errorInvalidStartDate') }}</p>
       </div>
 
@@ -27,9 +25,11 @@
       </div>
 
       <div class="col-span-12 lg:col-span-8">
-        <date-form @minute="handleEndMinute" @hour="handleEndHour" @day="handleEndDay" @month="handleEndMonth" @year="handleEndYear" :minute="endDate.minute" :hour="endDate.hour" :day="endDate.day" :month="endDate.month" :year="endDate.year"
-          direction="forward" minYear="2020" maxYear="2025" title="Veranstaltungs Ende" v-if="multiday" />
-        <time-form @minute="handleEndMinute" @hour="handleEndHour" :minute="endDate.minute" :hour="endDate.hour" direction="forward" title="Ende" v-else />
+        <client-only>
+          <VueTailwindDatetimePicker @change="(v) => handleEndDate(v)" :lang="$i18n.locale" :startFromMonday="true">
+            <input type="text" v-model="endDateString" />
+          </VueTailwindDatetimePicker>
+        </client-only>
         <p v-if="errors.endDateFull" class="text-red-500 text-xs italic">{{ $t('errorInvalidEndDate') }}</p>
       </div>
 
@@ -103,6 +103,7 @@ export default {
       location: '',
       pollId: '',
       startDateString: '',
+      endDateString: '',
       endDate: {
         day: null,
         hour: null,
@@ -248,6 +249,18 @@ export default {
       this.handleStartYear(startdate.getFullYear())
       this.handleStartMonth(startdate.getMonth())
       this.handleStartDay(startdate.getDay())
+      this.handleStartHour(startdate.getHours())
+      this.handleStartMinute(startdate.getMinutes())
+
+    },
+    handleEndDate(v) {
+      this.endDateString = v
+      let enddate = new Date(v)
+      this.handleEndYear(enddate.getFullYear())
+      this.handleEndMonth(enddate.getMonth())
+      this.handleEndDay(enddate.getDay())
+      this.handleEndHour(enddate.getHours())
+      this.handleEndMinute(enddate.getMinutes())
 
     },
     makePath(locale) {
