@@ -6,6 +6,8 @@ Create a `all` file under `/group_vars` and replace the `xxx`
 ```yml
 db_name: 'xxx'
 app_name: 'xxx'
+client_id: 'xxx'
+client_key: 'xxx'
 app_domain: 'xxx'
 api_domain: 'xxx'
 admin_email: 'xxx'
