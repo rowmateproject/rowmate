@@ -64,7 +64,8 @@ app.include_router(
             settings.client_id,
             settings.client_key
         ),
-        settings.reset_secret
+        settings.reset_secret,
+        after_register=on_after_register
     ),
     prefix='/auth/google',
     tags=['auth']
@@ -82,7 +83,9 @@ app.include_router(
 
 
 app.include_router(
-    api_user.get_register_router(on_after_register),
+    api_user.get_register_router(
+        after_register=on_after_register
+    ),
     prefix='/auth',
     tags=['auth']
 )
