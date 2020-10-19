@@ -65,6 +65,7 @@ app.include_router(
             settings.client_key
         ),
         settings.reset_secret,
+        redirect_url=f'{settings.backend_url}/auth/google/callback',
         after_register=on_after_register
     ),
     prefix='/auth/google',
