@@ -21,9 +21,12 @@
         <input name="password" v-model="password" :class="[errors.password ? 'border-red-500' : 'border-color-form']" class="appearance-none block w-full bg-gray-100 text-color-title border rounded focus:outline-none px-3 py-2" id="password" type="password"
           placeholder="••••••••">
         <p v-if="errors.password" class="text-red-500 text-xs italic">{{ $t('errorInvalidPassword') }}</p>
+        <small>
+          <nuxt-link to="/forgot" class="text-color-link focus:outline-none mr-2">{{ $t('forgotPassword') }}</nuxt-link>
+        </small>
       </div>
-      <p class="text-right">
-        <nuxt-link to="/forgot" class="text-color-link focus:outline-none mr-2">{{ $t('forgotPassword') }}</nuxt-link>
+      <p class="flex justify-end">
+        <google-button />
         <button class="cursor-pointer bg-color-button text-color-button rounded focus:outline-none px-4 py-2" type="submit">{{ $t('signin') }}</button>
       </p>
     </form>

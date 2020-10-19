@@ -30,7 +30,8 @@
           type="password" placeholder="••••••••">
         <p v-if="errors.password" class="text-red-500 text-xs italic">{{ $t('errorInvalidPassword') }}</p>
       </div>
-      <p class="text-right">
+      <p class="flex justify-end">
+        <google-button />
         <button class="cursor-pointer bg-color-button text-color-button rounded focus:outline-none px-4 py-2" type="submit">{{ $t('signup') }}</button>
       </p>
     </form>
