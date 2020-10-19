@@ -1,11 +1,12 @@
 from fastapi_users.models import (
-    BaseUser, BaseUserDB, BaseUserCreate, BaseUserUpdate)
+    BaseUser, BaseUserDB, BaseUserCreate, BaseUserUpdate,
+    BaseOAuthAccountMixin)
 from typing import Optional, List, Dict
 from pydantic import BaseModel
 from datetime import datetime
 
 
-class User(BaseUser):
+class User(BaseUser, BaseOAuthAccountMixin):
     is_active: bool = False
     is_accepted: bool = False
     is_confirmed: bool = False
