@@ -7,6 +7,10 @@
     <boat-filter @resultObject="handleBoatFilter" @resetFilter="handleBoatReset" :showResetButton="true" />
   </div>
 
+  <div>
+    <button>Boot hinzufügen</button>
+  </div>
+
   <div v-if="boats.length > 0" class="flex flex-col mt-8">
     <div class="overflow-x-auto">
       <div class="min-w-full align-middle inline-block shadow overflow-hidden rounded">

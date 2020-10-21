@@ -34,6 +34,31 @@ class BoatCategory {
   }
 }
 
+const Categories = {
+  'racing': 1,
+  'gig': 0
+}
+
+const Coxswain = {
+  'standardwithoutcox': 4,
+  'standardwithcox': 3,
+  'changeablecox': 2,
+  'withoutcox': 1,
+  'withcox': 0
+}
+
+const Disciplines = {
+  'standardsculling': 2,
+  'standardsweep': 3,
+  'sculling': 0,
+  'sweep': 1,
+  'unknown': 4
+}
+
+
 export {
-  BoatCategory
+  BoatCategory,
+  Categories,
+  Coxswain,
+  Disciplines
 }
