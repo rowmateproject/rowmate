@@ -6,4 +6,4 @@ class DisciplineEnum(IntEnum):
     standardsweep = 3
     sculling = 0
     sweep = 1
-    both = 4  # or unknown
+    unknown = 4

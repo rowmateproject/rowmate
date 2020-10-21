@@ -10,7 +10,7 @@ from enums.coxswain import CoxswainEnum
 
 
 class Boat(BaseModel):
-    id: Binary
+    _id: Binary
     name: str
     crewsize: int
     added: datetime = datetime.utcnow()

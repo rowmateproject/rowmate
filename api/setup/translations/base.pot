@@ -1019,3 +1019,6 @@ msgstr ""
 
 msgid "Skull"
 msgstr ""
+
+msgid "addboat"
+msgstr ""

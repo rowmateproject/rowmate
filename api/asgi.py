@@ -10,7 +10,7 @@ from router.vote import get_vote_router
 from router.stat import get_stats_router
 from router.language import get_language_router
 from router.organization import get_organization_router
-from router.boat import get_boats_router, get_boat_router
+from router.boat import get_boats_router, add_boat_router
 from router.event import get_events_router, get_event_router
 from router.template import get_template_router, get_templates_router
 from router.poll import get_poll_router, get_polls_router
@@ -201,7 +201,7 @@ app.include_router(
 
 
 app.include_router(
-    get_boat_router(
+    add_boat_router(
         database=db,
         authenticator=api_user
     ),

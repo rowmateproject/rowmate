@@ -26,7 +26,7 @@ def get_boats_router(database, authenticator) -> APIRouter:
     return router
 
 
-def get_boat_router(database, authenticator) -> APIRouter:
+def add_boat_router(database, authenticator) -> APIRouter:
     router = APIRouter()
 
     @router.post('')
