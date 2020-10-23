@@ -85,6 +85,7 @@ class Authentication(AuthModel, BaseAuthentication[str]):
             'birth': user.birth,
             'avatar': user.avatar,
             'is_active': user.is_active,
+            'is_accepted': user.is_accepted,
             'is_superuser': user.is_superuser,
             'is_confirmed': user.is_confirmed,
             'refresh_token': refresh_token,
