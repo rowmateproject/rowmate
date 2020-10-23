@@ -32,6 +32,7 @@ pymongo
 python-dateutil
 python-dotenv
 python-multipart
+requests
 rfc3986
 rsa
 six
@@ -39,6 +40,7 @@ sniffio
 soupsieve
 starlette
 typing-extensions
+urllib3
 uvicorn
 uvloop
 websockets
