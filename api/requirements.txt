@@ -1,6 +1,9 @@
 aiofiles
 aiosmtplib
 bcrypt
+beautifulsoup4
+cachetools
+certifi
 cffi
 chardet
 click
@@ -9,6 +12,7 @@ email-validator
 fastapi
 fastapi-mail
 fastapi-users
+google-auth
 h11
 httpcore
 httptools
@@ -19,6 +23,8 @@ makefun
 motor
 passlib
 polib
+pyasn1
+pyasn1-modules
 pycparser
 pydantic
 PyJWT
@@ -26,8 +32,13 @@ pymongo
 python-dateutil
 python-dotenv
 python-multipart
+rfc3986
+rsa
 six
+sniffio
+soupsieve
 starlette
+typing-extensions
 uvicorn
 uvloop
 websockets
