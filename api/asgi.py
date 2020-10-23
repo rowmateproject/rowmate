@@ -8,6 +8,7 @@ from setup.init import setup_translations
 # router
 from router.vote import get_vote_router
 from router.stat import get_stats_router
+from router.google import get_oauth_router
 from router.language import get_language_router
 from router.organization import get_organization_router
 from router.boat import get_boats_router, add_boat_router
@@ -24,6 +25,12 @@ from router.auth import get_auth_router
 # hooks
 from hooks.register import on_after_register
 from hooks.forgot import on_after_forgot_password
+
+# models
+from models.user import UserDB
+
+# auth
+from auth.user import CustomAuthenticator
 
 # dependencies
 from app import api_user, settings, jwt_auth, user_db, db
@@ -59,12 +66,18 @@ app.include_router(
 
 
 app.include_router(
-    api_user.get_oauth_router(
-        GoogleOAuth2(
+    get_oauth_router(
+        oauth_client=GoogleOAuth2(
             settings.client_id,
             settings.client_key
         ),
-        settings.reset_secret,
+        user_db=user_db,
+        user_db_model=UserDB,
+        authenticator=CustomAuthenticator(
+            backends=[jwt_auth],
+            user_db=user_db
+        ),
+        state_secret=settings.jwt_secret,
         redirect_url=f'{settings.backend_url}/auth/google/callback',
         after_register=on_after_register
     ),
