@@ -47,7 +47,7 @@ export default {
       }
     }
   },
-  middleware: 'notAuthenticated',
+  middleware: 'authenticated',
   methods: {
     forgotPasswordSubmit() {
       const isValidForm = (currentValue) => currentValue !== true

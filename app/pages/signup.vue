@@ -86,7 +86,7 @@ export default {
       }
     }
   },
-  middleware: 'notAuthenticated',
+  middleware: 'authenticated',
   methods: {
     signupSubmit() {
       const isValidForm = (currentValue) => currentValue !== true

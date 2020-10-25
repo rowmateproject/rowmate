@@ -70,7 +70,7 @@ export default {
       }
     }
   },
-  middleware: 'notAuthenticated',
+  middleware: 'authenticated',
   methods: {
     submitForm() {
       const isValidForm = (currentValue) => currentValue !== true

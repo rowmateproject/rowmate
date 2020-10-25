@@ -51,15 +51,6 @@ export default {
       emailRegex: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     }
   },
-  computed: {
-    hasAdminRole() {
-      const roles = this.$store.state.userRoles
-      if (Array.isArray(roles)) {
-        return roles.includes('admin')
-      }
-      return false
-    }
-  },
   watch: {
     email: function() {
       if (this.email.trim() !== '') {
@@ -80,7 +71,7 @@ export default {
       }
     }
   },
-  middleware: 'notAuthenticated',
+  middleware: 'authenticated',
   methods: {
     loginSubmit() {
       const isValidForm = (currentValue) => currentValue !== true

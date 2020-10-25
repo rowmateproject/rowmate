@@ -1,9 +1,9 @@
-export default function({
+export default async function({
   store,
   redirect
 }) {
-  // If the user is authenticated redirect to dashboard
-  if (store.state.accessToken) {
-    return redirect('/settings')
+  // If the user is not authenticated
+  if (!store.state.accessToken) {
+    return redirect('/signin')
   }
 }
