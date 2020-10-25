@@ -63,8 +63,8 @@ export default {
 
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
   buildModules: [
-    '@nuxtjs/eslint-module',
     '@nuxtjs/tailwindcss',
+    '@nuxtjs/eslint-module',
     ['@nuxtjs/fontawesome', {
       component: 'fa',
       suffix: false,
@@ -79,6 +79,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/auth-next',
     '@nuxtjs/dotenv',
     ['nuxt-i18n', {
       locales: [{
@@ -109,6 +110,38 @@ export default {
       }
     }]
   ],
+
+  auth: {
+    redirect: {
+      login: '/signin',
+      logout: '/',
+      callback: '/callback',
+      home: false
+    },
+    cookie: false,
+    vuex: {
+      namespace: ''
+    },
+    localStorage: {
+      prefix: ''
+    },
+    strategies: {
+      google: {
+        accessType: 'offline',
+        grantType: 'authorization_code',
+        codeChallengeMethod: 'S256',
+        responseType: 'code',
+        scope: ['openid', 'profile', 'email'],
+        clientSecret: process.env.CLIENT_SECRET,
+        clientId: process.env.CLIENT_ID,
+        autoFetchUser: false,
+        endpoints: {
+          token: `${process.env.API_URL}/auth/google/callback`,
+          userInfo: `${process.env.API_URL}/users/me`
+        }
+      }
+    }
+  },
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {},
