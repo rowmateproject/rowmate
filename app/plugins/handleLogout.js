@@ -92,9 +92,7 @@ export default (context, inject) => {
     context.store.commit('updateEyeType', null)
     context.store.commit('updateTopType', null)
 
-    context.app.router.push(context.app.localePath({
-      name: 'index'
-    }))
+    context.$auth.logout()
   }
 
   inject('logout', logout)
