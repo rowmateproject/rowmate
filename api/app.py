@@ -27,7 +27,7 @@ db['templates'].create_index([('ngrams', TEXT)], name='templates_ngrams_index')
 db['questions'].create_index([('ngrams', TEXT)], name='questions_ngrams_index')
 db['events'].create_index([('ngrams', TEXT)], name='events_ngrams_index')
 
-user_db = MongoDBUserDatabase(UserDB, db['users'])
+user_db = MongoDBUserDatabase(UserDB, db['users'])    
 
 jwt_auth = Authentication(
     secret=settings.jwt_secret,
@@ -51,8 +51,8 @@ smtp_config = ConnectionConfig(
     MAIL_SERVER=settings.smtp_server,
     MAIL_PORT=settings.smtp_port,
     MAIL_TLS=settings.smtp_tls,
-    MAIL_SSL=settings.smtp_ssl
+    MAIL_SSL=settings.smtp_ssl,
+    MAIL_FROM=settings.smtp_username
 )
-
 # initialize
 mail = FastMail(smtp_config)

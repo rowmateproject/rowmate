@@ -1,8 +1,9 @@
 from pydantic import BaseSettings
+from typing import Optional
 
 
 class Settings(BaseSettings):
-    app_name: str
+    app_name: str = 'Rowmate'
     client_id: str
     client_key: str
     jwt_secret: str
@@ -15,9 +16,9 @@ class Settings(BaseSettings):
     smtp_username: str
     smtp_password: str
     smtp_server: str
-    smtp_port: int
-    smtp_tls: bool
-    smtp_ssl: bool
+    smtp_port: int = 465
+    smtp_tls: bool = False
+    smtp_ssl: bool = True
 
     class Config:
         env_file = '.env'

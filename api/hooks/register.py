@@ -18,6 +18,10 @@ async def on_after_register(user: UserDB, request: Request):
     if await db['invited'].find_one({'email': user.email}) is not None:
         print(await db['users'].update_one(
             {'id': user.id}, {'$set': {'is_accepted': True}}))
+    if user.email == settings.admin_email:
+        if await db['users'].find_one({'email': settings.admin_email}) is not None:
+            await db['users'].update_one(
+                {'id': user.id}, {'$set': {'is_accepted': True, 'is_superuser': True}})
 
     token_url = f'{settings.frontend_url}/confirm/{token}'
 

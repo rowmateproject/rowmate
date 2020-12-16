@@ -14,7 +14,7 @@ module.exports = {
     purgeLayersByDefault: true,
   },
   purge: {
-    enabled: true,
+    enabled: false, // Deactivate in development
     content: [
       'node_modules/vue-tailwind-datetime-picker/dist/vue-tailwind-datetime-picker.esm.js'
     ]

@@ -38,7 +38,7 @@ rsa
 six
 sniffio
 soupsieve
-starlette
+starlette==0.13.6
 typing-extensions
 urllib3
 uvicorn
