@@ -1,6 +1,10 @@
 <template>
 <div>
-  <h3 class="text-xl sm:text-2xl md:text-3xl font-medium leading-none text-color-title">{{ $t('boats') }}</h3>
+  <div class="container flex justify-between pl-4">
+    <h3 class="text-xl sm:text-2xl md:text-3xl font-medium leading-none text-color-title">{{ $t('boats') }}</h3>
+    <nuxt-link :to="localePath('/boat/add')"><button class="bg-color-button text-color-button h-10 px-16 transition-colors duration-150 rounded-lg focus:shadow-outline">Boot hinzufügen</button></nuxt-link>
+  </div>
+
 
   <div class="bg-svg-image bg-blue-500 rounded shadow p-3 lg:p-6 my-3 lg:my-6 mb-3">
     <h4 class="text-color-nav leading-none">Boote Filter</h4>
@@ -8,7 +12,7 @@
   </div>
 
   <div>
-    <button>Boot hinzufügen</button>
+
   </div>
 
   <div v-if="boats.length > 0" class="flex flex-col mt-8">
@@ -82,6 +86,7 @@
 import {
   BoatCategory
 } from '@/plugins/boatcategory'
+
 
 export default {
   data() {

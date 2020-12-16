@@ -91,11 +91,12 @@ export default {
   },
   methods: {
     addBoat() {
+      console.log('Submit Boat-Data')
       this.errors = {}
       if (this.name.length < 1) {
         this.errors.name = 'Please add a name'
       }
-      if (this.errors.length === 0) {
+      if (Object.keys(this.errors).length === 0) {
         const data = {
           name: this.name,
           crewsize: this.athletes,
