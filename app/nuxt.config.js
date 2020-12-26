@@ -40,6 +40,10 @@ export default {
       type: 'image/png',
       sizes: '32x32',
       href: '/favicon-32x32.png'
+    }],
+    script: [{
+      src: "https://code.jquery.com/jquery-3.5.1.min.js",
+      type: "text/javascript"
     }]
   },
 
