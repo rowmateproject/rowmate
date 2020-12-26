@@ -68,15 +68,31 @@
       <p v-if="errors.location" class="text-red-500 text-xs italic">{{ $t('errorInvalidName') }}</p>
     </div>
 
-    <div v-for="value, index in availableLocales" :key="index" class="mt-8">
+    <div v-for="value, index in locales" :key="index" class="mt-8">
       <event-form :code="value.code" :title="titles[value.code].title" :description="descriptions[value.code].description" :titleError="errors.titles[value.code].title" :descriptionError="errors.descriptions[value.code].description"
         @titleString="handletitleString" @descriptionString="handleDescriptionString" />
+        <button v-on:click="removeLocale(index)" v-if="index != 0" class="px-4 py-2 my-4 bg-red-600 text-color-button rounded-md hover:bg-red-700 focus:outline-none focus:bg-red-700">Remove locale</button>
+        <hr class="b-2">
     </div>
-
-    <div class="flex justify-end mt-4">
-      <button class="px-4 py-2 bg-gray-800 text-color-button rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700">
-        {{ $t('save') }}
-      </button>
+    <div class="flex">
+      <div class="justify-start mt-4">
+        <div class="col-span-6 relative">
+          <select class="appearance-none block w-full rounded border border-color-form focus:outline-none px-8 p-2" v-model="addLanguage" @change="addSelectedLocale($event)">
+            <option value="0">Sprache hinzufügen</option>
+            <option v-for="value, index in addableLocales" :key="index" :value="value">{{ value.name }}</option>
+          </select>
+          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 mt-1 text-color-nav">
+            <svg class="text-color-form fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+              <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="ml-auto justify-end mt-4">
+        <button class="px-4 py-2 bg-gray-800 text-color-button rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700">
+          {{ $t('save') }}
+        </button>
+      </div>
     </div>
   </form>
 </div>
@@ -93,7 +109,9 @@ export default {
     return {
       uuid: '',
       titles: {},
+      addLanguage: 0,
       descriptions: {},
+      locales: {},
       multiday: false,
       contactPerson: '',
       minParticipants: '',
@@ -143,7 +161,7 @@ export default {
       this.$set(this.errors.descriptions, locale.code, {
         description: false
       })
-
+      this.locales = [this.availableLocales[0]]
       this.$watch(`titles.${locale.code}.title`, function() {
         if (this.titles[locale.code].title !== '') {
           if (this.titles[locale.code].title.trim().length >= 3) {
@@ -179,6 +197,15 @@ export default {
     },
     availableLocales() {
       return this.$i18n.locales
+    },
+    addableLocales() {
+      let arr = []
+      this.availableLocales.forEach((locale) => {
+        if (!this.locales.includes(locale)) {
+          arr.push(locale)
+        }
+      })
+      return arr
     },
     startDateFull() {
       if (this.startDate.year !== null && this.startDate.month !== null && this.startDate.day !== null) {
@@ -232,6 +259,23 @@ export default {
     }
   },
   methods: {
+    removeLocale(index) {
+      if (this.locales.length > 1) {
+          this.locales.splice(index, 1)
+      } else {
+        console.error("Event must contain at least one translation. Not deleting last locale", [this.locales])
+      }
+    },
+    addLocale(locale) {
+      this.locales.push(locale)
+    },
+    addSelectedLocale(event) {
+      this.availableLocales.forEach((lang) => {
+        if (lang.iso === this.addLanguage.iso) {
+          this.locales.push(lang)
+        }
+      })
+    },
     multidayDate(value, param) {
       if (this.multiday === false) {
         if (value !== undefined && param !== undefined) {
