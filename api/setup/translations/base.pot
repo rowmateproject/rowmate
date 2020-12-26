@@ -1022,3 +1022,12 @@ msgstr ""
 
 msgid "addboat"
 msgstr ""
+
+msgid "noboat"
+msgstr ""
+
+msgid "addboat"
+msgstr ""
+
+msgid "delete"
+msgstr ""
