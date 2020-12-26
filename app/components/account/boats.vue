@@ -1,5 +1,8 @@
 <template>
 <div>
+
+  <Notification content="Successfully added boat" v-if="this.$route.query.msg === 'boatadded'"/>
+  <div ref="notifications"></div>
   <div class="container flex justify-between pl-4">
     <h3 class="text-xl sm:text-2xl md:text-3xl font-medium leading-none text-color-title">{{ $t('boats') }}</h3>
     <nuxt-link :to="localePath('/boat/add')"><button class="bg-color-button text-color-button h-10 px-16 transition-colors duration-150 rounded-lg focus:shadow-outline">Boot hinzufügen</button></nuxt-link>
@@ -35,6 +38,9 @@
               </th>
               <th class="px-6 py-6 text-left text-xs leading-4 font-medium uppercase tracking-wider">
                 {{ $t('discipline') }}
+              </th>
+              <th class="px-6 py-6 text-left text-xs leading-4 font-medium uppercase tracking-wider">
+                {{ $t('delete') }}
               </th>
             </tr>
           </thead>
@@ -73,10 +79,18 @@
                 <span v-if="b.coxswain == 3">Riemen (wechselbar)</span>
                 <span v-if="b.coxswain == 4">Unbekannt</span>
               </td>
+              <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-color-body">
+                <button @click="deleteBoat(index)" class="col-span-6 bg-red-600 text-white rounded focus:outline-none px-4 py-2 md:mb-2 lg:mb-0"><fa :icon="['fas', 'trash']" class="col-span-1 mt-1" /></button>
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
+    </div>
+  </div>
+  <div class="container" v-else>
+    <div class="container flex justify-center my-12 text-xl">
+      <h2>{{ $t('noboats') }}</h2>
     </div>
   </div>
 </div>
@@ -86,9 +100,12 @@
 import {
   BoatCategory
 } from '@/plugins/boatcategory'
-
+import Notification from '@/components/utils/notification'
+import Vue from 'vue'
+var NotificationClass = Vue.extend(Notification)
 
 export default {
+  name: 'Boats',
   data() {
     return {
       boats: [],
@@ -119,6 +136,28 @@ export default {
       if (value === true) {
         this.boats = this.boatsBackup
       }
+    },
+    deleteBoat(index) {
+      var uuid = this.boats[index].uuid
+      this.$axios({
+        method: 'DELETE',
+        url: `${process.env.API_URL}/boat/${uuid}`,
+        validateStatus: () => true
+      }).then((res) => {
+        if (res.status === 200) {
+          this.boats.splice(index, 1)
+          var instance = new NotificationClass({
+            propsData: {
+              content: 'Boat successfully deleted',
+              color: 'bg-red-500'
+            }
+          })
+          instance.$mount()
+          this.$refs.notifications.appendChild(instance.$el)
+        } else {
+          console.debug(res.data)
+        }
+      })
     }
   }
 }

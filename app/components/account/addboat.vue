@@ -1,5 +1,6 @@
 <template>
 <div>
+  <div ref="notifications"></div>
   <h3 class="text-xl sm:text-2xl md:text-3xl font-medium leading-none text-color-title">{{ $t('addboat') }}</h3>
   <div class="flex flex-col mt-8">
     <div class="col-span-12 lg:col-span-4 grid grid-cols-12 gap-3 justify-end">
@@ -64,6 +65,10 @@ import {
   Coxswain
 } from '@/plugins/boatcategory'
 
+import Notification from '@/components/utils/notification'
+import Vue from 'vue'
+var NotificationClass = Vue.extend(Notification)
+
 export default {
   name: 'AddBoat',
   data() {
@@ -117,9 +122,16 @@ export default {
           validateStatus: () => true
         }).then((res) => {
           if (res.status === 200) {
-            console.log("Ok")
+            this.$router.push('/boats?msg=boatadded');
           } else {
-            console.debug(res.data)
+            var instance = new NotificationClass({
+              propsData: {
+                content: 'Couldn\'t add boat',
+                color: 'bg-red-500'
+              }
+            })
+            instance.$mount()
+            this.$refs.notifications.appendChild(instance.$el)
           }
         })
       }
