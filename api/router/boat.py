@@ -1,6 +1,7 @@
 from fastapi import Depends, APIRouter, HTTPException
 
 import pymongo
+from uuid import UUID
 
 # models
 from models.boat import Boat
@@ -22,6 +23,25 @@ def get_boats_router(database, authenticator) -> APIRouter:
             return res
         else:
             raise HTTPException(status_code=404, detail='No boats were found')
+
+    return router
+
+
+
+
+def delete_boat_router(database, authenticator) -> APIRouter:
+    router = APIRouter()
+
+    @router.delete('/{uuid}')
+    async def delete_boat(uuid, user=Depends(
+            authenticator.get_current_superuser)):
+        query = { 'uuid': UUID(uuid) }
+        res = await database['boats'].delete_one(query)
+        if res.deleted_count > 0:
+            return True
+        else:
+            raise HTTPException(
+                status_code=404, detail='Boat was not found')
 
     return router
 
