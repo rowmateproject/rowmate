@@ -21,7 +21,10 @@ from router.manage import get_manage_router
 from router.lookup import get_lookup_router
 from router.theme import get_themes_router
 from router.auth import get_auth_router
-
+from router.chat import add_chat_router
+from router.chat import get_user_chats_router
+from router.chat import add_chat_message_router
+from router.chat import get_chat_messages_router
 # hooks
 from hooks.register import on_after_register
 from hooks.forgot import on_after_forgot_password
@@ -230,6 +233,44 @@ app.include_router(
     ),
     prefix='/boat',
     tags=['boats']
+)
+
+
+app.include_router(
+    add_chat_router(
+        database=db,
+        authenticator=api_user
+    ),
+    prefix='/chat',
+    tags=['chats']
+)
+
+app.include_router(
+    get_user_chats_router(
+        database=db,
+        authenticator=api_user
+    ),
+    prefix='/chat',
+    tags=['chats']
+)
+
+
+app.include_router(
+    add_chat_message_router(
+        database=db,
+        authenticator=api_user
+    ),
+    prefix='/chat',
+    tags=['chats']
+)
+
+app.include_router(
+    get_chat_messages_router(
+        database=db,
+        authenticator=api_user
+    ),
+    prefix='/chat',
+    tags=['chats']
 )
 
 

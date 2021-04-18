@@ -21,6 +21,12 @@
           <span class="col-span-5">Dashboard</span>
         </nuxt-link>
       </li>
+      <li @click="toggleNav" :class="[comparePageName('chat') ? activeClass : inactiveClass]" class="text-color-nav">
+        <nuxt-link class="grid grid-cols-6 focus:outline-none sm:mt-1 py-3 px-3 sm:px-6" :to="localePath('/chat')">
+          <fa :icon="['fas', 'comments']" class="col-span-1 mt-1" />
+          <span class="col-span-5">Chat</span>
+        </nuxt-link>
+      </li>
       <li v-if="isSuperuser === 'true' || isSuperuser === true" @click="toggleNav" :class="[comparePageName('organization') ? activeClass : inactiveClass]" class="text-color-nav">
         <nuxt-link class="grid grid-cols-6 focus:outline-none sm:mt-1 py-3 px-3 sm:px-6" :to="localePath('/organization')">
           <fa :icon="['fas', 'columns']" class="col-span-1 mt-1" />
