@@ -1,4 +1,4 @@
-from fastapi_users.db import MongoDBUserDatabase
+from fastapi_users.db.mongodb import MongoDBUserDatabase
 from fastapi_mail import FastMail, ConnectionConfig
 from motor.motor_asyncio import AsyncIOMotorClient
 
@@ -27,7 +27,7 @@ db['templates'].create_index([('ngrams', TEXT)], name='templates_ngrams_index')
 db['questions'].create_index([('ngrams', TEXT)], name='questions_ngrams_index')
 db['events'].create_index([('ngrams', TEXT)], name='events_ngrams_index')
 
-user_db = MongoDBUserDatabase(UserDB, db['users'])    
+user_db = MongoDBUserDatabase(UserDB, db['users'])
 
 jwt_auth = Authentication(
     secret=settings.jwt_secret,
