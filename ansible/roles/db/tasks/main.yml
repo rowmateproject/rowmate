@@ -3,8 +3,6 @@
   apt:
     name: mongodb
     state: present
-    notify:
-      - start mongodb
 
 - name: create an ubuntu user with less rights
   user:
