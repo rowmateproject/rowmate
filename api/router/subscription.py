@@ -63,7 +63,7 @@ def get_subscription_router(database, authenticator) -> APIRouter:
 
     @router.post('/event/{hex}')
     async def post_subscribe_event(hex, user=Depends(
-            authenticator.get_current_superuser)):
+            authenticator.get_current_active_user)):
         try:
             req_uuid = UUID(hex=hex, version=4)
         except TypeError:

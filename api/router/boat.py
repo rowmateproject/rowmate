@@ -60,3 +60,17 @@ def add_boat_router(database, authenticator) -> APIRouter:
             raise HTTPException(status_code=400, detail='No boat was created')
 
     return router
+
+
+
+async def get_boat(uuid, database):
+    filter = {
+        '_id': False
+    }
+    query = { 'uuid': UUID(uuid) }
+    res = await database['boats'].find_one(query, filter)
+
+    if res is not None:
+        return res
+    else:
+        return None

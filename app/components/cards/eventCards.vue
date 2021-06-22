@@ -4,7 +4,7 @@
     <div class="grid grid-cols-12 gap-3 lg:gap-6">
       <div class="col-span-12 grid grid-cols-12 gap-3 lg:gap-6">
         <h1 class="col-span-6 md:col-span-9 xl:col-span-10 text-color-sale font-bold leading-none text-xl sm:text-2xl md:text-3xl xl:text-4xl">
-          {{ value.titles[currentLocale].title }}
+          {{ value.title }}
         </h1>
         <div class="col-span-6 md:col-span-3 xl:col-span-2 text-right">
           <button @click="subscribeEvent(value._id, index)" :class="[value.subscribed ? 'bg-color-header text-color-nav' : 'bg-color-button text-color-button']"
@@ -14,7 +14,7 @@
       <ul class="col-span-12 xl:col-span-9 grid grid-cols-12 gap-3 lg:gap-6 mb-3 lg:mb-6">
         <li class="col-span-12">
           <p class="text-color-header font-medium">Zeitpunkt</p>
-          <span class="text-color-title text-md sm:col-span-6 lg:text-lg md:text-xl md:font-bold">{{ makeStartEndDate(value.event_time) }}</span>
+          <span class="text-color-title text-md sm:col-span-6 lg:text-lg md:text-xl md:font-bold">{{ makeStartEndDate(value.start_time) }}</span>
         </li>
         <li v-if="value.contact_person" class="col-span-12 sm:col-span-6 xl:col-span-4">
           <p class="text-color-header font-medium">Ansprechpartner</p>
@@ -45,7 +45,7 @@
       </ul>
     </div>
     <h2 class="text-color-header font-medium">Beschreibung</h2>
-    <p class="text-color-title text-md sm:text-lg">{{ value.descriptions[currentLocale].description }}</p>
+    <p class="text-color-title text-md sm:text-lg">{{ value.description }}</p>
   </li>
 </ul>
 </template>
@@ -63,10 +63,10 @@ export default {
     }
   },
   mounted() {
-    let requestUrl = `${process.env.API_URL}/events/${this.currentLocale}`
+    let requestUrl = `${process.env.API_URL}/events/`
 
     if (this.$props.eventSubscriptions === true) {
-      requestUrl = `${process.env.API_URL}/subscription/events/${this.currentLocale}`
+      requestUrl = `${process.env.API_URL}/subscription/events/`
     }
 
     this.$axios({

@@ -25,6 +25,7 @@ from router.chat import add_chat_router
 from router.chat import get_user_chats_router
 from router.chat import add_chat_message_router
 from router.chat import get_chat_messages_router
+from router.rowingadvert import get_rowingadverts_router, delete_rowingadvert_router, add_rowingadvert_router, get_rowingadvert_router
 # hooks
 from hooks.register import on_after_register
 from hooks.forgot import on_after_forgot_password
@@ -273,6 +274,41 @@ app.include_router(
     tags=['chats']
 )
 
+app.include_router(
+    get_rowingadverts_router(
+        database=db,
+        authenticator=api_user
+    ),
+    prefix='/rowingadverts',
+    tags=['rowingadverts']
+)
+
+app.include_router(
+    get_rowingadvert_router(
+        database=db,
+        authenticator=api_user
+    ),
+    prefix='/rowingadverts',
+    tags=['rowingadverts']
+)
+
+app.include_router(
+    delete_rowingadvert_router(
+        database=db,
+        authenticator=api_user
+    ),
+    prefix='/rowingadverts',
+    tags=['rowingadverts']
+)
+
+app.include_router(
+    add_rowingadvert_router(
+        database=db,
+        authenticator=api_user
+    ),
+    prefix='/rowingadverts',
+    tags=['rowingadverts']
+)
 
 app.include_router(
     get_subscription_router(

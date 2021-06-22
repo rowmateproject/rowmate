@@ -15,10 +15,16 @@
     </div>
 
     <ul :class="[showNav ? 'block z-50' : 'hidden']" class="sm:block sm:mt-8">
-      <li @click="toggleNav" :class="[comparePageName('dashboard') ? activeClass : inactiveClass]" class="text-color-nav">
+      <li v-if="isSuperuser === 'true' || isSuperuser === true" @click="toggleNav" :class="[comparePageName('dashboard') ? activeClass : inactiveClass]" class="text-color-nav">
         <nuxt-link class="grid grid-cols-6 focus:outline-none sm:mt-1 py-3 px-3 sm:px-6" :to="localePath('/dashboard')">
           <fa :icon="['fas', 'chart-line']" class="col-span-1 mt-1" />
           <span class="col-span-5">Dashboard</span>
+        </nuxt-link>
+      </li>
+      <li @click="toggleNav" :class="[comparePageName('ruderboerse') ? activeClass : inactiveClass]" class="text-color-nav">
+        <nuxt-link class="grid grid-cols-6 focus:outline-none sm:mt-1 py-3 px-3 sm:px-6" :to="localePath('/ruderboerse')">
+          <fa :icon="['fas', 'bullhorn']" class="col-span-1 mt-1" />
+          <span class="col-span-5">Ruderbörse</span>
         </nuxt-link>
       </li>
       <li @click="toggleNav" :class="[comparePageName('chat') ? activeClass : inactiveClass]" class="text-color-nav">

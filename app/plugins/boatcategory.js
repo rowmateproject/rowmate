@@ -27,7 +27,7 @@ class BoatCategory {
     const categories = {}
 
     boats.forEach((boat, i) => {
-      categories[boat.id] = this.getCategoryString(boat)
+      categories[boat.uuid] = this.getCategoryString(boat)
     })
 
     return categories

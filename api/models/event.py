@@ -1,30 +1,20 @@
 from typing import Dict, List, Optional
 from pydantic import BaseModel
 from datetime import datetime
-
+from pydantic import UUID4
 
 class Event(BaseModel):
-    poll_id: Optional[str]
-    event_time: Optional[datetime]
     end_time: Optional[datetime]
     start_time: datetime
-    min_participants: int
     max_participants: int
     repeat_interval: int
     repeat_unit: str
-
-    # TODO: should be type of uuid later on
-    contact_person: str
-
+    title: str
+    description: str
     # TODO: should be type of location with lat lng
     location: str
-
-    # TODO: should be type of uuid later on
-    author: Optional[str]
-
-    # store translations
-    titles: Dict[str, Dict[str, str]]
-    descriptions: Dict[str, Dict[str, str]]
+    creator: Optional[UUID4] # gets replaced in route
+    readaccess: List[UUID4] = []
 
     # if boats is empty, max_participants has to be used
     boats: List[str] = []

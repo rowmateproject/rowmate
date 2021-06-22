@@ -93,6 +93,7 @@ export default (context, inject) => {
     context.store.commit('updateTopType', null)
 
     context.$auth.logout()
+    context.redirect('/');
   }
 
   inject('logout', logout)

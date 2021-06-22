@@ -9,11 +9,13 @@ def get_stats_router(database, authenticator) -> APIRouter:
     async def stats_dashboard(user=Depends(
             authenticator.get_current_active_user)):
         users = await database['users'].count_documents({'is_active': True})
+        rowingads = await database['rowingadverts'].count_documents({
+            'time': {'$gte': datetime.utcnow()}})
         events = await database['events'].count_documents({
             'event_time': {'$gte': datetime.utcnow()}})
 
-        if users or events:
-            return {'users': users, 'events': events}
+        if users or events or rowingads:
+            return {'users': users, 'events': events, 'rowingads': rowingads}
         else:
             raise HTTPException(
                 status_code=404, detail='No stats were not found')

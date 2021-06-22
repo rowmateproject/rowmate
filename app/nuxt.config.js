@@ -60,6 +60,9 @@ export default {
   }, {
     src: '@/plugins/interceptor',
     ssr: true
+  }, {
+    src: '@/plugins/filters',
+    ssr: true
   }],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

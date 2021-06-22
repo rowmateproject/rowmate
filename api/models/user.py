@@ -38,10 +38,10 @@ class UserCreate(BaseUserCreate):
 
 
 class UserUpdate(User, BaseUserUpdate):
-    birth: datetime
-    avatar: dict
-    locale: str
-    phone: str
+    birth: Optional[datetime]
+    avatar: Optional[dict]
+    locale: Optional[str]
+    phone: Optional[str]
 
 
 class UserDB(User, BaseUserDB):

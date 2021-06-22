@@ -27,8 +27,8 @@
         </div>
 
         <div class="flex flex-col justify-center">
-          <h4 class="text-2xl font-semibold leading-tight text-color-page">2.021</h4>
-          <div class="text-color-title leading-tight">Registrierte Vereine</div>
+          <h4 class="text-2xl font-semibold leading-tight text-color-page">{{ stats.rowingads }}</h4>
+          <div class="text-color-title leading-tight">Offene Inserate</div>
         </div>
       </div>
     </div>
@@ -48,9 +48,6 @@
       </div>
     </div>
   </div>
-
-  <h3 class="text-lg sm:text-xl lg:text-2xl font-medium text-color-title mb-2">Umfragen</h3>
-  <vote-results class="mb-3 sm:mb-8" />
 
   <h3 class="text-lg sm:text-xl lg:text-2xl font-medium text-color-title mb-2">Events</h3>
   <div class="p-3 lg:px-6 lg:pb-6 lg:pt-4 bg-svg-image bg-blue-500 rounded-md shadow mb-3 sm:mb-6">
@@ -83,6 +80,7 @@ export default {
     }).then((res) => {
       if (res.status === 200) {
         this.stats.users = res.data.users
+        this.stats.rowingads = res.data.rowingads
         this.stats.events = res.data.events
       } else {
         console.debug(res.data)

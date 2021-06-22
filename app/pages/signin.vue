@@ -240,10 +240,39 @@ export default {
               expires: 3600,
               secure: true
             })
+            let standardAvatar = {
+                  'isCircle': true,
+                  'mouthType': 'Smile',
+                  'accessoriesType': 'Blank',
+                  'graphicType': 'Bat',
+                  'topType': 'Hat',
+                  'topColor': 'Gray02',
+                  'clotheType': 'CollarSweater',
+                  'clotheColor': 'Black',
+                  'eyeType': 'Wink',
+                  'eyebrowType': 'Default',
+                  'facialHairType': 'Blank',
+                  'facialHairColor': 'Auburn',
+                  'hairColor': 'Brown',
+                  'skinColor': 'Yellow',
+                  'circleColor': '#87CEEB'
+              }
 
+            let AvatarNotChanged = true
+            for (const [key, value] of Object.entries(res.data.avatar)) {
+              if (standardAvatar[key] !== value) {
+                AvatarNotChanged = false
+              }
+            }
+            if (AvatarNotChanged) {
+              this.$router.push(this.localePath({
+                name: 'settings'
+              }))
+            } else {
             this.$router.push(this.localePath({
               name: 'dashboard'
             }))
+          }
           } else {
             this.showResponse = true
             this.response = res.data.detail

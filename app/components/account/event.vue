@@ -35,10 +35,6 @@
 
       <div class="col-span-12 lg:col-span-4 grid grid-cols-12 gap-3 justify-end">
         <div class="col-span-6 grid grid-cols-12 gap-2">
-          <label class="col-span-12 text-color-form leading-none">Min. Teilnehmer</label>
-          <input v-model="minParticipants" type="text" class="col-span-12 rounded border border-color-form focus:outline-none p-2">
-        </div>
-        <div class="col-span-6 grid grid-cols-12 gap-2">
           <label class="col-span-12 text-color-form leading-none">Max. Teilnehmer</label>
           <input v-model="maxParticipants" type="text" class="col-span-12 rounded border border-color-form focus:outline-none p-2">
         </div>
@@ -68,26 +64,21 @@
       <p v-if="errors.location" class="text-red-500 text-xs italic">{{ $t('errorInvalidName') }}</p>
     </div>
 
-    <div v-for="value, index in locales" :key="index" class="mt-8">
-      <event-form :code="value.code" :title="titles[value.code].title" :description="descriptions[value.code].description" :titleError="errors.titles[value.code].title" :descriptionError="errors.descriptions[value.code].description"
-        @titleString="handletitleString" @descriptionString="handleDescriptionString" />
-        <button v-on:click="removeLocale(index)" v-if="index != 0" class="px-4 py-2 my-4 bg-red-600 text-color-button rounded-md hover:bg-red-700 focus:outline-none focus:bg-red-700">Remove locale</button>
-        <hr class="b-2">
+    <div>
+      <div class="mb-4">
+        <label class="flex justify-start items-center text-color-form">
+          <span>Titel</span>
+        </label>
+        <input v-model="titleString" type="text" placeholder="Titel eingeben" :class="[titleErrorString ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="w-full rounded border focus:outline-none p-2 mt-2 mb-1">
+        <p v-if="titleErrorString" class="text-red-500 text-xs italic">{{ $t('errorInvalidName') }}</p>
+      </div>
+      <div>
+        <label class="text-color-form">Beschreibung</label>
+        <textarea v-model="descriptionString" placeholder="Beschreibung hinzufügen" :class="[descriptionErrorString ? 'border-red-500 focus:border-red-500' : 'border-color-form']" class="h-48 w-full rounded border focus:outline-none p-2 mt-2 mb-1"></textarea>
+        <p v-if="descriptionErrorString" class="text-red-500 text-xs italic">{{ $t('errorInvalidName') }}</p>
+      </div>
     </div>
     <div class="flex">
-      <div class="justify-start mt-4">
-        <div class="col-span-6 relative">
-          <select class="appearance-none block w-full rounded border border-color-form focus:outline-none px-8 p-2" v-model="addLanguage" @change="addSelectedLocale($event)">
-            <option value="0">Sprache hinzufügen</option>
-            <option v-for="value, index in addableLocales" :key="index" :value="value">{{ value.name }}</option>
-          </select>
-          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 mt-1 text-color-nav">
-            <svg class="text-color-form fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-              <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-            </svg>
-          </div>
-        </div>
-      </div>
       <div class="ml-auto justify-end mt-4">
         <button class="px-4 py-2 bg-gray-800 text-color-button rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700">
           {{ $t('save') }}
@@ -112,6 +103,8 @@ export default {
       addLanguage: 0,
       descriptions: {},
       locales: {},
+      titleString: "",
+      descriptionString: "",
       multiday: false,
       contactPerson: '',
       minParticipants: '',
@@ -472,11 +465,11 @@ export default {
             method: 'POST',
             url: `${process.env.API_URL}/event`,
             data: {
-              titles: this.titles,
+              title: this.titleString,
               poll_id: this.pollId,
               location: this.location,
               repeat_unit: this.repeatUnit,
-              descriptions: this.descriptions,
+              description: this.descriptionString,
               repeat_interval: this.repeatInterval,
               min_participants: this.minParticipants,
               max_participants: this.maxParticipants,
@@ -497,11 +490,11 @@ export default {
             method: 'PATCH',
             url: `${process.env.API_URL}/event/${uuid}`,
             data: {
-              titles: this.titles,
+              title: this.titleString,
               poll_id: this.pollId,
               location: this.location,
               repeat_unit: this.repeatUnit,
-              descriptions: this.descriptions,
+              description: this.descriptionString,
               repeat_interval: this.repeatInterval,
               min_participants: this.minParticipants,
               max_participants: this.maxParticipants,

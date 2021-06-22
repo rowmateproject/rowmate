@@ -67,7 +67,7 @@ msgid "mailAddress"
 msgstr "Email Adresse"
 
 msgid "confirmPassword"
-msgstr "Passwort bestättigen"
+msgstr "Passwort bestätigen"
 
 msgid "resetPassword"
 msgstr "Passwort zurücksetzen"
@@ -1060,3 +1060,6 @@ msgstr "Schädel Umriss"
 
 msgid "Skull"
 msgstr "Schädel"
+
+msgid "save-avatar"
+msgstr "Avatar Speichern"

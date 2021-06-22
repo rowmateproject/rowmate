@@ -1,3 +1,4 @@
+// import jwt_decode from "jwt-decode";
 export default async function({
   store,
   redirect

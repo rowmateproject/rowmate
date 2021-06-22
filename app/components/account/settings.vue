@@ -1,6 +1,6 @@
 <template>
 <div>
-  <h3 class="text-xl sm:text-2xl md:text-3xl font-medium leading-none text-color-title">Profile</h3>
+  <h3 class="text-xl sm:text-2xl md:text-3xl font-medium leading-none text-color-title">Profil</h3>
 
   <form @submit.prevent="saveExtendedUser">
     <div class="mt-1 sm:mt-3 md:mt-5 lg:mt-8 p-6 bg-color-form rounded shadow">
@@ -9,11 +9,11 @@
           <avatar :avatar="user.avatar" />
 
           <div class="text-center mt-8">
-            <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+            <!-- <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
               <input type="checkbox" name="toggle" id="toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-color-form border-4 appearance-none cursor-pointer" />
               <label for="toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
             </div>
-            <label for="toggle" class="text-xs text-color-form">Use avatar</label>
+            <label for="toggle" class="text-xs text-color-form">Use avatar</label> -->
           </div>
         </div>
 
@@ -33,6 +33,11 @@
           <feature @data="updateClotheColor" :value="user.avatar.clotheColor" param="clotheColor" />
           <feature @data="updateCircleColor" :value="user.avatar.circleColor" param="circleColor" />
         </ul>
+      </div>
+      <div class="flex justify-end mt-4">
+        <button v-on:click="saveAvatar()" class="px-4 py-2 bg-gray-800 text-color-button rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700">
+          {{ $t('save-avatar') }}
+        </button>
       </div>
     </div>
 
@@ -322,6 +327,28 @@ export default {
     },
     updateCircleColor(value) {
       this.user.avatar.circleColor = value
+    },
+    saveAvatar() {
+      this.$axios({
+        method: 'PATCH',
+        url: `${process.env.API_URL}/users/me`,
+        data: {
+          avatar: this.user.avatar
+        },
+        validateStatus: () => true
+      }).then(res => {
+        if (res.status === 200) {
+          if (this.currentLocale !== this.user.locale) {
+            this.$i18n.setLocale(this.user.locale)
+          }
+
+          this.classResponse = 'text-green-500'
+          this.showResponse = true
+          this.response = 'Avatar wurden erfolgreich geändert'
+        } else {
+          console.debug(res.data)
+        }
+      })
     },
     saveExtendedUser() {
       const isValidForm = (currentValue) => currentValue !== true

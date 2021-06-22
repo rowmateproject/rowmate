@@ -13,18 +13,20 @@ def generate_interval(event: Event) -> datetime:
     events: datetime = []
 
     events.append(start_time)
+    if repeat_interval > 0:
+        i = 0
+        while start_time <= end_time and i < 200: #i < 200 -> don't create more than 200 events. Avoid endless loop
+            i+=1
+            if repeat_unit == 'days':
+                start_time = start_time + relativedelta(days=+repeat_interval)
+            elif repeat_unit == 'weeks':
+                start_time = start_time + relativedelta(weeks=+repeat_interval)
+            elif repeat_unit == 'months':
+                start_time = start_time + relativedelta(months=+repeat_interval)
+            elif repeat_unit == 'years':
+                start_time = start_time + relativedelta(years=+repeat_interval)
 
-    while start_time <= end_time:
-        if repeat_unit == 'days':
-            start_time = start_time + relativedelta(days=+repeat_interval)
-        elif repeat_unit == 'weeks':
-            start_time = start_time + relativedelta(weeks=+repeat_interval)
-        elif repeat_unit == 'months':
-            start_time = start_time + relativedelta(months=+repeat_interval)
-        elif repeat_unit == 'years':
-            start_time = start_time + relativedelta(years=+repeat_interval)
-
-        if start_time <= end_time:
-            events.append(start_time)
+            if start_time <= end_time:
+                events.append(start_time)
 
     return events

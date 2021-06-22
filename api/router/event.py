@@ -18,8 +18,8 @@ from utils.ngram import make_ngrams
 def get_events_router(database, authenticator) -> APIRouter:
     router = APIRouter()
 
-    @router.get('/{lang}')
-    async def get_all_events(lang, user=Depends(
+    @router.get('/')
+    async def get_all_events(user=Depends(
             authenticator.get_current_active_user)):
         query = {'user_id': user.id}
 
@@ -27,28 +27,26 @@ def get_events_router(database, authenticator) -> APIRouter:
         subscriptions = await database['subscriptions'].find(
             query).to_list(length=docs)
 
-        query = {'event_time': {'$gte': datetime.utcnow()}}
-        sort = [('event_time', pymongo.ASCENDING)]
+        query = {'end_time': {'$gte': datetime.utcnow()}}
+        sort = [('end_time', pymongo.ASCENDING)]
         filter = {'_id': True,
-                  f'titles.{lang}.title': True,
-                  f'descriptions.{lang}.description': True,
+                  'title': True,
+                  'description': True,
                   'max_participants': True,
-                  'min_participants': True,
                   'repeat_interval': True,
-                  'contact_person': True,
+                  'creator': True,
                   'repeat_unit': True,
                   'modified_at': True,
                   'created_at': True,
-                  'event_time': True,
                   'start_time': True,
                   'end_time': True,
-                  'location': True,
-                  'poll_id': True}
+                  'location': True
+                  }
 
         docs = await database['events'].count_documents(query)
         res = await database['events'].find(
             query, filter).sort(sort).to_list(length=docs)
-
+        print(res)
         if len(res) > 0:
             e = [s['events'] for s in subscriptions]
             s = [{**r, 'subscribed': [r['_id'] in x for x in e][0]
@@ -86,33 +84,24 @@ def get_event_router(database, authenticator) -> APIRouter:
             uuid: Binary = generate_uuid()
             created_at: datetime = datetime.utcnow()
 
-            try:
-                poll_id = UUID(hex=request_doc['poll_id'])
-            except (TypeError, ValueError):
-                poll_id = None
-
             event_doc: Event = {
                 '_id': uuid,
-                'author': user.name,
+                'creator': user.id,
                 'created_at': created_at,
-                'event_time': event_time,
-                'titles': request_doc['titles'],
+                'title': request_doc['title'],
                 'location': request_doc['location'],
                 'repeat_unit': request_doc['repeat_unit'],
-                'descriptions': request_doc['descriptions'],
+                'description': request_doc['description'],
                 'repeat_interval': request_doc['repeat_interval'],
-                'min_participants': request_doc['min_participants'],
                 'max_participants': request_doc['max_participants'],
-                'contact_person': request_doc['contact_person'],
+                'readaccess': request_doc['readaccess'],
                 'start_time': request_doc['start_time'],
                 'end_time': request_doc['end_time'],
-                'poll_id': poll_id,
                 'ngrams': make_ngrams([
-                    request_doc['contact_person'],
-                    request_doc['descriptions'],
+                    request_doc['description'],
                     request_doc['repeat_unit'],
                     request_doc['location'],
-                    request_doc['titles']]
+                    request_doc['title']]
                 )
             }
 
@@ -172,15 +161,16 @@ def get_event_router(database, authenticator) -> APIRouter:
                 poll_id = None
 
             event_doc: Event = {
-                'event_time': event_time,
-                'titles': request_doc['titles'],
+                '_id': uuid,
+                'creator': user.id,
+                'created_at': created_at,
+                'title': request_doc['title'],
                 'location': request_doc['location'],
                 'repeat_unit': request_doc['repeat_unit'],
-                'descriptions': request_doc['descriptions'],
+                'description': request_doc['description'],
                 'repeat_interval': request_doc['repeat_interval'],
-                'min_participants': request_doc['min_participants'],
                 'max_participants': request_doc['max_participants'],
-                'contact_person': request_doc['contact_person'],
+                'readaccess': request_doc['readaccess'],
                 'start_time': request_doc['start_time'],
                 'end_time': request_doc['end_time'],
                 'poll_id': poll_id,
@@ -194,7 +184,7 @@ def get_event_router(database, authenticator) -> APIRouter:
             }
 
             if existing_events > 0:
-                event_doc['modified_by'] = user.name
+                event_doc['modified_by'] = user.id
                 event_doc['modified_at'] = modified_at
 
                 document = {'$set': event_doc}
