@@ -16,7 +16,7 @@
 
 - name: clone git repository rowmate
   git:
-    repo: 'https://github.com/maurosbicego/rowmate.git'
+    repo: 'https://github.com/rowmateproject/rowmate.git'
     dest: /opt/rowmate
     version: master
     force: yes
