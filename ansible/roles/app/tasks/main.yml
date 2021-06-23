@@ -43,7 +43,7 @@
   file:
     path: /home/ubuntu/.ansible/tmp
     state: directory
-    mode: '0770'
+    mode: '0700'
 
 - name: install packages based on package.json
   become_user: ubuntu
