@@ -73,11 +73,11 @@
                 {{ b.crewsize }}
               </td>
               <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-color-body">
-                <span v-if="b.coxswain == 0">Sculling</span>
-                <span v-if="b.coxswain == 1">Riemen</span>
-                <span v-if="b.coxswain == 2">Sculling (wechselbar)</span>
-                <span v-if="b.coxswain == 3">Riemen (wechselbar)</span>
-                <span v-if="b.coxswain == 4">Unbekannt</span>
+                <span v-if="b.discipline == 0">Sculling</span>
+                <span v-if="b.discipline == 1">Riemen</span>
+                <span v-if="b.discipline == 2">Sculling (wechselbar)</span>
+                <span v-if="b.discipline == 3">Riemen (wechselbar)</span>
+                <span v-if="b.discipline == 4">Unbekannt</span>
               </td>
               <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-color-body">
                 <button @click="deleteBoat(index)" class="col-span-6 bg-red-600 text-white rounded focus:outline-none px-4 py-2 md:mb-2 lg:mb-0"><fa :icon="['fas', 'trash']" class="col-span-1 mt-1" /></button>
