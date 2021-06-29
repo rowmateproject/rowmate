@@ -3,7 +3,7 @@
 
   <Notification content="Successfully added boat" v-if="this.$route.query.msg === 'boatadded'"/>
   <div ref="notifications"></div>
-  <div class="container flex justify-between pl-4">
+  <div v-if="isSuperuser === 'true' || isSuperuser === true" class="container flex justify-between pl-4">
     <h3 class="text-xl sm:text-2xl md:text-3xl font-medium leading-none text-color-title">{{ $t('boats') }}</h3>
     <nuxt-link :to="localePath('/boat/add')"><button class="bg-color-button text-color-button h-10 px-16 transition-colors duration-150 rounded-lg focus:shadow-outline">Boot hinzufügen</button></nuxt-link>
   </div>
@@ -127,6 +127,11 @@ export default {
         console.debug(res.data)
       }
     })
+  },
+  computed: {
+    isSuperuser() {
+      return this.$store.state.isSuperuser
+    }
   },
   methods: {
     handleBoatFilter(value) {

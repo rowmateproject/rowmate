@@ -5,6 +5,6 @@
 <script>
 export default {
   layout: 'admin',
-  middleware: ['isNotSuperuser']
+  middleware: ['notAuthenticated']
 }
 </script>
