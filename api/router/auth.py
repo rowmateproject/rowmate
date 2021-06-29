@@ -23,7 +23,7 @@ def get_auth_router(
             raise HTTPException(
                 status_code=400, detail='Account not confirmed')
         elif not user.is_accepted:
-            res = await db['accepted_addresses'].count_documents(({'email':user.email}))
+            res = await db['accepted_emails'].count_documents(({'email':user.email}))
             if res == 1:
                 document = {'$set': {'is_accepted': True}}
                 res_user = await db['users'].update_one({'email':user.email}, document)

@@ -26,6 +26,8 @@ from router.chat import get_user_chats_router
 from router.chat import add_chat_message_router
 from router.chat import get_chat_messages_router
 from router.rowingadvert import get_rowingadverts_router, delete_rowingadvert_router, add_rowingadvert_router, get_rowingadvert_router
+from router.acceptedemails import add_emails_router
+
 # hooks
 from hooks.register import on_after_register
 from hooks.forgot import on_after_forgot_password
@@ -367,4 +369,14 @@ app.include_router(
     ),
     prefix='/organization',
     tags=['organizations']
+)
+
+
+app.include_router(
+    add_emails_router(
+        database=db,
+        authenticator=api_user
+    ),
+    prefix='/accepted-emails',
+    tags=['emails']
 )
