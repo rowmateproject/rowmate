@@ -16,7 +16,7 @@ email-validator==1.1.2
 fakeredis==1.5.0
 fastapi>=0.65.2
 fastapi-mail==0.3.7
-fastapi-users>=6.0.0
+fastapi-users==6.1.0
 google==3.0.0
 google-api-core==1.26.3
 google-api-python-client==2.3.0
@@ -31,9 +31,9 @@ httplib2==0.19.1
 httpx==0.17.1
 httpx-oauth==0.3.5
 idna==2.10
-Jinja2==2.11.3
+Jinja2==3.0.1
 makefun==1.11.3
-MarkupSafe==1.1.1
+MarkupSafe>=2.0
 motor==2.4.0
 packaging==20.9
 passlib==1.7.4
@@ -43,7 +43,7 @@ pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycparser==2.20
 pydantic==1.8.2
-PyJWT==2.0.1
+PyJWT
 pymongo==3.11.4
 pyOpenSSL==20.0.1
 pyparsing==2.4.7
