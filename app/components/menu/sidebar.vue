@@ -15,7 +15,7 @@
     </div>
 
     <ul :class="[showNav ? 'block z-50' : 'hidden']" class="sm:block sm:mt-8">
-      <li v-if="isSuperuser === 'true' || isSuperuser === true" @click="toggleNav" :class="[comparePageName('dashboard') ? activeClass : inactiveClass]" class="text-color-nav">
+      <li @click="toggleNav" :class="[comparePageName('dashboard') ? activeClass : inactiveClass]" class="text-color-nav">
         <nuxt-link class="grid grid-cols-6 focus:outline-none sm:mt-1 py-3 px-3 sm:px-6" :to="localePath('/dashboard')">
           <fa :icon="['fas', 'chart-line']" class="col-span-1 mt-1" />
           <span class="col-span-5">Dashboard</span>
@@ -33,13 +33,19 @@
           <span class="col-span-5">Chat</span>
         </nuxt-link>
       </li>
+      <li @click="toggleNav" :class="[comparePageName('boats') ? activeClass : inactiveClass]" class="text-color-nav">
+        <nuxt-link class="grid grid-cols-6 focus:outline-none sm:mt-1 py-3 px-3 sm:px-6" :to="localePath('/boats')">
+          <fa :icon="['fas', 'ship']" class="col-span-1 mt-1" />
+          <span class="col-span-5">Boote</span>
+        </nuxt-link>
+      </li>
       <li v-if="isSuperuser === 'true' || isSuperuser === true" @click="toggleNav" :class="[comparePageName('organization') ? activeClass : inactiveClass]" class="text-color-nav">
         <nuxt-link class="grid grid-cols-6 focus:outline-none sm:mt-1 py-3 px-3 sm:px-6" :to="localePath('/organization')">
           <fa :icon="['fas', 'columns']" class="col-span-1 mt-1" />
           <span class="col-span-5">Organisation</span>
         </nuxt-link>
       </li>
-      <li @click="toggleNav" :class="[comparePageName('poll') ? activeClass : inactiveClass]" class="text-color-nav">
+      <li v-if="isSuperuser === 'true' || isSuperuser === true" @click="toggleNav" :class="[comparePageName('poll') ? activeClass : inactiveClass]" class="text-color-nav">
         <nuxt-link class="grid grid-cols-6 focus:outline-none  sm:mt-1 py-3 px-3 sm:px-6" :to="localePath('/poll')">
           <fa :icon="['fas', 'poll']" class="col-span-1 mt-1" />
           <span class="col-span-5">Umfragen</span>
@@ -73,12 +79,6 @@
         <nuxt-link class="grid grid-cols-6 focus:outline-none sm:mt-1 py-3 px-3 sm:px-6" :to="localePath('/users')">
           <fa :icon="['fas', 'users']" class="col-span-1 mt-1" />
           <span class="col-span-5">Nutzer</span>
-        </nuxt-link>
-      </li>
-      <li v-if="isSuperuser === 'true' || isSuperuser === true" @click="toggleNav" :class="[comparePageName('boats') ? activeClass : inactiveClass]" class="text-color-nav">
-        <nuxt-link class="grid grid-cols-6 focus:outline-none sm:mt-1 py-3 px-3 sm:px-6" :to="localePath('/boats')">
-          <fa :icon="['fas', 'ship']" class="col-span-1 mt-1" />
-          <span class="col-span-5">Boote</span>
         </nuxt-link>
       </li>
       <li v-if="isSuperuser === 'true' || isSuperuser === true" @click="toggleNav" :class="[comparePageName('theme') ? activeClass : inactiveClass]" class="text-color-nav">

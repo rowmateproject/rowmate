@@ -2,7 +2,8 @@ name: Run ansible deployment
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - deploy
 
 jobs:
   build:

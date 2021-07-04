@@ -3,7 +3,7 @@
   <div class="w-full flex justify-between items-center">
     <div class="w-full md:w-6/12 lg:w-5/12 xl:w-3/12 relative">
       <div v-click-outside="toggleSearch" @keydown.esc="toggleSearch" class="relative">
-        <input v-model="searchTerm" @input="lookupSearchTerm" type="text" class="w-full rounded border focus:outline-none p-2">
+        <input v-model="searchTerm" @input="lookupSearchTerm" type="text" class="w-full rounded border focus:outline-none p-2" placeholder="Nutzer suchen">
 
         <div v-if="users.length > 0" class="w-full absolute z-30">
           <div @click="setSerchTerm(user)" class="hover:bg-gray-300 bg-color-form border shadow p-1" v-for="user in users">
