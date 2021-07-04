@@ -1,8 +1,12 @@
 name: Run ansible deployment
 
 on:
-  [push, pull_request]:
-    branches: [ deploy ]
+  push:
+    branches:
+      - deploy
+  pull_request:
+    branches:
+      - deploy
 
 jobs:
   build:
