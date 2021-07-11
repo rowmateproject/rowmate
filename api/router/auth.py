@@ -24,12 +24,12 @@ def get_auth_router(
                 status_code=400, detail='Account not confirmed')
         elif not user.is_accepted:
             res = await db['accepted_emails'].count_documents(({'email':user.email}))
-            if res == 1:
+            if res > 0:
                 document = {'$set': {'is_accepted': True}}
                 res_user = await db['users'].update_one({'email':user.email}, document)
 
                 if res_user.acknowledged:
-                    await db['accepted_addresses'].delete_one({'email':user.email})
+                    await db['accepted_emails'].delete_many({'email':user.email})
                     user = await db['users'].find_one({'email':user.email})
 
                     await activate_user(user)
