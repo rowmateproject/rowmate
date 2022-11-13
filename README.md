@@ -1,3 +1,6 @@
+# This repo is archived. Please refer to rowmate-v2 on https://github.com/rowmateproject
+
+
 ![license](https://img.shields.io/github/license/maurosbicego/rowmate)
 ![github build status](https://img.shields.io/github/workflow/status/maurosbicego/rowmate/rowmate)
 ![repository size](https://img.shields.io/github/repo-size/maurosbicego/rowmate)
